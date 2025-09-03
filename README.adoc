@@ -40,7 +40,7 @@ Le projet est réalisé par :
 | Nom | Rôle |
 https://github.com/34lks66[*Mucahit Lekesiz*] | *Scrum Master* |
 https://github.com/Ezeloss[*Léo Guinvarc'h*] | *Product Owner* |
-https://github.com/Laloix23[*Loic Phrakousonh*] | Copilote |
+https://github.com/Laloix23[*Loic Phrakousonh*] | Développeur |
 https://github.com/AMAYZING31[*Richards Sidney*] | Développeur |
 https://github.com/KilianDemangel[*Demangel Kilian*] | Développeur |
 https://github.com/BastienPRFL[*Perruffel Bastien*] | Développeur |
