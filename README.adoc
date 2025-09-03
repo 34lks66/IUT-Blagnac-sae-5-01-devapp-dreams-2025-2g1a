@@ -1,0 +1,171 @@
+= IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a
+Dreams Project
+
+image::https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg["Open in Visual Studio Code", link=""]
+
+
+// Useful definitions
+:asciidoc: http://www.methods.co.nz/asciidoc[AsciiDoc]
+:icongit: icon:git[]
+:git: http://git-scm.com/[{icongit}]
+:plantuml: https://plantuml.com/fr/[plantUML]
+:vscode: https://code.visualstudio.com/[VS Code]
+
+ifndef::env-github[:icons: font]
+// Specific to GitHub
+ifdef::env-github[]
+:correction:
+:!toc-title:
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+:icongit: Git
+endif::[]
+
+:baseURL: https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a
+
+//---------------------------------------------------------------
+
+toc::[]
+
+== *Équipe et Rôles*
+
+Le projet est réalisé par :
+
+|===
+2+^| *Équipe G2b12*
+2+|
+| Nom | Rôle |
+https://github.com/34lks66[*Mucahit Lekesiz*] | *Scrum Master* |
+https://github.com/Ezeloss[*Léo Guinvarc'h*] | *Product Owner* |
+https://github.com/Laloix23[*Loic Phrakousonh*] | Développeur |
+https://github.com/AMAYZING31[*Richards Sidney*] | Développeur |
+https://github.com/KilianDemangel[*Demangel Kilian*] | Développeur |
+https://github.com/BastienPRFL[*Perruffel Bastien*] | Développeur |
+|===
+
+*Clients :* Nathalie Noack, Christian Tchabon
+
+*Enseignants encadrant :*
+
+- https://github.com/yahnF[Yahn Formenzack]
+- https://github.com/ependaries[Esther Pendaries]
+- https://github.com/pascalito[Pascal Sotin]
+- https://github.com/ludopradel[Ludo Pradel]
+
+== *Contexte général*
+
+Le projet est à réaliser dans le cadre de la *SAE 5.A.01 Développement Avancée*. Il a pour objectif de concevoir et développer et une solution web pour l'association *Dreams*. Elle a pour mission de répondre aux besoins des personnes minoritaires et ou en rupture sociale.
+
+L'association attend de nous :
+
+- un *site internet accessible*, permettant de valoriser l'association et ses différentes antennes,
+- ainsi que des *outils de gestion associative et de suivi des bénéficiaires*(parcours des personnes reçues par l'association).
+
+== Fonctionnalités principales
+
+Le projet se structure en deux parties : 
+
+=== 1. Partie publique
+
+Cette partie est accessible à tout les visiteurs et membres de l'association, elle a pour rôle de présenter l'association et ses antennes et doit inclure :
+
+* Une présentation générale de l’association et des différentes antennes de l’association, donc avec un partage d’informations communes (structure, mission, projet, agenda),
+* Des formulaires en ligne (formulaire de contact, d’adhésion),
+* Une présentation par antenne, chacune disposant d’une page dédiée avec la même architecture (onglets, sections),
+* Des liens ou renvois dynamiques entre la partie commune et les pages des antennes (par rubriques ou mots-clés).
+ 
+=== 2. Partie privée et sécurisée
+
+Cette partie est résérvée seulement au membres de l'association qui ont l'accès, elle doit fournir des outils de gestions comme : 
+
+* Des documents associatifs (fiches d’adhérents, listes de mails, documents de travail associatifs...)
+* Le suivi des personnes accompagnées :
+- Rendre opérationnel les tableaux de suivis 
+- Relier les fiches de RDV avec les différents documents, fiches d'accueil et de suivis personnels. 
+- Notifier automatiquement chaque bénévole s'occupant des personnes accompagnées, pour informer de nouvelles informations ou démarches effectuées.
+
+== *Objectifs pédagogiques*
+
+Le projet doit permettre d'appliquer les compétences acquises tout au long du BUT Informatique (parcours A) : 
+
+*Conception*
+
+- Rédiger un cahier des charges / backlog agile. 
+
+- Réaliser une maquette de l’interface.
+
+*Développement*
+
+- Développer le site.
+
+- Mettre en place une BDD pour la gestion des données.
+
+*Validation/ Qualité*
+
+- Écrire des tests unitaires.
+
+*Organisation de projet*
+
+- Travailler en mode agile.
+
+- Utiliser GitHub et les outils de gpo.
+
+- Répartir les rôles (scrum master, product owner...).
+
+*Organisation de projet*
+
+- Participer à des réunions
+
+- Assurer une bonne communication au sein de l'équipe
+
+- Rédiger des compte-rendus
+
+== *Technologies Utilisées*
+
+- **Frontend**: A choisir
+
+- **Backend**: A choisir
+
+- **Base de données**: A choisir
+
+- **Outils**: Git, GitHub, Visual Studio Code
+
+== *Réalisations & Dépôts*
+
+*Backlog* : +
+    - link:[Backlog produit] +
+    - link:[Backlog sprint 1] +
+    - link:[Backlog sprint 2] +
+    - link:[Backlog sprint 3] +
+    - link:[Backlog sprint 4] +
+
+=== Livrables
+
+Vous trouverez ci-dessous les travaux et livrables réalisés par l'équipe classées au fur et à mesure de l'avancée du projet :
+
+|===
+4+^| *LIVRABLES*
+4+|
+| *SEMAINE* | *SPRINT* | *SOLUTION*  | *LIEN*
+| 36 | 0 | |
+| 37 | 1 | |
+| 38 | 2 | |
+| 39 | 3 | |
+| 40 | 4 | |
+
+|===
+
+=== Documentations
+
+Cette section regroupe les principales documentations du projet (de la conception, au développement jusqu'à l’utilisation de l’application). 
+
+|===
+|*DOCUMENTATION*
+| [Document de conception]
+| [Document Utilisateur]
+| [Document Technique]
+| [Cahier de Recette]
+|===
