@@ -40,7 +40,7 @@ Le projet est réalisé par :
 | Nom | Rôle |
 https://github.com/34lks66[*Mucahit Lekesiz*] | *Scrum Master* |
 https://github.com/Ezeloss[*Léo Guinvarc'h*] | *Product Owner* |
-https://github.com/Laloix23[*Loic Phrakousonh*] | Développeur |
+https://github.com/Laloix23[*Loic Phrakousonh*] | Copilote |
 https://github.com/AMAYZING31[*Richards Sidney*] | Développeur |
 https://github.com/KilianDemangel[*Demangel Kilian*] | Développeur |
 https://github.com/BastienPRFL[*Perruffel Bastien*] | Développeur |
@@ -57,7 +57,7 @@ https://github.com/BastienPRFL[*Perruffel Bastien*] | Développeur |
 
 == *Contexte général*
 
-Le projet est à réaliser dans le cadre de la *SAE 5.A.01 Développement Avancée*. Il a pour objectif de concevoir et développer et une solution web pour l'association *Dreams*. Elle a pour mission de répondre aux besoins des personnes minoritaires et ou en rupture sociale.
+Le projet est à réaliser dans le cadre de la *SAE 5.A.01 Développement Avancée*. Il a pour objectif de concevoir et développer une solution web pour l'association *Dreams*. Elle a pour mission de répondre aux besoins des personnes minoritaires et ou en rupture sociale.
 
 L'association attend de nous :
 
