@@ -75,8 +75,8 @@ Cette partie est accessible à tout les visiteurs et membres de l'association, e
 * Une présentation générale de l’association et des différentes antennes de l’association, donc avec un partage d’informations communes (structure, mission, projet, agenda),
 * Des formulaires en ligne (formulaire de contact, d’adhésion),
 * Une présentation par antenne, chacune disposant d’une page dédiée avec la même architecture (onglets, sections),
-* Des liens ou renvois dynamiques entre la partie commune et les pages des antennes (par rubriques ou mots-clés).
- 
+* Des liens ou renvois dynamiques entre la partie commune et les pages des antennes (par rubriques ou mots-clés). 
+
 === 2. Partie privée et sécurisée
 
 Cette partie est résérvée seulement au membres de l'association qui ont l'accès, elle doit fournir des outils de gestions comme : 
