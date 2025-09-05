@@ -57,7 +57,7 @@ https://github.com/BastienPRFL[*Bastien Perruffel*] | Développeur |
 
 == *Contexte général*
 
-Le projet est à réaliser dans le cadre de la *SAE 5.A.01 Développement Avancée*. Il a pour objectif de concevoir et développer une solution web pour l'association *Dreams*. Elle a pour mission de répondre aux besoins des personnes minoritaires et ou en rupture sociale.
+Le projet est à réaliser dans le cadre de la *SAE 5.A.01 Développement Avancé*. Il a pour objectif de concevoir et développer une solution web pour l'association *Dreams*. Elle a pour mission de répondre aux besoins des personnes minoritaires et ou en rupture sociale.
 
 L'association attend de nous :
 
