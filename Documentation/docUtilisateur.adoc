@@ -1,12 +1,7 @@
 = Documentation Utilisateur
-
 :toc:
-:toclevels: 3
-:sectnums:
-:sectnumlevels: 3
-:source-highlighter: rouge
 :icons: font
-:experimental:
+:numbered:
 
 == Introduction
 
