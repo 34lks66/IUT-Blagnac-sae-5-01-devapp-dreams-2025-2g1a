@@ -70,7 +70,7 @@ Le projet se structure en deux parties :
 
 === 1. Partie publique
 
-Cette partie est accessible à tout les visiteurs et membres de l'association, elle a pour rôle de présenter l'association et ses antennes et doit inclure :
+Cette partie est accessible à tous les visiteurs et membres de l'association, elle a pour rôle de présenter l'association et ses antennes et doit inclure :
 
 * Une présentation générale de l’association et des différentes antennes de l’association, donc avec un partage d’informations communes (structure, mission, projet, agenda),
 * Des formulaires en ligne (formulaire de contact, d’adhésion),
