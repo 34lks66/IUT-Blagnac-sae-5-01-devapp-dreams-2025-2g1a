@@ -1,1 +1,89 @@
+= Chiffrage Projet: {Nom_du_projet}
+Auteur: {Nom de l'auteur ou de l'équipe}
+Date: {Date du document}
+Version: 1.0
+
+== 1. Contexte
+
+Ce document présente le chiffrage prévisionnel du projet _{Nom_du_projet}_, réalisé par l'équipe _{Nom_de_l'équipe}_.
+
+Objectifs du projet :
+- {Objectif 1}
+- {Objectif 2}
+
+Livrables attendus :
+- {Livrable 1}
+- {Livrable 2}
+
+== 2. Hypothèses
+
+Les hypothèses suivantes sont prises en compte dans le chiffrage :
+- Durée du projet : {X} semaines / mois
+- Jours ouvrés par semaine : {ex. 5}
+- Charge journalière moyenne : {ex. 7h/jour}
+- Disponibilité de l'équipe : {ex. 80%}
+
+== 3. Composition de l'équipe
+
+|===
+| Rôle | Nom | Taux de disponibilité (%) | TJM (€)
+
+| Chef de projet | {Nom} | 100% | {TJM_CP}
+| Développeur back | {Nom} | 80% | {TJM_Back}
+| Développeur front | {Nom} | 80% | {TJM_Front}
+| UX/UI Designer | {Nom} | 50% | {TJM_Design}
+| DevOps | {Nom} | 30% | {TJM_DevOps}
+|===
+
+== 4. Découpage des tâches
+
+|===
+| ID | Tâche | Description | Rôle principal | Estimation (j.h) | Dépendances
+
+| T1 | Analyse des besoins | Atelier de cadrage + formalisation des besoins | Chef de projet | 5 | -
+| T2 | Conception UI | Maquettes, prototypes interactifs | UX/UI Designer | 8 | T1
+| T3 | Architecture technique | Choix techniques, setup initial | DevOps | 4 | T1
+| T4 | Développement front | Implémentation UI | Développeur front | 15 | T2, T3
+| T5 | Développement back | API, logique métier | Développeur back | 18 | T3
+| T6 | Intégration & tests | Tests fonctionnels et techniques | Tous | 10 | T4, T5
+| T7 | Livraison & documentation | Livraison finale + doc utilisateur | Chef de projet | 3 | T6
+|===
+
+== 5. Estimation de charge par rôle
+
+|===
+| Rôle | Charge (j.h) | Taux journalier (€) | Coût (€)
+
+| Chef de projet | {ex. 8} | {ex. 700} | {ex. 5600}
+| Développeur back | {ex. 18} | {ex. 500} | {ex. 9000}
+| Développeur front | {ex. 15} | {ex. 500} | {ex. 7500}
+| UX/UI Designer | {ex. 8} | {ex. 450} | {ex. 3600}
+| DevOps | {ex. 4} | {ex. 600} | {ex. 2400}
+|===
+
+== 6. Synthèse budgétaire
+
+[cols="2,1"]
+|===
+| Poste | Montant (€)
+
+| Total main d'œuvre | {Total_mo}
+| Licences & outils | {Montant_licences}
+| Infrastructure | {Montant_infra}
+| Divers / marge | {Montant_divers}
+|===
+
+Total prévisionnel du projet : *{Total_global} €*
+
+== 7. Risques identifiés
+
+- Risque 1 : {description} (impact : {faible/moyen/fort}, probabilité : {basse/moyenne/élevée})
+- Risque 2 : {description}
+
+== 8. Commentaires / remarques
+
+- {Commentaire libre}
+
+'''
+
 
