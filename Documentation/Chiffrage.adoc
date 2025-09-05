@@ -1,7 +1,6 @@
 = Chiffrage Projet: {Nom_du_projet}
 Auteur: {Nom de l'auteur ou de l'équipe}
 Date: {Date du document}
-Version: 1.0
 
 == 1. Contexte
 
