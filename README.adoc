@@ -35,15 +35,15 @@ toc::[]
 Le projet est réalisé par :
 
 |===
-2+^| *Équipe G2b12*
+2+^| *Équipe G2a1*
 2+|
 | Nom | Rôle |
 https://github.com/34lks66[*Mucahit Lekesiz*] | *Scrum Master* |
 https://github.com/Ezeloss[*Léo Guinvarc'h*] | *Product Owner* |
 https://github.com/Laloix23[*Loic Phrakousonh*] | Développeur |
-https://github.com/AMAYZING31[*Richards Sidney*] | Développeur |
-https://github.com/KilianDemangel[*Demangel Kilian*] | Développeur |
-https://github.com/BastienPRFL[*Perruffel Bastien*] | Développeur |
+https://github.com/AMAYZING31[*Sidney Richards*] | Développeur |
+https://github.com/KilianDemangel[*Kilian Demangel*] | Développeur |
+https://github.com/BastienPRFL[*Bastien Perruffel*] | Développeur |
 |===
 
 *Clients :* Nathalie Noack, Christian Tchabon
@@ -62,7 +62,7 @@ Le projet est à réaliser dans le cadre de la *SAE 5.A.01 Développement Avanc�
 L'association attend de nous :
 
 - un *site internet accessible*, permettant de valoriser l'association et ses différentes antennes,
-- ainsi que des *outils de gestion associative et de suivi des bénéficiaires*(parcours des personnes reçues par l'association).
+- ainsi que des *outils de gestion associative et de suivi des bénéficiaires* (parcours des personnes reçues par l'association).
 
 == Fonctionnalités principales
 
