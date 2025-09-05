@@ -169,3 +169,21 @@ Cette section regroupe les principales documentations du projet (de la conceptio
 | [Document Technique]
 | [Cahier de Recette]
 |===
+
+=== Planning Télétravail 
+Ci-dessous un récapitulatif des séances de travail effectuées en télétravail pour chaque membre de l'équipe :
+
+|===
+.2+| *MEMBRES*       2+| *SÉANCES*
+                      | 04/09 (matin) |   
+| Léo Guinvarc'h      | P | 
+| Mucahit Lekesiz     | P | 
+| Loic Phrakousonh    | P | 
+| Sidney Richards     | T |
+| Demangel Kilian     | T |
+| Perruffel Bastien   | P |
+|===
+
+*P :* En présentiel +
+*T :* En télétravail
+
