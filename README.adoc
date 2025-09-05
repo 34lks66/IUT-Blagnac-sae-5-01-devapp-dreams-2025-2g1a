@@ -165,8 +165,8 @@ Cette section regroupe les principales documentations du projet (de la conceptio
 |===
 |*DOCUMENTATION*
 | [Document de conception]
-| [Document Utilisateur]
-| [Document Technique]
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docUtilisateur.adoc[Document Utilisateur]
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docTechnique.adoc[Document Technique]
 | [Cahier de Recette]
 |===
 
