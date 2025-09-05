@@ -1,0 +1,31 @@
+= Documentation Utilisateur
+
+:toc:
+:toclevels: 3
+:sectnums:
+:sectnumlevels: 3
+:source-highlighter: rouge
+:icons: font
+:experimental:
+
+== Introduction
+
+Ce document a pour but de vous guider dans l'utilisation de l'application. Vous y trouverez des explications sur les différentes fonctionnalités disponibles ainsi que des instructions pour effectuer certaines actions courantes.
+
+. Présentation du produit
+
+. Objectifs de la documentation
+
+. Public cible
+
+. Prérequis éventuels 
+
+== Prise en main rapide
+
+== Fonctionnalités principales
+
+== Fonctionnalités avancées
+
+== Dépannage et FAQ
+
+== Support et mise à jour
