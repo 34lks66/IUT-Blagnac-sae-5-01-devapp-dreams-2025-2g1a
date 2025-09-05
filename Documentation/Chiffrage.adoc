@@ -5,14 +5,14 @@ Version: 1.0
 
 == 1. Contexte
 
-Ce document présente le chiffrage prévisionnel du projet _{Nom_du_projet}_, réalisé par l'équipe _{Nom_de_l'équipe}_.
+Ce document présente le chiffrage prévisionnel du projet DREAMS, réalisé par l'équipe 2G du groupe 1A.
 
 Objectifs du projet :
 - {Objectif 1}
 - {Objectif 2}
 
 Livrables attendus :
-- {Livrable 1}
+- Site Web Fonctionnel
 - {Livrable 2}
 
 == 2. Hypothèses
@@ -26,13 +26,15 @@ Les hypothèses suivantes sont prises en compte dans le chiffrage :
 == 3. Composition de l'équipe
 
 |===
-| Rôle | Nom | Taux de disponibilité (%) | TJM (€)
+| Rôle | Nom | Taux de disponibilité (%)(Hors Cours Inclut) | TJM (€)
 
-| Chef de projet | {Nom} | 100% | {TJM_CP}
-| Développeur back | {Nom} | 80% | {TJM_Back}
-| Développeur front | {Nom} | 80% | {TJM_Front}
-| UX/UI Designer | {Nom} | 50% | {TJM_Design}
-| DevOps | {Nom} | 30% | {TJM_DevOps}
+| Scrum Master | Mucahit Lekezis | 77% | 561€
+| Product Owner | Léo Guinvarc'h | 80% | 529€
+| Développeur | Loïc Phrakousonh | 80% | 410€
+| Développeur | Sidney Richards | 80% | 410€
+| Développeur | Kilian Demangel | 85% | 410€
+| Développeur | Bastien Pufarrelle | 75% | 410€
+
 |===
 
 == 4. Découpage des tâches
