@@ -1,1 +1,53 @@
+= Sprint 0 - Projet DREAMS
 
+Sprint 0 réalisé dans le cadre du projet DREAMS, terminé le 7 septembre 2025.
+
+== Objectifs du Sprint 0
+
+- Mettre en place les outils nécessaires au projet
+- Comprendre et analyser le sujet avec le client
+- Préparer la documentation initiale et organiser l'équipe
+
+== Liste des tâches réalisées
+
+|===
+| ID | Tâche | Lien vers la tâche
+
+| 7  
+| *Analyse de la demande DREAMS*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/7#issue-3394133771
+
+| 8  
+| *Préparation réunion client*  
+| 
+
+| 14  
+| *Contrat d'Équipe*  
+| 
+
+| 9  
+| *Création du dépôt Git*  
+| 
+
+| 12  
+| *Planification avec le client*  
+| 
+
+| 13  
+| *Squelette de la documentation utilisateur*  
+| 
+
+| 10  
+| *Réunion de lancement interne*  
+| 
+
+| 11  
+| *Documentation technique & chiffrage*  
+| 
+
+|===
+
+== Remarques
+
+Toutes les tâches ont été clôturées avec succès.  
+Le sprint a permis de poser les bases organisationnelles et techniques du projet DREAMS.
