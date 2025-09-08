@@ -36,7 +36,7 @@ Le projet est réalisé par :
 
 |===
 2+^| *Équipe G2a1*
-2+|
+2+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Contrat%20d'%C3%A9quipe.pdf[Contrat d'équipe]
 | Nom | Rôle |
 https://github.com/34lks66[*Mucahit Lekesiz*] | *Scrum Master* |
 https://github.com/Ezeloss[*Léo Guinvarc'h*] | *Product Owner* |
