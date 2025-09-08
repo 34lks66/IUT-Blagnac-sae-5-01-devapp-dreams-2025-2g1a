@@ -15,35 +15,35 @@ Sprint 0 réalisé dans le cadre du projet DREAMS, terminé le 7 septembre 2025.
 
 | 7  
 | *Analyse de la demande DREAMS*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/7#issue-3394133771
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/7
 
 | 8  
 | *Préparation réunion client*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/8#issue-3394175511
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/8
 
 | 14  
 | *Contrat d'Équipe*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/14#issue-3394205301
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/14
 
 | 9  
 | *Création du dépôt Git*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/9#issue-3394176794
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/9
 
 | 12  
 | *Planification avec le client*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/12#issue-3394184138
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/12
 
 | 13  
 | *Squelette de la documentation utilisateur*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/13#issue-3394190279
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/13
 
 | 10  
 | *Réunion de lancement interne*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/10#issue-3394181184
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/10
 
 | 11  
 | *Documentation technique & chiffrage*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/11#issue-3394184099
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/11
 
 |===
 
