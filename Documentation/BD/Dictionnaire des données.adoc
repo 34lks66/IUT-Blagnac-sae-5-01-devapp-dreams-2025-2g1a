@@ -24,7 +24,7 @@
 
 | idMembre
 | identifiant du membre
-| chaîne de 20 caractères
+| int
 | non nul
 
 | nom
