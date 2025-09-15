@@ -1,0 +1,62 @@
+= Sprint 1 - Projet DREAMS
+
+Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 14 septembre 2025.
+
+== Objectifs du Sprint 1
+
+- Poser les bases techniques du projet et organiser le travail de l’équipe.
+- Réunions équipe et client
+- Choix de la technologie
+- Conception du diagramme BPMN
+- Début du cahier des charges
+- Initialisation du projet React
+- Maquette du site et schéma des pages
+- Début de conception de la base de données
+
+== Liste des tâches réalisées
+
+|===
+| ID | Tâche | Lien vers la tâche
+
+| 18  
+| *Réunion équipe*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/18
+
+| 15  
+| *Réunion du 08-09-25 avec le client DREAMS*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/15
+
+| 22
+| *Diagramme BPMN*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/22
+
+| 16  
+| *Choix de la Techno*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/16
+
+| 17  
+| *Cahier des charges*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/17
+
+| 19  
+| *Concevoir la BD*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/19
+
+| 20  
+| *Initialiser le projet REACT*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/20
+
+| 21  
+| *Concevoir la maquette du site*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/21
+
+
+| 23  
+| *Schéma D'enchainement des pages*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/23
+|===
+
+== Remarques
+
+Certaines tâches n'ont pas encore été clôturées.  
+Le sprint a néanmoins permis de poser les bases organisationnelles et techniques du projet DREAMS.
