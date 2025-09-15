@@ -8,7 +8,7 @@ CREATE TABLE Compte(
 	);
 	
 CREATE TABLE Membre(
-	idMembre VARCHAR(20),
+	idMembre INT AUTO_INCREMENT,
 	nom VARCHAR(50),
 	prenom VARCHAR(50),
 	telephone VARCHAR(30),
@@ -17,4 +17,5 @@ CREATE TABLE Membre(
 	CONSTRAINT ck_mail_membre CHECK (mail REGEXP '.+@.+\..+'),
 	CONSTRAINT ck_telephone_membre CHECK (telephone REGEXP '^\+[0-9 ]+$')
 	);
+
 	
