@@ -1,1 +1,51 @@
+[cols="1,2,3,4", options="header"]
+|===
+| Nom | Description | Type | Contrainte
+
+| login
+| identifiant du compte
+| chaîne de 20 caractères
+| non nul
+
+| mdp
+| mot de passe du compte
+| chaîne de 50 caractères
+| non nul
+
+| admin
+| compte bénévole (O), admin (X) et super admin (S)
+| caractère ('O', 'X' ou 'S')
+| non nul
+
+| mail
+| mail du compte
+| chaîne de 100 caractères
+| format mail
+
+| idMembre
+| identifiant du membre
+| chaîne de 20 caractères
+| non nul
+
+| nom
+| nom du membre
+| chaîne de 50 caractères
+| non nul
+
+| prenom
+| prénom du membre
+| chaîne de 50 caractères
+| non nul
+
+| telephone
+| numéro de téléphone du membre
+| chaîne de 30 caractères
+| stocké avec l'indicatif
+
+| mail
+| mail du membre
+| chaîne de 100 caractères
+| format mail
+
+|===
 
