@@ -16,44 +16,44 @@ Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 14 septembre 2025
 == Liste des tâches réalisées
 
 |===
-| ID | Tâche | Lien vers la tâche
+| ID | Tâche | Lien vers la tâche | Etat
 
 | 18  
 | *Réunion équipe*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/18
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/18 | Fini
 
 | 15  
 | *Réunion du 08-09-25 avec le client DREAMS*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/15
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/15 | Fini
 
 | 22
 | *Diagramme BPMN*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/22
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/22 | Fini
 
 | 16  
 | *Choix de la Techno*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/16
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/16 | Fini
 
 | 17  
 | *Cahier des charges*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/17
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/17 | En cours Déplacé au Sprint 2
 
 | 19  
 | *Concevoir la BD*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/19
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/19 | Fini
 
 | 20  
 | *Initialiser le projet REACT*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/20
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/20 | En cours Déplacé au Sprint 2
 
 | 21  
 | *Concevoir la maquette du site*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/21
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/21 | Fini
 
 
 | 23  
 | *Schéma D'enchainement des pages*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/23
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/23 | En cours Déplacé au Sprint 2
 |===
 
 == Remarques
