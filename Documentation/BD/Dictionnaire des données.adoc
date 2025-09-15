@@ -12,7 +12,7 @@
 | chaîne de 50 caractères
 | non nul
 
-| admin
+| statut
 | compte bénévole (O), admin (X) et super admin (S)
 | caractère ('O', 'X' ou 'S')
 | non nul
