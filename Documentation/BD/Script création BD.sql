@@ -1,3 +1,6 @@
+DROP TABLE Membre;
+DROP TABLE Compte;
+
 CREATE TABLE Compte(
 	login VARCHAR(20),
 	mdp VARCHAR(50),
@@ -19,3 +22,4 @@ CREATE TABLE Membre(
 	);
 
 	
+
