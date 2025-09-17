@@ -11,7 +11,7 @@ Le projet est compatible avec Linux, Windows et macOS.
 ```sh
 git clone git@github.com:34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a.git
 
-cd cd IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/dev/site_dreams/
+cd IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/dev/site_dreams/
 
 npm install
 ```
