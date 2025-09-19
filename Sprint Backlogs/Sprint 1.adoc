@@ -71,6 +71,10 @@ Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 19 septembre 2025
 | *Créer le composant Footer*  
 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/29 | Fini
 
+| 30
+| *Mettre en place un système de design commun*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/30 | Fini
+
 | 31
 | *Créer le menu des pays sur la page d'accueil*  
 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/31 | Fini
