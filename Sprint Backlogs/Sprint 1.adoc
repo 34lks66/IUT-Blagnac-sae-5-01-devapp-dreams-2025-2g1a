@@ -1,6 +1,6 @@
 = Sprint 1 - Projet DREAMS
 
-Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 14 septembre 2025.
+Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 19 septembre 2025.
 
 == Objectifs du Sprint 1
 
@@ -11,7 +11,8 @@ Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 14 septembre 2025
 - Début du cahier des charges
 - Initialisation du projet React
 - Maquette du site et schéma des pages
-- Début de conception de la base de données
+- Conception de la base de données
+- Début du code de composants basiques du site (header, footer..)
 
 == Liste des tâches réalisées
 
@@ -26,17 +27,13 @@ Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 14 septembre 2025
 | *Réunion du 08-09-25 avec le client DREAMS*  
 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/15 | Fini
 
-| 22
-| *Diagramme BPMN*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/22 | Fini
-
 | 16  
 | *Choix de la Techno*  
 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/16 | Fini
 
 | 17  
 | *Cahier des charges*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/17 | En cours Déplacé au Sprint 2
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/17 | Fini
 
 | 19  
 | *Concevoir la BD*  
@@ -44,19 +41,43 @@ Sprint 1 réalisé dans le cadre du projet DREAMS, terminé le 14 septembre 2025
 
 | 20  
 | *Initialiser le projet REACT*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/20 | En cours Déplacé au Sprint 2
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/20 | Fini
 
 | 21  
 | *Concevoir la maquette du site*  
 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/21 | Fini
 
+| 22
+| *Concevoir un diagramme BPMN simple*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/22 | Fini
 
 | 23  
 | *Schéma D'enchainement des pages*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/23 | En cours Déplacé au Sprint 2
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/23 | Fini
+
+| 24
+| *Concevoir le sprint backlog de fin de sprint*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/24 | Fini
+
+| 27
+| *Créer le composant Header*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/27 | Fini
+
+| 28
+| *Créer le composant Menu de navigation principal*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/28 | Fini
+
+| 29
+| *Créer le composant Footer*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/29 | Fini
+
+| 31
+| *Créer le menu des pays sur la page d'accueil*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/31 | Fini
 |===
 
-== Remarques
 
-Certaines tâches n'ont pas encore été clôturées.  
-Le sprint a néanmoins permis de poser les bases organisationnelles et techniques du projet DREAMS.
+== Remarques
+  
+Le sprint a permis de poser les bases organisationnelles et techniques du projet DREAMS.
+La conception du site a été débuté et les documents de conceptions ont été finalisé.
