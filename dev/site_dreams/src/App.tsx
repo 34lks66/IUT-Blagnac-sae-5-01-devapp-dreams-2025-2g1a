@@ -1,6 +1,7 @@
 import './App.css'
 import Header from './components/header'
 import MenuPays from './components/menu_pays'
+import FooterMain from "./components/FooterMain";
 
 import NavBar from './components/NavBar'
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <MenuPays/>
     <Header/>
     <NavBar />
+    <FooterMain />
     </>
   )
 }

@@ -1,0 +1,159 @@
+/* ================================
+   Footer DREAMS (structure simplifiée)
+   Thème clair + accents rainbow
+   ================================ */
+
+:root {
+  --footer-bg: #ffffff;
+  --footer-text: #1f2937;        /* gris foncé lisible */
+  --footer-text-strong: #0f172a; /* titres */
+  --footer-text-muted: #6b7280;
+  --separator: 1px solid #e5e7eb;
+
+  /* Branding */
+  --gold-start: #d4af37;
+  --gold-end: #a87700;
+
+  /* Soulignements arc-en-ciel */
+  --rainbow: linear-gradient(
+    90deg,
+    #ef4444 0%,
+    #f59e0b 25%,
+    #facc15 40%,
+    #22c55e 60%,
+    #3b82f6 80%,
+    #8b5cf6 100%
+  );
+}
+
+/* ---------- wrapper ---------- */
+.footer-main {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  font-size: 13px;
+  padding-bottom: 30px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    sans-serif;
+}
+
+.footer-main__wrapper {
+  margin: 0 auto;
+  max-width: 1740px;
+  padding: 20px 16px 64px;
+}
+
+/* ---------- grid des sections ---------- */
+.footer-main__links {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile */
+  gap: 16px;
+}
+
+.footer-main__bloc h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--footer-text-strong);
+}
+
+.footer-main__link {
+  color: var(--footer-text);
+  line-height: 28px;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  transition: color .2s ease;
+}
+
+/* soulignement arc-en-ciel animé */
+.footer-main__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  width: 100%;
+  height: 2px;
+  background-image: var(--rainbow);
+  opacity: .25;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+.footer-main__link:hover {
+  color: #0b1220;
+}
+.footer-main__link:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* séparateurs */
+.footer-main__separator {
+  border-bottom: var(--separator);
+  margin: 24px 0;
+}
+
+/* ---------- socials ---------- */
+.footer-main__socials {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.footer-main__social-icon {
+  width: 40px;
+}
+.footer-main__social-icon--portrait {
+  height: 40px;
+  width: auto;
+}
+
+/* ---------- bloc légal ---------- */
+.footer-main__text {
+  font-size: 13px;
+  text-align: center;
+  color: var(--footer-text-muted);
+}
+.footer-main__text a {
+  background: linear-gradient(90deg, var(--gold-start), var(--gold-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-decoration: none;
+}
+.footer-main__text a:hover {
+  background: var(--rainbow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-decoration: underline;
+}
+
+/* ---------- responsive ---------- */
+@media (min-width: 768px) {
+  .footer-main__links {
+    grid-template-columns: 1fr 1fr; /* 2 colonnes */
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-main__links {
+    grid-template-columns: 1fr 1fr 1fr; /* 3 colonnes – correspond à ton footer actuel */
+  }
+}
+
+@media (min-width: 1366px) {
+  .footer-main__wrapper {
+    padding: 24px 20px 80px;
+  }
+}
+
+/* position (optionnel, laisse le navigateur gérer sinon) */
+footer {
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+}
