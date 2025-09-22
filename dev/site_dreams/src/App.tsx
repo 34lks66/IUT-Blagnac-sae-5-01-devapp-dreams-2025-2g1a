@@ -1,6 +1,6 @@
 import './App.css';
-import Header from './components/Header';
-import MenuPays from './components/Menu_pays';
+import Header from './components/header';
+import MenuPays from './components/menu_pays';
 import FooterMain from './components/Footer';
 import NavBar from './components/NavBar';
 
