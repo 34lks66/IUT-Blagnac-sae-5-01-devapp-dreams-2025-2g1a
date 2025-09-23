@@ -176,14 +176,14 @@ Cette section regroupe les principales documentations du projet (de la conceptio
 Ci-dessous un récapitulatif des séances de travail effectuées en télétravail pour chaque membre de l'équipe :
 
 |===
-.2+| *MEMBRES*       4+| *SÉANCES*
-                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 
-| Léo Guinvarc'h      | P | T | T |
-| Mucahit Lekesiz     | P | T | T |
-| Loic Phrakousonh    | P | T | T |
-| Sidney Richards     | T | T | T |
-| Demangel Kilian     | T | T | T |
-| Perruffel Bastien   | P | T | T |
+.2+| *MEMBRES*       5+| *SÉANCES*
+                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 23/09 (après-mid) | 
+| Léo Guinvarc'h      | P | T | T | T |
+| Mucahit Lekesiz     | P | T | T | T |
+| Loic Phrakousonh    | P | T | T | T |
+| Sidney Richards     | T | T | T | T |
+| Demangel Kilian     | T | T | T | T |
+| Perruffel Bastien   | P | T | T | T |
 |===
 
 *P :* En présentiel +
