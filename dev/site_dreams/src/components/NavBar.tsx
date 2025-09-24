@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
 const navItems = [
   { name: "Accueil du public migrant LGBTQ+", href: "/" },
   { name: "Évaluation et orientation", href: "/evaluation" },
@@ -23,10 +26,13 @@ const textHoverColors = [
 ];
 
 const NavBar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <nav className="p-3">
-      <div className="w-full md:w-3/4 md:ml-auto">
-        <ul className="flex flex-row gap-8 m-0 p-5 list-none ">
+    <nav className="p-3 relative">
+      <div className="flex justify-between items-center w-full md:w-3/4 md:ml-auto">
+        {/* Menu Desktop */}
+        <ul className="hidden md:flex flex-row gap-8 m-0 p-5 list-none">
           {navItems.map((item, idx) => (
             <li
               key={item.href}
@@ -41,7 +47,37 @@ const NavBar = () => {
             </li>
           ))}
         </ul>
+
+        {/* Burger Button Mobile */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden text-gray-700"
+        >
+          {isMenuOpen ? <X /> : <Menu/>}
+        </button>
       </div>
+
+      {/* Menu Mobile */}
+      {isMenuOpen && (
+        <div className="fixed top-24 left-0 w-full bg-gray-100 shadow-md  z-50">
+          <ul className="flex flex-col gap-4 p-4 list-none">
+            {navItems.map((item) => (
+              <li
+                key={item.href}
+                className={`px-0 py-2`}
+              >
+                <a
+                  href={item.href}
+                  className={`font-medium`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
