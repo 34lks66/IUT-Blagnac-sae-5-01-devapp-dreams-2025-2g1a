@@ -1,20 +1,13 @@
-/* ================================
-   Footer DREAMS (structure simplifiée)
-   Thème clair + accents rainbow
-   ================================ */
-
 :root {
   --footer-bg: #ffffff;
-  --footer-text: #1f2937;        /* gris foncé lisible */
-  --footer-text-strong: #0f172a; /* titres */
+  --footer-text: #1f2937;
+  --footer-text-strong: #0f172a;
   --footer-text-muted: #6b7280;
   --separator: 1px solid #e5e7eb;
 
-  /* Branding */
   --gold-start: #d4af37;
   --gold-end: #a87700;
 
-  /* Soulignements arc-en-ciel */
   --rainbow: linear-gradient(
     90deg,
     #ef4444 0%,
@@ -31,43 +24,77 @@
   background: var(--footer-bg);
   color: var(--footer-text);
   font-size: 13px;
-  padding-bottom: 30px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     sans-serif;
 }
-
 .footer-main__wrapper {
   margin: 0 auto;
   max-width: 1740px;
-  padding: 20px 16px 64px;
+  padding: 20px 16px;
 }
 
-/* ---------- grid des sections ---------- */
-.footer-main__links {
+/* ---------- ROW (une grande ligne) ---------- */
+.footer-main__row {
   display: grid;
-  grid-template-columns: 1fr; /* mobile */
-  gap: 16px;
+  grid-template-columns: 1fr;         /* mobile: 1 colonne */
+  gap: 24px;
+  align-items: start;
 }
 
-.footer-main__bloc h3 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--footer-text-strong);
+@media (min-width: 768px) {
+  .footer-main__row {
+    grid-template-columns: 1.2fr 1fr 1fr; /* tablette/desktop: 3 colonnes */
+  }
 }
 
-.footer-main__link {
+/* ---------- Brand (col 1) ---------- */
+.footer-brand__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-brand__logo img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.footer-brand__name {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  background: linear-gradient(90deg, var(--gold-start), var(--gold-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.footer-brand__desc {
+  margin-top: 8px;
   color: var(--footer-text);
-  line-height: 28px;
+  line-height: 1.6;
+}
+
+/* ---------- Liens utiles (col 2) ---------- */
+.footer-col-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--footer-text-strong);
+  margin-bottom: 8px;
+}
+.footer-links__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-link {
+  color: var(--footer-text);
   text-decoration: none;
   display: inline-block;
+  line-height: 28px;
   position: relative;
   transition: color .2s ease;
 }
-
-/* soulignement arc-en-ciel animé */
-.footer-main__link::after {
+.footer-link::after {
   content: "";
   position: absolute;
   left: 0;
@@ -80,51 +107,38 @@
   transform-origin: left;
   transition: transform .25s ease, opacity .25s ease;
 }
-
-.footer-main__link:hover {
+.footer-link:hover {
   color: #0b1220;
 }
-.footer-main__link:hover::after {
+.footer-link:hover::after {
   transform: scaleX(1);
   opacity: 1;
 }
 
-/* séparateurs */
-.footer-main__separator {
-  border-bottom: var(--separator);
-  margin: 24px 0;
+/* ---------- Contact (col 3) ---------- */
+.footer-contact__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
 }
-
-/* ---------- socials ---------- */
-.footer-main__socials {
-  align-items: center;
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-}
-
-.footer-main__social-icon {
-  width: 40px;
-}
-.footer-main__social-icon--portrait {
-  height: 40px;
-  width: auto;
-}
-
-/* ---------- bloc légal ---------- */
-.footer-main__text {
-  font-size: 13px;
-  text-align: center;
+.footer-contact__address {
   color: var(--footer-text-muted);
 }
-.footer-main__text a {
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin: 8px 0 12px 0;
+}
+.footer-legal__link {
   background: linear-gradient(90deg, var(--gold-start), var(--gold-end));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   text-decoration: none;
 }
-.footer-main__text a:hover {
+.footer-legal__link:hover {
   background: var(--rainbow);
   -webkit-background-clip: text;
   background-clip: text;
@@ -132,26 +146,30 @@
   text-decoration: underline;
 }
 
-/* ---------- responsive ---------- */
-@media (min-width: 768px) {
-  .footer-main__links {
-    grid-template-columns: 1fr 1fr; /* 2 colonnes */
-  }
+/* Réseaux sociaux compacts */
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.footer-socials img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
-@media (min-width: 1024px) {
-  .footer-main__links {
-    grid-template-columns: 1fr 1fr 1fr; /* 3 colonnes – correspond à ton footer actuel */
-  }
+/* ---------- Séparateur + bas de page ---------- */
+.footer-main__separator {
+  border-bottom: var(--separator);
+  margin: 16px 0;
+}
+.footer-bottom {
+  text-align: center;
+  color: var(--footer-text-muted);
+  padding-bottom: 12px;
 }
 
-@media (min-width: 1366px) {
-  .footer-main__wrapper {
-    padding: 24px 20px 80px;
-  }
-}
-
-/* position (optionnel, laisse le navigateur gérer sinon) */
+/* position (optionnel) */
 footer {
   bottom: 0;
   z-index: 100;
