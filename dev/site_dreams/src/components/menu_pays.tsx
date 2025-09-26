@@ -6,7 +6,6 @@ export default function MenuPays() {
   const navPays = [
     { nom: 'FRANCE', classes: 'from-red-600 to-red-800 text-white', antennes: [{nom: "Toulouse"}, {nom: "Carcassonne"}, {nom: "Narbonne"}] },
     { nom: 'ITALIE', classes: 'from-orange-400 to-orange-600 text-white', antennes: [] },
-    { nom: 'ESPAGNE', classes: 'from-yellow-300 to-yellow-500 text-black', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
     { nom: "CÔTE D'IVOIRE", classes: 'from-green-400 to-green-600 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
     { nom: 'BURKINA FASO', classes: 'from-blue-500 to-blue-700 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
     { nom: 'TOGO', classes: 'from-purple-500 to-purple-700 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
@@ -16,7 +15,6 @@ export default function MenuPays() {
     <div className="fixed top-0 left-0 w-full z-50">
       {/* Burger button visible sur mobile */}
       <div className="flex md:hidden justify-between items-center bg-gray-900/80 px-4 py-2">
-        <span className="text-white font-bold text-lg">MENU</span>
         <button
           className="text-white focus:outline-none"
           onClick={() => setOpen((o) => !o)}
@@ -33,9 +31,8 @@ export default function MenuPays() {
               key={p.nom}
               className={`relative flex-1 min-w-[120px] bg-gradient-to-r ${p.classes} text-center px-2 py-2 font-bold cursor-pointer group`}
             >
-              <span className="text-white [text-shadow:_-1px_-1px_0_#000,1px_-1px_0_#000,-1px_1px_0_#000,1px_1px_0_#000]">
                 {p.nom}
-              </span>
+  
                 <ul className="absolute left-0 top-full hidden group-hover:block bg-white text-black w-full shadow-md z-50">
                   {p.antennes.map((antenne) => (
                     <li
