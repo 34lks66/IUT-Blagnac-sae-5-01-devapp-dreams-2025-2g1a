@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import '/src/App.css';
+import { List } from 'lucide-react';
+
 
 export default function MenuPays() {
   const [open, setOpen] = useState(false);
@@ -14,13 +16,13 @@ export default function MenuPays() {
   return (
     <div className="fixed top-0 left-0 w-full z-50">
       {/* Burger button visible sur mobile */}
-      <div className="flex md:hidden justify-between items-center bg-gray-900/80 px-4 py-2">
+      <div className="flex md:hidden justify-between items-center bg-gray-900 px-4 py-2">
         <button
           className="text-white focus:outline-none"
           onClick={() => setOpen((o) => !o)}
           aria-label="Ouvrir le menu"
         >
-          <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect y="5" width="24" height="2" rx="1" fill="currentColor"/><rect y="11" width="24" height="2" rx="1" fill="currentColor"/><rect y="17" width="24" height="2" rx="1" fill="currentColor"/></svg>
+          <List />
         </button>
       </div>
       {/* Menu horizontal sur desktop, vertical sur mobile si open */}
@@ -29,15 +31,15 @@ export default function MenuPays() {
           {navPays.map((p) => (
             <div
               key={p.nom}
-              className={`relative flex-1 min-w-[120px] bg-gradient-to-r ${p.classes} text-center px-2 py-2 font-bold cursor-pointer group`}
+              className={`relative flex-1 min-w-[120px] bg-gradient-to-r ${p.classes} text-center font-bold cursor-pointer group`}
             >
-                {p.nom}
+                <div className="py-2">{p.nom}</div>
   
-                <ul className="absolute left-0 top-full hidden group-hover:block bg-white text-black w-full shadow-md z-50">
+                <ul className="hidden group-hover:block md:absolute md:left-0 md:top-full bg-white text-black w-full z-50">
                   {p.antennes.map((antenne) => (
                     <li
                       key={antenne.nom}
-                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer font-medium"
                     >
                       {antenne.nom}
                     </li>
