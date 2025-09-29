@@ -125,7 +125,7 @@ Le projet doit permettre d'appliquer les compétences acquises tout au long du B
 
 == *Technologies Utilisées*
 
-- **Frontend**: A choisir
+- **Frontend**: React
 
 - **Backend**: A choisir
 
