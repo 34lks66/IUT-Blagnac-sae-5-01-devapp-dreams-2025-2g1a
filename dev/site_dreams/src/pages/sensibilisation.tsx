@@ -1,6 +1,4 @@
 import MenuPays from '../components/menu_pays';
-import FooterMain from "../components/Footer"
-import Header from "../components/header"
 import "../styles/sensibilisation.css"
 
 function Sensibilisation() {
@@ -9,7 +7,6 @@ function Sensibilisation() {
     <>
        
         <MenuPays/>
-        <Header/>
 
         <div className="sensibilisation">
 
@@ -55,7 +52,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut commodo magna.
             </section>
         
         </div>
-        <FooterMain />
     </>
   )
 }
