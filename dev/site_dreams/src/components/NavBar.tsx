@@ -31,8 +31,8 @@ const NavBar = () => {
   return (
     <nav className="p-3 relative">
       <div className="flex justify-between items-center w-full md:w-3/4 md:ml-auto">
-        {/* Menu Desktop */}
-        <ul className="hidden md:flex flex-row gap-8 m-0 p-5 list-none">
+        {/* Menu Desktop*/}
+        <ul className="hidden md:flex flex-row gap-2 lg:gap-4 xl:gap-6 2xl:gap-8 m-0 p-5 list-none">
           {navItems.map((item, idx) => (
             <li
               key={item.href}
@@ -40,7 +40,7 @@ const NavBar = () => {
             >
               <a
                 href={item.href}
-                className={`block text-left font-medium transition-colors duration-500 ${textHoverColors[idx]}`}
+                className={`block text-left text-sm lg:text-base font-medium transition-colors duration-500 ${textHoverColors[idx]}`}
               >
                 {item.name}
               </a>
@@ -52,23 +52,24 @@ const NavBar = () => {
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden text-gray-700"
+          aria-label="Toggle menu"
         >
-          {isMenuOpen ? <X /> : <Menu/>}
+          {isMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
 
       {/* Menu Mobile */}
       {isMenuOpen && (
-        <div className="fixed top-24 left-0 w-full bg-gray-100 shadow-md  z-50">
+        <div className="fixed top-24 left-0 w-full bg-gray-100 shadow-md z-50">
           <ul className="flex flex-col gap-4 p-4 list-none">
-            {navItems.map((item) => (
+            {navItems.map((item, idx) => (
               <li
                 key={item.href}
-                className={`px-0 py-2`}
+                className={`px-2 py-2 border-l-4 ${itemColors[idx]}`}
               >
                 <a
                   href={item.href}
-                  className={`font-medium`}
+                  className={`font-medium ${textHoverColors[idx]}`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
