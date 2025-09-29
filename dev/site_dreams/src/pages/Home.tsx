@@ -6,10 +6,7 @@ function Home() {
 
   return (
     <>
-    
-    <MenuPays/>
-    <Header/>
-    <FooterMain />
+    <p>Accueil</p>
     </>
   )
 }
