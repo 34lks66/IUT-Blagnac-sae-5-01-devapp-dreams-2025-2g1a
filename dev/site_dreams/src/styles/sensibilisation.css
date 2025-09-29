@@ -18,6 +18,10 @@ section{
     margin: 0 2%;
 }
 
+p{
+    font-size: 16px;
+}
+
 .sensibilisation{
     display: flex;
     flex-direction: column;
@@ -41,7 +45,10 @@ section{
 }
 
 .qui .texte{
+    display: flex;
+    flex-direction: column;
     max-width: 50%;
+    gap:10px;
 }
 
 .difficultes{
@@ -53,12 +60,16 @@ section{
 
 .difficultes .texte{
     max-width: 50%;
+    display: flex;
+    gap:10px;
+    flex-direction: column;
 }
 
 .ressources{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
     margin-bottom: 80px;
     background-color: rgba(43, 127, 255, 0.5); 
 }
