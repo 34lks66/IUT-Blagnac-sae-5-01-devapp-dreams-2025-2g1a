@@ -60,7 +60,7 @@ const NavBar = () => {
 
       {/* Menu Mobile */}
       {isMenuOpen && (
-        <div className="fixed top-24 left-0 w-full bg-gray-100 shadow-md z-50">
+        <div className="fixed top-24 left-0 w-full bg-gray-100 shadow-md z-40">
           <ul className="flex flex-col gap-4 p-4 list-none">
             {navItems.map((item, idx) => (
               <li
