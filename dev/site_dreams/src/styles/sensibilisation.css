@@ -42,27 +42,49 @@ p{
     flex-direction: row;
     justify-content: space-around;
     background-color: rgba(253, 199, 0, 0.5); 
+    align-items: center;
+    padding: 20px 20px;
+    gap: 20px;
 }
 
 .qui .texte{
     display: flex;
     flex-direction: column;
-    max-width: 50%;
+    max-width: 70%;
     gap:10px;
+    align-items: center;
 }
+
+.qui .image{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    max-width: 30%;
+}
+
 
 .difficultes{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background-color: rgba(2, 222, 113, 0.5); 
+    background-color: rgba(2, 222, 113, 0.5);
+    align-items: center;
+    padding: 20px 20px;
+    gap: 20px; 
 }
 
 .difficultes .texte{
-    max-width: 50%;
+    max-width: 70%;
     display: flex;
     gap:10px;
     flex-direction: column;
+}
+
+.difficultes .image{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    max-width: 30%;
 }
 
 .ressources{
