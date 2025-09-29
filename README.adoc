@@ -138,10 +138,8 @@ Le projet doit permettre d'appliquer les compétences acquises tout au long du B
 *Backlog* : +
     - link:[Backlog produit] +
     - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/milestone/1?closed=1[Backlog sprint 0] +
-    - link:[Backlog sprint 1] +
+    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/milestone/2[Backlog sprint 1] +
     - link:[Backlog sprint 2] +
-    - link:[Backlog sprint 3] +
-    - link:[Backlog sprint 4] +
 
 === Livrables
 
