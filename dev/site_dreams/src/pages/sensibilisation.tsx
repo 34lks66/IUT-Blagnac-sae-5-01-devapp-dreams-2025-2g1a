@@ -39,7 +39,7 @@ function Sensibilisation() {
                     <img src="public/images/difficultes-lgbt.jpg" alt="" />
                 </div>
                 <div className="texte">
-                    <h2>Les difficultés majeures</h2>
+                    <h2>D'importantes difficultés</h2>
                     <p>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut commodo magna. Fusce eget arcu odio. Donec sagittis, urna in varius cursus, mi nulla faucibus nulla, sed lobortis ipsum lacus quis nunc. Praesent nec libero ultrices, pulvinar lectus at, porttitor arcu. Mauris cursus velit in orci placerat, eu sollicitudin felis aliquet. Mauris vel tincidunt elit, ut scelerisque eros. Nullam a lacus aliquet, tempor enim id, tempor risus.</p>
                 </div>
