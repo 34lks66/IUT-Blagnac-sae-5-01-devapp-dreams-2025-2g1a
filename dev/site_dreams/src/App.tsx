@@ -1,16 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import './App.css';
-import Header from './components/header';
-import MenuPays from './components/menu_pays';
-import FooterMain from './components/Footer';
+import Accueil from './pages/accueil';
+import Sensi from './pages/sensibilisation';
 
 function App() {
 
   return (
     <>
-    <MenuPays/>
-    <Header/>
-    <FooterMain />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Accueil />} />
+        <Route path="/sensibilisation" element={<Sensi />} />
+      </Routes>
+    </Router>
     </>
+    
   )
 }
 
