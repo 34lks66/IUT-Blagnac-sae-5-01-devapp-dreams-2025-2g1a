@@ -1,26 +1,26 @@
-= Chiffrage Projet: {Nom_du_projet}
-Auteur: {Nom de l'auteur ou de l'équipe}
-Date: {Date du document}
+= Chiffrage Projet: DREAMS
+Auteur: Equipe 2g1a
+Date: 09/09/2025
 
 == 1. Contexte
 
 Ce document présente le chiffrage prévisionnel du projet DREAMS, réalisé par l'équipe 2G du groupe 1A.
 
 Objectifs du projet :
-- {Objectif 1}
-- {Objectif 2}
+- Réalisation d'un site internet
+- Développement d'un outil de gestion associative et de suivi des bénéficiaires
 
 Livrables attendus :
 - Site Web Fonctionnel
-- {Livrable 2}
+- Outil de gestion associative et de suivi des bénéficiaires
 
 == 2. Hypothèses
 
 Les hypothèses suivantes sont prises en compte dans le chiffrage :
-- Durée du projet : {X} semaines / mois
-- Jours ouvrés par semaine : {ex. 5}
-- Charge journalière moyenne : {ex. 7h/jour}
-- Disponibilité de l'équipe : {ex. 80%}
+- Durée du projet : 2 semaines / mois
+- Jours ouvrés par semaine : 3
+- Charge journalière moyenne : 3h/jour
+- Disponibilité de l'équipe : 77%
 
 == 3. Composition de l'équipe
 
