@@ -80,12 +80,14 @@ Total prévisionnel du projet : *{Total_global} €*
 
 == 7. Risques identifiés
 
-- Risque 1 : {description} (impact : {faible/moyen/fort}, probabilité : {basse/moyenne/élevée})
-- Risque 2 : {description}
+- Coût dépassé : Dépassement du budget initial en raison de l'hébergement, référencement et maintenance du site (impact : moyen, probabilité : moyenne)
+- Changements fréquents de la demande : Modifications répétées des besoins du client impactant le planning et le budget (impact : élevé, probabilité : élevée)
+- Retard dans la livraison : Projet livré en retard par rapport au planning (impact : moyen, probabilité : moyenne)
+- Manque de compétences techniques client : Difficultés à maintenir ou faire évoluer le site (impact : moyen, probabilité : élevée)
 
 == 8. Commentaires / remarques
 
-- {Commentaire libre}
+- 
 
 '''
 
