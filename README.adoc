@@ -100,10 +100,10 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
 == *Réalisations & Dépôts*
 
 *Backlog* : +
-    - link:[Backlog produit] +
-    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/milestone/1?closed=1[Backlog sprint 0] +
-    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/milestone/2[Backlog sprint 1] +
-    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/milestone/3[Backlog sprint 2] +
+    - https://github.com/users/34lks66/projects/2/views/5[Backlog produit] +
+    - https://github.com/users/34lks66/projects/2/views/1[Backlog sprint 0] +
+    - https://github.com/users/34lks66/projects/2/views/3[Backlog sprint 1] +
+    - https://github.com/users/34lks66/projects/2/views/4[Backlog sprint 2] +
 
 === Livrables
 
