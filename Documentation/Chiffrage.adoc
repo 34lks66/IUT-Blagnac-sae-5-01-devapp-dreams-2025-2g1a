@@ -4,13 +4,15 @@ Date: 09/09/2025
 
 == 1. Contexte
 
-Ce document présente le chiffrage prévisionnel du projet DREAMS, réalisé par l'équipe 2G du groupe 1A.
+Ce document présente le chiffrage prévisionnel du projet **DREAMS**, réalisé par l'équipe 2G du groupe 1A.
 
 Objectifs du projet :
+
 - Réalisation d'un site internet
 - Développement d'un outil de gestion associative et de suivi des bénéficiaires
 
 Livrables attendus :
+
 - Site Web Fonctionnel
 - Outil de gestion associative et de suivi des bénéficiaires
 
