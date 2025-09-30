@@ -101,8 +101,8 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
 
 *Backlog* : +
     - https://github.com/users/34lks66/projects/2/views/5[Backlog produit] +
-    - https://github.com/users/34lks66/projects/2/views/1[Backlog sprint 0] +
-    - https://github.com/users/34lks66/projects/2/views/3[Backlog sprint 1] +
+    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%200.adoc#objectifs-du-sprint-0[Backlog sprint 0] +
+    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%201.adoc[Backlog sprint 1] +
     - https://github.com/users/34lks66/projects/2/views/4[Backlog sprint 2] +
 
 === Livrables
