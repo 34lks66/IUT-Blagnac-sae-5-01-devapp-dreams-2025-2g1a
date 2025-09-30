@@ -57,11 +57,11 @@ Les hypothèses suivantes sont prises en compte dans le chiffrage :
 |===
 | Rôle | Charge (j.h) | Taux journalier (€) | Coût (€)
 
-| Chef de projet | {ex. 8} | {ex. 700} | {ex. 5600}
-| Développeur back | {ex. 18} | {ex. 500} | {ex. 9000}
-| Développeur front | {ex. 15} | {ex. 500} | {ex. 7500}
-| UX/UI Designer | {ex. 8} | {ex. 450} | {ex. 3600}
-| DevOps | {ex. 4} | {ex. 600} | {ex. 2400}
+| Chef de projet | 4 | 561 | 2244
+| Product Owner | 4 | 558 |
+| Développeur back | 3,5 | 410 | 
+| Développeur front | 3 | 410 | 
+| DevOps | 1 | 410 | 
 |===
 
 == 6. Synthèse budgétaire
@@ -70,13 +70,13 @@ Les hypothèses suivantes sont prises en compte dans le chiffrage :
 |===
 | Poste | Montant (€)
 
-| Total main d'œuvre | {Total_mo}
-| Licences & outils | {Montant_licences}
-| Infrastructure | {Montant_infra}
-| Divers / marge | {Montant_divers}
+| Total main d'œuvre | 23 890 
+| Licences & outils | 1 200
+| Infrastructure | 800
+| Divers / marge | 1 500
 |===
 
-Total prévisionnel du projet : *{Total_global} €*
+Total prévisionnel du projet : *27 390 €*
 
 == 7. Risques identifiés
 
@@ -87,7 +87,9 @@ Total prévisionnel du projet : *{Total_global} €*
 
 == 8. Commentaires / remarques
 
-- 
+- Les risques liés aux changements fréquents de la demande client peuvent impacter le planning et le budget, un cahier des charges est prévu pour limiter les modifications en cours de projet.
+- La maintenance et l’évolution du site doivent être anticipées, notamment en formant les membres de l’association (les admins).
+- Le chiffrage reste prévisionnel et pourra être ajusté en fonction des retours clients.
 
 '''
 
