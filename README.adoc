@@ -93,7 +93,7 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
 
 - **Backend**: A choisir
 
-- **Base de données**: A choisir
+- **Base de données**: MongoDB
 
 - **Outils**: Git, GitHub, Visual Studio Code
 
