@@ -1,34 +1,35 @@
 import { House, Bed, Compass, Megaphone, FileText} from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const Mission: React.FC = () => {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const missions = [
     {
       icon: <House className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Accueil',
-      href: '/',
+      href: '/accueil',
     },
     {
       icon: <Compass className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Orientation',
-      href: '/',
+      href: '/orientation',
     },
     {
       icon: <Bed className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Hébergement',
-      href: '/',
+      href: '/hebergement',
     },
     {
       icon: <FileText className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Accompagnement',
-      href: '/',
+      href: '/accompagnement',
     },
     {
       icon: <Megaphone className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Sensibilisation',
-      href: '/',
+      href: '/sensibilisation',
     }
   ];
 
@@ -40,9 +41,9 @@ const Mission: React.FC = () => {
     "bg-purple-500",
     ];
 
-    // const handleClick = (href: string) => {
-    //     navigate(href);
-    // };
+    const handleClick = (href: string) => {
+         navigate(href);
+    };
 
     return (
         <section id="missions" className="py-20 bg-white">
@@ -66,7 +67,7 @@ const Mission: React.FC = () => {
                     <h3 className="text-2xl text-white mb-3">
                       {mission.title}
                     </h3>
-                    <button onClick={mission.href} className="bg-teal-700 text-white px-6 py-2 rounded-lg hover:bg-teal-900 transition-colors duration-200 font-medium md:w-auto mt-auto">
+                    <button onClick={() => handleClick(mission.href)} className="bg-teal-700 text-white px-6 py-2 rounded-lg hover:bg-teal-900 transition-colors duration-200 font-medium md:w-auto mt-auto">
                         En savoir plus
                     </button>
                   </div>
