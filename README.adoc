@@ -87,61 +87,23 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
 - Relier les fiches de RDV avec les différents documents, fiches d'accueil et de suivis personnels. 
 - Notifier automatiquement chaque bénévole s'occupant des personnes accompagnées, pour informer de nouvelles informations ou démarches effectuées.
 
-== *Objectifs pédagogiques*
-
-Le projet doit permettre d'appliquer les compétences acquises tout au long du BUT Informatique (parcours A) : 
-
-*Conception*
-
-- Rédiger un cahier des charges / backlog agile. 
-
-- Réaliser une maquette de l’interface.
-
-*Développement*
-
-- Développer le site.
-
-- Mettre en place une BDD pour la gestion des données.
-
-*Validation/ Qualité*
-
-- Écrire des tests unitaires.
-
-*Organisation de projet*
-
-- Travailler en mode agile.
-
-- Utiliser GitHub et les outils de gpo.
-
-- Répartir les rôles (scrum master, product owner...).
-
-*Organisation de projet*
-
-- Participer à des réunions
-
-- Assurer une bonne communication au sein de l'équipe
-
-- Rédiger des compte-rendus
-
 == *Technologies Utilisées*
 
-- **Frontend**: A choisir
+- **Frontend**: React
 
 - **Backend**: A choisir
 
-- **Base de données**: A choisir
+- **Base de données**: MongoDB
 
 - **Outils**: Git, GitHub, Visual Studio Code
 
 == *Réalisations & Dépôts*
 
 *Backlog* : +
-    - link:[Backlog produit] +
-    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/milestone/1?closed=1[Backlog sprint 0] +
-    - link:[Backlog sprint 1] +
-    - link:[Backlog sprint 2] +
-    - link:[Backlog sprint 3] +
-    - link:[Backlog sprint 4] +
+    - https://github.com/users/34lks66/projects/2/views/5[Backlog produit] +
+    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%200.adoc[Backlog sprint 0] +
+    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%201.adoc[Backlog sprint 1] +
+    - https://github.com/users/34lks66/projects/2/views/4[Backlog sprint 2] +
 
 === Livrables
 
@@ -151,11 +113,15 @@ Vous trouverez ci-dessous les travaux et livrables réalisés par l'équipe clas
 4+^| *LIVRABLES*
 4+|
 | *SEMAINE* | *SPRINT* | *SOLUTION*  | *LIEN*
-| 36 | 0 | |
-| 37 | 1 | |
-| 38 | 2 | |
-| 39 | 3 | |
-| 40 | 4 | |
+| 36 | 0 | Document d'installation | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/HACKING.md
+| | | Document utilisateur | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docUtilisateur.adoc
+| | | Document technique | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docTechnique.adoc
+| | | Chiffrage du projet | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Chiffrage.adoc
+| 37/38 | 1 | Release Sprint 1| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.0.0-sprint1
+| | | Cahier des charges | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Cahier%20des%20charges%20-%20DREAMS.pdf
+| 39/40 | 1 | |
+| 41/42 | 3 | |
+| 43 | 4 | |
 
 |===
 
@@ -176,14 +142,14 @@ Cette section regroupe les principales documentations du projet (de la conceptio
 Ci-dessous un récapitulatif des séances de travail effectuées en télétravail pour chaque membre de l'équipe :
 
 |===
-.2+| *MEMBRES*       7+| *SÉANCES*
-                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 23/09 (après-mid) | 24/09 (journée) | 25/09 (matin) |
-| Léo Guinvarc'h      | P | T | T | T | T | T |
-| Mucahit Lekesiz     | P | T | T | T | T | T |
-| Loic Phrakousonh    | P | T | T | T | T | T |
-| Sidney Richards     | T | T | T | T | T | T |
-| Demangel Kilian     | T | T | T | T | T | T |
-| Perruffel Bastien   | P | T | T | T | T | T |
+.2+| *MEMBRES*       9+| *SÉANCES*
+                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 23/09 (après-mid) | 24/09 (journée) | 25/09 (matin) | 01/10 (journée) | 02/10 (matin) |
+| Léo Guinvarc'h      | P | T | T | T | T | T | T | T | 
+| Mucahit Lekesiz     | P | T | T | T | T | T | T | T |
+| Loic Phrakousonh    | P | T | T | T | T | T | T | T |
+| Sidney Richards     | T | T | T | T | T | T | T | T |
+| Demangel Kilian     | T | T | T | T | T | T | T | T |
+| Perruffel Bastien   | P | T | T | T | T | T | T | T |
 |===
 
 *P :* En présentiel +

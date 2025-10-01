@@ -1,0 +1,102 @@
+html{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1{
+    font-size: 30px;
+    font-weight: bold;
+}   
+
+h2{
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+section{
+    padding: 50px 0;
+    margin: 0 5%;
+}
+
+p{
+    font-size: 16px;
+}
+
+.sensibilisation{
+    display: flex;
+    flex-direction: column;
+    gap:60px;
+}
+
+.accroche{
+    text-align: center;
+    gap:20px;
+    background-color: rgba(251, 44, 54, 0.5); 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0 10%;
+}
+
+.qui{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: rgba(253, 199, 0, 0.5); 
+    align-items: center;
+    padding: 20px 20px;
+    gap: 20px;
+    margin-right: 20%;
+}
+
+.qui .texte{
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+    gap:10px;
+    align-items: center;
+}
+
+.qui .image{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    max-width: 30%;
+}
+
+
+.difficultes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: rgba(2, 222, 113, 0.5);
+    align-items: center;
+    padding: 20px 20px;
+    gap: 20px; 
+    margin-left:20%;
+}
+
+.difficultes .texte{
+    max-width: 70%;
+    display: flex;
+    gap:10px;
+    flex-direction: column;
+}
+
+.difficultes .image{
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    max-width: 30%;
+}
+
+.ressources{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 80px;
+    background-color: rgba(43, 127, 255, 0.5); 
+    margin-left: 10%;
+    margin-right: 10%;
+}
