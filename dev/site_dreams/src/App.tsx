@@ -8,6 +8,7 @@ import Hebergement from "./pages/Hebergement";
 import Header from "./components/header";
 import MenuPays from './components/menu_pays';
 import FooterMain from './components/Footer';
+import Accompagnement from "./pages/accompagnement";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/test" element={<Test />} />
         <Route path="/hebergement" element={<Hebergement />} />
         <Route path="/sensibilisation" element={<Sensi />} />
+        <Route path="/accompagnement" element={<Accompagnement />} />
       </Routes>
     </Router>
     <FooterMain />
