@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { paths } from "../data/paths";
+import { paths } from "../../data/paths";
 
 type WorldMapProps = {
     paysDreams?: string[];

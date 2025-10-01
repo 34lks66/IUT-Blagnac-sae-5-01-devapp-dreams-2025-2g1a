@@ -1,6 +1,6 @@
 import { House, Bed, Compass, Megaphone, FileText} from 'lucide-react';
 
-const Home: React.FC = () => {
+const Mission: React.FC = () => {
 
     // const navigate = useNavigate();
 
@@ -73,4 +73,4 @@ const Home: React.FC = () => {
     );
 };
 
-export default Home;
+export default Mission;
