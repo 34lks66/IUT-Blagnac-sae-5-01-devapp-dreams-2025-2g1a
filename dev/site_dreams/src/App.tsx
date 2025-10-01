@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css';
-import Home from "./pages/Home";
 import Test from "./pages/page";
 import Sensi from './pages/sensibilisation';
 import Hebergement from "./pages/Hebergement";
@@ -16,7 +15,6 @@ function App() {
     <>
     <MenuPays/>
     <Header/>
-    <Home />
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
