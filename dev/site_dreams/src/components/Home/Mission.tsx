@@ -47,9 +47,13 @@ const Mission: React.FC = () => {
     return (
         <section id="missions" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+              {/* <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
                 Nos Missions
-              </h2>
+              </h2> */}
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
+                    Nos{" "}
+                    <span className="text-yellow-500">Missions</span>
+              </h1>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {missions.map((mission, index) => (
                   <div
