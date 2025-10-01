@@ -55,37 +55,53 @@ Les hypothèses suivantes sont prises en compte dans le chiffrage :
 == 5. Estimation de charge par rôle
 
 |===
-| Rôle | Charge (j.h) | Taux journalier (€) | Coût (€)
+| Rôle | Quantité (jours) | Tarif journalier (€) | Coût tôtal (€)
 
-| Chef de projet | 4 | 561 | 2244
-| Product Owner | 4 | 558 |
-| Développeur back | 3,5 | 410 | 
-| Développeur front | 3 | 410 | 
-| DevOps | 1 | 410 | 
+| Scrum Master | 7 | 450 | 3150
+| Product Owner | 7 | 450 | 3150
+| Développeur (front) | 7 | 266 | 1862 
+| Développeur (back) | 7 | 305 | 2135
+| Développeur (bd) | 7 | 234 | 1638
+| Sous-traitance | 0,3 | 200 | 60
+| Déplacements | 0,3 | 40 | 12
+| Total Coûts Directs | - | - | 14142
 |===
 
-== 6. Synthèse budgétaire
+== 6. Provisions et marges
+
+|===
+| Poste | Pourcentage (%) | Montant (€)
+
+| Provisions risques | 5 | 707,1
+| Marge projet | 15 | 2121,3
+| Total provisions + marge | - | 2828,4
+
+|===
+
+== 7. Synthèse budgétaire
 
 [cols="2,1"]
 |===
 | Poste | Montant (€)
 
-| Total main d'œuvre | 23 890 
-| Licences & outils | 1 200
+| Total main d'œuvre (Coûts directs) | 14142
+| Provisions risques | 707,1
+| Marge projet | 2121,3
+| Licences & outils | 1200
 | Infrastructure | 800
-| Divers / marge | 1 500
+| Divers | 1500
 |===
 
-Total prévisionnel du projet : *27 390 €*
+Total prévisionnel du projet : *20 470,40€*
 
-== 7. Risques identifiés
+== 8. Risques identifiés
 
 - Coût dépassé : Dépassement du budget initial en raison de l'hébergement, référencement et maintenance du site (impact : moyen, probabilité : moyenne)
 - Changements fréquents de la demande : Modifications répétées des besoins du client impactant le planning et le budget (impact : élevé, probabilité : élevée)
 - Retard dans la livraison : Projet livré en retard par rapport au planning (impact : moyen, probabilité : moyenne)
 - Manque de compétences techniques client : Difficultés à maintenir ou faire évoluer le site (impact : moyen, probabilité : élevée)
 
-== 8. Commentaires / remarques
+== 9. Commentaires / remarques
 
 - Les risques liés aux changements fréquents de la demande client peuvent impacter le planning et le budget, un cahier des charges est prévu pour limiter les modifications en cours de projet.
 - La maintenance et l’évolution du site doivent être anticipées, notamment en formant les membres de l’association (les admins).
