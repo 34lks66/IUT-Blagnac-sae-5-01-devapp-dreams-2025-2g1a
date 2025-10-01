@@ -6,27 +6,27 @@ const Mission: React.FC = () => {
 
     const missions = [
     {
-      icon: <House className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <House className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Accueil',
       href: '/',
     },
     {
-      icon: <Compass className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <Compass className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Orientation',
       href: '/',
     },
     {
-      icon: <Bed className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <Bed className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Hébergement',
       href: '/',
     },
     {
-      icon: <FileText className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <FileText className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Accompagnement',
       href: '/',
     },
     {
-      icon: <Megaphone className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <Megaphone className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Sensibilisation',
       href: '/',
     }
@@ -46,11 +46,11 @@ const Mission: React.FC = () => {
 
     return (
         <section id="missions" className="py-20 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 ">
+            <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
                 Nos Missions
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {missions.map((mission, index) => (
                   <div
                     key={index}

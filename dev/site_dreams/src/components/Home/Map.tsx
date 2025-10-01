@@ -38,16 +38,16 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = []}) => {
 
     return (
         <div style={{ width: "100%", height: "80vh" }}> 
-        <svg
-          viewBox="0 0 800 600"
-          width="100%"
-          height="100%"
-        //   onWheel={handleWheel}
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-          style={{ cursor: isDragging ? "grabbing" : "grab", background: "#f9f9f9"}}
-        >
+          <svg
+            viewBox="0 0 800 600"
+            width="100%"
+            height="100%"
+          //   onWheel={handleWheel}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            style={{ cursor: isDragging ? "grabbing" : "grab", background: "#f9f9f9"}}
+          >
             <g transform={`translate(${translate.x},${translate.y}) scale(${scale})`}>
                 {paths.map((country) => {
                     const isPaysDREAMS = paysDreams.includes(country.code);
@@ -68,7 +68,7 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = []}) => {
                     )
                 })}
             </g>
-        </svg>
+          </svg>
         </div>
     );
 };
