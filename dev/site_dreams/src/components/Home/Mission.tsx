@@ -1,34 +1,35 @@
 import { House, Bed, Compass, Megaphone, FileText} from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const Mission: React.FC = () => {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const missions = [
     {
-      icon: <House className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <House className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Accueil',
-      href: '/',
+      href: '/accueil',
     },
     {
-      icon: <Compass className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <Compass className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Orientation',
-      href: '/',
+      href: '/orientation',
     },
     {
-      icon: <Bed className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <Bed className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Hébergement',
-      href: '/',
+      href: '/hebergement',
     },
     {
-      icon: <FileText className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <FileText className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Accompagnement',
-      href: '/',
+      href: '/accompagnement',
     },
     {
-      icon: <Megaphone className="w-10 h-10 md:w-20 md:h-20" />,
+      icon: <Megaphone className="w-10 h-10 md:w-15 md:h-15" />,
       title: 'Sensibilisation',
-      href: '/',
+      href: '/sensibilisation',
     }
   ];
 
@@ -40,17 +41,21 @@ const Mission: React.FC = () => {
     "bg-purple-500",
     ];
 
-    // const handleClick = (href: string) => {
-    //     navigate(href);
-    // };
+    const handleClick = (href: string) => {
+         navigate(href);
+    };
 
     return (
         <section id="missions" className="py-20 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 ">
+            <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-4">
+              {/* <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
                 Nos Missions
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+              </h2> */}
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
+                    Nos{" "}
+                    <span className="text-yellow-500">Missions</span>
+              </h1>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {missions.map((mission, index) => (
                   <div
                     key={index}
@@ -62,7 +67,7 @@ const Mission: React.FC = () => {
                     <h3 className="text-2xl text-white mb-3">
                       {mission.title}
                     </h3>
-                    <button onClick={mission.href} className="bg-teal-700 text-white px-6 py-2 rounded-lg hover:bg-teal-900 transition-colors duration-200 font-medium md:w-auto mt-auto">
+                    <button onClick={() => handleClick(mission.href)} className="bg-teal-700 text-white px-6 py-2 rounded-lg hover:bg-teal-900 transition-colors duration-200 font-medium md:w-auto mt-auto">
                         En savoir plus
                     </button>
                   </div>
