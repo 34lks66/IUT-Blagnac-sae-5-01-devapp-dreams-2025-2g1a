@@ -119,7 +119,7 @@ Vous trouverez ci-dessous les travaux et livrables réalisés par l'équipe clas
 | | | Chiffrage du projet | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Chiffrage.adoc
 | 37/38 | 1 | Release Sprint 1| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.0.0-sprint1
 | | | Cahier des charges | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Cahier%20des%20charges%20-%20DREAMS.pdf
-| 39/40 | 1 | |
+| 39/40 | 2 | |
 | 41/42 | 3 | |
 | 43 | 4 | |
 
