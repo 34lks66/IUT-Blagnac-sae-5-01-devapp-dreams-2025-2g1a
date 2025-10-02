@@ -8,6 +8,7 @@ import Header from "./components/header";
 import MenuPays from './components/menu_pays';
 import FooterMain from './components/Footer';
 import Home from './components/Home/Home';
+import PageAccueilPublic from "./pages/page_accueil_public";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/accueil" element={<Home />} />
+        <Route path="/accueil_public" element={<PageAccueilPublic />} />
         <Route path="/test" element={<Test />} />
         <Route path="/hebergement" element={<Hebergement />} />
         <Route path="/sensibilisation" element={<Sensi />} />

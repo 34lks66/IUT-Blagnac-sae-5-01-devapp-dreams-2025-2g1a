@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { name: "Accueil du public migrant LGBTQ+", href: "/" },
+  { name: "Accueil du public migrant LGBTQ+", href: "/accueil_public" },
   { name: "Évaluation et orientation", href: "/evaluation" },
   { name: "Hébergement solidaire et temporaire", href: "/hebergement" },
   { name: "Accompagnement administratif et juridique", href: "/accompagnement" },
@@ -51,7 +51,7 @@ const NavBar = () => {
         {/* Burger Button Mobile */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden ml-auto text-gray-700 z-50"
+          className="md:hidden ml-auto text-gray-700 z-20"
           aria-label="Toggle menu"
         >
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -72,7 +72,7 @@ const NavBar = () => {
             <div className="p-6">
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="absolute top-4 right-4 text-gray-700"
+                className="absolute top-4 right-4 text-gray-700 z-20"
                 aria-label="Close menu"
               >
                 <X size={28} />
