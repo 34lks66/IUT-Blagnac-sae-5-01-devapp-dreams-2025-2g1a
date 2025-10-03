@@ -64,6 +64,22 @@ L'association attend de nous :
 - un *site internet accessible*, permettant de valoriser l'association et ses différentes antennes,
 - ainsi que des *outils de gestion associative et de suivi des bénéficiaires* (parcours des personnes reçues par l'association).
 
+== Méthodologie
+
+Nous fonctionnons en **méthodologie Agile (Scrum)** avec une organisation en **sprints**.  
+
+- **Durée d’un sprint :** 2 semaines  
+- Chaque sprint a des **objectifs définis** et donne lieu à une **release**.  
+- Les tâches sont suivies et gérées via **le projet GitHub **.  
+- À la fin de chaque sprint, nous produisons :  
+
+* Un **sprint backlog** documentant les tâches réalisées  
+* Une **release** du projet (tag)  
+* Des **réunions d’équipe** et **réunions client** sont organisées régulièrement pour suivre l’avancement  
+
+Cette approche nous permet d’**itérer rapidement**, de **récolter du feedback client** régulièrement et d’améliorer le projet en continu.
+
+
 == Fonctionnalités principales
 
 Le projet se structure en deux parties : 
