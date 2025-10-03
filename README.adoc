@@ -64,6 +64,22 @@ L'association attend de nous :
 - un *site internet accessible*, permettant de valoriser l'association et ses différentes antennes,
 - ainsi que des *outils de gestion associative et de suivi des bénéficiaires* (parcours des personnes reçues par l'association).
 
+== Méthodologie
+
+Nous fonctionnons en **méthodologie Agile (Scrum)** avec une organisation en **sprints**.  
+
+- **Durée d’un sprint :** 2 semaines  
+- Chaque sprint a des **objectifs définis** et donne lieu à une **release**.  
+- Les tâches sont suivies et gérées via **le projet GitHub **.  
+- À la fin de chaque sprint, nous produisons :  
+
+* Un **sprint backlog** documentant les tâches réalisées  
+* Une **release** du projet (tag)  
+* Des **réunions d’équipe** et **réunions client** sont organisées régulièrement pour suivre l’avancement  
+
+Cette approche nous permet d’**itérer rapidement**, de **récolter du feedback client** régulièrement et d’améliorer le projet en continu.
+
+
 == Fonctionnalités principales
 
 Le projet se structure en deux parties : 
@@ -103,7 +119,7 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
     - https://github.com/users/34lks66/projects/2/views/5[Backlog produit] +
     - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%200.adoc[Backlog sprint 0] +
     - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%201.adoc[Backlog sprint 1] +
-    - https://github.com/users/34lks66/projects/2/views/4[Backlog sprint 2] +
+    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%202.adoc[Backlog sprint 2] +
 
 === Livrables
 
@@ -119,7 +135,7 @@ Vous trouverez ci-dessous les travaux et livrables réalisés par l'équipe clas
 | | | Chiffrage du projet | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Chiffrage.adoc
 | 37/38 | 1 | Release Sprint 1| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.0.0-sprint1
 | | | Cahier des charges | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Cahier%20des%20charges%20-%20DREAMS.pdf
-| 39/40 | 1 | |
+| 39/40 | 2 | Release Sprint 2 |  https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.2.0-sprint2
 | 41/42 | 3 | |
 | 43 | 4 | |
 
@@ -138,18 +154,46 @@ Cette section regroupe les principales documentations du projet (de la conceptio
 | [Cahier de Recette]
 |===
 
-=== Planning Télétravail 
+== Réunions 
+Ci-dessous un récapitulatif des réunions équipe/client avec ordre du jour et compte rendu effectuées durant le projet :
+
+=== Réunions d'équipe
+
+[options="header",cols="1,2,2,2"]
+|===
+| Date | Ordre du jour (ODJ) | Compte rendu (CR) | Participants
+
+| 03/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2003.09_Semaine%2036.pdf[ODJ S36] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2003.09_Semaine%2036.pdf[CR S36] | Toute l'équipe
+| 15/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2015.09%20_Semaine%2038.pdf[ODJ S38] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2022.09_Semaine%2039.pdf[CR S38] | Toute l'équipe
+| 22/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2022.09_Semaine%2039.pdf[ODJ S39] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2022.09_Semaine%2039.pdf[CR S39] | Toute l'équipe
+| 29/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2029.09%20_Semaine%2040.pdf[ODJ S40] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2029.09_Semaine%2040.pdf[CR S40] | Toute l'équipe
+|===
+
+=== Réunions client
+
+[options="header",cols="1,2,2,2"]
+|===
+| Date | Ordre du jour (ODJ) | Compte rendu (CR) | Participants
+
+| 08/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2008.09_Semaine%2037.pdf[ODJ S37] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_10.09_Semaine%2037.pdf[CR S37] | Client, Sidney, Léo, Mucahit
+| 19/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2019.09_Semaine%2038.pdf[ODJ S38] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_21.09_Semaine%2038.pdf[CR S38] | Client, Léo
+| 26/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2026.09_Semaine%2039.pdf[ODJ S39] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_26.09_Semaine%2039.pdf[CR S39] | Client, Léo
+| 03/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2003.10_Semaine%2040.pdf[ODJ S40] | Client n'a pas pu être la | 
+|===
+
+
+== Planning Télétravail 
 Ci-dessous un récapitulatif des séances de travail effectuées en télétravail pour chaque membre de l'équipe :
 
 |===
-.2+| *MEMBRES*       9+| *SÉANCES*
-                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 23/09 (après-mid) | 24/09 (journée) | 25/09 (matin) | 01/10 (journée) | 02/10 (matin) |
-| Léo Guinvarc'h      | P | T | T | T | T | T | T | T | 
-| Mucahit Lekesiz     | P | T | T | T | T | T | T | T |
-| Loic Phrakousonh    | P | T | T | T | T | T | T | T |
-| Sidney Richards     | T | T | T | T | T | T | T | T |
-| Demangel Kilian     | T | T | T | T | T | T | T | T |
-| Perruffel Bastien   | P | T | T | T | T | T | T | T |
+.2+| *MEMBRES*       10+| *SÉANCES*
+                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 23/09 (après-mid) | 24/09 (journée) | 25/09 (matin) | 01/10 (journée) | 02/10 (matin) | 03/10 (journée) |
+| Léo Guinvarc'h      | P | T | T | T | T | T | T | T | T | 
+| Mucahit Lekesiz     | P | T | T | T | T | T | T | T | T | 
+| Loic Phrakousonh    | P | T | T | T | T | T | T | T | T | 
+| Sidney Richards     | T | T | T | T | T | T | T | T | T | 
+| Demangel Kilian     | T | T | T | T | T | T | T | T | T | 
+| Perruffel Bastien   | P | T | T | T | T | T | T | T | T | 
 |===
 
 *P :* En présentiel +

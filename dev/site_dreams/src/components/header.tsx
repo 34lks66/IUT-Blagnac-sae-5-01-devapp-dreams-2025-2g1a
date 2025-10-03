@@ -2,7 +2,7 @@ import logo from "../assets/logo.png";
 import NavBar from './NavBar';
 function Header() {
     return (
-        <header className="flex items-center justify-between px-4 py-6 bg-white border-b-2 [border-image:linear-gradient(to_right,#f59e0b,#93720a)_1]">
+        <header className="flex items-center justify-between px-4 py-10 bg-white border-b-2 [border-image:linear-gradient(to_right,#f59e0b,#93720a)_1]">
             <div className="flex items-center space-x-1">
                 <a href="/" className="min-w-[96px] min-h-[96px]">
                     <img src={logo} alt="Logo" className="h-24 w-auto" />
