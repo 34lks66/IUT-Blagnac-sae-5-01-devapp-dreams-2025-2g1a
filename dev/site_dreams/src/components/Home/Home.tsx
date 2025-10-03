@@ -1,14 +1,18 @@
-import Map from './Map';
-import Mission from './Mission';
+import Hero from './Hero';
 import About from './About';
+import Mission from './Mission';
+import History from './History';
+import Map from './Map';
 
 function Home() {
 
   return (
     <>
+    <Hero/>
     <About/>
     <Mission/>
-    <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
+    <History/>
+    <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center p-10">
                     Explorer{" "}
                     <span className="text-yellow-500">la carte</span>
     </h1>
