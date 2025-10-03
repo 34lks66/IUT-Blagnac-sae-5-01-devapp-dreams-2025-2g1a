@@ -1,0 +1,51 @@
+= Sprint 2 - Projet DREAMS
+
+Sprint 2 réalisé dans le cadre du projet DREAMS, terminé le 5 octobre 2025.
+
+== Objectifs du Sprint 2
+
+- Développer les premières pages principales du site.
+- Implémenter la page d’accueil et ses éléments clés.
+- Créer les pages correspondant aux besoins exprimés par le client (accompagnement, hébergement, accueil du public migrant, sensibilisation, évaluation).
+- Poursuivre la structuration du projet React avec de nouveaux composants.
+- Consolider la navigation du site avec les pages principales.
+
+== Liste des tâches réalisées
+
+|===
+| ID | Tâche | Lien vers la tâche | Etat
+
+| 34  
+| *[US] Page d'accueil*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/34 | Fini
+
+| 35  
+| *[US] Pages principales*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/35 | Fini
+
+| 37  
+| *Créer la page Accueil du public migrant*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/37 | Fini
+
+| 38  
+| *Créer la page Évaluation et orientation*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/38 | Fini
+
+| 39  
+| *Créer la page Hébergement solidaire et temporaire*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/39 | Fini
+
+| 40  
+| *Créer la page Accompagnement administratif et juridique*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/40 | Fini
+
+| 41  
+| *Créer la page Sensibilisations des minorités*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/41 | Fini
+|===
+
+== Remarques
+
+Le sprint a permis de concrétiser les premières pages visibles du site.  
+La structure de navigation est maintenant fonctionnelle et couvre les principales rubriques demandées par le client (accueil, accompagnement, hébergement, évaluation, sensibilisation).  
+Nous attendons maintenant la validation du client. 
