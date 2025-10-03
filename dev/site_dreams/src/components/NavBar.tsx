@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { name: "Accueil du public migrant LGBTQ+", href: "/accueil_public" },
+  { name: "Accueil du public LGBTQ+", href: "/accueil_public" },
   { name: "Évaluation et orientation", href: "/evaluation" },
   { name: "Hébergement solidaire et temporaire", href: "/hebergement" },
   { name: "Accompagnement administratif et juridique", href: "/accompagnement" },
