@@ -46,7 +46,7 @@ const Mission: React.FC = () => {
     };
 
     return (
-        <section id="missions" className="py-20 bg-white">
+        <div id="missions" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-4">
               {/* <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
                 Nos Missions
@@ -74,7 +74,7 @@ const Mission: React.FC = () => {
                 ))}
               </div>
             </div>
-        </section>
+        </div>
     );
 };
 
