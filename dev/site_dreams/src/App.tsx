@@ -27,7 +27,7 @@ function App() {
         <Route path="/hebergement" element={<Hebergement />} />
         <Route path="/sensibilisation" element={<Sensi />} />
         <Route path="/accompagnement" element={<Accompagnement />} />
-        <Route path="/evaluation-orientation" element={<EvaluationOrientation />} />
+        <Route path="/evaluation" element={<EvaluationOrientation />} />
       </Routes>
     </Router>
     <FooterMain />
