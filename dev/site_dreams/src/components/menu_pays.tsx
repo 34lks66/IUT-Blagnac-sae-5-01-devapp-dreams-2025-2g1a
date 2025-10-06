@@ -3,13 +3,14 @@ import { List, X } from 'lucide-react';
 
 export default function MenuPays() {
   const [open, setOpen] = useState(false);
-  const [paysOpen, setPaysOpen] = useState<string | null>(null); // pour ouvrir/fermer la sous-liste antennes
+  const [paysOpen, setPaysOpen] = useState<string | null>(null);
+  
   const navPays = [
-    { nom: 'FRANCE', classes: 'from-red-600 to-red-800 text-white', antennes: [{nom: "Toulouse"}, {nom: "Carcassonne"}, {nom: "Narbonne"}] },
-    { nom: 'ITALIE', classes: 'from-orange-400 to-orange-600 text-white', antennes: [] },
-    { nom: "CÔTE D'IVOIRE", classes: 'from-green-400 to-green-600 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
-    { nom: 'BURKINA FASO', classes: 'from-blue-500 to-blue-700 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
-    { nom: 'TOGO', classes: 'from-purple-500 to-purple-700 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
+    { nom: 'FRANCE', classes: 'bg-gradient-to-r from-red-600 via-red-500 to-orange-400 text-white', antennes: [{nom: "Toulouse"}, {nom: "Carcassonne"}, {nom: "Narbonne"}] },
+    { nom: 'ITALIE', classes: 'bg-gradient-to-r from-orange-400 via-orange-300 to-yellow-400 text-white', antennes: [] },
+    { nom: "CÔTE D'IVOIRE", classes: 'bg-gradient-to-r from-yellow-400 via-green-400 to-green-500 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
+    { nom: 'BURKINA FASO', classes: 'bg-gradient-to-r from-green-500 via-blue-400 to-blue-500 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
+    { nom: 'TOGO', classes: 'bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
   ];
 
   return (
@@ -48,8 +49,7 @@ export default function MenuPays() {
                 {navPays.map((p) => (
                   <li key={p.nom} className="">
                     <button
-                      className={`w-full text-left px-3 py-3 font-bold rounded bg-gradient-to-r ${p.classes} shadow text-white flex items-center justify-between`}
-                      //si le pays est deja set dans paysOpen, le mettre a null (fermer), sinon si il est a null le mettre a p.nom(nom du pays)
+                      className={`w-full text-left px-3 py-3 font-bold rounded ${p.classes} shadow text-white flex items-center justify-between`}
                       onClick={() => setPaysOpen(paysOpen === p.nom ? null : p.nom)}
                     >
                       <span>{p.nom}</span>
@@ -79,24 +79,29 @@ export default function MenuPays() {
       )}
 
       {/* --- DESKTOP --- */}
-      <nav className="hidden md:flex flex-col md:flex-row w-full">
-        <div className="flex flex-col md:flex-row w-full">
-          {navPays.map((p) => (
+      <nav className="hidden md:flex w-full">
+        <div className="flex w-full">
+          {navPays.map((p, index) => (
             <div
               key={p.nom}
-              className={`relative flex-1 min-w-[120px] bg-gradient-to-r ${p.classes} text-center font-bold cursor-pointer group`}
+              className={`relative flex-1 min-w-[120px] ${p.classes} text-center font-bold cursor-pointer group`}
+              style={{
+                marginLeft: index === 0 ? 0 : '-1px' // Supprime l'espace entre les éléments
+              }}
             >
-                <div className="py-2">{p.nom}</div>
-                <ul className="hidden group-hover:block md:absolute md:left-0 md:top-full bg-white text-black w-full z-50">
-                  {p.antennes.map((antenne) => (
-                    <li
-                      key={antenne.nom}
-                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer font-medium"
-                    >
-                      {antenne.nom}
-                    </li>
-                  ))}
-                </ul>
+              <div className="py-2 border-r border-white border-opacity-20 last:border-r-0">
+                {p.nom}
+              </div>
+              <ul className="hidden group-hover:block md:absolute md:left-0 md:top-full bg-white text-black w-full z-50 shadow-lg">
+                {p.antennes.map((antenne) => (
+                  <li
+                    key={antenne.nom}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-medium border-b border-gray-100 last:border-b-0"
+                  >
+                    {antenne.nom}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>

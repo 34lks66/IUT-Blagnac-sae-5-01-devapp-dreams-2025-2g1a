@@ -1,6 +1,6 @@
 function PageAccueilPublic() {
   return (
-    <main className="max-w-5xl mx-auto px-4">
+    <main className="max-w-5xl py-10 mx-auto px-4">
       {/* Section Hero "Bienvenue en Europe" */}
       <section className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
@@ -44,7 +44,7 @@ function PageAccueilPublic() {
       </section>
 
       {/* Section "Processus d'accueil à l'arrivée" */}
-      <section className="mb-1">
+      <section className="mb-1 py-10">
         <div className="grid md:grid-cols-1 gap-8">
           {/* Carte 1 */}
           <div className="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border-l-4 border-b-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center mr-32 cursor-pointer">
@@ -224,68 +224,86 @@ function PageAccueilPublic() {
         </div>
       </section>
 
-      {/* Section "Témoignages et soutien" */}
-      <section className="mb-1">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Vous n'êtes pas seul·e
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Des parcours similaires au vôtre, des vies reconstruites
-          </p>
+{/* Section "Témoignages et soutien" */}
+<section className="mb-16 py-12">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+      Vous n'êtes pas seul·e
+    </h2>
+    <p className="text-gray-600 max-w-2xl mx-auto">
+      Des parcours similaires au vôtre, des vies reconstruites
+    </p>
+  </div>
+
+  <div className="grid md:grid-cols-2 gap-8">
+    {/* Témoignage 1 */}
+    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+      <div className="flex items-start mb-6">
+        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+          <span className="text-blue-600 text-lg">👤</span>
         </div>
-
-        <div className="grid md:grid-cols-1 gap-8">
-          {/* Témoignage 1 */}
-          <div className="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border-l-4 border-b-4 border-indigo-500 overflow-hidden flex flex-col md:flex-row items-center mr-32 cursor-pointer">
-            <div className="absolute inset-0 bg-indigo-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
-
-            {/* Contenu texte */}
-            <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
-              <p className="text-gray-600 mb-4 leading-relaxed text-base group-hover:text-white transition-colors duration-300 italic">
-                "Après avoir fui mon pays, j'ai trouvé ici bien plus qu'un toit
-                : une famille qui m'a accepté tel que je suis. L'accompagnement
-                m'a permis de retrouver confiance en moi et en l'avenir."
-              </p>
-              <p className="text-gray-500 text-sm group-hover:text-blue-100 transition-colors duration-300">
-                — Témoignage anonyme
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center justify-center flex-1">
-              <div className="text-6xl transition-all duration-500 group-hover:translate-x-20 group-hover:opacity-0 group-hover:scale-75">
-                💬
-              </div>
-            </div>
-          </div>
-
-          {/* Témoignage 2 */}
-          <div className="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border-r-4 border-b-4 border-pink-500 overflow-hidden flex flex-col md:flex-row items-center ml-32 cursor-pointer">
-            <div className="absolute inset-0 bg-pink-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
-
-            <div className="relative z-10 flex items-center justify-center flex-1">
-              <div className="text-6xl transition-all duration-500 group-hover:-translate-x-20 group-hover:opacity-0 group-hover:scale-75">
-                🌈
-              </div>
-            </div>
-
-            {/* Contenu texte */}
-            <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
-              <p className="text-gray-600 mb-4 leading-relaxed text-base group-hover:text-white transition-colors duration-300 italic">
-                "Le soutien psychologique m'a sauvé la vie. Aujourd'hui, je
-                revis enfin en harmonie avec mon identité. Pour la première
-                fois, je peux être moi-même sans peur du regard des autres."
-              </p>
-              <p className="text-gray-500 text-sm group-hover:text-blue-100 transition-colors duration-300">
-                — Témoignage anonyme
-              </p>
-            </div>
-          </div>
+        <div>
+          <h4 className="font-semibold text-gray-800">Ancien bénéficiaire</h4>
+          <p className="text-gray-500 text-sm">Accueilli en 2023</p>
         </div>
-      </section>
+      </div>
+      <p className="text-gray-700 leading-relaxed italic">
+        "Après avoir fui mon pays, j'ai trouvé ici bien plus qu'un toit : une famille qui m'a accepté tel que je suis. L'accompagnement m'a permis de retrouver confiance en moi et en l'avenir."
+      </p>
+    </div>
+
+    {/* Témoignage 2 */}
+    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+      <div className="flex items-start mb-6">
+        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+          <span className="text-purple-600 text-lg">🌈</span>
+        </div>
+        <div>
+          <h4 className="font-semibold text-gray-800">Bénéficiaire actuel</h4>
+          <p className="text-gray-500 text-sm">En accompagnement</p>
+        </div>
+      </div>
+      <p className="text-gray-700 leading-relaxed italic">
+        "Le soutien psychologique m'a sauvé la vie. Aujourd'hui, je revis enfin en harmonie avec mon identité. Pour la première fois, je peux être moi-même sans peur."
+      </p>
+    </div>
+
+    {/* Témoignage 3 */}
+    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+      <div className="flex items-start mb-6">
+        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+          <span className="text-green-600 text-lg">💪</span>
+        </div>
+        <div>
+          <h4 className="font-semibold text-gray-800">Témoignage</h4>
+          <p className="text-gray-500 text-sm">Parcours accompli</p>
+        </div>
+      </div>
+      <p className="text-gray-700 leading-relaxed italic">
+        "Grâce à l'accompagnement juridique, j'ai pu régulariser ma situation et enfin me projeter dans l'avenir sereinement."
+      </p>
+    </div>
+
+    {/* Témoignage 4 */}
+    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+      <div className="flex items-start mb-6">
+        <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+          <span className="text-pink-600 text-lg">❤️</span>
+        </div>
+        <div>
+          <h4 className="font-semibold text-gray-800">Témoignage</h4>
+          <p className="text-gray-500 text-sm">Reconstruction</p>
+        </div>
+      </div>
+      <p className="text-gray-700 leading-relaxed italic">
+        "La communauté m'a accueilli à bras ouverts. Je me sens enfin compris et soutenu dans mon parcours de vie."
+      </p>
+    </div>
+  </div>
+</section>
 
       {/* Section Contact */}
-      <section className="text-center">
+      <section className="text-center py-10">
         <button
           className="group relative item card rounded-xl text-center border-t-4 border-t-blue-500 bg-white shadow-md px-3 md:px-5 xl:px-40 2xl:px-48 py-3 mb-2 overflow-hidden transition-all duration-400 hover:shadow-lg w-full"
           onClick={() => {
