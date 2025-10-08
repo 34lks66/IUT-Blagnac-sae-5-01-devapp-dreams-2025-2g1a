@@ -5,7 +5,7 @@ import hero from "../assets/hero_section/accompagnement.png";
 
 function Accompagnement() {
     return (
-        <main className="eval bg-white text-gray-800 font-sans leading-relaxed">
+        <main className="bg-white text-gray-800 font-sans leading-relaxed">
             {/* ============ HERO SECTION ============ */}
             <section className="eval-hero relative overflow-hidden">
                 <img
@@ -18,8 +18,8 @@ function Accompagnement() {
                         <div className=" text-gray-500 text-xs">
                             Accueil / Accompagnement administratif & juridique
                         </div>
-                        <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-                            Accompagnement administratif et juridique
+                        <h1 className="text-3xl md:text-4xl font-extrabold mb-2 ">
+                            Accompagnement <span className="text-yellow-500">administratif et juridique</span>
                         </h1>
                         <p className="text-gray-700">
                             Votre partenaire de confiance pour toutes vos démarches.
@@ -31,10 +31,9 @@ function Accompagnement() {
             {/* ============ INTRODUCTION SECTION ============ */}
             <section className="max-w-6xl mx-auto py-7 px-4">
                 <div className="text-center">
-                    <h2 className=" text-2xl md:text-3xl font-extrabold mb-4 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-                        Notre mission
+                    <h2 className=" text-2xl md:text-3xl font-extrabold mb-4 ">
+                        Notre <span className="text-yellow-500 ">mission</span>
                     </h2>
-                    <div className="eval-divider eval-divider--rainbow mx-auto"></div>
                     <p className="text-gray-700 max-w-4xl mx-auto mb-6">
                         Arriver dans un nouveau pays peut être un vrai parcours du combattant :
                         papiers, droits, démarches… autant de sources de stress. Avec{" "}
@@ -46,12 +45,12 @@ function Accompagnement() {
             </section>
 
             {/* ============ SERVICES SECTION ============ */}
-            <section className="max-w-6xl mx-auto py-7 px-4">
+            <section className="max-w-6xl mx-auto  px-4">
                 <div className="md:grid-cols-2 gap-8 items-center">
                     {/* Colonne texte */}
                     <div className="text-center">
-                        <h2 className="text-2xl md:text-3xl font-extrabold mb-4 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-                            Que proposons-nous ?
+                        <h2 className="text-2xl md:text-3xl font-extrabold mb-4 ">
+                            Que <span className="text-yellow-500">proposons-nous ?</span>
                         </h2>
                     </div>
 
@@ -133,12 +132,9 @@ function Accompagnement() {
             {/* ============ DOMAINES D'INTERVENTION ============ */}
             <section className="max-w-6xl mx-auto py-7 px-4">
                 <div className="text-center mb-8">
-                    <h2 className="text-2xl md:text-3xl font-extrabold mb-4 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-                        Nos domaines d'intervention
+                    <h2 className="text-2xl md:text-3xl font-extrabold mb-4 ">
+                        Nos domaines <span className="text-yellow-500">d'intervention</span>
                     </h2>
-                    {/* 
-                     */}
-                    <div className="eval-divider eval-divider--rainbow  text-right"></div>
 
 
                     <p className="text-gray-700 max-w-3xl mx-auto">
