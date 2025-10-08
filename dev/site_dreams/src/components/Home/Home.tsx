@@ -12,10 +12,11 @@ function Home() {
     <About/>
     <Mission/>
     <History/>
-    <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center p-10">
+    {/* <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center p-10">
                     Explorer{" "}
                     <span className="text-yellow-500">la carte</span>
-    </h1>
+    </h1> */}
+    <div className="mb-6"></div>
     <div className="h-[800px] overflow-y-auto col-span-12 p-0">
       <div className="col-span-12 lg:col-span-5 bg-[#93720a] absolute z-10 py-17 max-w-2xl p-10">
         <h2 className="text-white text-3xl font-bold mb-6 text-center">LES PAYS D'ACTION DE DREAMS</h2>

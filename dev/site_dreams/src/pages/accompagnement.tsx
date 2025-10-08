@@ -1,6 +1,7 @@
 import doclogo from "../assets/documentlogo.svg";
 import suivilogo from "../assets/suivilogo.svg";
 import justicelogo from "../assets/justicelogo.svg";
+import hero from "../assets/hero_section/accompagnement.png";
 
 function Accompagnement() {
     return (
@@ -8,7 +9,7 @@ function Accompagnement() {
             {/* ============ HERO SECTION ============ */}
             <section className="eval-hero relative overflow-hidden">
                 <img
-                    src="/images/accompImg.png"
+                    src={hero}
                     alt="Accompagnement administratif"
                     className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
                 />
@@ -237,10 +238,6 @@ function Accompagnement() {
                     </div>
                 </button>
             </section>
-
-
-
-
         </main>
     );
 }
