@@ -1,16 +1,46 @@
-import { useState } from 'react';
-import { List, X } from 'lucide-react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { List, X } from "lucide-react";
 
 export default function MenuPays() {
   const [open, setOpen] = useState(false);
   const [paysOpen, setPaysOpen] = useState<string | null>(null);
-  
+
   const navPays = [
-    { nom: 'FRANCE', classes: 'bg-gradient-to-r from-red-600 via-red-500 to-orange-400 text-white', antennes: [{nom: "Toulouse"}, {nom: "Carcassonne"}, {nom: "Narbonne"}] },
-    { nom: 'ITALIE', classes: 'bg-gradient-to-r from-orange-400 via-orange-300 to-yellow-400 text-white', antennes: [] },
-    { nom: "CÔTE D'IVOIRE", classes: 'bg-gradient-to-r from-yellow-400 via-green-400 to-green-500 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
-    { nom: 'BURKINA FASO', classes: 'bg-gradient-to-r from-green-500 via-blue-400 to-blue-500 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
-    { nom: 'TOGO', classes: 'bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
+    {
+      nom: "FRANCE",
+      classes:
+        "bg-gradient-to-r from-red-600 via-red-500 to-orange-400 text-white",
+      antennes: [
+        { nom: "Toulouse" },
+        { nom: "Carcassonne" },
+        { nom: "Narbonne" },
+      ],
+    },
+    {
+      nom: "ITALIE",
+      classes:
+        "bg-gradient-to-r from-orange-400 via-orange-300 to-yellow-400 text-white",
+      antennes: [],
+    },
+    {
+      nom: "CÔTE D'IVOIRE",
+      classes:
+        "bg-gradient-to-r from-yellow-400 via-green-400 to-green-500 text-white",
+      antennes: [{ nom: "antenne_1" }, { nom: "antenne_2" }],
+    },
+    {
+      nom: "BURKINA FASO",
+      classes:
+        "bg-gradient-to-r from-green-500 via-blue-400 to-blue-500 text-white",
+      antennes: [{ nom: "antenne_1" }, { nom: "antenne_2" }],
+    },
+    {
+      nom: "TOGO",
+      classes:
+        "bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 text-white",
+      antennes: [{ nom: "antenne_1" }, { nom: "antenne_2" }],
+    },
   ];
 
   return (
@@ -50,11 +80,15 @@ export default function MenuPays() {
                   <li key={p.nom} className="">
                     <button
                       className={`w-full text-left px-3 py-3 font-bold rounded ${p.classes} shadow text-white flex items-center justify-between`}
-                      onClick={() => setPaysOpen(paysOpen === p.nom ? null : p.nom)}
+                      onClick={() =>
+                        setPaysOpen(paysOpen === p.nom ? null : p.nom)
+                      }
                     >
                       <span>{p.nom}</span>
                       {p.antennes.length > 0 && (
-                        <span className="ml-2 text-xs">{paysOpen === p.nom ? '▲' : '▼'}</span>
+                        <span className="ml-2 text-xs">
+                          {paysOpen === p.nom ? "▲" : "▼"}
+                        </span>
                       )}
                     </button>
                     {/* Sous-liste antennes */}
@@ -86,7 +120,7 @@ export default function MenuPays() {
               key={p.nom}
               className={`relative flex-1 min-w-[120px] ${p.classes} text-center font-bold cursor-pointer group`}
               style={{
-                marginLeft: index === 0 ? 0 : '-1px' // Supprime l'espace entre les éléments
+                marginLeft: index === 0 ? 0 : "-1px", // Supprime l'espace entre les éléments
               }}
             >
               <div className="py-2 border-r border-white border-opacity-20 last:border-r-0">
@@ -98,7 +132,12 @@ export default function MenuPays() {
                     key={antenne.nom}
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-medium border-b border-gray-100 last:border-b-0"
                   >
-                    {antenne.nom}
+                    <Link
+                      to={`/villes/${encodeURIComponent(antenne.nom)}`}
+                      className="block w-full h-full"
+                    >
+                      {antenne.nom}
+                    </Link>
                   </li>
                 ))}
               </ul>

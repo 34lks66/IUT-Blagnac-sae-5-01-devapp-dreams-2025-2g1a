@@ -10,14 +10,15 @@ import FooterMain from './components/Footer';
 import Home from './components/Home/Home';
 import PageAccueilPublic from "./pages/page_accueil_public";
 import Accompagnement from "./pages/accompagnement";
+import Villes from "./pages_dynamiques/villes"; 
 
 function App() {
 
   return (
     <>
-    <MenuPays/>
-    <Header/>
     <Router>
+      <MenuPays/>
+      <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/accueil" element={<Home />} />
@@ -26,6 +27,7 @@ function App() {
         <Route path="/hebergement" element={<Hebergement />} />
         <Route path="/sensibilisation" element={<Sensi />} />
         <Route path="/accompagnement" element={<Accompagnement />} />
+        <Route path="/villes/:nom" element={<Villes />} />
       </Routes>
     </Router>
     <FooterMain />
