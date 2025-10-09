@@ -2,27 +2,6 @@ import "../styles/sensibilisation.css"
 import none from "../assets/none.jpg";
 import hero from "../assets/hero_section/sensibilisation.png";
 
-const LGBTQ = [
-    {
-      letter: 'L', description: 'Lesbiennes', color: 'bg-red-500'
-    },
-    {
-      letter: 'G', description: 'Gays', color: 'bg-orange-500'
-    },
-    {
-      letter: 'B', description: 'Bisexuels', color: 'bg-yellow-500'
-    },
-    {
-      letter: 'T', description: 'Transgenres', color: 'bg-green-500'
-    },
-    {
-      letter: 'Q', description: 'Queers', color: 'bg-purple-500'
-    },
-    {
-      letter: '+', description: 'Autres', color: 'bg-gray-500'
-    },
-    
-]
 function Sensibilisation() {
 
   return (
@@ -59,35 +38,7 @@ function Sensibilisation() {
                     <p className="text-gray-700 max-w-4xl mx-auto mb-6 text-center">
                         Une minorité sexuelle et de genre est un groupe social dont l’identité de genre, l’identité sexuelle, l’orientation ou les pratiques sexuelles diffèrent de la majorité du reste de la société
                     </p>
-                     <div className="py-12">
-                        <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-                            {LGBTQ.map((item, index) => (
-                            <div
-                                key={index}
-                                className="group relative flex flex-col items-center transition-all duration-500 hover:z-10"
-                            >
-                                {/* Cercle principal */}
-                                <div className={`${item.color} w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-lg transform group-hover:scale-125 group-hover:shadow-2xl transition-all duration-300 z-10`}>
-                                {item.letter}
-                                </div>
-                                
-                                {/* Tooltip / Texte qui apparaît */}
-                                <div className="absolute -bottom-4 transform translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
-                                <div className="bg-gray-900 text-white text-sm font-medium px-3 py-2 rounded-lg whitespace-nowrap">
-                                    {item.description}
-                                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
-                                </div>
-                                </div>
-                                
-                                {/* Effet de pulvérisation */}
-                                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-30 group-hover:scale-150 transition-all duration-500">
-                                <div className={`w-full h-full ${item.color} rounded-full blur-md`}></div>
-                                </div>
-                            </div>
-                            ))}
-                        </div>
-                    </div>
-                    {/* <section className="qui">
+                    <section className="qui">
                         <div className="grid">
                             <div className="lettre"><span className="L">L</span></div>
                             <div className="lettre"><span className="G">G</span></div>
@@ -102,7 +53,7 @@ function Sensibilisation() {
                             <div className="desc"><span className="Q">Queers</span></div>
                             <div className="desc"><span className="A">Autres</span></div>
                         </div>
-                    </section> */}
+                    </section> 
                 </div>
             </section>
 
