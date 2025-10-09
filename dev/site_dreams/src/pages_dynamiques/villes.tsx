@@ -6,7 +6,7 @@ function Villes() {
     { nom: "Carcassonne", description: "c carcasonne quoi" },
   ];
 
-  const { nom } = useParams(); // <-- récupère le nom depuis l’URL
+  const { nom } = useParams();
   const ville = data.find((v) => v.nom === nom);
 
   console.log(data);
