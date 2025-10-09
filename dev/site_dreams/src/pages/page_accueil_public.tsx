@@ -1,8 +1,128 @@
+import { FileText, MapPinned, ShieldCheck } from "lucide-react";
+import hero from "../assets/hero_section/accueilpublicImg.png";
+
 function PageAccueilPublic() {
   return (
-    <main className="max-w-5xl py-10 mx-auto px-4">
+    <main className="bg-white text-gray-800 font-sans leading-relaxed">
+      {/* ============ HERO SECTION ============ */}
+      <section className="eval-hero relative overflow-hidden">
+        <img
+          src={hero}
+          alt="Accueil du public LGBTQ+"
+          className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
+        />
+        <div className="eval-hero__content absolute inset-0 flex items-end">
+          <div className="eval-hero__card w-full max-w-6xl mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-lg">
+            <div className=" text-gray-500 text-xs">
+              Accueil / Accueil du public LGBTQ+
+            </div>
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 ">
+              Bienvenue en <span className="text-yellow-500">Europe</span>
+            </h1>
+            <p className="text-gray-700">
+              Un espace sécurisé où chaque identité est respectée, protégée et
+              célébrée. Vous êtes en sécurité ici et nous sommes là pour vous
+              accompagner.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      
+      {/* Section "Processus d'accueil à l'arrivée" */}
+      <section className="max-w-5xl py-10 mx-auto px-4 relative">
+        {/* Ligne pointillée courbée derrière les cartes */}
+        <div className="absolute inset-0 pointer-events-none hidden md:block overflow-hidden">
+          <svg className="w-full h-full" viewBox="0 0 1000 200" preserveAspectRatio="none">
+            <path
+              d="M 0,100 C 300,50 500,150 700,100 S 900,150 1000,100"
+              stroke="#fbbf24"
+              strokeWidth="3"
+              fill="none"
+              strokeDasharray="8,6"
+              strokeLinecap="round"
+            />
+
+          </svg>
+
+          {/* Points de connexion */}
+          <div className="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-yellow-500 rounded-full border-2 border-white shadow-lg"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-yellow-500 rounded-full border-2 border-white shadow-lg"></div>
+          <div className="absolute top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-yellow-500 rounded-full border-2 border-white shadow-lg"></div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-24 relative z-10">
+          {/* Carte 1 */}
+          <div className="bg-white p-6 shadow-lg border-b-4 border-l-4 border-yellow-500 overflow-hidden flex flex-col items-center cursor-pointer h-full transition-transform duration-500 hover:-rotate-5 hover:shadow-xl">
+            {/* Contenu texte */}
+             <div className="flex items-center justify-center mt-4 mb-4">
+                <div className="text-7xl">
+                <MapPinned className="text-yellow-500 w-15 h-15" />
+                </div>
+            </div>
+            <div className="flex-1 text-center">
+              <h3 className="text-xl font-bold mb-3 text-yellow-500">
+                Où aller ?
+              </h3>
+              <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                Centres d'accueil spécialisés et associations partenaires près
+                de chez vous. Nous vous guidons vers les structures adaptées à
+                votre situation.
+              </p>
+            </div>
+
+           
+          </div>
+
+          {/* Carte 2 */}
+          <div className="bg-white p-6 shadow-lg border-b-4 border-l-4 border-yellow-500 overflow-hidden flex flex-col items-center cursor-pointer h-full transition-transform duration-500 hover:rotate-5 hover:shadow-xl">
+            <div className="flex items-center justify-center mb-4">
+              <div className="text-6xl">
+                <FileText className="text-yellow-500 w-15 h-15" />
+              </div>
+            </div>
+
+            {/* Contenu texte */}
+            <div className="flex-1 text-center">
+              <h3 className="text-xl font-bold mb-3 text-yellow-500">
+                Documents nécessaires
+              </h3>
+              <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                Pièce d'identité, justificatifs de situation. Nous vous aidons
+                si vous n'en avez pas et vous accompagnons dans les démarches
+                administratives.
+              </p>
+            </div>
+          </div>
+
+          {/* Carte 3 */}
+          <div className="bg-white p-6 shadow-lg border-b-4 border-l-4 border-yellow-500 overflow-hidden flex flex-col items-center cursor-pointer h-full transition-transform duration-500 hover:-rotate-5 hover:shadow-xl">
+            {/* Contenu texte */}
+            <div className="flex items-center justify-center mt-4">
+              <div className="text-6xl">
+                <ShieldCheck className="text-yellow-500 w-15 h-15" />
+              </div>
+            </div>
+            <div className="flex-1 text-center">
+              <h3 className="text-xl font-bold mb-3 text-yellow-500">
+                Droits garantis
+              </h3>
+              <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                Accueil inconditionnel, respect de votre identité,
+                confidentialité absolue. Vos droits fondamentaux sont protégés
+                par la loi européenne.
+              </p>
+            </div>
+
+            
+          </div>
+        </div>
+      </section>
+
+
+
       {/* Section Hero "Bienvenue en Europe" */}
-      <section className="text-center">
+      {/* <section className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
           Bienvenue en <span className="text-blue-600">Europe</span>
         </h1>
@@ -41,81 +161,8 @@ function PageAccueilPublic() {
             </blockquote>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* Section "Processus d'accueil à l'arrivée" */}
-      <section className="mb-1 py-10">
-        <div className="grid md:grid-cols-1 gap-8">
-          {/* Carte 1 */}
-          <div className="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border-l-4 border-b-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center mr-32 cursor-pointer">
-            <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
-
-            {/* Contenu texte */}
-            <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
-              <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
-                Où aller ?
-              </h3>
-              <p className="text-gray-600 mb-4 leading-relaxed text-sm group-hover:text-white transition-colors duration-300">
-                Centres d'accueil spécialisés et associations partenaires près
-                de chez vous. Nous vous guidons vers les structures adaptées à
-                votre situation.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center justify-center flex-1">
-              <div className="text-6xl transition-all duration-500 group-hover:translate-x-20 group-hover:opacity-0 group-hover:scale-75">
-                📍
-              </div>
-            </div>
-          </div>
-
-          {/* Carte 2 */}
-          <div className="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border-r-4 border-b-4 border-purple-500 overflow-hidden flex flex-col md:flex-row items-center ml-32 cursor-pointer">
-            <div className="absolute inset-0 bg-purple-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
-
-            <div className="relative z-10 flex items-center justify-center flex-1">
-              <div className="text-6xl transition-all duration-500 group-hover:-translate-x-20 group-hover:opacity-0 group-hover:scale-75">
-                📋
-              </div>
-            </div>
-
-            {/* Contenu texte */}
-            <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
-              <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
-                Documents nécessaires
-              </h3>
-              <p className="text-gray-600 mb-4 leading-relaxed text-sm group-hover:text-white transition-colors duration-300">
-                Pièce d'identité, justificatifs de situation. Nous vous aidons
-                si vous n'en avez pas et vous accompagnons dans les démarches
-                administratives.
-              </p>
-            </div>
-          </div>
-
-          {/* Carte 3 */}
-          <div className="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 border-l-4 border-b-4 border-green-500 overflow-hidden flex flex-col md:flex-row items-center mr-32 cursor-pointer">
-            <div className="absolute inset-0 bg-green-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
-
-            {/* Contenu texte */}
-            <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
-              <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
-                Droits garantis
-              </h3>
-              <p className="text-gray-600 mb-4 leading-relaxed text-sm group-hover:text-white transition-colors duration-300">
-                Accueil inconditionnel, respect de votre identité,
-                confidentialité absolue. Vos droits fondamentaux sont protégés
-                par la loi européenne.
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center justify-center flex-1">
-              <div className="text-6xl transition-all duration-500 group-hover:translate-x-20 group-hover:opacity-0 group-hover:scale-75">
-                🛡️
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Section "Vos droits en Europe" */}
       <section className="mb-16">
@@ -224,83 +271,83 @@ function PageAccueilPublic() {
         </div>
       </section>
 
-{/* Section "Témoignages et soutien" */}
-<section className="mb-16 py-12">
-  <div className="text-center mb-12">
-    <h2 className="text-3xl font-bold text-gray-800 mb-4">
-      Vous n'êtes pas seul·e
-    </h2>
-    <p className="text-gray-600 max-w-2xl mx-auto">
-      Des parcours similaires au vôtre, des vies reconstruites
-    </p>
-  </div>
+      {/* Section "Témoignages et soutien" */}
+      <section className="mb-16 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Vous n'êtes pas seul·e
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Des parcours similaires au vôtre, des vies reconstruites
+          </p>
+        </div>
 
-  <div className="grid md:grid-cols-2 gap-8">
-    {/* Témoignage 1 */}
-    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
-      <div className="flex items-start mb-6">
-        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
-          <span className="text-blue-600 text-lg">👤</span>
-        </div>
-        <div>
-          <h4 className="font-semibold text-gray-800">Ancien bénéficiaire</h4>
-          <p className="text-gray-500 text-sm">Accueilli en 2023</p>
-        </div>
-      </div>
-      <p className="text-gray-700 leading-relaxed italic">
-        "Après avoir fui mon pays, j'ai trouvé ici bien plus qu'un toit : une famille qui m'a accepté tel que je suis. L'accompagnement m'a permis de retrouver confiance en moi et en l'avenir."
-      </p>
-    </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Témoignage 1 */}
+          <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+            <div className="flex items-start mb-6">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+                <span className="text-blue-600 text-lg">👤</span>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Ancien bénéficiaire</h4>
+                <p className="text-gray-500 text-sm">Accueilli en 2023</p>
+              </div>
+            </div>
+            <p className="text-gray-700 leading-relaxed italic">
+              "Après avoir fui mon pays, j'ai trouvé ici bien plus qu'un toit : une famille qui m'a accepté tel que je suis. L'accompagnement m'a permis de retrouver confiance en moi et en l'avenir."
+            </p>
+          </div>
 
-    {/* Témoignage 2 */}
-    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
-      <div className="flex items-start mb-6">
-        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
-          <span className="text-purple-600 text-lg">🌈</span>
-        </div>
-        <div>
-          <h4 className="font-semibold text-gray-800">Bénéficiaire actuel</h4>
-          <p className="text-gray-500 text-sm">En accompagnement</p>
-        </div>
-      </div>
-      <p className="text-gray-700 leading-relaxed italic">
-        "Le soutien psychologique m'a sauvé la vie. Aujourd'hui, je revis enfin en harmonie avec mon identité. Pour la première fois, je peux être moi-même sans peur."
-      </p>
-    </div>
+          {/* Témoignage 2 */}
+          <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+            <div className="flex items-start mb-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+                <span className="text-purple-600 text-lg">🌈</span>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Bénéficiaire actuel</h4>
+                <p className="text-gray-500 text-sm">En accompagnement</p>
+              </div>
+            </div>
+            <p className="text-gray-700 leading-relaxed italic">
+              "Le soutien psychologique m'a sauvé la vie. Aujourd'hui, je revis enfin en harmonie avec mon identité. Pour la première fois, je peux être moi-même sans peur."
+            </p>
+          </div>
 
-    {/* Témoignage 3 */}
-    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
-      <div className="flex items-start mb-6">
-        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
-          <span className="text-green-600 text-lg">💪</span>
-        </div>
-        <div>
-          <h4 className="font-semibold text-gray-800">Témoignage</h4>
-          <p className="text-gray-500 text-sm">Parcours accompli</p>
-        </div>
-      </div>
-      <p className="text-gray-700 leading-relaxed italic">
-        "Grâce à l'accompagnement juridique, j'ai pu régulariser ma situation et enfin me projeter dans l'avenir sereinement."
-      </p>
-    </div>
+          {/* Témoignage 3 */}
+          <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+            <div className="flex items-start mb-6">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+                <span className="text-green-600 text-lg">💪</span>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Témoignage</h4>
+                <p className="text-gray-500 text-sm">Parcours accompli</p>
+              </div>
+            </div>
+            <p className="text-gray-700 leading-relaxed italic">
+              "Grâce à l'accompagnement juridique, j'ai pu régulariser ma situation et enfin me projeter dans l'avenir sereinement."
+            </p>
+          </div>
 
-    {/* Témoignage 4 */}
-    <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
-      <div className="flex items-start mb-6">
-        <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
-          <span className="text-pink-600 text-lg">❤️</span>
+          {/* Témoignage 4 */}
+          <div className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 ring-1 ring-yellow-200">
+            <div className="flex items-start mb-6">
+              <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200">
+                <span className="text-pink-600 text-lg">❤️</span>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800">Témoignage</h4>
+                <p className="text-gray-500 text-sm">Reconstruction</p>
+              </div>
+            </div>
+            <p className="text-gray-700 leading-relaxed italic">
+              "La communauté m'a accueilli à bras ouverts. Je me sens enfin compris et soutenu dans mon parcours de vie."
+            </p>
+          </div>
         </div>
-        <div>
-          <h4 className="font-semibold text-gray-800">Témoignage</h4>
-          <p className="text-gray-500 text-sm">Reconstruction</p>
-        </div>
-      </div>
-      <p className="text-gray-700 leading-relaxed italic">
-        "La communauté m'a accueilli à bras ouverts. Je me sens enfin compris et soutenu dans mon parcours de vie."
-      </p>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* Section Contact */}
       <section className="text-center py-10">
@@ -327,6 +374,7 @@ function PageAccueilPublic() {
           </div>
         </button>
       </section>
+
     </main>
   );
 }
