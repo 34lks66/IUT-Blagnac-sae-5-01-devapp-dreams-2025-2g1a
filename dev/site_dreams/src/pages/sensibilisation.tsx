@@ -46,7 +46,7 @@ function Sensibilisation() {
                     <p className="text-gray-700 max-w-4xl mx-auto mb-6 text-center">
                         Une minorité sexuelle et de genre est un groupe social dont l’identité de genre, l’identité sexuelle, l’orientation ou les pratiques sexuelles diffèrent de la majorité du reste de la société
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 text-center">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-4 text-center">
                         {LGBTQ.map((item, index) => (
                             <div
                             key={index}
