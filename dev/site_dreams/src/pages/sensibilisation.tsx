@@ -50,6 +50,7 @@ function Sensibilisation() {
                         {LGBTQ.map((item, index) => (
                             <div
                             key={index}
+                            className="mb-8 md:mb-6"
                             >
                             <div className={`text-4xl font-bold ${item.color} mb-6`}>{item.letter}</div>
                             <div className={`text-3xl font-bold ${item.color}`}>{item.word}</div>
