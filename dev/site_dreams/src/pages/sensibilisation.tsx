@@ -2,6 +2,14 @@ import "../styles/sensibilisation.css"
 import none from "../assets/none.jpg";
 import hero from "../assets/hero_section/sensibilisation.png";
 
+const LGBTQ = [
+    { letter: 'L', word: 'Lesbiennes', color: 'text-[#fb2c36]' },
+    { letter: 'G', word: 'Gays', color: 'text-[#ff6900]' },
+    { letter: 'B', word: 'Bisexuels', color: 'text-[#fdc700]' },
+    { letter: 'T', word: 'Transgenres', color: 'text-[#00b148]' },
+    { letter: 'Q', word: 'Queers', color: 'text-[#2b7fff]' },
+    { letter: '+', word: 'Autres', color: 'text-gray-500' },
+]
 function Sensibilisation() {
 
   return (
@@ -38,22 +46,16 @@ function Sensibilisation() {
                     <p className="text-gray-700 max-w-4xl mx-auto mb-6 text-center">
                         Une minorité sexuelle et de genre est un groupe social dont l’identité de genre, l’identité sexuelle, l’orientation ou les pratiques sexuelles diffèrent de la majorité du reste de la société
                     </p>
-                    <section className="qui">
-                        <div className="grid">
-                            <div className="lettre"><span className="L">L</span></div>
-                            <div className="lettre"><span className="G">G</span></div>
-                            <div className="lettre"><span className="B">B</span></div>
-                            <div className="lettre"><span className="T">T</span></div>
-                            <div className="lettre"><span className="Q">Q</span></div>
-                            <div className="lettre"><span className="A">+</span></div>
-                            <div className="desc"><span className="L">Lesbiennes</span></div>
-                            <div className="desc"><span className="G">Gays</span></div>
-                            <div className="desc"><span className="B">Bisexuels</span></div>
-                            <div className="desc"><span className="T">Transgenres</span></div>
-                            <div className="desc"><span className="Q">Queers</span></div>
-                            <div className="desc"><span className="A">Autres</span></div>
-                        </div>
-                    </section> 
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 text-center">
+                        {LGBTQ.map((item, index) => (
+                            <div
+                            key={index}
+                            >
+                            <div className={`text-4xl font-bold ${item.color} mb-6`}>{item.letter}</div>
+                            <div className={`text-3xl font-bold ${item.color}`}>{item.word}</div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
