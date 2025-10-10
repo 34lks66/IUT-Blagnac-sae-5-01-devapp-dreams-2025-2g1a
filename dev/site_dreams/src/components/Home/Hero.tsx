@@ -17,7 +17,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative bg-gradient-to-br from-yellow-50 to-teal-100 py-16 lg:py-24 overflow-hidden">
+    <div className="relative bg-gradient-to-br from-yellow-50 to-teal-100 py-16 lg:py-30 overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-yellow-100 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-teal-100 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
