@@ -1,5 +1,5 @@
 import FooterMain from "../components/Footer"
-import Header from "../components/header"
+import Header from "../components/Header"
 
 function Test() {
 
