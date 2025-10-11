@@ -4,13 +4,14 @@ import './App.css';
 import Test from "./pages/page";
 import Sensi from './pages/sensibilisation';
 import Hebergement from "./pages/Hebergement";
-import Header from "./components/header";
+import Header from "./components/Header";
 import MenuPays from './components/menu_pays';
 import FooterMain from './components/Footer';
 import Home from './components/Home/Home';
 import PageAccueilPublic from "./pages/page_accueil_public";
 import Accompagnement from "./pages/accompagnement";
 import Villes from "./pages_dynamiques/villes"; 
+import EvaluationOrientation from "./pages/EvaluationOrientation";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/sensibilisation" element={<Sensi />} />
         <Route path="/accompagnement" element={<Accompagnement />} />
         <Route path="/villes/:nom" element={<Villes />} />
+        <Route path="/evaluation" element={<EvaluationOrientation />} />
       </Routes>
     </Router>
     <FooterMain />
