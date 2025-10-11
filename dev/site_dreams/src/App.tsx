@@ -4,7 +4,7 @@ import './App.css';
 import Test from "./pages/page";
 import Sensi from './pages/sensibilisation';
 import Hebergement from "./pages/Hebergement";
-import Header from "./components/Header";
+import Header from "./components/header";
 import MenuPays from './components/menu_pays';
 import FooterMain from './components/Footer';
 import Home from './components/Home/Home';
