@@ -187,14 +187,14 @@ Ci-dessous un récapitulatif des réunions équipe/client avec ordre du jour et 
 Ci-dessous un récapitulatif des séances de travail effectuées en télétravail pour chaque membre de l'équipe :
 
 |===
-.2+| *MEMBRES*       12+| *SÉANCES*
-                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 23/09 (après-mid) | 24/09 (journée) | 25/09 (matin) | 01/10 (journée) | 02/10 (matin) | 03/10 (journée) | 08/10 (journée) | 09/10 (matin) |
-| Léo Guinvarc'h      | P | T | T | T | T | T | T | T | T | T | T | 
-| Mucahit Lekesiz     | P | T | T | T | T | T | T | T | T | T | T |
-| Loic Phrakousonh    | P | T | T | T | T | T | T | T | T | T | T |
-| Sidney Richards     | T | T | T | T | T | T | T | T | T | T | T |
-| Demangel Kilian     | T | T | T | T | T | T | T | T | T | T | T |
-| Perruffel Bastien   | P | T | T | T | T | T | T | T | T | T | T |
+.2+| *MEMBRES*       13+| *SÉANCES*
+                      | 04/09 (matin) | 10/09 (journée) | 18/09 (journée) | 23/09 (après-mid) | 24/09 (journée) | 25/09 (matin) | 01/10 (journée) | 02/10 (matin) | 03/10 (journée) | 08/10 (journée) | 09/10 (matin) | 10/10 (journée)
+| Léo Guinvarc'h      | P | T | T | T | T | T | T | T | T | T | T | P | 
+| Mucahit Lekesiz     | P | T | T | T | T | T | T | T | T | T | T | P |
+| Loic Phrakousonh    | P | T | T | T | T | T | T | T | T | T | T | P |
+| Sidney Richards     | T | T | T | T | T | T | T | T | T | T | T | P |
+| Demangel Kilian     | T | T | T | T | T | T | T | T | T | T | T | T |
+| Perruffel Bastien   | P | T | T | T | T | T | T | T | T | T | T | T |
 |===
 
 *P :* En présentiel +
