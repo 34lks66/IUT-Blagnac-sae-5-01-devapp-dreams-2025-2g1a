@@ -27,19 +27,19 @@ export default function MenuPays() {
       nom: "CÔTE D'IVOIRE",
       classes:
         "bg-gradient-to-r from-yellow-400 via-green-400 to-green-500 text-white",
-      antennes: [{ nom: "antenne_1" }, { nom: "antenne_2" }],
+      antennes: [{ nom: "Abidjan" }, { nom: "Bouaké" }],
     },
     {
       nom: "BURKINA FASO",
       classes:
         "bg-gradient-to-r from-green-500 via-blue-400 to-blue-500 text-white",
-      antennes: [{ nom: "antenne_1" }, { nom: "antenne_2" }],
+      antennes: [{ nom: "Bobo-Dioulasso" }, { nom: "Ouagadougou" }],
     },
     {
       nom: "TOGO",
       classes:
         "bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 text-white",
-      antennes: [{ nom: "antenne_1" }, { nom: "antenne_2" }],
+      antennes: [{ nom: "Lomé" }],
     },
   ];
 
@@ -99,7 +99,12 @@ export default function MenuPays() {
                             key={antenne.nom}
                             className="px-4 py-2 hover:bg-gray-200 cursor-pointer font-medium text-gray-800"
                           >
-                            {antenne.nom}
+                            <Link
+                              to={`/villes/${encodeURIComponent(antenne.nom)}`}
+                              className="block w-full h-full"
+                            >
+                              {antenne.nom}
+                            </Link>
                           </li>
                         ))}
                       </ul>
