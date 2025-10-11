@@ -1,62 +1,28 @@
 const Hebergement = () => {
   return (
     <main className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-
-          {/* Section Introduction / Accroche - Hero inspiré du style DREAMS */}
-      <section className="relative bg-gradient-to-br from-purple-100 via-pink-100 to-orange-100 py-16 lg:py-24 overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-purple-200 rounded-full -translate-y-1/2 translate-x-1/2 opacity-40"></div>
-        <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-pink-200 rounded-full translate-y-1/2 -translate-x-1/2 opacity-40"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Text Content */}
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                Hébergement 
-                <span className="text-purple-600"> solidaire</span> et
-                <span className="text-pink-600"> temporaire</span>
-              </h1>
-              
-              <p className="text-lg md:text-xl text-gray-700 mb-4 leading-relaxed">
-                Parce qu'être <span className="font-semibold text-purple-700">LGBTQIA+</span> et en demande d'asile, 
-                c'est souvent <span className="font-semibold">fuir la haine pour en retrouver ici</span>.
-              </p>
-              
-              <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed">
-                Dans un système d'hébergement solidaire et temporaire, nous offrons un 
-                <span className="font-semibold text-pink-600"> refuge sûr et bienveillant</span> à 
-                celles et ceux qui ont subi des violences liées au genre et à l'orientation sexuelle.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mt-8">
-                <button className="bg-purple-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg font-semibold hover:bg-purple-700 transition-all duration-200 flex items-center justify-center gap-2 text-sm md:text-base">
-                  Demander un hébergement
-                </button>
-                <button className="border-2 border-purple-300 text-gray-700 px-6 md:px-8 py-3 md:py-4 rounded-lg font-semibold hover:border-purple-400 hover:bg-white transition-all duration-200 text-sm md:text-base">
-                  En savoir plus
-                </button>
-              </div>
+      <section className="eval-hero relative overflow-hidden">
+        <img
+          src="/images/hebergement-intro.jpg"
+          alt="Hébergement solidaire et temporaire"
+          className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
+        />
+        <div className="eval-hero__content absolute inset-0 flex items-end">
+          <div className="eval-hero__card w-full max-w-6xl mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-lg">
+            <div className="text-gray-500 text-xs">
+              Accueil / Hébergement solidaire et temporaire
             </div>
-
-            {/* Image/Visual Section */}
-            <div className="relative mt-6 lg:mt-0">
-              <div className="bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-2xl p-1 transform rotate-2">
-                <div className="bg-white rounded-xl p-4 md:p-6 transform -rotate-2 shadow-xl">
-                  <div className="aspect-video bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg flex items-center justify-center overflow-hidden">
-                    <img 
-                      src="/images/hebergement-intro.jpg" 
-                      alt="Hébergement solidaire" 
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  </div>
-                  <p className="text-center text-gray-700 font-semibold mt-4 text-sm md:text-base">
-                    Un refuge <span className="text-purple-600">sûr</span> et{' '}
-                    <span className="text-pink-600">bienveillant</span> pour se reconstruire
-                  </p>
-                </div>
-              </div>
-            </div>
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+              Hébergement solidaire et temporaire
+            </h1>
+            <p className="text-gray-700">
+              Parce qu’être <span className="font-semibold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">LGBTQIA+</span> et en demande d’asile,
+              c’est souvent fuir la haine pour en retrouver ici.
+              <br />
+              Dans un système d’hébergement <span className="font-semibold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">solidaire et temporaire</span>,
+              nous offrons un <span className="font-semibold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">refuge sûr et bienveillant </span>
+              à celles et ceux qui ont subi des violences liées au genre et à l’orientation sexuelle.
+            </p>
           </div>
         </div>
       </section>
@@ -71,87 +37,76 @@ const Hebergement = () => {
           </p>
           <p className="text-xl md:text-2xl text-gray-700 font-semibold">
             Face à l'exclusion et à la peur, nous répondons par la{' '}
-            <span className="text-purple-600">solidarité</span>, l'
-            <span className="text-blue-600">inclusion</span> et la{' '}
-            <span className="text-pink-600">fierté</span>.
+            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">solidarité</span>, l'
+            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">inclusion</span> et la{' '}
+            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">fierté</span>.
           </p>
         </div>
       </section>
 
-      {/* Section Objectifs - Timeline style */}
-      <section className="px-6 md:px-20 py-16 bg-gradient-to-br from-purple-50 to-pink-50">
+     {/* Section Objectifs */}
+      <section className="px-6 md:px-20 py-16 bg-gradient-to-br from-gray-50 to-gray-100">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
-          Nos <span className="text-purple-600">Objectifs</span>
+          Nos <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">Objectifs</span>
         </h2>
-        <div className="h-1 w-24 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-12 rounded-full"></div>
+        <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-16 rounded-full"></div>
 
-        <div className="max-w-5xl mx-auto relative">
-          {/* Ligne centrale */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-red-400 via-yellow-400 via-green-400 to-blue-400"></div>
-
-          <div className="space-y-12">
-            {/* Objectif 1 */}
-            <div className="relative flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-1 md:text-right">
-                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
-                    Solution rapide et sécurisée
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Proposer une solution d'hébergement rapide et sécurisée pour répondre
-                    aux urgences et situations critiques.
-                  </p>
-                </div>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+          {/* Objectif 1 */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+                <div className="w-3 h-3 bg-white rounded-full"></div>
               </div>
-              <div className="relative z-10 flex-shrink-0">
-                <div className="bg-gradient-to-br from-red-500 to-orange-500 w-20 h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
-                  <span className="text-white text-3xl">⚡</span>
-                </div>
-              </div>
-              <div className="flex-1 hidden md:block"></div>
+              <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
+                Urgence
+              </h4>
             </div>
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+              Solution rapide et sécurisée
+            </h3>
+            <p className="text-gray-700 leading-relaxed">
+              Proposer une solution d'hébergement rapide et sécurisée pour répondre
+              aux urgences et situations critiques.
+            </p>
+          </div>
 
-            {/* Objectif 2 */}
-            <div className="relative flex flex-col md:flex-row-reverse items-center gap-8">
-              <div className="flex-1 md:text-left">
-                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
-                    Soutien aux victimes de VBG
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Soutenir spécifiquement les bénéficiaires victimes de violences
-                    basées sur le genre avec un accompagnement adapté et protecteur.
-                  </p>
-                </div>
+          {/* Objectif 2 */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+                <div className="w-3 h-3 bg-white rounded-full"></div>
               </div>
-              <div className="relative z-10 flex-shrink-0">
-                <div className="bg-gradient-to-br from-green-500 to-teal-500 w-20 h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
-                  <span className="text-white text-3xl">🛡️</span>
-                </div>
-              </div>
-              <div className="flex-1 hidden md:block"></div>
+              <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
+                Protection
+              </h4>
             </div>
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+              Soutien aux victimes de VBG
+            </h3>
+            <p className="text-gray-700 leading-relaxed">
+              Soutenir spécifiquement les bénéficiaires victimes de violences
+              basées sur le genre avec un accompagnement adapté et protecteur.
+            </p>
+          </div>
 
-            {/* Objectif 3 */}
-            <div className="relative flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-1 md:text-right">
-                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
-                    Autonomie progressive
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Offrir un suivi continu qui favorise l'autonomie progressive
-                    et l'insertion sociale des bénéficiaires.
-                  </p>
-                </div>
+          {/* Objectif 3 */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+                <div className="w-3 h-3 bg-white rounded-full"></div>
               </div>
-              <div className="relative z-10 flex-shrink-0">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-500 w-20 h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
-                  <span className="text-white text-3xl">🌱</span>
-                </div>
-              </div>
-              <div className="flex-1 hidden md:block"></div>
+              <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
+                Autonomie
+              </h4>
             </div>
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+              Autonomie progressive
+            </h3>
+            <p className="text-gray-700 leading-relaxed">
+              Offrir un suivi continu qui favorise l'autonomie progressive
+              et l'insertion sociale des bénéficiaires.
+            </p>
           </div>
         </div>
       </section>
@@ -159,11 +114,10 @@ const Hebergement = () => {
       {/* Section Que proposons-nous ? - Alternance avec images */}
       <section className="px-6 md:px-20 py-16 bg-white">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
-          Que <span className="text-orange-600">proposons-nous</span> ?
+          Que <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">proposons-nous</span> ?
         </h2>
-        <div className="h-1 w-24 bg-gradient-to-r from-orange-500 to-red-500 mx-auto mb-16 rounded-full"></div>
-
-        {/* Système d'hébergement rotatif */}
+        <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-16 rounded-full"></div>
+        {/* ====== SYSTÈME D’HÉBERGEMENT ROTATIF ====== */}
         <div className="max-w-6xl mx-auto mb-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="order-2 md:order-1">
@@ -174,29 +128,34 @@ const Hebergement = () => {
               />
             </div>
             <div className="order-1 md:order-2">
-              <div className="inline-block bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                Flexibilité
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+                  <div className="w-3 h-3 bg-white rounded-full"></div>
+                </div>
+                <h4 className="text-lg font-semibold text-[#93720a] uppercase tracking-wide">
+                  Flexibilité
+                </h4>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Système d'hébergement rotatif
+
+              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
+                Système d’hébergement rotatif
               </h3>
-              <div className="h-1 w-16 bg-gradient-to-r from-red-500 to-orange-500 mb-6 rounded-full"></div>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Durée flexible de <strong className="text-red-600">1 semaine à 6 mois</strong>,
+                Durée flexible de <strong className="text-[#93720a]">1 semaine à 6 mois</strong>,
                 selon les besoins spécifiques de chaque bénéficiaire. Cette approche permet
                 une adaptation personnalisée aux situations individuelles.
               </p>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start">
-                  <span className="text-red-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Adaptation aux besoins individuels</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-red-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Solution immédiate en cas d'urgence</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-red-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Accompagnement vers l'autonomie</span>
                 </li>
               </ul>
@@ -204,33 +163,38 @@ const Hebergement = () => {
           </div>
         </div>
 
-        {/* Soutien aux victimes de VBG */}
+        {/* ====== SOUTIEN AUX VICTIMES DE VBG ====== */}
         <div className="max-w-6xl mx-auto mb-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                Protection
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+                  <div className="w-3 h-3 bg-white rounded-full"></div>
+                </div>
+                <h4 className="text-lg font-semibold text-[#93720a] uppercase tracking-wide">
+                  Protection
+                </h4>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+
+              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
                 Soutien aux victimes de VBG
               </h3>
-              <div className="h-1 w-16 bg-gradient-to-r from-green-500 to-teal-500 mb-6 rounded-full"></div>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Mise à disposition d'un <strong className="text-green-600">cadre protecteur </strong>
+                Mise à disposition d’un <strong className="text-[#93720a]">cadre protecteur </strong>
                 pour les victimes de violences basées sur le genre, avec un accompagnement
                 psychologique et social spécialisé.
               </p>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start">
-                  <span className="text-green-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Environnement sécurisé et confidentiel</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-green-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Soutien psychologique professionnel</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-green-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Accompagnement social personnalisé</span>
                 </li>
               </ul>
@@ -245,7 +209,7 @@ const Hebergement = () => {
           </div>
         </div>
 
-        {/* Mise à l'abri et suivi */}
+        {/* ====== MISE À L’ABRI ET SUIVI ====== */}
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="order-2 md:order-1">
@@ -256,29 +220,34 @@ const Hebergement = () => {
               />
             </div>
             <div className="order-1 md:order-2">
-              <div className="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                Accompagnement
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+                  <div className="w-3 h-3 bg-white rounded-full"></div>
+                </div>
+                <h4 className="text-lg font-semibold text-[#93720a] uppercase tracking-wide">
+                  Accompagnement
+                </h4>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Mise à l'abri et suivi
+
+              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
+                Mise à l’abri et suivi
               </h3>
-              <div className="h-1 w-16 bg-gradient-to-r from-blue-500 to-purple-500 mb-6 rounded-full"></div>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 Accueil dans un environnement sûr avec un
-                <strong className="text-blue-600"> accompagnement personnalisé</strong> :
+                <strong className="text-[#93720a]"> accompagnement personnalisé</strong> :
                 orientation, suivi de parcours et soutien continu vers l'autonomie.
               </p>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start">
-                  <span className="text-blue-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Référent dédié pour chaque personne</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Suivi régulier et bienveillant</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-500 mr-3 text-xl">✓</span>
+                  <span className="text-[#93720a] mr-3 text-xl">•</span>
                   <span>Construction d'un projet de vie durable</span>
                 </li>
               </ul>
@@ -287,17 +256,18 @@ const Hebergement = () => {
         </div>
       </section>
 
+
       {/* Section Témoignages */}
-      <section className="px-6 md:px-20 py-16 bg-gradient-to-br from-indigo-50 to-purple-50">
+      <section className="px-6 md:px-20 py-16 bg-gradient-to-br from-yellow-50 to-orange-50">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
-          <span className="text-purple-600">Témoignages</span>
+          <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">Témoignages</span>
         </h2>
-        <div className="h-1 w-24 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-12 rounded-full"></div>
+        <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-12 rounded-full"></div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl p-8 md:p-10 shadow-xl">
+          <div className="bg-white rounded-2xl p-8 md:p-10 shadow-xl border-t-4 border-yellow-500">
             <div className="flex items-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-[#93720a] rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg">
                 A
               </div>
               <div className="ml-4">
@@ -305,49 +275,35 @@ const Hebergement = () => {
                 <p className="text-gray-600 text-sm">Hébergée pendant 3 mois</p>
               </div>
             </div>
-            <blockquote className="text-lg md:text-xl text-gray-700 italic leading-relaxed border-l-4 border-purple-400 pl-6">
+            <blockquote className="text-lg md:text-xl text-gray-700 italic leading-relaxed border-l-4 border-yellow-500 pl-6">
               "Grâce au programme d'hébergement temporaire, j'ai pu retrouver ma dignité et
               ma confiance. L'accompagnement bienveillant m'a permis de me reconstruire
               petit à petit. Aujourd'hui, j'ai mon propre logement et je peux enfin envisager
               l'avenir avec sérénité. Cette aide a été un véritable tremplin vers mon autonomie."
             </blockquote>
           </div>
-
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center space-x-6 text-gray-600 bg-white rounded-full px-8 py-4 shadow-md">
-              <div className="flex items-center">
-                <div className="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
-                <span className="text-sm font-medium">Solidarité</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
-                <span className="text-sm font-medium">Bienveillance</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 bg-blue-400 rounded-full mr-2"></div>
-                <span className="text-sm font-medium">Espoir</span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
       {/* Section CTA finale */}
-      <section className="px-6 md:px-20 py-20 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+      <section className="px-6 md:px-20 py-20 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 drop-shadow-lg">
             Vous avez besoin d'un hébergement temporaire ?
           </h2>
-          <p className="text-lg md:text-xl text-purple-100 mb-8 leading-relaxed">
+          <p className="text-lg md:text-xl text-white/95 mb-8 leading-relaxed drop-shadow">
             DREAMS est là pour vous accompagner. Notre équipe vous propose un cadre
             sécurisé et un suivi personnalisé pour vous aider à retrouver votre autonomie.
           </p>
 
-          <button className="bg-white text-purple-600 font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Demander un hébergement temporaire
+          <button className="bg-white text-gray-800 font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
+            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+              Demander un hébergement temporaire
+            </span>
           </button>
 
-          <p className="text-purple-200 mt-6 text-sm">
+          <p className="text-white/90 mt-6 text-sm drop-shadow">
             Notre équipe vous recontactera dans les plus brefs délais
           </p>
         </div>
