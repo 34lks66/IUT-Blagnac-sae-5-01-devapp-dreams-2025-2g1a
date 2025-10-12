@@ -11,6 +11,7 @@ import Home from './components/Home/Home';
 import PageAccueilPublic from "./pages/page_accueil_public";
 import Accompagnement from "./pages/accompagnement";
 import EvaluationOrientation from "./pages/EvaluationOrientation";
+import Pays from "./pages/pays";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/sensibilisation" element={<Sensi />} />
         <Route path="/accompagnement" element={<Accompagnement />} />
         <Route path="/evaluation" element={<EvaluationOrientation />} />
+        <Route path="/pays" element={<Pays />} />
       </Routes>
     </Router>
     <FooterMain />
