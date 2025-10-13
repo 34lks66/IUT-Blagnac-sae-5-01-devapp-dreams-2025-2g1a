@@ -1,6 +1,7 @@
 import { FileText, Hospital, HouseHeart, MapPinned, ShieldCheck, ShieldHalf } from "lucide-react";
 import hero from "../assets/hero_section/accueilpublicImg.png";
 import { useEffect, useState } from "react";
+import none from "../assets/none.jpg";
 
 
 
@@ -176,8 +177,44 @@ function PageAccueilPublic() {
         </div>
       </section>
 
+      {/* Section Citation Inspirante */}
+      <section className="text-center py-16 bg-[#f4f1ea]">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
+          {/* Image ou illustration */}
+          <div className="lg:w-1/2">
+            <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl h-80 w-full overflow-hidden">
+              <img
+                src={none}
+                alt="Communauté LGBTQIA+ unie et solidaire"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Citation */}
+          <div className="lg:w-1/2 text-center lg:text-left">
+            <blockquote className="text-xl italic text-gray-700 leading-relaxed">
+              « L'amour commence par l'acceptation de soi, et s'épanouit dans
+              l'acceptation des autres. »
+              <footer className="mt-4 text-lg font-semibold text-blue-600">
+                —{" "}
+                <a
+                  href="https://en.wikipedia.org/wiki/Harvey_Milk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-800 hover:underline transition-colors duration-200"
+                >
+                  Harvey Milk
+                </a>
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+
       {/* Section Vos droits en Europe */}
-      <section className="mb-20">
+      <section className="mb-20 mt-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">
             Vos droits en <span className="text-yellow-500">Europe</span>
@@ -340,7 +377,7 @@ function PageAccueilPublic() {
 
 
       {/* Section Slider Témoignages */}
-      <section className="mb-16 py-12">
+      <section className="py-12">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">
             Vous n'êtes pas <span className="text-yellow-500">seul·e</span>
@@ -389,7 +426,7 @@ function PageAccueilPublic() {
       </section>
 
       {/* Section Redirection vers formulaire */}
-      <section className="text-center max-w-4xl mb-16 mx-auto py-12 px-4">
+      <section className="text-center max-w-4xl  mx-auto py-12 px-4">
         <button
           className="group relative item card rounded-xl text-center border-t-4 border-t-yellow-500 bg-white shadow-md px-5 py-3 mb-2 overflow-hidden transition-all duration-400 hover:shadow-lg"
           onClick={() => {
@@ -414,7 +451,7 @@ function PageAccueilPublic() {
         </button>
       </section>
 
-      
+
 
 
 
