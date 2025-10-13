@@ -2,6 +2,7 @@ import doclogo from "../assets/documentlogo.svg";
 import suivilogo from "../assets/suivilogo.svg";
 import justicelogo from "../assets/justicelogo.svg";
 import hero from "../assets/hero_section/accompagnement.png";
+import { BriefcaseBusiness, GraduationCap, House } from "lucide-react";
 
 function Accompagnement() {
     return (
@@ -61,7 +62,7 @@ function Accompagnement() {
             <section className="max-w-6xl mx-auto py-7 px-4">
 
                 {/* Carte 1 - Orientation */}
-                <div className="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-red-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer mr-32">
+                <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-red-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer mr-32">
                     <div className="absolute inset-0 bg-red-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
                     <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
@@ -83,7 +84,7 @@ function Accompagnement() {
                 </div>
 
                 {/* Carte 2 - Juridique */}
-                <div className="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-r-4 border-b-4 border-purple-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer ml-32">
+                <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-r-4 border-b-4 border-purple-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer ml-32">
                     <div className="absolute inset-0 bg-purple-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
                     <div className="relative z-10 flex items-center justify-center flex-1">
@@ -106,7 +107,7 @@ function Accompagnement() {
                 </div>
 
                 {/* Carte 3 - Suivi */}
-                <div className="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center cursor-pointer mr-32">
+                <div className="group relative bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center cursor-pointer mr-32">
                     <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
                     <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
@@ -145,32 +146,32 @@ function Accompagnement() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {/* OFII */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-blue-100 rounded-full flex items-center justify-center">
-                            <span className="text-blue-600 font-bold text-sm">OFII</span>
+                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <span className="text-yellow-500 font-bold text-sm">OFII</span>
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">Office Français de l'Immigration et de l'Intégration</h4>
                     </div>
 
                     {/* OFPRA */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-green-100 rounded-full flex items-center justify-center">
-                            <span className="text-green-600 font-bold text-sm">OFPRA</span>
+                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <span className="text-yellow-500 font-bold text-sm">OFPRA</span>
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">Office Français de Protection des Réfugiés et Apatrides</h4>
                     </div>
 
                     {/* CNDA */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-purple-100 rounded-full flex items-center justify-center">
-                            <span className="text-purple-600 font-bold text-sm">CNDA</span>
+                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <span className="text-yellow-500 font-bold text-sm">CNDA</span>
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">Cour Nationale du Droit d'Asile</h4>
                     </div>
 
                     {/* CAF */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-red-100 rounded-full flex items-center justify-center">
-                            <span className="text-red-600 font-bold text-sm">CAF</span>
+                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <span className="text-yellow-500 font-bold text-sm">CAF</span>
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">Caisse d'Allocations Familiales</h4>
                     </div>
@@ -178,31 +179,31 @@ function Accompagnement() {
                     {/* SOLIDARIO */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
                         <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <span className="text-yellow-600 font-bold text-sm">SOLIDARIO</span>
+                            <span className="text-yellow-500 font-bold text-sm">SOLIDARIO</span>
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">Partenariat Solidarité</h4>
                     </div>
 
                     {/* Recherche logement */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-indigo-100 rounded-full flex items-center justify-center">
-                            <span className="text-indigo-600 text-lg">🏠</span>
+                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <House className="text-yellow-500" />
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">Recherche de logement</h4>
                     </div>
 
                     {/* France Travail */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-orange-100 rounded-full flex items-center justify-center">
-                            <span className="text-orange-600 text-lg">💼</span>
+                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <BriefcaseBusiness className="text-yellow-500" />
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">France Travail</h4>
                     </div>
 
                     {/* Université */}
                     <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-cyan-100 rounded-full flex items-center justify-center">
-                            <span className="text-cyan-600 text-lg">🎓</span>
+                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <GraduationCap className="text-yellow-500" />
                         </div>
                         <h4 className="font-bold text-gray-800 text-sm">Université & Formation</h4>
                     </div>
