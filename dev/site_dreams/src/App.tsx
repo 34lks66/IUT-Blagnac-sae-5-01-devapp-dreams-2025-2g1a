@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css';
-import Test from "./pages/Page";
+import Test from "./pages/page";
 import Sensi from './pages/Sensibilisation';
 import Hebergement from "./pages/Hebergement";
 import Header from "./components/Header";
@@ -16,7 +16,6 @@ function App() {
 
   return (
     <>
-    <MenuPays/>
     <Header/>
     <Router>
       <Routes>

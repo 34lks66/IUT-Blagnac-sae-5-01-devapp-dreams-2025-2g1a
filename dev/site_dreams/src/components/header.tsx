@@ -74,7 +74,7 @@ const toggleDropdown = (key: DropdownKey) => {
   return (
     <>
       {/* Header Desktop */}
-      <header className="bg-white border-b-2 pt-8" style={{borderImage: "linear-gradient(to right, #f59e0b, #93720a) 1"}}>
+      <header className="bg-white border-b-2" style={{borderImage: "linear-gradient(to right, #f59e0b, #93720a) 1"}}>
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex-1"></div>
           
