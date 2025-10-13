@@ -284,30 +284,6 @@ const Hebergement = () => {
           </div>
         </div>
       </section>
-
-      {/* Section CTA finale */}
-      <section className="px-6 md:px-20 py-20 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="max-w-3xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 drop-shadow-lg">
-            Vous avez besoin d'un hébergement temporaire ?
-          </h2>
-          <p className="text-lg md:text-xl text-white/95 mb-8 leading-relaxed drop-shadow">
-            DREAMS est là pour vous accompagner. Notre équipe vous propose un cadre
-            sécurisé et un suivi personnalisé pour vous aider à retrouver votre autonomie.
-          </p>
-
-          <button className="bg-white text-gray-800 font-bold py-4 px-10 rounded-full text-lg hover:bg-yellow-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
-            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-              Demander un hébergement temporaire
-            </span>
-          </button>
-
-          <p className="text-white/90 mt-6 text-sm drop-shadow">
-            Notre équipe vous recontactera dans les plus brefs délais
-          </p>
-        </div>
-      </section>
     </main>
   );
 };
