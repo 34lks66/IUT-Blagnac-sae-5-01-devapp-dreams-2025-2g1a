@@ -12,16 +12,17 @@ const Logo = () => (
 
 
 const Header = () => {
+  const [openCountry, setOpenCountry] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
 
   const menuStructure = {
     antennes: {
       title: "DREAMS et ses antennes",
       items: [
         { name: "Accueil", href: "/" },
-        { 
-          name: "France", 
+        {
+          name: "France",
           href: "/france",
           subItems: [
             { name: "Paris", href: "/france/paris" },
@@ -29,16 +30,16 @@ const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
             { name: "Marseille", href: "/france/marseille" }
           ]
         },
-        { 
-          name: "Togo", 
+        {
+          name: "Togo",
           href: "/togo",
           subItems: [
             { name: "Lomé", href: "/togo/lome" },
             { name: "Kara", href: "/togo/kara" }
           ]
         },
-        { 
-          name: "Burkina Faso", 
+        {
+          name: "Burkina Faso",
           href: "/burkina",
           subItems: [
             { name: "Ouagadougou", href: "/burkina/ouagadougou" },
@@ -67,17 +68,17 @@ const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
     }
   };
 
-const toggleDropdown = (key: DropdownKey) => {
-  setOpenDropdown(openDropdown === key ? null : key);
-};
+  const toggleDropdown = (key: DropdownKey) => {
+    setOpenDropdown(openDropdown === key ? null : key);
+  };
 
   return (
     <>
       {/* Header Desktop */}
-      <header className="bg-white border-b-2" style={{borderImage: "linear-gradient(to right, #f59e0b, #93720a) 1"}}>
+      <header className="bg-white border-b-2" style={{ borderImage: "linear-gradient(to right, #f59e0b, #93720a) 1" }}>
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex-1"></div>
-          
+
           {/* Logo centré */}
           <div className="flex items-center justify-center space-x-3">
             <a href="/" className="flex items-center space-x-3">
@@ -89,19 +90,19 @@ const toggleDropdown = (key: DropdownKey) => {
           </div>
 
           <div className="flex-1 flex justify-end items-center space-x-3">
-            <a 
+            <a
               href="/devenir-benevole"
               className="hidden md:flex items-center px-4 py-2 border-2 border-amber-600 text-amber-700 rounded-md hover:bg-amber-50 transition-colors text-sm font-medium"
             >
               Devenir bénévole
             </a>
-            <a 
+            <a
               href="/donner"
               className="hidden md:flex items-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-md hover:shadow-lg transition-all text-sm font-medium"
             >
               Donner
             </a>
-            
+
             {/* Burger Menu Mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -121,39 +122,49 @@ const toggleDropdown = (key: DropdownKey) => {
               <button
                 className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
                 onMouseEnter={() => setOpenDropdown('antennes')}
+                onClick={() => setOpenDropdown(null)}
               >
                 <span>{menuStructure.antennes.title}</span>
                 <ChevronDown size={16} className={`transform transition-transform ${openDropdown === 'antennes' ? 'rotate-180' : ''}`} />
               </button>
-              
+
               {openDropdown === 'antennes' && (
-                <div 
+                <div
                   className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
                   {menuStructure.antennes.items.map((item, idx) => (
-                    <div key={idx}>
+                    <div key={idx} className="relative group/item">
                       <a
                         href={item.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 font-medium"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 font-medium flex justify-between items-center"
                       >
                         {item.name}
+                        {item.subItems && (
+                          <ChevronDown
+                            size={14}
+                            className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:rotate-90 group-hover/item:text-amber-600"
+                          />
+                        )}
                       </a>
+
                       {item.subItems && (
-                        <div className="pl-4 bg-gray-50">
+                        <div className="absolute top-0 left-full mt-0 ml-1 hidden group-hover/item:block bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[180px]">
                           {item.subItems.map((subItem, subIdx) => (
                             <a
                               key={subIdx}
                               href={subItem.href}
-                              className="block px-4 py-2 text-xs text-gray-600 hover:text-amber-600"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
                             >
-                              → {subItem.name}
+                              {subItem.name}
                             </a>
                           ))}
                         </div>
                       )}
                     </div>
                   ))}
+
+
                 </div>
               )}
             </div>
@@ -163,13 +174,15 @@ const toggleDropdown = (key: DropdownKey) => {
               <button
                 className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
                 onMouseEnter={() => setOpenDropdown('missions')}
+                onClick={() => setOpenDropdown(null)}
+
               >
                 <span>{menuStructure.missions.title}</span>
                 <ChevronDown size={16} className={`transform transition-transform ${openDropdown === 'missions' ? 'rotate-180' : ''}`} />
               </button>
-              
+
               {openDropdown === 'missions' && (
-                <div 
+                <div
                   className="absolute top-full left-0 mt-1 w-72 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
@@ -199,13 +212,15 @@ const toggleDropdown = (key: DropdownKey) => {
               <button
                 className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
                 onMouseEnter={() => setOpenDropdown('soutenir')}
+                onClick={() => setOpenDropdown(null)}
+
               >
                 <span>{menuStructure.soutenir.title}</span>
                 <ChevronDown size={16} className={`transform transition-transform ${openDropdown === 'soutenir' ? 'rotate-180' : ''}`} />
               </button>
-              
+
               {openDropdown === 'soutenir' && (
-                <div 
+                <div
                   className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
@@ -240,7 +255,7 @@ const toggleDropdown = (key: DropdownKey) => {
             className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
-          
+
           <div className="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-2xl z-50 md:hidden overflow-y-auto">
             <div className="p-6">
               <button
@@ -250,19 +265,19 @@ const toggleDropdown = (key: DropdownKey) => {
               >
                 <X size={28} />
               </button>
-              
+
               <h2 className="text-xl font-bold mb-6 mt-8 text-gray-800">Menu</h2>
-              
+
               {/* Boutons mobile */}
               <div className="flex flex-col gap-3 mb-6">
-                <a 
+                <a
                   href="/devenir-benevole"
                   className="w-full text-center px-4 py-3 border-2 border-amber-600 text-amber-700 rounded-md font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Devenir bénévole
                 </a>
-                <a 
+                <a
                   href="/donner"
                   className="w-full text-center px-4 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-md font-medium"
                   onClick={() => setIsMenuOpen(false)}
@@ -285,20 +300,30 @@ const toggleDropdown = (key: DropdownKey) => {
                     <div className="pl-4 mt-2 space-y-2">
                       {menuStructure.antennes.items.map((item, idx) => (
                         <div key={idx}>
-                          <a
-                            href={item.href}
-                            className="block py-2 text-sm text-gray-700 hover:text-amber-600"
-                            onClick={() => setIsMenuOpen(false)}
+                          <button
+                            onClick={() =>
+                              setOpenCountry(openCountry === item.name ? null : item.name)
+                            }
+                            className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-amber-600"
                           >
-                            {item.name}
-                          </a>
-                          {item.subItems && (
-                            <div className="pl-4 space-y-1">
+                            <span>{item.name}</span>
+                            {item.subItems && (
+                              <ChevronDown
+                                size={14}
+                                className={`transform transition-transform duration-300 ${openCountry === item.name ? 'rotate-180 text-amber-600' : ''
+                                  }`}
+                              />
+                            )}
+                          </button>
+
+                          {/* Sous-items (villes) */}
+                          {item.subItems && openCountry === item.name && (
+                            <div className="pl-4 mt-1 space-y-1">
                               {item.subItems.map((subItem, subIdx) => (
                                 <a
                                   key={subIdx}
                                   href={subItem.href}
-                                  className="block py-1 text-xs text-gray-600 hover:text-amber-600"
+                                  className="block py-1 text-sm text-gray-600 hover:text-amber-600"
                                   onClick={() => setIsMenuOpen(false)}
                                 >
                                   → {subItem.name}
@@ -308,6 +333,8 @@ const toggleDropdown = (key: DropdownKey) => {
                           )}
                         </div>
                       ))}
+
+
                     </div>
                   )}
                 </div>
