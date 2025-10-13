@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/logo.png";
 
@@ -18,33 +19,38 @@ const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
   const menuStructure = {
     antennes: {
       title: "DREAMS et ses antennes",
-      items: [
+      pays: [
         { name: "Accueil", href: "/" },
         { 
           name: "France", 
           href: "/france",
-          subItems: [
-            { name: "Paris", href: "/france/paris" },
-            { name: "Lyon", href: "/france/lyon" },
-            { name: "Marseille", href: "/france/marseille" }
+          villes: [
+            { name: "Toulouse"},
+            { name: "Carcassonne"},
+            { name: "Narbonne"}
           ]
         },
         { 
           name: "Togo", 
-          href: "/togo",
-          subItems: [
-            { name: "Lomé", href: "/togo/lome" },
-            { name: "Kara", href: "/togo/kara" }
-          ]
+          villes: [ { name: "Lomé"} ]
         },
         { 
           name: "Burkina Faso", 
-          href: "/burkina",
-          subItems: [
-            { name: "Ouagadougou", href: "/burkina/ouagadougou" },
-            { name: "Bobo-Dioulasso", href: "/burkina/bobo" }
+          villes: [
+            { name: "Bobo-Dioulasso"},
+            { name: "Ouagadougou"}
+          ],
+        },
+        { 
+          name: "Côte d'Ivoire", 
+          villes: [
+            { name: "Abidjan"},
+            { name: "Bouaké"}
           ]
-        }
+        },
+        { 
+          name: "Italie"
+        },     
       ]
     },
     missions: {
@@ -131,24 +137,24 @@ const toggleDropdown = (key: DropdownKey) => {
                   className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
-                  {menuStructure.antennes.items.map((item, idx) => (
-                    <div key={idx}>
+                  {menuStructure.antennes.pays.map((pays) => (
+                    <div key={pays.name}>
                       <a
-                        href={item.href}
+                        href={pays.href}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 font-medium"
                       >
-                        {item.name}
+                        {pays.name}
                       </a>
-                      {item.subItems && (
+                      {pays.villes && (
                         <div className="pl-4 bg-gray-50">
-                          {item.subItems.map((subItem, subIdx) => (
-                            <a
-                              key={subIdx}
-                              href={subItem.href}
+                          {pays.villes.map((villes) => (
+                            <Link
+                              to={`/villes/${encodeURIComponent(villes.name)}`}
+                              key={villes.name}
                               className="block px-4 py-2 text-xs text-gray-600 hover:text-amber-600"
                             >
-                              → {subItem.name}
-                            </a>
+                              → {villes.name}
+                            </Link>
                           ))}
                         </div>
                       )}
@@ -283,26 +289,27 @@ const toggleDropdown = (key: DropdownKey) => {
                   </button>
                   {openDropdown === 'antennes' && (
                     <div className="pl-4 mt-2 space-y-2">
-                      {menuStructure.antennes.items.map((item, idx) => (
-                        <div key={idx}>
+                      {menuStructure.antennes.pays.map((pays) => (
+                        <div key={pays.name}>
                           <a
-                            href={item.href}
+                            href={pays.name}
                             className="block py-2 text-sm text-gray-700 hover:text-amber-600"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            {item.name}
+                            {pays.name}
                           </a>
-                          {item.subItems && (
+                          {pays.villes && (
                             <div className="pl-4 space-y-1">
-                              {item.subItems.map((subItem, subIdx) => (
-                                <a
-                                  key={subIdx}
-                                  href={subItem.href}
+                              {pays.villes.map((villes) => (
+                                <Link
+                                  to={`/pages_dynamiques/villes/${encodeURIComponent(villes.name)}`}
+
+                                  key={villes.name}
                                   className="block py-1 text-xs text-gray-600 hover:text-amber-600"
                                   onClick={() => setIsMenuOpen(false)}
                                 >
-                                  → {subItem.name}
-                                </a>
+                                  → {villes.name}
+                                </Link>
                               ))}
                             </div>
                           )}
