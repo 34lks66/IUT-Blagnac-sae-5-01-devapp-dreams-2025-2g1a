@@ -31,10 +31,11 @@ const Header = () => {
             { name: "Narbonne"}
           ]
         },
-<<<<<<< HEAD
         { 
           name: "Togo", 
-          villes: [ { name: "Lomé"} ]
+          villes: [ 
+            { name: "Lomé"}
+          ],
         },
         { 
           name: "Burkina Faso", 
@@ -48,22 +49,6 @@ const Header = () => {
           villes: [
             { name: "Abidjan"},
             { name: "Bouaké"}
-=======
-        {
-          name: "Togo",
-          href: "/togo",
-          subItems: [
-            { name: "Lomé", href: "/togo/lome" },
-            { name: "Kara", href: "/togo/kara" }
-          ]
-        },
-        {
-          name: "Burkina Faso",
-          href: "/burkina",
-          subItems: [
-            { name: "Ouagadougou", href: "/burkina/ouagadougou" },
-            { name: "Bobo-Dioulasso", href: "/burkina/bobo" }
->>>>>>> main
           ]
         },
         { 
@@ -156,7 +141,6 @@ const Header = () => {
                   className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
-<<<<<<< HEAD
                   {menuStructure.antennes.pays.map((pays) => (
                     <div key={pays.name}>
                       <a
@@ -175,33 +159,6 @@ const Header = () => {
                             >
                               → {villes.name}
                             </Link>
-=======
-                  {menuStructure.antennes.items.map((item, idx) => (
-                    <div key={idx} className="relative group/item">
-                      <a
-                        href={item.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 font-medium flex justify-between items-center"
-                      >
-                        {item.name}
-                        {item.subItems && (
-                          <ChevronDown
-                            size={14}
-                            className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:-rotate-90 group-hover/item:text-amber-600"
-                          />
-                        )}
-                      </a>
-
-                      {item.subItems && (
-                        <div className="absolute top-0 left-full mt-0 ml-1 hidden group-hover/item:block bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[180px]">
-                          {item.subItems.map((subItem, subIdx) => (
-                            <a
-                              key={subIdx}
-                              href={subItem.href}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
-                            >
-                              {subItem.name}
-                            </a>
->>>>>>> main
                           ))}
                         </div>
                       )}
@@ -342,7 +299,6 @@ const Header = () => {
                   </button>
                   {openDropdown === 'antennes' && (
                     <div className="pl-4 mt-2 space-y-2">
-<<<<<<< HEAD
                       {menuStructure.antennes.pays.map((pays) => (
                         <div key={pays.name}>
                           <a
@@ -360,34 +316,6 @@ const Header = () => {
 
                                   key={villes.name}
                                   className="block py-1 text-xs text-gray-600 hover:text-amber-600"
-=======
-                      {menuStructure.antennes.items.map((item, idx) => (
-                        <div key={idx}>
-                          <button
-                            onClick={() =>
-                              setOpenCountry(openCountry === item.name ? null : item.name)
-                            }
-                            className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-amber-600"
-                          >
-                            <span>{item.name}</span>
-                            {item.subItems && (
-                              <ChevronDown
-                                size={14}
-                                className={`transform transition-transform duration-300 ${openCountry === item.name ? 'rotate-180 text-amber-600' : ''
-                                  }`}
-                              />
-                            )}
-                          </button>
-
-                          {/* Sous-items (villes) */}
-                          {item.subItems && openCountry === item.name && (
-                            <div className="pl-4 mt-1 space-y-1">
-                              {item.subItems.map((subItem, subIdx) => (
-                                <a
-                                  key={subIdx}
-                                  href={subItem.href}
-                                  className="block py-1 text-sm text-gray-600 hover:text-amber-600"
->>>>>>> main
                                   onClick={() => setIsMenuOpen(false)}
                                 >
                                   → {villes.name}
