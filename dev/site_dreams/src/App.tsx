@@ -2,21 +2,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css';
 import Test from "./pages/page";
-import Sensi from './pages/sensibilisation';
+import Sensi from './pages/Sensibilisation';
 import Hebergement from "./pages/Hebergement";
-import Header from "./components/header";
-import MenuPays from './components/menu_pays';
+import Header from "./components/Header";
+import MenuPays from './components/Menu_Pays';
 import FooterMain from './components/Footer';
 import Home from './components/Home/Home';
-import PageAccueilPublic from "./pages/page_accueil_public";
-import Accompagnement from "./pages/accompagnement";
+import PageAccueilPublic from "./pages/Page_Accueil_Public";
+import Accompagnement from "./pages/Accompagnement";
 import EvaluationOrientation from "./pages/EvaluationOrientation";
 
 function App() {
 
   return (
     <>
-    <MenuPays/>
     <Header/>
     <Router>
       <Routes>

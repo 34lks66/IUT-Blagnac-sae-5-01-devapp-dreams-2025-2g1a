@@ -2,10 +2,18 @@ import "../styles/sensibilisation.css"
 import none from "../assets/none.jpg";
 import hero from "../assets/hero_section/sensibilisation.png";
 
+const LGBTQ = [
+    { letter: 'L', word: 'Lesbiennes', color: 'text-[#fb2c36]' },
+    { letter: 'G', word: 'Gays', color: 'text-[#ff6900]' },
+    { letter: 'B', word: 'Bisexuels', color: 'text-[#fdc700]' },
+    { letter: 'T', word: 'Transgenres', color: 'text-[#00b148]' },
+    { letter: 'Q', word: 'Queers', color: 'text-[#2b7fff]' },
+    { letter: '+', word: 'Autres', color: 'text-gray-500' },
+]
 function Sensibilisation() {
 
   return (
-    <main className="eval bg-white text-gray-800 font-sans leading-relaxed">
+    <main className="bg-white text-gray-800 font-sans leading-relaxed">
         {/* ============ HERO SECTION ============ */}
         <section className="eval-hero relative overflow-hidden">
             <img
@@ -29,7 +37,8 @@ function Sensibilisation() {
         </section>
 
         {/* ============ INTRODUCTION SECTION ============ */}
-            <section className="max-w-6xl mx-auto py-7 px-4">
+            <section className="bg-[#f4f1ea]">
+                <div className="max-w-6xl mx-auto py-7">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
                             Qui sont{" "}
                             <span className="text-yellow-500">les minorités sexuelles ?</span>
@@ -37,51 +46,73 @@ function Sensibilisation() {
                     <p className="text-gray-700 max-w-4xl mx-auto mb-6 text-center">
                         Une minorité sexuelle et de genre est un groupe social dont l’identité de genre, l’identité sexuelle, l’orientation ou les pratiques sexuelles diffèrent de la majorité du reste de la société
                     </p>
-                    <section className="qui">
-                        <div className="grid">
-                            <div className="lettre"><span className="L">L</span></div>
-                            <div className="lettre"><span className="G">G</span></div>
-                            <div className="lettre"><span className="B">B</span></div>
-                            <div className="lettre"><span className="T">T</span></div>
-                            <div className="lettre"><span className="Q">Q</span></div>
-                            <div className="lettre"><span className="A">+</span></div>
-                            <div className="desc"><span className="L">Lesbiennes</span></div>
-                            <div className="desc"><span className="G">Gays</span></div>
-                            <div className="desc"><span className="B">Bisexuels</span></div>
-                            <div className="desc"><span className="T">Transgenres</span></div>
-                            <div className="desc"><span className="Q">Queers</span></div>
-                            <div className="desc"><span className="A">Autres</span></div>
-                        </div>
-                    </section>
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-6 gap-4 text-center">
+                        {LGBTQ.map((item, index) => (
+                            <div
+                            key={index}
+                            className="mb-8 md:mb-6"
+                            >
+                            <div className={`text-4xl font-bold ${item.color} mb-6`}>{item.letter}</div>
+                            <div className={`text-3xl font-bold ${item.color}`}>{item.word}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ============ Impact et résultats ============ */}
+            <section className="max-w-6xl m-auto py-7 px-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                  <div>
+                    <h2 className="font-black text-8xl leading-tight">4</h2>
+                    <p className="font-semibold text-yellow-500 uppercase">Participation à la Gay Pride</p>
+                  </div>
+                  <div>
+                    <h2 className="font-black text-8xl leading-tight">25</h2>
+                    <p className="font-semibold text-yellow-500 uppercase">Soirées de convivialité</p>
+                  </div>
+                  <div>
+                    <h2 className="font-black text-8xl leading-tight">8</h2>
+                    <p className="font-semibold text-yellow-500 uppercase">Tenue de stands</p>
+                  </div>
+                  <div>
+                    <h2 className="font-black text-8xl leading-tight">12</h2>
+                    <p className="font-semibold text-yellow-500 uppercase">Interventions en structures</p>
+                  </div>
+                </div>
             </section>
 
             {/* ============ Actions de sensibilisation ============ */}
-            <section className="max-w-6xl mx-auto py-7 px-4">
+            <section className="bg-[#f5f7f6]">
+                <div className="max-w-6xl mx-auto py-7 px-4">
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 text-center">
                         Actions de{" "}
                         <span className="text-yellow-500">sensibilisation</span>
                 </h1>
-                <p className="text-lg text-gray-700 text-center mx-auto mb-10">Les actions de sensibilisation nous permettent de renforcer la visibilité, l’éducation et la cohésion autour des enjeux LGBTQIA+. <br />Voici les actions de sensibilisation principales menées par DREAMS : </p>
+                <p className="text-base text-gray-700 text-center mx-auto mb-10">Les actions de sensibilisation nous permettent de renforcer la {" "}
+                    <span className="text-yellow-600 font-semibold">visibilité</span>, l'
+                    <span className="text-yellow-600 font-semibold">éducation</span> et la{" "} 
+                    <span className="text-yellow-600 font-semibold">cohésion</span> autour des enjeux LGBTQIA+. <br />Voici les actions de sensibilisation principales menées par DREAMS : </p>
                 {/* ============ Participation à la Gay Pride ============ */}
-                <div className="grid grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
-                    <div className="relative">
-                        <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300"/>
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
+                    <div className="relative order-1 md:order-none">
+                        <img src={none} alt="people" className="w-full h-64 md:h-80 object-cover rounded-lg shadow-md transition-all duration-300"/>
                     </div>
                     <div className="space-y-6">
-                        <h3 className="text-2xl font-bold mb-4 text-gray-900">Participation à la Gay Pride</h3>
-                        <p className="text-gray-700 mb-4 leading-relaxed">
+                        <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Participation à la Gay Pride</h3>
+                        <p className="text-gray-700 mb-6 leading-relaxed border-l-4 border-yellow-500 pl-3">
                             Chaque année, DREAMS participe avec enthousiasme aux marches des fiertés locales et régionales.
                             Ces moments festifs et revendicatifs permettent de <b>rendre visibles les personnes LGBTQIA+, de promouvoir l’égalité des droits et de lutter contre les discriminations dans l’espace public.</b><br />
                             Au-delà de la parade, c’est aussi une célébration de la diversité et du vivre-ensemble, où chaque participant·e contribue à faire entendre la voix de la communauté. <br />
-                            <b>4 participations</b> ont déjà permis à DREAMS de fédérer ses membres, renforcer ses liens avec d’autres associations, et sensibiliser des centaines de personnes à la cause LGBTQIA+.
+                            4 participations ont déjà permis à DREAMS de fédérer ses membres, renforcer ses liens avec d’autres associations, et sensibiliser des centaines de personnes à la cause LGBTQIA+.
                         </p>
                     </div>
                 </div>
                 {/* ============ Soirées de convivialité ============ */}
-                <div className="grid grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
                     <div className="space-y-6">
-                        <h3 className="text-2xl font-bold mb-4 text-gray-900">Soirées de convivialité</h3>
-                        <p className="text-gray-700 mb-4 leading-relaxed">
+                        <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Soirées de convivialité</h3>
+                        <p className="text-gray-700 mb-6 leading-relaxed border-l-4 border-yellow-500 pl-3">
                             Les soirées de convivialité organisées par DREAMS sont des espaces chaleureux où se mêlent échanges, solidarité et bienveillance.
                             Elles offrent la possibilité aux membres de la communauté et à leurs allié·e·s de se retrouver, discuter, partager des expériences et rompre l’isolement que peuvent vivre certaines personnes LGBTQIA+. <br />
                             {/* Ces 25 soirées favorisent la création de liens durables, le soutien mutuel et la construction d’un réseau inclusif. */}
@@ -89,18 +120,18 @@ function Sensibilisation() {
                             Dans une ambiance simple et accueillante, elles contribuent à renforcer le sentiment d’appartenance à une communauté soudée et ouverte.
                         </p>
                     </div>
-                    <div className="relative">
+                    <div className="relative order-1 md:order-none">
                         <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300"/>
                     </div>
                 </div>
                 {/* ============ Tenue de stand ============ */}
-                <div className="grid grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
-                    <div className="relative">
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
+                    <div className="relative order-1 md:order-none">
                         <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300"/>
                     </div>
                     <div className="space-y-6">
-                        <h3 className="text-2xl font-bold mb-4 text-gray-900">Tenue de stand</h3>
-                        <p className="text-gray-700 mb-4 leading-relaxed">
+                        <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Tenue de stand</h3>
+                        <p className="text-gray-700 mb-4 leading-relaxed border-l-4 border-yellow-500 pl-3">
                             Les bénévoles de DREAMS sont présents sur les
                             stands pour échanger et sensibiliser le public aux questions
                             LGBTQIA+. Ces moments permettent d’informer, d’orienter et de créer
@@ -119,28 +150,29 @@ function Sensibilisation() {
                     </div>
                 </div>
                 {/* ============ Interventions dans les structures ============ */}
-                <div className="grid grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
                     <div className="space-y-6">
-                        <h3 className="text-2xl font-bold mb-4 text-gray-900">Interventions dans les structures</h3>
-                        <p className="text-gray-700 mb-4 leading-relaxed">
-                            DREAMS intervient régulièrement dans les écoles, entreprises, associations et institutions publiques afin de sensibiliser aux questions d’orientation sexuelle et d’identité de genre.
+                        <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Interventions dans les structures</h3>
+                        <p className="text-gray-700 mb-4 leading-relaxed border-l-4 border-yellow-500 pl-3">
+                            DREAMS intervient aussi dans les <b>écoles</b>, <b>entreprises</b>, <b>associations</b> et <b>institutions publiques</b> afin de sensibiliser aux questions d’orientation sexuelle et d’identité de genre.
                             Ces interventions visent à informer, déconstruire les préjugés et promouvoir des environnements inclusifs pour toutes et tous.
-                            À travers des ateliers participatifs, des échanges et des témoignages, les intervenant·e·s de DREAMS contribuent à faire évoluer les mentalités et à prévenir toute forme de discrimination.
-                            Plus de 12 interventions menées chaque année permettent de toucher plus de 300 personnes, du public scolaire aux professionnel·le·s.
+                            À travers des ateliers participatifs, des échanges et des témoignages, les intervenant·e·s de DREAMS contribuent à faire évoluer les mentalités et à prévenir toute forme de discrimination. <br />
+                            {/* Plus de 12 interventions menées chaque année permettent de toucher plus de 300 personnes, du public scolaire aux professionnel·le·s. */}
+                            Chaque année plus de 300 personnes sont sensibilisés. 
                         </p>
                     </div>
-                    <div className="relative">
+                    <div className="relative order-1 md:order-none">
                         <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300"/>
                     </div>
                 </div>
                 {/* ============ Présence sur les réseaux sociaux ============ */}
-                <div className="grid grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
-                    <div className="relative">
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
+                    <div className="relative order-1 md:order-none">
                         <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300"/>
                     </div>
                     <div className="space-y-6">
-                        <h3 className="text-2xl font-bold mb-4 text-gray-900">Présence sur les réseaux sociaux</h3>
-                        <p className="text-gray-700 mb-4 leading-relaxed">
+                        <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Présence sur les réseaux sociaux</h3>
+                        <p className="text-gray-700 mb-4 leading-relaxed border-l-4 border-yellow-500 pl-3">
                             DREAMS assure une présence active sur les réseaux sociaux afin de sensibiliser le grand public de manière continue et accessible.
                             Les publications partagées abordent des thématiques variées : inclusion, égalité, témoignages, prévention, et lutte contre les discriminations.
                             Grâce à ces canaux, l’association diffuse des messages positifs, éducatifs et engageants, permettant de déconstruire les clichés et de créer du lien au-delà des frontières géographiques.
@@ -148,19 +180,7 @@ function Sensibilisation() {
                         </p>
                     </div>
                 </div>
-            </section>
-
-            {/* ============ Impact et résultats ============ */}
-            <section className="max-w-6xl mx-auto py-7 px-4">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
-                        Impact{" "}
-                        <span className="text-yellow-500">et résultats</span>
-                </h1>
-                4 participations aux Gay Pride 
-                25 soirées de convivialité
-                8 stands d’information
-                1 présence active sur les réseaux sociaux
-                + de 10 interventions dans des structures locales
+                </div>
             </section>
 
             {/* <section className="accroche">
@@ -200,13 +220,6 @@ function Sensibilisation() {
                     Les personnes LGBT sont plus fréquemment en proie aux problèmes mentaux que la population dans son ensemble.
                   </p>
               </div>
-            </section>
-
-            <section className="ressources">
-                <h2>Ressources utiles :</h2>
-                <p>
-                    • <span>Minorités sexuelles et de genre en Afrique :</span> https://fr.wikipedia.org/wiki/Minorit%C3%A9s_sexuelles_et_de_genre_en_Afrique <br />
-                </p>
             </section>
     </main>
   )

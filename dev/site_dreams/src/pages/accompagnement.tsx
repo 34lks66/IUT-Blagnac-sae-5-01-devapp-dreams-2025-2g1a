@@ -31,7 +31,7 @@ function Accompagnement() {
             {/* ============ INTRODUCTION SECTION ============ */}
             <section className="max-w-6xl mx-auto py-7 px-4">
                 <div className="text-center">
-                    <h2 className=" text-2xl md:text-3xl font-extrabold mb-4 ">
+                    <h2 className="text-2xl md:text-3xl font-extrabold mb-4">
                         Notre <span className="text-yellow-500 ">mission</span>
                     </h2>
                     <p className="text-gray-700 max-w-4xl mx-auto mb-6">
