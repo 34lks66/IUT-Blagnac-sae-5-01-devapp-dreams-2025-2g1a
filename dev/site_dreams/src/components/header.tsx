@@ -143,7 +143,7 @@ const Header = () => {
                         {item.subItems && (
                           <ChevronDown
                             size={14}
-                            className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:rotate-90 group-hover/item:text-amber-600"
+                            className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:-rotate-90 group-hover/item:text-amber-600"
                           />
                         )}
                       </a>
