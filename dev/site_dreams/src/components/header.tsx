@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronUp, Menu, X } from "lucide-react";
 import logo from "../assets/logo.png";
 
 type DropdownKey = "antennes" | "missions" | "soutenir";
@@ -132,7 +132,7 @@ const Header = () => {
                 onClick={() => setOpenDropdown(null)}
               >
                 <span>{menuStructure.antennes.title}</span>
-                <ChevronDown
+                <ChevronUp
                   size={16}
                   className={`transform transition-transform ${openDropdown === "antennes" ? "rotate-180" : ""
                     }`}
@@ -152,9 +152,9 @@ const Header = () => {
                       >
                         {pays.name}
                         {pays.villes && (
-                          <ChevronDown
+                          <ChevronUp
                             size={14}
-                            className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:-rotate-90 group-hover/item:text-amber-600"
+                            className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:rotate-90 group-hover/item:text-amber-600"
                           />
                         )}
                       </a>
@@ -187,7 +187,7 @@ const Header = () => {
                 onClick={() => setOpenDropdown(null)}
               >
                 <span>{menuStructure.missions.title}</span>
-                <ChevronDown
+                <ChevronUp
                   size={16}
                   className={`transform transition-transform ${openDropdown === "missions" ? "rotate-180" : ""
                     }`}
@@ -224,7 +224,7 @@ const Header = () => {
                 onClick={() => setOpenDropdown(null)}
               >
                 <span>{menuStructure.soutenir.title}</span>
-                <ChevronDown
+                <ChevronUp
                   size={16}
                   className={`transform transition-transform ${openDropdown === "soutenir" ? "rotate-180" : ""
                     }`}
@@ -297,7 +297,7 @@ const Header = () => {
                     className="flex items-center justify-between w-full px-3 py-2 text-left font-semibold text-gray-800"
                   >
                     <span>{menuStructure.antennes.title}</span>
-                    <ChevronDown
+                    <ChevronUp
                       size={20}
                       className={`transform transition-transform ${openDropdown === "antennes" ? "rotate-180" : ""
                         }`}
@@ -316,7 +316,7 @@ const Header = () => {
                           >
                             <span>{pays.name}</span>
                             {pays.villes && (
-                              <ChevronDown
+                              <ChevronUp
                                 size={14}
                                 className={`transform transition-transform duration-300 ${openCountry === pays.name
                                     ? "rotate-180 text-amber-600"
@@ -353,7 +353,7 @@ const Header = () => {
                     className="flex items-center justify-between w-full px-3 py-2 text-left font-semibold text-gray-800"
                   >
                     <span>{menuStructure.missions.title}</span>
-                    <ChevronDown
+                    <ChevronUp
                       size={20}
                       className={`transform transition-transform ${openDropdown === "missions" ? "rotate-180" : ""
                         }`}
@@ -391,7 +391,7 @@ const Header = () => {
                     className="flex items-center justify-between w-full px-3 py-2 text-left font-semibold text-gray-800"
                   >
                     <span>{menuStructure.soutenir.title}</span>
-                    <ChevronDown
+                    <ChevronUp
                       size={20}
                       className={`transform transition-transform ${openDropdown === "soutenir" ? "rotate-180" : ""
                         }`}
