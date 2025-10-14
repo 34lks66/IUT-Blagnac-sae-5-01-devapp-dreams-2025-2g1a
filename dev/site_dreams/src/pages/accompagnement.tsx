@@ -83,32 +83,18 @@ function Accompagnement() {
                     </div>
                 </div>
 
-                {/* Carte 2 - Juridique */}
-                <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-r-4 border-b-4 border-purple-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer ml-32">
-                    <div className="absolute inset-0 bg-purple-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
+                
+                {/* Carte 3 - Suivi */}
+                <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-r-4 border-b-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer ml-32">
+                    <div className="absolute inset-0 bg-blue-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
                     <div className="relative z-10 flex items-center justify-center flex-1">
                         <img
-                            src={justicelogo}
-                            alt="Icône juridique"
+                            src={suivilogo}
+                            alt="Icône suivi"
                             className="w-32 h-32 md:w-44 md:h-44 transition-all duration-500 group-hover:-translate-x-20 group-hover:opacity-0 group-hover:scale-75"
                         />
                     </div>
-
-                    <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
-                        <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
-                            Accompagnement juridique
-                        </h3>
-                        <p className="text-gray-600 mb-4 leading-relaxed text-sm group-hover:text-white transition-colors duration-300">
-                            Informations sur les droits et aide à préparer des dossiers
-                            (asile, régularisation, logement, emploi).
-                        </p>
-                    </div>
-                </div>
-
-                {/* Carte 3 - Suivi */}
-                <div className="group relative bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center cursor-pointer mr-32">
-                    <div className="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
                     <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
                         <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
@@ -119,11 +105,26 @@ function Accompagnement() {
                             spécifiques de chaque personne.
                         </p>
                     </div>
+                </div>
+
+                {/* Carte 2 - Juridique */}
+                <div className="group relative bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-purple-500 overflow-hidden flex flex-col md:flex-row items-center cursor-pointer mr-32">
+                    <div className="absolute inset-0 bg-purple-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
+
+                    <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
+                        <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
+                            Accompagnement juridique
+                        </h3>
+                        <p className="text-gray-600 mb-4 leading-relaxed text-sm group-hover:text-white transition-colors duration-300">
+                            Informations sur les droits et aide à préparer des dossiers
+                            (asile, régularisation, logement, emploi).
+                        </p>
+                    </div>
 
                     <div className="relative z-10 flex items-center justify-center flex-1">
                         <img
-                            src={suivilogo}
-                            alt="Icône de suivi"
+                            src={justicelogo}
+                            alt="Icône justice"
                             className="w-32 h-32 md:w-44 md:h-44 transition-all duration-500 group-hover:translate-x-20 group-hover:opacity-0 group-hover:scale-75"
                         />
                     </div>
