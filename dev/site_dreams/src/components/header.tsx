@@ -24,30 +24,30 @@ const Header = () => {
           name: "France",
           href: "/france",
           villes: [
-            { name: "Toulouse", href: "/villes/Toulouse" },
-            { name: "Carcassonne", href: "/villes/Carcassonne" },
-            { name: "Narbonne", href: "/villes/Narbonne" },
+            { name: "Toulouse"},
+            { name: "Carcassonne"},
+            { name: "Narbonne"},
           ],
         },
         {
           name: "Togo",
           href: "/togo",
-          villes: [{ name: "Lomé", href: "/villes/Lomé" }],
+          villes: [{ name: "Lomé"}],
         },
         {
           name: "Burkina Faso",
           href: "/burkina-faso",
           villes: [
-            { name: "Bobo-Dioulasso", href: "/villes/Bobo-Dioulasso" },
-            { name: "Ouagadougou", href: "/villes/Ouagadougou" },
+            { name: "Bobo-Dioulasso"},
+            { name: "Ouagadougou"},
           ],
         },
         {
           name: "Côte d'Ivoire",
           href: "/cote-divoire",
           villes: [
-            { name: "Abidjan", href: "/villes/Abidjan" },
-            { name: "Bouaké", href: "/villes/Bouake" },
+            { name: "Abidjan"},
+            { name: "Bouaké"},
           ],
         },
         { name: "Italie", href: "/italie" },
@@ -161,10 +161,10 @@ const Header = () => {
 
                       {pays.villes && (
                         <div className="absolute top-0 left-full mt-0 hidden group-hover/item:block bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[180px]">
-                          {pays.villes.map((ville, subIdx) => (
+                          {pays.villes.map((ville) => (
                             <a
-                              key={subIdx}
-                              href={ville.href}
+                              key={ville.name}
+                              href={`/villes/${ville.name}`}
                               className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
                             >
                               {ville.name}
@@ -328,10 +328,10 @@ const Header = () => {
 
                           {pays.villes && openCountry === pays.name && (
                             <div className="pl-4 mt-1 space-y-1">
-                              {pays.villes.map((ville, subIdx) => (
+                              {pays.villes.map((ville) => (
                                 <a
-                                  key={subIdx}
-                                  href={ville.href}
+                                  key={ville.name}
+                                  href={`/villes/${ville.name}`}
                                   className="block py-1 text-sm text-gray-600 hover:text-amber-600"
                                   onClick={() => setIsMenuOpen(false)}
                                 >

@@ -11,6 +11,8 @@ import PageAccueilPublic from "./pages/page_accueil_public";
 import Accompagnement from "./pages/accompagnement";
 import Villes from "./pages_dynamiques/villes"; 
 import EvaluationOrientation from "./pages/EvaluationOrientation";
+import DevenirBenevole from "./pages/devenirBenevole";
+
 
 function App() {
 
@@ -28,6 +30,7 @@ function App() {
         <Route path="/accompagnement" element={<Accompagnement />} />
         <Route path="/villes/:nom" element={<Villes />} />
         <Route path="/evaluation" element={<EvaluationOrientation />} />
+        <Route path="/devenir-benevole" element={<DevenirBenevole />} />
       </Routes>
     </Router>
     <FooterMain />
