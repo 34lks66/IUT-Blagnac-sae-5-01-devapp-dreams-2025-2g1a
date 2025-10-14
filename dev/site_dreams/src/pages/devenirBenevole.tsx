@@ -15,7 +15,9 @@ function DevenirBenevole() {
         <div className="px-6 py-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Devenir Bénévole</h2>
-
+            <p className="mt-2 text-sm text-gray-600">
+              Rejoignez notre équipe de bénévoles et faites la différence
+            </p>
           </div>
 
           <form className="space-y-6">
