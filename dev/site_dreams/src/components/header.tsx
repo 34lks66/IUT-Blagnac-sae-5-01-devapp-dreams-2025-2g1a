@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/logo.png";
 
-type DropdownKey = 'antennes' | 'missions' | 'soutenir';
+type DropdownKey = "antennes" | "missions" | "soutenir";
 
 const Logo = () => (
   <a href="/" className="min-w-[128px] min-h-[128px]">
     <img src={logo} alt="Logo" className="h-32 w-auto" />
   </a>
 );
-
 
 const Header = () => {
   const [openCountry, setOpenCountry] = useState<string | null>(null);
@@ -26,35 +24,34 @@ const Header = () => {
           name: "France",
           href: "/france",
           villes: [
-            { name: "Toulouse"},
-            { name: "Carcassonne"},
-            { name: "Narbonne"}
-          ]
-        },
-        { 
-          name: "Togo", 
-          villes: [ 
-            { name: "Lomé"}
+            { name: "Toulouse", href: "/villes/Toulouse" },
+            { name: "Carcassonne", href: "/villes/Carcassonne" },
+            { name: "Narbonne", href: "/villes/Narbonne" },
           ],
         },
-        { 
-          name: "Burkina Faso", 
+        {
+          name: "Togo",
+          href: "/togo",
+          villes: [{ name: "Lomé", href: "/villes/Lomé" }],
+        },
+        {
+          name: "Burkina Faso",
+          href: "/burkina-faso",
           villes: [
-            { name: "Bobo-Dioulasso"},
-            { name: "Ouagadougou"}
+            { name: "Bobo-Dioulasso", href: "/villes/Bobo-Dioulasso" },
+            { name: "Ouagadougou", href: "/villes/Ouagadougou" },
           ],
         },
-        { 
-          name: "Côte d'Ivoire", 
+        {
+          name: "Côte d'Ivoire",
+          href: "/cote-divoire",
           villes: [
-            { name: "Abidjan"},
-            { name: "Bouaké"}
-          ]
+            { name: "Abidjan", href: "/villes/Abidjan" },
+            { name: "Bouaké", href: "/villes/Bouake" },
+          ],
         },
-        { 
-          name: "Italie"
-        },     
-      ]
+        { name: "Italie", href: "/italie" },
+      ],
     },
     missions: {
       title: "Nos missions",
@@ -63,17 +60,17 @@ const Header = () => {
         { name: "Évaluation et orientation", href: "/evaluation" },
         { name: "Hébergement solidaire et temporaire", href: "/hebergement" },
         { name: "Accompagnement administratif et juridique", href: "/accompagnement" },
-        { name: "Sensibilisation des minorités sexuelles", href: "/sensibilisation" }
-      ]
+        { name: "Sensibilisation des minorités sexuelles", href: "/sensibilisation" },
+      ],
     },
     soutenir: {
       title: "Nous soutenir",
       items: [
         { name: "Faire un don", href: "/donner" },
         { name: "Devenir bénévole", href: "/devenir-benevole" },
-        { name: "Devenir partenaire", href: "/devenir-partenaire" }
-      ]
-    }
+        { name: "Devenir partenaire", href: "/devenir-partenaire" },
+      ],
+    },
   };
 
   const toggleDropdown = (key: DropdownKey) => {
@@ -82,12 +79,12 @@ const Header = () => {
 
   return (
     <>
-      {/* Header Desktop */}
+      {/* HEADER */}
       <header className="bg-white border-b-2" style={{ borderImage: "linear-gradient(to right, #f59e0b, #93720a) 1" }}>
         <div className="flex items-center justify-between">
           <div className="flex-1"></div>
 
-          {/* Logo centré */}
+          {/* LOGO */}
           <div className="flex items-center justify-center space-x-3">
             <a href="/" className="flex items-center space-x-3">
               <Logo />
@@ -97,6 +94,7 @@ const Header = () => {
             </a>
           </div>
 
+          {/* ACTIONS / BURGER */}
           <div className="flex-1 flex justify-end items-center space-x-3">
             <a
               href="/devenir-benevole"
@@ -111,7 +109,7 @@ const Header = () => {
               Donner
             </a>
 
-            {/* Burger Menu Mobile */}
+            {/* Menu mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden text-gray-700 z-50"
@@ -122,67 +120,81 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Deuxième ligne - Navigation Desktop */}
+        {/* NAVIGATION DESKTOP */}
         <nav className="hidden md:block border-t border-gray-100">
-          <div className="flex items-center justify-center px-6 py-3 space-x-">
-            {/* DREAMS et ses antennes */}
+          <div className="flex items-center justify-center px-6 py-3 space-x-2">
+
+            {/* === ANTENNES === */}
             <div className="relative group">
               <button
-                className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
-                onMouseEnter={() => setOpenDropdown('antennes')}
+                className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600"
+                onMouseEnter={() => setOpenDropdown("antennes")}
                 onClick={() => setOpenDropdown(null)}
               >
                 <span>{menuStructure.antennes.title}</span>
-                <ChevronDown size={16} className={`transform transition-transform ${openDropdown === 'antennes' ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  size={16}
+                  className={`transform transition-transform ${openDropdown === "antennes" ? "rotate-180" : ""
+                    }`}
+                />
               </button>
 
-              {openDropdown === 'antennes' && (
+              {openDropdown === "antennes" && (
                 <div
                   className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
-                  {menuStructure.antennes.pays.map((pays) => (
-                    <div key={pays.name}>
+                  {menuStructure.antennes.pays.map((pays, idx) => (
+                    <div key={idx} className="relative group/item">
                       <a
                         href={pays.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 font-medium"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 font-medium flex justify-between items-center"
                       >
                         {pays.name}
+                        {pays.villes && (
+                          <ChevronDown
+                            size={14}
+                            className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:-rotate-90 group-hover/item:text-amber-600"
+                          />
+                        )}
                       </a>
+
                       {pays.villes && (
-                        <div className="pl-4 bg-gray-50">
-                          {pays.villes.map((villes) => (
-                            <Link
-                              to={`/villes/${encodeURIComponent(villes.name)}`}
-                              key={villes.name}
-                              className="block px-4 py-2 text-xs text-gray-600 hover:text-amber-600"
+                        <div className="absolute top-0 left-full mt-0 hidden group-hover/item:block bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[180px]">
+                          {pays.villes.map((ville, subIdx) => (
+                            <a
+                              key={subIdx}
+                              href={ville.href}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
                             >
-                              → {villes.name}
-                            </Link>
+                              {ville.name}
+                            </a>
                           ))}
                         </div>
                       )}
                     </div>
                   ))}
-
-
                 </div>
               )}
             </div>
 
-            {/* Nos missions */}
+            {/* === AUTRES MENUS === */}
+            {/* Missions */}
             <div className="relative group">
               <button
-                className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
-                onMouseEnter={() => setOpenDropdown('missions')}
+                className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600"
+                onMouseEnter={() => setOpenDropdown("missions")}
                 onClick={() => setOpenDropdown(null)}
-
               >
                 <span>{menuStructure.missions.title}</span>
-                <ChevronDown size={16} className={`transform transition-transform ${openDropdown === 'missions' ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  size={16}
+                  className={`transform transition-transform ${openDropdown === "missions" ? "rotate-180" : ""
+                    }`}
+                />
               </button>
 
-              {openDropdown === 'missions' && (
+              {openDropdown === "missions" && (
                 <div
                   className="absolute top-full left-0 mt-1 w-72 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
@@ -200,27 +212,26 @@ const Header = () => {
               )}
             </div>
 
-            {/* Agenda */}
-            <a
-              href="/agenda"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
-            >
+            <a href="/agenda" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600">
               Agenda
             </a>
 
-            {/* Nous soutenir */}
+            {/* Soutenir */}
             <div className="relative group">
               <button
-                className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
-                onMouseEnter={() => setOpenDropdown('soutenir')}
+                className="flex items-center space-x-1 px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600"
+                onMouseEnter={() => setOpenDropdown("soutenir")}
                 onClick={() => setOpenDropdown(null)}
-
               >
                 <span>{menuStructure.soutenir.title}</span>
-                <ChevronDown size={16} className={`transform transition-transform ${openDropdown === 'soutenir' ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  size={16}
+                  className={`transform transition-transform ${openDropdown === "soutenir" ? "rotate-180" : ""
+                    }`}
+                />
               </button>
 
-              {openDropdown === 'soutenir' && (
+              {openDropdown === "soutenir" && (
                 <div
                   className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
                   onMouseLeave={() => setOpenDropdown(null)}
@@ -238,109 +249,118 @@ const Header = () => {
               )}
             </div>
 
-            {/* Contact */}
-            <a
-              href="/contact"
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors"
-            >
+            <a href="/contact" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600">
               Contact
             </a>
           </div>
         </nav>
       </header>
 
-      {/* Menu Mobile */}
+      {/* === MENU MOBILE === */}
       {isMenuOpen && (
         <>
           <div
             className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
             onClick={() => setIsMenuOpen(false)}
           />
-
           <div className="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-2xl z-50 md:hidden overflow-y-auto">
             <div className="p-6">
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="absolute top-4 right-4 text-gray-700"
-                aria-label="Close menu"
               >
                 <X size={28} />
               </button>
 
               <h2 className="text-xl font-bold mb-6 mt-8 text-gray-800">Menu</h2>
 
-              {/* Boutons mobile */}
               <div className="flex flex-col gap-3 mb-6">
                 <a
                   href="/devenir-benevole"
                   className="w-full text-center px-4 py-3 border-2 border-amber-600 text-amber-700 rounded-md font-medium"
-                  onClick={() => setIsMenuOpen(false)}
                 >
                   Devenir bénévole
                 </a>
                 <a
                   href="/donner"
                   className="w-full text-center px-4 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-md font-medium"
-                  onClick={() => setIsMenuOpen(false)}
                 >
                   Donner
                 </a>
               </div>
 
               <div className="border-t border-gray-200 pt-4">
-                {/* DREAMS et ses antennes */}
+                {/* Antennes */}
                 <div className="mb-4">
                   <button
-                    onClick={() => toggleDropdown('antennes')}
+                    onClick={() => toggleDropdown("antennes")}
                     className="flex items-center justify-between w-full px-3 py-2 text-left font-semibold text-gray-800"
                   >
                     <span>{menuStructure.antennes.title}</span>
-                    <ChevronDown size={20} className={`transform transition-transform ${openDropdown === 'antennes' ? 'rotate-180' : ''}`} />
+                    <ChevronDown
+                      size={20}
+                      className={`transform transition-transform ${openDropdown === "antennes" ? "rotate-180" : ""
+                        }`}
+                    />
                   </button>
-                  {openDropdown === 'antennes' && (
-                    <div className="pl-4 mt-2 space-y-2">
-                      {menuStructure.antennes.pays.map((pays) => (
-                        <div key={pays.name}>
-                          <a
-                            href={pays.name}
-                            className="block py-2 text-sm text-gray-700 hover:text-amber-600"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            {pays.name}
-                          </a>
-                          {pays.villes && (
-                            <div className="pl-4 space-y-1">
-                              {pays.villes.map((villes) => (
-                                <Link
-                                  to={`/pages_dynamiques/villes/${encodeURIComponent(villes.name)}`}
 
-                                  key={villes.name}
-                                  className="block py-1 text-xs text-gray-600 hover:text-amber-600"
+                  {openDropdown === "antennes" && (
+                    <div className="pl-4 mt-2 space-y-2">
+                      {menuStructure.antennes.pays.map((pays, idx) => (
+                        <div key={idx}>
+                          <button
+                            onClick={() =>
+                              setOpenCountry(openCountry === pays.name ? null : pays.name)
+                            }
+                            className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-amber-600"
+                          >
+                            <span>{pays.name}</span>
+                            {pays.villes && (
+                              <ChevronDown
+                                size={14}
+                                className={`transform transition-transform duration-300 ${openCountry === pays.name
+                                    ? "rotate-180 text-amber-600"
+                                    : ""
+                                  }`}
+                              />
+                            )}
+                          </button>
+
+                          {pays.villes && openCountry === pays.name && (
+                            <div className="pl-4 mt-1 space-y-1">
+                              {pays.villes.map((ville, subIdx) => (
+                                <a
+                                  key={subIdx}
+                                  href={ville.href}
+                                  className="block py-1 text-sm text-gray-600 hover:text-amber-600"
                                   onClick={() => setIsMenuOpen(false)}
                                 >
-                                  → {villes.name}
-                                </Link>
+                                  → {ville.name}
+                                </a>
                               ))}
                             </div>
                           )}
                         </div>
                       ))}
-
-
                     </div>
                   )}
                 </div>
 
-                {/* Nos missions */}
+                {/* Missions */}
                 <div className="mb-4">
                   <button
-                    onClick={() => toggleDropdown('missions')}
+                    onClick={() => toggleDropdown("missions")}
                     className="flex items-center justify-between w-full px-3 py-2 text-left font-semibold text-gray-800"
                   >
                     <span>{menuStructure.missions.title}</span>
-                    <ChevronDown size={20} className={`transform transition-transform ${openDropdown === 'missions' ? 'rotate-180' : ''}`} />
+                    <ChevronDown
+                      size={20}
+                      className={`transform transition-transform ${openDropdown === "missions" ? "rotate-180" : ""
+                        }`}
+                    />
                   </button>
-                  {openDropdown === 'missions' && (
+
+                  {openDropdown === "missions" && (
                     <div className="pl-4 mt-2 space-y-2">
                       {menuStructure.missions.items.map((item, idx) => (
                         <a
@@ -356,7 +376,6 @@ const Header = () => {
                   )}
                 </div>
 
-                {/* Agenda */}
                 <a
                   href="/agenda"
                   className="block px-3 py-2 font-semibold text-gray-800 hover:text-amber-600"
@@ -365,16 +384,21 @@ const Header = () => {
                   Agenda
                 </a>
 
-                {/* Nous soutenir */}
+                {/* Soutenir */}
                 <div className="mb-4">
                   <button
-                    onClick={() => toggleDropdown('soutenir')}
+                    onClick={() => toggleDropdown("soutenir")}
                     className="flex items-center justify-between w-full px-3 py-2 text-left font-semibold text-gray-800"
                   >
                     <span>{menuStructure.soutenir.title}</span>
-                    <ChevronDown size={20} className={`transform transition-transform ${openDropdown === 'soutenir' ? 'rotate-180' : ''}`} />
+                    <ChevronDown
+                      size={20}
+                      className={`transform transition-transform ${openDropdown === "soutenir" ? "rotate-180" : ""
+                        }`}
+                    />
                   </button>
-                  {openDropdown === 'soutenir' && (
+
+                  {openDropdown === "soutenir" && (
                     <div className="pl-4 mt-2 space-y-2">
                       {menuStructure.soutenir.items.map((item, idx) => (
                         <a
@@ -390,7 +414,6 @@ const Header = () => {
                   )}
                 </div>
 
-                {/* Contact */}
                 <a
                   href="/contact"
                   className="block px-3 py-2 font-semibold text-gray-800 hover:text-amber-600"
