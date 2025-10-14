@@ -236,6 +236,7 @@ function Accompagnement() {
                     </div>
                 </button>
             </section>
+
         </main>
     );
 }
