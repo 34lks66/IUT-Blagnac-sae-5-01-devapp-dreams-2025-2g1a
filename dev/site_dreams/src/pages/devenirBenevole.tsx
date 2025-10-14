@@ -8,6 +8,17 @@ function DevenirBenevole() {
     telephone: ''
   });
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    console.log ("données :", formData)
+    setFormData({
+        nom: ''
+        , prenom: ''
+        , email: ''
+        , telephone: ''
+    })
+  }
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -77,7 +88,7 @@ function DevenirBenevole() {
                 </p>
               </div>
               
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="prenom" className="block text-sm font-medium text-gray-700">
@@ -127,6 +138,7 @@ function DevenirBenevole() {
                       name="email"
                       value={formData.email}
                       required
+                      onChange={(e) => setFormData({...formData, email: e.target.value })}
                       className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-300 transition duration-200"
                       placeholder="votre@email.com"
                     />
@@ -148,6 +160,7 @@ function DevenirBenevole() {
                       name="telephone"
                       value={formData.telephone}
                       required
+                      onChange={(e) =>setFormData({...formData, telephone: e.target.value })}
                       className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-300 transition duration-200"
                       placeholder="01 23 45 67 89"
                     />
