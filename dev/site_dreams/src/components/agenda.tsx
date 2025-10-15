@@ -40,7 +40,7 @@ export default function Agenda() {
         },
         {
             id: 2,
-            title: "Café-rencontre interculturel ☕",
+            title: "Café-rencontre interculturel ",
             date: "2025-10-25",
             time: "16:00",
             location: "Centre communautaire, Bruxelles",
@@ -50,7 +50,7 @@ export default function Agenda() {
         },
         {
             id: 3,
-            title: "Journée portes ouvertes DREAMS 🌍",
+            title: "Journée portes ouvertes DREAMS ",
             date: "2025-11-02",
             time: "10:00",
             location: "Maison DREAMS, Paris",
@@ -70,7 +70,7 @@ export default function Agenda() {
         },
         {
             id: 5,
-            title: "Formation bénévoles DREAMS 🤝",
+            title: "Formation bénévoles DREAMS ",
             date: "2025-11-15",
             time: "09:00",
             location: "Local DREAMS, Rome",
@@ -80,7 +80,7 @@ export default function Agenda() {
         },
         {
             id: 6,
-            title: "Fête de fin d’année 🎉",
+            title: "Fête de fin d’année ",
             date: "2025-12-20",
             time: "18:00",
             location: "Salle des fêtes, Paris",

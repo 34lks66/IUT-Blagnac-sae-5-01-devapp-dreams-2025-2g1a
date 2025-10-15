@@ -331,51 +331,6 @@ function PageAccueilPublic() {
       </section>
 
 
-
-
-      {/* Section Hero "Bienvenue en Europe" */}
-      {/* <section className="text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-          Bienvenue en <span className="text-blue-600">Europe</span>
-        </h1>
-        <p className="mb-6 text-gray-700 max-w-3xl mx-auto">
-          Un espace sécurisé où chaque identité est respectée, protégée et
-          célébrée. Vous êtes en sécurité ici et nous sommes là pour vous
-          accompagner.
-        </p>
-
-        <div className="flex flex-col lg:flex-row items-center gap-12 max-w-6xl mx-auto">
-          <div className="lg:w-1/2">
-            <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl h-[28rem] w-full overflow-hidden">
-              <img
-                src="public/images/pride-boy.jpg"
-                alt="Communauté LGBTQIA+ unie et solidaire"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-
-          <div className="lg:w-1/2 text-center lg:text-left">
-            <blockquote className="text-xl italic text-gray-700 leading-relaxed">
-              « L'amour commence par l'acceptation de soi, et s'épanouit dans
-              l'acceptation des autres. »
-              <footer className="mt-4 text-lg font-semibold text-blue-600">
-                —{" "}
-                <a
-                  href="https://en.wikipedia.org/wiki/Harvey_Milk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-800 hover:underline transition-colors duration-200"
-                >
-                  Harvey Milk
-                </a>
-              </footer>
-            </blockquote>
-          </div>
-        </div>
-      </section> */}
-
-
       {/* Section Slider Témoignages */}
       <section className="py-12">
         <div className="text-center mb-12">
