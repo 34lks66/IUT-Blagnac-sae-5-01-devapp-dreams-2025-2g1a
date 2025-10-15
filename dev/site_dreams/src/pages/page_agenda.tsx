@@ -1,4 +1,4 @@
-import Agenda from "../components/agenda";
+import Agenda from "../components/Agenda/agenda";
 
 export default function PageAgenda() {
     return <div className="flex justify-center items-center my-8">

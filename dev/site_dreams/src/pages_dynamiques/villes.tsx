@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import AgendaAntennes from "../components/Agenda/agenda_antennes";
 
 function Villes() {
   const data = [
@@ -81,7 +82,7 @@ function Villes() {
             Présentation de <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">{ville?.nom}</span>
           </h2>
           <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-8 rounded-full"></div>
-          
+
           <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
             <p className="text-lg text-gray-700 leading-relaxed">
               {ville?.description}
@@ -156,25 +157,35 @@ function Villes() {
                 <p className="text-gray-600 text-sm">Programmation à venir</p>
               </div>
             </div>
-            
-            <div className="text-center py-8">
+
+            {/* <div className="text-center py-8">
               <div className="max-w-md mx-auto">
                 <h3 className="text-xl font-semibold text-gray-700 mb-4">
                   Agenda en cours de préparation
                 </h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">
-                  L'équipe de {ville?.nom} travaille actuellement sur la programmation 
-                  des prochains événements. Revenez bientôt pour découvrir les activités, 
+                  L'équipe de {ville?.nom} travaille actuellement sur la programmation
+                  des prochains événements. Revenez bientôt pour découvrir les activités,
                   ateliers et rencontres organisés près de chez vous.
                 </p>
-                
+
                 <div className="bg-white rounded-lg p-4 border-l-4 border-yellow-500">
                   <p className="text-sm text-gray-700">
-                    <span className="font-semibold text-[#93720a]">Prochainement :</span> 
+                    <span className="font-semibold text-[#93720a]">Prochainement :</span>
                     Réunions de sensibilisation, groupes de parole, et événements communautaires
                   </p>
                 </div>
               </div>
+
+
+            </div> */}
+            <div className="max-h-70 overflow-y-auto">
+              <AgendaAntennes lEvents={[{ id: 1, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 2, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 3, title: "Événement 1", date: "2023-12-04" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 4, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 5, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+              ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())} />
             </div>
           </div>
         </div>
