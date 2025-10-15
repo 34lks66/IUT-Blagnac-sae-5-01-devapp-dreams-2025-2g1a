@@ -1,12 +1,4 @@
-interface Event {
-    id: number;
-    title: string;
-    date: string;
-    time: string;
-    location: string;
-    description: string;
-    antenna: string;
-}
+import type { Event } from "../../data/type";
 
 function groupEventsByMonth(events: Event[]) {
     const groups: Record<string, Event[]> = {};

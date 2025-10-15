@@ -54,7 +54,6 @@ function Accompagnement() {
                             Que <span className="text-yellow-500">proposons-nous ?</span>
                         </h2>
                     </div>
-
                 </div>
             </section>
 
@@ -62,6 +61,7 @@ function Accompagnement() {
             <section className="max-w-6xl mx-auto py-7 px-4">
 
                 {/* Carte 1 - Orientation */}
+                <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-red-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer mr-32"></div>
                 <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-red-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer mr-32">
                     <div className="absolute inset-0 bg-red-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
@@ -83,7 +83,7 @@ function Accompagnement() {
                     </div>
                 </div>
 
-                
+
                 {/* Carte 3 - Suivi */}
                 <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-r-4 border-b-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer ml-32">
                     <div className="absolute inset-0 bg-blue-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
@@ -236,6 +236,7 @@ function Accompagnement() {
                     </div>
                 </button>
             </section>
+
 
         </main>
     );
