@@ -18,6 +18,8 @@ const detailCountry = [
   { country_code : "IT", pays: "Italie", description: "hello world", href: '/pays/', img: IT },
 ]
 
+type Country = typeof detailCountry[number];
+
 const Map: React.FC<WorldMapProps> = ({ paysDreams = []}) => {
     const [scale] = useState(4.5);
     const [translate, setTranslate] = useState({x: -1270, y: -640});
@@ -30,7 +32,7 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = []}) => {
     //   y: 0,
     // })
     // const [popupCountry, setPopupCountry] = useState<string | null>(null);
-    const [selectedCountry, setSelectedCountry] = useState<any>(null);
+    const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 
     // const handleWheel = (e: React.WheelEvent<SVGSVGElement>) => {
     //     e.preventDefault();
