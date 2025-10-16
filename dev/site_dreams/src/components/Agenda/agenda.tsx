@@ -102,7 +102,7 @@ export default function Agenda() {
         },
     ];
 
-    const groupedEvents = groupEventsByMonth(events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+    const groupedEvents = groupEventsByMonth(events.sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()));
 
 
     return (

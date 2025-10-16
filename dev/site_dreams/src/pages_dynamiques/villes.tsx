@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import AgendaAntennes from "../components/Agenda/agenda_antennes";
+import { CalendarDays } from "lucide-react";
 
 function Villes() {
   const data = [
@@ -147,14 +148,13 @@ function Villes() {
         <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-12 rounded-full"></div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 md:p-10 shadow-xl border-t-4 border-yellow-500">
+          <div className="bg-[#f4f1ea] rounded-2xl p-8 md:p-10 shadow-xl border-t-4 border-yellow-500">
             <div className="flex items-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-[#93720a] rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg">
-                📅
+              <div className="w-16 h-16  bg-yellow-500  rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg">
+                <CalendarDays />
               </div>
               <div className="ml-4">
                 <h3 className="font-semibold text-gray-800 text-lg">Antenne de {ville?.nom}</h3>
-                <p className="text-gray-600 text-sm">Programmation à venir</p>
               </div>
             </div>
 
@@ -185,7 +185,7 @@ function Villes() {
                 { id: 3, title: "Événement 1", date: "2023-12-04" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
                 { id: 4, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
                 { id: 5, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
-              ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())} />
+              ].sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime())} />
             </div>
           </div>
         </div>
