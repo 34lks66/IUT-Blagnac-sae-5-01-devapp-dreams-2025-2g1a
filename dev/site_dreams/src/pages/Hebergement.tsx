@@ -30,7 +30,7 @@ const Hebergement = () => {
       {/* Section Message d'espoir */}
       <section className="px-6 md:px-20 py-16 bg-white">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 h-1 w-32 mx-auto mb-8 rounded-full"></div>
+          {/* <div className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 h-1 w-32 mx-auto mb-8 rounded-full"></div> */}
           <p className="text-2xl md:text-3xl text-gray-800 leading-relaxed font-medium mb-6">
             L'hébergement solidaire et temporaire permet à chaque personne de se reconstruire,
             retrouver sa dignité et reprendre espoir.
@@ -55,9 +55,9 @@ const Hebergement = () => {
           {/* Objectif 1 */}
           <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+              {/* <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
-              </div>
+              </div> */}
               <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
                 Urgence
               </h4>
@@ -74,9 +74,9 @@ const Hebergement = () => {
           {/* Objectif 2 */}
           <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+              {/* <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
-              </div>
+              </div> */}
               <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
                 Protection
               </h4>
@@ -93,9 +93,9 @@ const Hebergement = () => {
           {/* Objectif 3 */}
           <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
+              {/* <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
-              </div>
+              </div> */}
               <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
                 Autonomie
               </h4>
@@ -128,14 +128,14 @@ const Hebergement = () => {
               />
             </div>
             <div className="order-1 md:order-2">
-              <div className="flex items-center gap-3 mb-4">
+              {/* <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                   <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
                 <h4 className="text-lg font-semibold text-[#93720a] uppercase tracking-wide">
                   Flexibilité
                 </h4>
-              </div>
+              </div> */}
 
               <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
                 Système d’hébergement rotatif
@@ -167,14 +167,14 @@ const Hebergement = () => {
         <div className="max-w-6xl mx-auto mb-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="flex items-center gap-3 mb-4">
+              {/* <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                   <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
                 <h4 className="text-lg font-semibold text-[#93720a] uppercase tracking-wide">
                   Protection
                 </h4>
-              </div>
+              </div> */}
 
               <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
                 Soutien aux victimes de VBG
@@ -220,14 +220,14 @@ const Hebergement = () => {
               />
             </div>
             <div className="order-1 md:order-2">
-              <div className="flex items-center gap-3 mb-4">
+              {/* <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                   <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
                 <h4 className="text-lg font-semibold text-[#93720a] uppercase tracking-wide">
                   Accompagnement
                 </h4>
-              </div>
+              </div> */}
 
               <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
                 Mise à l’abri et suivi

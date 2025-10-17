@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import Dreams from "../../assets/dreams_hero.png";
+import Dreams from "../../assets/accueil_image/dreams_hero.png";
+import BackgroundImg from "../../assets/accueil_image/background_image_2.png"
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative bg-gradient-to-br from-yellow-50 to-teal-100 py-16 lg:py-30 overflow-hidden">
+    <div className="relative py-16 lg:py-30 overflow-hidden" style={{backgroundImage: `url(${BackgroundImg})`}}>
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-yellow-100 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-teal-100 rounded-full translate-y-1/2 -translate-x-1/2 opacity-50"></div>
@@ -27,10 +28,10 @@ const Hero: React.FC = () => {
           {/* Text Content */}
           <div className="text-center lg:text-left">
             {/* Titre remonté avec moins d'espace en bas */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight">
-              Accueillir, 
-              <span className="text-yellow-500"> Protéger</span>, 
-              <span className="text-teal-600"> Accompagner</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+              L'autonomie, 
+              <span className="text-yellow-500"> l'indépendance et</span> 
+              <span className="text-teal-600"> la liberté</span>
             </h1>
             
             {/* Texte avec espacement réduit */}
@@ -70,9 +71,11 @@ const Hero: React.FC = () => {
                       className="max-w-full h-auto"
                     />    
                     <p className="text-lg md:text-xl text-gray-600 font-semibold mb-6 leading-relaxed max-w-2xl">
-                    Accompagnement{' '}
+                    {/* Accompagnement{' '}
                     <span className="text-yellow-400">des personnes minoritaires</span> et/ou{' '}
-                    <span className="text-yellow-400">en rupture sociale</span>
+                    <span className="text-yellow-400">en rupture sociale</span> */}
+                    Save{' '}
+                    <span className="text-yellow-400">Change</span>
                     </p>
                   </div>
                 </div>
