@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import AgendaAntennes from "../components/Agenda/agenda_antennes";
+import { CalendarDays } from "lucide-react";
 
 function Villes() {
   const data = [
@@ -81,7 +83,7 @@ function Villes() {
             Présentation de <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">{ville?.nom}</span>
           </h2>
           <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-8 rounded-full"></div>
-          
+
           <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
             <p className="text-lg text-gray-700 leading-relaxed">
               {ville?.description}
@@ -146,35 +148,44 @@ function Villes() {
         <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-12 rounded-full"></div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 md:p-10 shadow-xl border-t-4 border-yellow-500">
+          <div className="bg-[#f4f1ea] rounded-2xl p-8 md:p-10 shadow-xl border-t-4 border-yellow-500">
             <div className="flex items-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-[#93720a] rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg">
-                📅
+              <div className="w-16 h-16  bg-yellow-500  rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 shadow-lg">
+                <CalendarDays />
               </div>
               <div className="ml-4">
                 <h3 className="font-semibold text-gray-800 text-lg">Antenne de {ville?.nom}</h3>
-                <p className="text-gray-600 text-sm">Programmation à venir</p>
               </div>
             </div>
-            
-            <div className="text-center py-8">
+
+            {/* <div className="text-center py-8">
               <div className="max-w-md mx-auto">
                 <h3 className="text-xl font-semibold text-gray-700 mb-4">
                   Agenda en cours de préparation
                 </h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">
-                  L'équipe de {ville?.nom} travaille actuellement sur la programmation 
-                  des prochains événements. Revenez bientôt pour découvrir les activités, 
+                  L'équipe de {ville?.nom} travaille actuellement sur la programmation
+                  des prochains événements. Revenez bientôt pour découvrir les activités,
                   ateliers et rencontres organisés près de chez vous.
                 </p>
-                
+
                 <div className="bg-white rounded-lg p-4 border-l-4 border-yellow-500">
                   <p className="text-sm text-gray-700">
-                    <span className="font-semibold text-[#93720a]">Prochainement :</span> 
+                    <span className="font-semibold text-[#93720a]">Prochainement :</span>
                     Réunions de sensibilisation, groupes de parole, et événements communautaires
                   </p>
                 </div>
               </div>
+
+
+            </div> */}
+            <div className="max-h-70 overflow-y-auto">
+              <AgendaAntennes lEvents={[{ id: 1, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 2, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 3, title: "Événement 1", date: "2023-12-04" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 4, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+                { id: 5, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
+              ].sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime())} />
             </div>
           </div>
         </div>

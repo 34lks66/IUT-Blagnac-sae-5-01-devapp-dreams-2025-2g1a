@@ -5,8 +5,10 @@ import logo from "../assets/logo.png";
 type DropdownKey = "antennes" | "missions" | "soutenir";
 
 const Logo = () => (
-  <a href="/" className="min-w-[128px] min-h-[128px]">
-    <img src={logo} alt="Logo" className="h-32 w-auto" />
+  <a href="/" 
+  // className="min-w-[128px] min-h-[128px]"
+  >
+    <img src={logo} alt="Logo" className="h-24 w-auto" />
   </a>
 );
 
@@ -17,9 +19,9 @@ const Header = () => {
 
   const menuStructure = {
     antennes: {
-      title: "DREAMS et ses antennes",
+      title: "Nos antennes",
       pays: [
-        { name: "Accueil", href: "/" },
+        // { name: "Accueil", href: "/" },
         {
           name: "France",
           href: "/france",
@@ -107,22 +109,26 @@ const Header = () => {
               className="hidden md:flex items-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-md hover:shadow-lg transition-all text-sm font-medium"
             >
               Donner
-            </a>
+            </a>    
+          </div>
 
-            {/* Menu mobile */}
+          {/* Menu mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-gray-700 z-50"
+              className="md:hidden text-gray-700 z-50 mr-4"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
-          </div>
         </div>
 
         {/* NAVIGATION DESKTOP */}
         <nav className="hidden md:block border-t border-gray-100">
           <div className="flex items-center justify-center px-6 py-3 space-x-2">
+
+            <a href="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600">
+              Accueil
+            </a>
 
             {/* === ANTENNES === */}
             <div className="relative group">

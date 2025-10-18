@@ -12,7 +12,8 @@ import Accompagnement from "./pages/accompagnement";
 import Villes from "./pages_dynamiques/villes"; 
 import EvaluationOrientation from "./pages/EvaluationOrientation";
 import DevenirBenevole from "./pages/devenirBenevole";
-
+import PageAgenda from "./pages/page_agenda";
+import Contact from "./components/Contact";
 
 function App() {
 
@@ -31,6 +32,8 @@ function App() {
         <Route path="/villes/:nom" element={<Villes />} />
         <Route path="/evaluation" element={<EvaluationOrientation />} />
         <Route path="/devenir-benevole" element={<DevenirBenevole />} />
+        <Route path="/agenda" element={<PageAgenda />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
     <FooterMain />
