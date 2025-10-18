@@ -107,7 +107,7 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
 
 - **Frontend**: React
 
-- **Backend**: A choisir
+- **Backend**: Express
 
 - **Base de données**: MongoDB
 
