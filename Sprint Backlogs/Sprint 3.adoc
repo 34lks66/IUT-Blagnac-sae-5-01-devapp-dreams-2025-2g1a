@@ -1,0 +1,94 @@
+= Sprint 3 - Projet DREAMS
+
+Sprint 3 réalisé dans le cadre du projet DREAMS, terminé le 19 octobre 2025.
+
+== Objectifs du Sprint 3
+
+- Développer et intégrer l’**API REST** pour la communication entre le front-end React et la base de données.  
+- Mettre en place la **base de données** et ses connexions.  
+- Créer les **templates dynamiques** pour les pages Pays et Antenne.  
+- Revoir et améliorer l’**UX/UI** selon les retours du client.  
+- Implémenter de nouvelles **fonctionnalités principales** : carte interactive, agendas, formulaires.  
+- Démarrer le **tableau de bord administrateur** pour la gestion interne.  
+
+== Liste des tâches réalisées
+
+|===
+| ID | Tâche | Lien vers la tâche | État
+
+| 60  
+| *[US] API REST*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/60 | Fini
+
+| 44  
+| *[US] Base de données*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/44 | Fini
+
+| 45  
+| *[US] Améliorations UX/UI et intégration des retours client*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/45 | Fini
+
+| 43  
+| *[US] Page template*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/43 | Fini
+
+| 46  
+| *[US] Fonctionnalités principales*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/46 | Fini
+
+| 47  
+| *[TASK] Créer le template de page Pays*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/47 | Fini
+
+| 48  
+| *[TASK] Créer le template de page Antenne*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/48 | Fini
+
+| 49  
+| *[TASK] Améliorations UX/UI*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/49 | Fini
+
+| 50  
+| *[TASK] Intégration des retours client*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/50 | Fini
+
+| 52  
+| *[TASK] Refonte du menu principal*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/52 | Fini
+
+| 53  
+| *[TASK] Implémenter la carte interactive*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/53 | Fini
+
+| 54  
+| *[TASK] Créer l’agenda global*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/54 | Fini
+
+| 55  
+| *[TASK] Créer l’agenda par antenne*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/55 | Fini
+
+| 56  
+| *[TASK] Créer la page Contact*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/56 | Fini
+
+| 57  
+| *[TASK] Créer le formulaire d’adhésion*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/57 | Fini
+
+| 58  
+| *[TASK] Créer le formulaire de don*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/58 | Fini
+
+| 59  
+| *[TASK] Créer la base du tableau de bord admin*  
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/59 | Fini
+|===
+
+== Remarques
+
+Ce sprint marque une étape majeure dans le développement du projet.  
+La partie **technique** a débuté avec la mise en place de l’API REST et de la base de données.  
+Le **front-end** a été amélioré avec une meilleure ergonomie et de nouvelles fonctionnalités (carte interactive, formulaires, agenda).  
+Le **tableau de bord administrateur** a été commencé.  
+Les retours client ont été pris en compte afin d’améliorer la cohérence et l’expérience utilisateur globale.
