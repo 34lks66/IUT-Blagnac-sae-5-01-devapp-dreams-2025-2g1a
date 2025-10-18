@@ -17,18 +17,18 @@ mongoose
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.log(err));
 
-app.use('/api', routes);
-
 app.get('/', (req, res) => {
     res.json({ 
         message: 'Server is running!',
         routes: {
-            getMembers: 'GET /api/',
+            getMembers: 'GET /api/get',
             saveMember: 'POST /api/save',
             updateMember: 'PUT /api/update/:id',
             deleteMember: 'DELETE /api/delete/:id'
         }
     });
 });
+
+app.use('/api', routes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
