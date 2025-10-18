@@ -107,7 +107,7 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
 
 - **Frontend**: React
 
-- **Backend**: A choisir
+- **Backend**: Express
 
 - **Base de données**: MongoDB
 
@@ -181,7 +181,8 @@ Ci-dessous un récapitulatif des réunions équipe/client avec ordre du jour et 
 | 19/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2019.09_Semaine%2038.pdf[ODJ S38] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_21.09_Semaine%2038.pdf[CR S38] | Client, Léo
 | 26/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2026.09_Semaine%2039.pdf[ODJ S39] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_26.09_Semaine%2039.pdf[CR S39] | Client, Léo
 | 03/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2003.10_Semaine%2040.pdf[ODJ S40] | Client n'a pas pu être la | 
-| 06/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2006.10_Semaine%2041.pdf[ODJ S41] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_06.10_Semaine%2041.pdf[CR S41] | Client, Léo | 
+| 06/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2006.10_Semaine%2041.pdf[ODJ S41] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_06.10_Semaine%2041.pdf[CR S41] | Client, Léo  
+| 17/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2017.10_Semaine%2042.pdf[ODJ S42] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR%2017.10_Semaine%2042.pdf[CR S42] | Client, Léo  
 |===
 
 
