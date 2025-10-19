@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { paths } from "../../data/paths";
 import FR from "../../assets/map_image/FR.png";
 import BF from "../../assets/map_image/BF.png";
@@ -11,16 +12,17 @@ type WorldMapProps = {
 };
 
 const detailCountry = [
-  { country_code : "FR", pays: "France", description: "hello world", href: '/pays/', img: FR},
-  { country_code : "BF", pays: "Burkina Faso", description: "hello world", href: '/pays/', img: BF },
-  { country_code : "TG", pays: "Togo", description: "hello world", href: '/pays/', img: TG },
-  { country_code : "CI", pays: "Côte d'ivoire", description: "hello world", href: '/pays/', img: CI },
-  { country_code : "IT", pays: "Italie", description: "hello world", href: '/pays/', img: IT },
+  { country_code : "FR", pays: "France", description: "hello world", href: '/pays/france', img: FR},
+  { country_code : "BF", pays: "Burkina Faso", description: "hello world", href: '/pays/burkina-faso', img: BF },
+  { country_code : "TG", pays: "Togo", description: "hello world", href: '/pays/togo', img: TG },
+  { country_code : "CI", pays: "Côte d'ivoire", description: "hello world", href: '/pays/cote-ivoire', img: CI },
+  { country_code : "IT", pays: "Italie", description: "hello world", href: '/pays/italie', img: IT },
 ]
 
 type Country = typeof detailCountry[number];
 
 const Map: React.FC<WorldMapProps> = ({ paysDreams = []}) => {
+    const navigate = useNavigate();
     const [scale] = useState(4.5);
     const [translate, setTranslate] = useState({x: -1270, y: -640});
     const [isDragging, setIsDragging] = useState(false);
@@ -85,6 +87,10 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = []}) => {
       }
     };
 
+    const handleClick = (href: string) => {
+         navigate(href);
+    };
+
     return (
         <div className="relative w-full h-[80vh]"> 
           <svg
@@ -146,7 +152,7 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = []}) => {
                   <li id="help" className="upper font-bold"><div className="inline font-bold text-[#93720a]">47</div>&nbsp;ababab</li>
                 </ul> */}
                 <div className="mt-3">
-                <a href={`${selectedCountry.href}`} id="btn" data-country="" className="mx-auto inline-block border text-[#93720a] border-[#93720a] px-4 py-1 rounded-md font-medium hover:bg-[rgb(220, 67, 54)] hover:text-white transition-colors">Voir la fiche</a>
+                <a onClick={() => handleClick(selectedCountry.href)} id="btn" data-country="" className="mx-auto inline-block border text-[#93720a] border-[#93720a] px-4 py-1 rounded-md font-medium hover:bg-[rgb(220, 67, 54)] hover:text-white transition-colors">Voir la fiche</a>
                 </div>
               </div>
             </div>
