@@ -91,9 +91,7 @@ function DevenirBenevole() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="prenom" className="block text-sm font-medium text-gray-700">
-                      Prénom *
-                    </label>
+
                     <input
                       type="text"
                       id="prenom"
@@ -107,9 +105,6 @@ function DevenirBenevole() {
                   </div>
 
                   <div>
-                    <label htmlFor="nom" className="block text-sm font-medium text-gray-700">
-                      Nom *
-                    </label>
                     <input
                       type="text"
                       id="nom"
@@ -129,9 +124,6 @@ function DevenirBenevole() {
                     concernant votre candidature et les prochaines étapes du processus.
                   </p>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                      Adresse email *
-                    </label>
                     <input
                       type="email"
                       id="email"
@@ -151,9 +143,6 @@ function DevenirBenevole() {
                     en cas de besoin urgent ou pour confirmer vos disponibilités pour une mission.
                   </p>
                   <div>
-                    <label htmlFor="telephone" className="block text-sm font-medium text-gray-700">
-                      Numéro de téléphone *
-                    </label>
                     <input
                       type="tel"
                       id="telephone"
@@ -175,50 +164,7 @@ function DevenirBenevole() {
                     Postuler comme bénévole
                   </button>
                 </div>
-
-                <p className="text-xs text-gray-500 text-center">
-                  * Champs obligatoires. Vos données sont protégées et ne seront jamais partagées avec des tiers.
-                </p>
               </form>
-            </div>
-          </div>
-        </div>
-
-        {/* Section en dessous du formulaire */}
-        <div className="bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900">Engagez-vous à nos côtés</h3>
-            <p className="mt-2 text-gray-600">
-              Découvrez les différentes façons de contribuer à notre mission
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-6 bg-purple-50 rounded-xl border-2 border-purple-100">
-              <div className="text-2xl mb-3">🕒</div>
-              <h4 className="font-semibold text-purple-800 mb-2">Bénévolat régulier</h4>
-              <p className="text-purple-700 text-sm">
-                Engagez-vous sur la durée avec des missions régulières adaptées à vos compétences 
-                et disponibilités. Parfait pour ceux qui souhaitent s'investir sur le long terme.
-              </p>
-            </div>
-
-            <div className="text-center p-6 bg-indigo-50 rounded-xl border-2 border-indigo-100">
-              <div className="text-2xl mb-3">⚡</div>
-              <h4 className="font-semibold text-indigo-800 mb-2">Missions ponctuelles</h4>
-              <p className="text-indigo-700 text-sm">
-                Participez à des événements spécifiques ou des actions ponctuelles selon vos envies 
-                et disponibilités. Idéal pour ceux qui ont un emploi du temps chargé.
-              </p>
-            </div>
-
-            <div className="text-center p-6 bg-teal-50 rounded-xl border-2 border-teal-100">
-              <div className="text-2xl mb-3">💼</div>
-              <h4 className="font-semibold text-teal-800 mb-2">Compétences spécifiques</h4>
-              <p className="text-teal-700 text-sm">
-                Mettez vos compétences professionnelles au service de notre cause : communication, 
-                gestion, technique... Chaque talent compte !
-              </p>
             </div>
           </div>
         </div>
