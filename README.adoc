@@ -105,9 +105,9 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
 
 == *Technologies Utilisées*
 
-- **Frontend**: React
+- **Frontend**: React tsx
 
-- **Backend**: Express
+- **Backend**: Node.js et Express
 
 - **Base de données**: MongoDB
 
