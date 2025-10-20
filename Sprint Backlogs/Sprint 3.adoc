@@ -74,7 +74,7 @@ Sprint 3 réalisé dans le cadre du projet DREAMS, terminé le 19 octobre 2025.
 
 | 57  
 | *[TASK] Créer le formulaire d’adhésion*  
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/57 | Fini
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/57 | Déplacé -> Sprint 4
 
 | 58  
 | *[TASK] Créer le formulaire de don*  
