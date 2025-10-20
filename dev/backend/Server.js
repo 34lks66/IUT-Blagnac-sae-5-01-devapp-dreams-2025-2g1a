@@ -6,7 +6,8 @@ const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
 const path = require('path');
 
-const routes = require('./routes/MemberRoute');
+const memberRoutes = require('./routes/MemberRoute');
+const newsRoutes = require('./routes/NewsRoute');
 
 require('dotenv').config();
 
@@ -25,10 +26,18 @@ app.get('/', (req, res) => {
     res.json({ 
         message: 'Server is running!',
         routes: {
+          members: {
             getMembers: 'GET /api/get',
             saveMember: 'POST /api/save',
             updateMember: 'PUT /api/update/:id',
             deleteMember: 'DELETE /api/delete/:id'
+          },
+          news: {
+            getNews: 'GET /api/news/get',
+            saveNews: 'POST /api/news/save',
+            updateNews: 'PUT /api/news/update/:id',
+            deleteNews: 'DELETE /api/news/delete/:id'
+          }
         }
     });
 });
@@ -90,7 +99,8 @@ app.get('/swagger.json', (req, res) => {
    `);
  });
 
-app.use('/api', routes);
+app.use('/api', memberRoutes);
+app.use('/api', newsRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 

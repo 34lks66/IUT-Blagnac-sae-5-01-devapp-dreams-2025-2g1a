@@ -1,4 +1,5 @@
 import React from 'react';
+import Accueil from '../components/News';
 
 interface ContentProps {
   activeTab: string;
@@ -200,6 +201,7 @@ const Content = ({ activeTab }: ContentProps) => {
 
   const contentMap: Record<string, React.ReactElement> = {
     dashboard: renderDashboard(),
+    accueil: <Accueil />,
     hebergement: renderPlaceholder(
       'Gestion des hébergements',
       'Gérez les demandes d\'hébergement, les bénéficiaires et le suivi'
