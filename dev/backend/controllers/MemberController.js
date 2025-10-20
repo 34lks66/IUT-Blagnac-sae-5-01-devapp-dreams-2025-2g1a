@@ -12,13 +12,22 @@ module.exports.getMembers = async (req, res) => {
 
 module.exports.saveMember = async (req, res) => {
   try {
-    const { text } = req.body;
+    const { nom, prenom, telephone, mail } = req.body;
 
-    if (!text) {
-      return res.status(400).json({ error: "Text field is required" });
+    // Validation des champs requis
+    if (!nom || !prenom || !telephone || !mail) {
+      return res.status(400).json({ 
+        error: "Tous les champs sont requis: nom, prenom, telephone, mail" 
+      });
     }
 
-    const newMember = await MemberModel.create({ text });
+    const newMember = await MemberModel.create({ 
+      nom, 
+      prenom, 
+      telephone, 
+      mail 
+    });
+    
     console.log("Saved successfully...");
     res.status(201).json(newMember);
   } catch (error) {
@@ -29,16 +38,24 @@ module.exports.saveMember = async (req, res) => {
 
 module.exports.updateMember = async (req, res) => {
   try {
-    const { id } = req.params; // Récupéré de l'URL
-    const { text } = req.body; // Récupéré du body
+    const { id } = req.params;
+    const { nom, prenom, telephone, mail } = req.body;
 
-    if (!text) {
-      return res.status(400).json({ error: "Text field is required" });
+    if (!nom && !prenom && !telephone && !mail) {
+      return res.status(400).json({ 
+        error: "Au moins un champ doit être fourni: nom, prenom, telephone, mail" 
+      });
     }
+
+    const updateData = {};
+    if (nom) updateData.nom = nom;
+    if (prenom) updateData.prenom = prenom;
+    if (telephone) updateData.telephone = telephone;
+    if (mail) updateData.mail = mail;
 
     const updatedMember = await MemberModel.findByIdAndUpdate(
       id, 
-      { text }, 
+      updateData, 
       { new: true }
     );
 
@@ -55,7 +72,7 @@ module.exports.updateMember = async (req, res) => {
 
 module.exports.deleteMember = async (req, res) => {
   try {
-    const { id } = req.params; // Récupéré de l'URL
+    const { id } = req.params;
 
     const deletedMember = await MemberModel.findByIdAndDelete(id);
 
