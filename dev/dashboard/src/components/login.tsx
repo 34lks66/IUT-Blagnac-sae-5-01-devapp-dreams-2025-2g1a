@@ -21,9 +21,9 @@ function Login() {
 
             // Appel à l'API pour la connexion (simulation ici)
             //SImulation erreur
-            // await new Promise((_, reject) =>
-            //     setTimeout(() => reject(new Error("Identifiants invalides")), 1000)
-            // );
+            await new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("Identifiants invalides")), 1000)
+            );
 
 
             console.log("Email:", email, "Password:", password);
@@ -87,8 +87,8 @@ function Login() {
                         disabled={loading}
                         className={`w-full py-2.5 rounded-lg font-medium text-white transition 
           ${loading
-                                ? "bg-blue-400 cursor-not-allowed"
-                                : "bg-blue-600 hover:bg-blue-700"
+                                ? "bg-yellow-400 cursor-not-allowed"
+                                : "bg-yellow-600 hover:bg-yellow-700"
                             }`}
                     >
                         {loading ? "Chargement..." : "Se connecter"}
