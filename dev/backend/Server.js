@@ -95,5 +95,3 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-app.listen(PORT, () => console.log(`Docs: http://localhost:${PORT}/api-docs`));
-app.listen(PORT, () => console.log(`ReDoc: http://localhost:${PORT}/api-docs-redoc`));
