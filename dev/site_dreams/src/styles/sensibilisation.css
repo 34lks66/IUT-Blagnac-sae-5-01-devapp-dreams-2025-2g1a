@@ -7,16 +7,6 @@ h1{
     font-weight: bold;
 }   
 
-h2{
-    font-size: 25px;
-    font-weight: bold;
-    text-align: center;
-}
-
-p{
-    font-size: 16px;
-}
-
 .sensibilisation{
     display: flex;
     flex-direction: column;
@@ -157,15 +147,4 @@ p{
     flex-direction: column; 
     align-items: center;
     max-width: 30%;
-}
-
-.ressources{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 80px;
-    /* background-color: rgba(43, 127, 255, 0.5);  */
-    margin-left: 10%;
-    margin-right: 10%;
 }

@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import "../styles/evaluation.css";
+import hero from "../assets/hero_section/evaluation_orientation.png";
 
 type Partner = {
   id: string;
@@ -67,7 +68,7 @@ const EvaluationOrientation: React.FC = () => {
       <section className="eval-hero">
         <img
           className="eval-hero__img"
-          src="/images/bannière.png"
+          src={hero}
           alt="Évaluation et orientation"
         />
         <div className="eval-hero__content">

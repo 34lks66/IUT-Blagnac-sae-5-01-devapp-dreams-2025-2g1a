@@ -1,16 +1,46 @@
-import { useState } from 'react';
-import { List, X } from 'lucide-react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { List, X } from "lucide-react";
 
 export default function MenuPays() {
   const [open, setOpen] = useState(false);
   const [paysOpen, setPaysOpen] = useState<string | null>(null);
-  
+
   const navPays = [
-    { nom: 'FRANCE', classes: 'bg-gradient-to-r from-red-600 via-red-500 to-orange-400 text-white', antennes: [{nom: "Toulouse"}, {nom: "Carcassonne"}, {nom: "Narbonne"}] },
-    { nom: 'ITALIE', classes: 'bg-gradient-to-r from-orange-400 via-orange-300 to-yellow-400 text-white', antennes: [] },
-    { nom: "CÔTE D'IVOIRE", classes: 'bg-gradient-to-r from-yellow-400 via-green-400 to-green-500 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
-    { nom: 'BURKINA FASO', classes: 'bg-gradient-to-r from-green-500 via-blue-400 to-blue-500 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
-    { nom: 'TOGO', classes: 'bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 text-white', antennes: [{nom: "antenne_1"}, {nom: "antenne_2"}] },
+    {
+      nom: "FRANCE",
+      classes:
+        "bg-gradient-to-r from-red-600 via-red-500 to-orange-400 text-white",
+      antennes: [
+        { nom: "Toulouse" },
+        { nom: "Carcassonne" },
+        { nom: "Narbonne" },
+      ],
+    },
+    {
+      nom: "ITALIE",
+      classes:
+        "bg-gradient-to-r from-orange-400 via-orange-300 to-yellow-400 text-white",
+      antennes: [],
+    },
+    {
+      nom: "CÔTE D'IVOIRE",
+      classes:
+        "bg-gradient-to-r from-yellow-400 via-green-400 to-green-500 text-white",
+      antennes: [{ nom: "Abidjan" }, { nom: "Bouaké" }],
+    },
+    {
+      nom: "BURKINA FASO",
+      classes:
+        "bg-gradient-to-r from-green-500 via-blue-400 to-blue-500 text-white",
+      antennes: [{ nom: "Bobo-Dioulasso" }, { nom: "Ouagadougou" }],
+    },
+    {
+      nom: "TOGO",
+      classes:
+        "bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 text-white",
+      antennes: [{ nom: "Lomé" }],
+    },
   ];
 
   return (
@@ -50,22 +80,34 @@ export default function MenuPays() {
                   <li key={p.nom} className="">
                     <button
                       className={`w-full text-left px-3 py-3 font-bold rounded ${p.classes} shadow text-white flex items-center justify-between`}
-                      onClick={() => setPaysOpen(paysOpen === p.nom ? null : p.nom)}
+                      onClick={() =>
+                        setPaysOpen(paysOpen === p.nom ? null : p.nom)
+                      }
                     >
                       <span>{p.nom}</span>
                       {p.antennes.length > 0 && (
-                        <span className="ml-2 text-xs">{paysOpen === p.nom ? '▲' : '▼'}</span>
+                        <span className="ml-2 text-xs">
+                          {paysOpen === p.nom ? "▲" : "▼"}
+                        </span>
                       )}
                     </button>
                     {/* Sous-liste antennes */}
                     {p.antennes.length > 0 && paysOpen === p.nom && (
-                      <ul className="ml-4 mt-2 bg-gray-50 rounded shadow-inner">
+                      <ul className="ml-4 mt-2 bg-gray-50 rounded">
                         {p.antennes.map((antenne) => (
                           <li
                             key={antenne.nom}
-                            className="px-4 py-2 hover:bg-gray-200 cursor-pointer font-medium text-gray-800"
+                            className="relative px-4 py-3 cursor-pointer font-medium text-gray-800 hover:text-gray-900 transition-colors duration-200"
                           >
-                            {antenne.nom}
+                            <Link
+                              to={`/villes/${encodeURIComponent(antenne.nom)}`}
+                              className="block w-full h-full relative z-10"
+                              onClick={() => setOpen(false)}
+                            >
+                              {antenne.nom}
+                            </Link>
+                            {/* Effet arc-en-ciel au survol */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 opacity-0 hover:opacity-10 transition-opacity duration-300 rounded transform origin-left scale-x-0 hover:scale-x-100 transition-transform duration-300 ease-out" />
                           </li>
                         ))}
                       </ul>
@@ -86,19 +128,26 @@ export default function MenuPays() {
               key={p.nom}
               className={`relative flex-1 min-w-[120px] ${p.classes} text-center font-bold cursor-pointer group`}
               style={{
-                marginLeft: index === 0 ? 0 : '-1px' // Supprime l'espace entre les éléments
+                marginLeft: index === 0 ? 0 : "-1px",
               }}
             >
               <div className="py-2 border-r border-white border-opacity-20 last:border-r-0">
                 {p.nom}
               </div>
-              <ul className="hidden group-hover:block md:absolute md:left-0 md:top-full bg-white text-black w-full z-50 shadow-lg">
+              <ul className="hidden group-hover:block md:absolute md:left-0 md:top-full bg-white text-black w-full z-50 shadow-lg rounded-b-lg overflow-hidden">
                 {p.antennes.map((antenne) => (
                   <li
                     key={antenne.nom}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer font-medium border-b border-gray-100 last:border-b-0"
+                    className="relative px-4 py-3 cursor-pointer font-medium text-gray-800 hover:text-gray-900 transition-colors duration-200 group/item"
                   >
-                    {antenne.nom}
+                    <Link
+                      to={`/villes/${encodeURIComponent(antenne.nom)}`}
+                      className="block w-full h-full relative z-10"
+                    >
+                      {antenne.nom}
+                    </Link>
+                    {/* Effet arc-en-ciel au survol */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 opacity-0 group-hover/item:opacity-10 transition-opacity duration-300 transform origin-left scale-x-0 group-hover/item:scale-x-100 transition-transform duration-300 ease-out" />
                   </li>
                 ))}
               </ul>
