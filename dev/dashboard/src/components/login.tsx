@@ -18,17 +18,28 @@ function Login() {
 
         try {
             setLoading(true);
+            const response = await fetch("http://localhost:5000/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ email, password }),
+            });
 
-            // Appel à l'API pour la connexion (simulation ici)
-            //SImulation erreur
-            await new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Identifiants invalides")), 1000)
-            );
+            if (!response.ok) {
+                throw new Error("Erreur lors de la connexion");
+            }
 
+            const data = await response.json();
+            console.log("Connexion réussie :", data);
+            alert("Connexion réussie !");
 
-            console.log("Email:", email, "Password:", password);
-            alert("Connexion réussie ! (simulation)");
+            // //SImulation erreur
+            // await new Promise((_, reject) =>
+            //     setTimeout(() => reject(new Error("Identifiants invalides")), 1000)
+            // );
 
+            // console.log("Email:", email, "Password:", password);
+            // alert("Connexion réussie ! (simulation)");
 
         } catch (err: unknown) {
             setError("Erreur de connexion : " + (err instanceof Error ? err.message : "Inconnu"));
