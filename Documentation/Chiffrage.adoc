@@ -1,26 +1,28 @@
-= Chiffrage Projet: {Nom_du_projet}
-Auteur: {Nom de l'auteur ou de l'équipe}
-Date: {Date du document}
+= Chiffrage Projet: DREAMS
+Auteur: Equipe 2g1a
+Date: 09/09/2025
 
 == 1. Contexte
 
-Ce document présente le chiffrage prévisionnel du projet DREAMS, réalisé par l'équipe 2G du groupe 1A.
+Ce document présente le chiffrage prévisionnel du projet **DREAMS**, réalisé par l'équipe 2G du groupe 1A.
 
 Objectifs du projet :
-- {Objectif 1}
-- {Objectif 2}
+
+- Réalisation d'un site internet
+- Développement d'un outil de gestion associative et de suivi des bénéficiaires
 
 Livrables attendus :
+
 - Site Web Fonctionnel
-- {Livrable 2}
+- Outil de gestion associative et de suivi des bénéficiaires
 
 == 2. Hypothèses
 
 Les hypothèses suivantes sont prises en compte dans le chiffrage :
-- Durée du projet : {X} semaines / mois
-- Jours ouvrés par semaine : {ex. 5}
-- Charge journalière moyenne : {ex. 7h/jour}
-- Disponibilité de l'équipe : {ex. 80%}
+- Durée du projet : 2 semaines / mois
+- Jours ouvrés par semaine : 3
+- Charge journalière moyenne : 3h/jour
+- Disponibilité de l'équipe : 77%
 
 == 3. Composition de l'équipe
 
@@ -53,37 +55,57 @@ Les hypothèses suivantes sont prises en compte dans le chiffrage :
 == 5. Estimation de charge par rôle
 
 |===
-| Rôle | Charge (j.h) | Taux journalier (€) | Coût (€)
+| Rôle | Quantité (jours) | Tarif journalier (€) | Coût tôtal (€)
 
-| Chef de projet | {ex. 8} | {ex. 700} | {ex. 5600}
-| Développeur back | {ex. 18} | {ex. 500} | {ex. 9000}
-| Développeur front | {ex. 15} | {ex. 500} | {ex. 7500}
-| UX/UI Designer | {ex. 8} | {ex. 450} | {ex. 3600}
-| DevOps | {ex. 4} | {ex. 600} | {ex. 2400}
+| Scrum Master | 7 | 450 | 3150
+| Product Owner | 7 | 450 | 3150
+| Développeur (front) | 7 | 266 | 1862 
+| Développeur (back) | 7 | 305 | 2135
+| Développeur (bd) | 7 | 234 | 1638
+| Sous-traitance | 0,3 | 200 | 60
+| Déplacements | 0,3 | 40 | 12
+| Total Coûts Directs | - | - | 14142
 |===
 
-== 6. Synthèse budgétaire
+== 6. Provisions et marges
+
+|===
+| Poste | Pourcentage (%) | Montant (€)
+
+| Provisions risques | 5 | 707,1
+| Marge projet | 15 | 2121,3
+| Total provisions + marge | - | 2828,4
+
+|===
+
+== 7. Synthèse budgétaire
 
 [cols="2,1"]
 |===
 | Poste | Montant (€)
 
-| Total main d'œuvre | {Total_mo}
-| Licences & outils | {Montant_licences}
-| Infrastructure | {Montant_infra}
-| Divers / marge | {Montant_divers}
+| Total main d'œuvre (Coûts directs) | 14142
+| Provisions risques | 707,1
+| Marge projet | 2121,3
+| Licences & outils | 1200
+| Infrastructure | 800
+| Divers | 1500
 |===
 
-Total prévisionnel du projet : *{Total_global} €*
+Total prévisionnel du projet : *20 470,40€*
 
-== 7. Risques identifiés
+== 8. Risques identifiés
 
-- Risque 1 : {description} (impact : {faible/moyen/fort}, probabilité : {basse/moyenne/élevée})
-- Risque 2 : {description}
+- Coût dépassé : Dépassement du budget initial en raison de l'hébergement, référencement et maintenance du site (impact : moyen, probabilité : moyenne)
+- Changements fréquents de la demande : Modifications répétées des besoins du client impactant le planning et le budget (impact : élevé, probabilité : élevée)
+- Retard dans la livraison : Projet livré en retard par rapport au planning (impact : moyen, probabilité : moyenne)
+- Manque de compétences techniques client : Difficultés à maintenir ou faire évoluer le site (impact : moyen, probabilité : élevée)
 
-== 8. Commentaires / remarques
+== 9. Commentaires / remarques
 
-- {Commentaire libre}
+- Les risques liés aux changements fréquents de la demande client peuvent impacter le planning et le budget, un cahier des charges est prévu pour limiter les modifications en cours de projet.
+- La maintenance et l’évolution du site doivent être anticipées, notamment en formant les membres de l’association (les admins).
+- Le chiffrage reste prévisionnel et pourra être ajusté en fonction des retours clients.
 
 '''
 
