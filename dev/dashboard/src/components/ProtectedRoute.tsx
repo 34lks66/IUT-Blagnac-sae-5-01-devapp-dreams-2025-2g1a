@@ -10,7 +10,6 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Vérifie sur le backend si le cookie est valide
         fetch("http://localhost:5000/api/me", {
             credentials: "include", 
         })

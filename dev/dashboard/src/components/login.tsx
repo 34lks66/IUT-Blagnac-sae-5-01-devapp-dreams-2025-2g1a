@@ -1,10 +1,28 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+
+
+    useEffect(() => {
+        const checkLogin = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/me", {
+                    credentials: "include",
+                });
+                if (response.ok) {
+                    window.location.href = "/";
+                }
+            } catch {
+                //ignore
+            }
+        };
+        checkLogin();
+    }, []);
 
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,19 +49,16 @@ function Login() {
 
             const data = await response.json();
             console.log("Connexion réussie :", data);
-            alert("Connexion réussie !");
+            window.location.href = "/";
 
-            // //SImulation erreur
-            // await new Promise((_, reject) =>
-            //     setTimeout(() => reject(new Error("Identifiants invalides")), 1000)
-            // );
-
-            // console.log("Email:", email, "Password:", password);
-            // alert("Connexion réussie ! (simulation)");
-
-        } catch (err: unknown) {
-            setError("Erreur de connexion : " + (err instanceof Error ? err.message : "Inconnu"));
-            console.error(err);
+        }
+        catch (err: Error | unknown) {
+            if (err instanceof Error && err.message === "Failed to fetch") {
+                setError("Impossible de se connecter au serveur. Veuillez réessayer plus tard.");
+            } else {
+                setError((err instanceof Error ? err.message : "Inconnu"));
+                console.error(err);
+            }
         } finally {
             setLoading(false);
         }
@@ -69,9 +84,7 @@ function Login() {
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         />
-                        {error && (
-                            <p className="error-message text-red-500 text-sm mt-1">{error}</p>
-                        )}
+
                     </div>
 
                     <div className="form-group">
