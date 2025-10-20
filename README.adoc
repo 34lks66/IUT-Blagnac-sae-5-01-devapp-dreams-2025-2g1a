@@ -170,6 +170,7 @@ Ci-dessous un récapitulatif des réunions équipe/client avec ordre du jour et 
 | 22/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2022.09_Semaine%2039.pdf[ODJ S39] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2022.09_Semaine%2039.pdf[CR S39] | Toute l'équipe
 | 29/09/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2029.09%20_Semaine%2040.pdf[ODJ S40] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2029.09_Semaine%2040.pdf[CR S40] | Toute l'équipe
 | 07/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2007.10_Semaine%2041.pdf[ODJ S41] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2007.10_Semaine%2041.pdf[CR S41] | Toute l'équipe
+| 20/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/ODJ/ODJ%2020.10_Semaine%2043.pdf[ODJ S43] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Equipe/CR/CR%2020.10_Semaine%2043.pdf[CR S43] | Toute l'équipe
 |===
 
 === Réunions client
