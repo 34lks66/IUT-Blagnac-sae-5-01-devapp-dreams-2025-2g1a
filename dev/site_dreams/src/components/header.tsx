@@ -5,8 +5,10 @@ import logo from "../assets/logo.png";
 type DropdownKey = "antennes" | "missions" | "soutenir";
 
 const Logo = () => (
-  <a href="/" className="min-w-[128px] min-h-[128px]">
-    <img src={logo} alt="Logo" className="h-32 w-auto" />
+  <a href="/" 
+  // className="min-w-[128px] min-h-[128px]"
+  >
+    <img src={logo} alt="Logo" className="h-24 w-auto" />
   </a>
 );
 
@@ -17,37 +19,37 @@ const Header = () => {
 
   const menuStructure = {
     antennes: {
-      title: "DREAMS et ses antennes",
+      title: "Nos antennes",
       pays: [
-        { name: "Accueil", href: "/" },
+        // { name: "Accueil", href: "/" },
         {
           name: "France",
           href: "/france",
           villes: [
-            { name: "Toulouse", href: "/villes/Toulouse" },
-            { name: "Carcassonne", href: "/villes/Carcassonne" },
-            { name: "Narbonne", href: "/villes/Narbonne" },
+            { name: "Toulouse"},
+            { name: "Carcassonne"},
+            { name: "Narbonne"},
           ],
         },
         {
           name: "Togo",
           href: "/togo",
-          villes: [{ name: "Lomé", href: "/villes/Lomé" }],
+          villes: [{ name: "Lomé"}],
         },
         {
           name: "Burkina Faso",
           href: "/burkina-faso",
           villes: [
-            { name: "Bobo-Dioulasso", href: "/villes/Bobo-Dioulasso" },
-            { name: "Ouagadougou", href: "/villes/Ouagadougou" },
+            { name: "Bobo-Dioulasso"},
+            { name: "Ouagadougou"},
           ],
         },
         {
           name: "Côte d'Ivoire",
           href: "/cote-divoire",
           villes: [
-            { name: "Abidjan", href: "/villes/Abidjan" },
-            { name: "Bouaké", href: "/villes/Bouake" },
+            { name: "Abidjan"},
+            { name: "Bouaké"},
           ],
         },
         { name: "Italie", href: "/italie" },
@@ -107,22 +109,26 @@ const Header = () => {
               className="hidden md:flex items-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-md hover:shadow-lg transition-all text-sm font-medium"
             >
               Donner
-            </a>
+            </a>    
+          </div>
 
-            {/* Menu mobile */}
+          {/* Menu mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-gray-700 z-50"
+              className="md:hidden text-gray-700 z-50 mr-4"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
-          </div>
         </div>
 
         {/* NAVIGATION DESKTOP */}
         <nav className="hidden md:block border-t border-gray-100">
           <div className="flex items-center justify-center px-6 py-3 space-x-2">
+
+            <a href="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600">
+              Accueil
+            </a>
 
             {/* === ANTENNES === */}
             <div className="relative group">
@@ -161,10 +167,10 @@ const Header = () => {
 
                       {pays.villes && (
                         <div className="absolute top-0 left-full mt-0 hidden group-hover/item:block bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[180px]">
-                          {pays.villes.map((ville, subIdx) => (
+                          {pays.villes.map((ville) => (
                             <a
-                              key={subIdx}
-                              href={ville.href}
+                              key={ville.name}
+                              href={`/villes/${ville.name}`}
                               className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
                             >
                               {ville.name}
@@ -328,10 +334,10 @@ const Header = () => {
 
                           {pays.villes && openCountry === pays.name && (
                             <div className="pl-4 mt-1 space-y-1">
-                              {pays.villes.map((ville, subIdx) => (
+                              {pays.villes.map((ville) => (
                                 <a
-                                  key={subIdx}
-                                  href={ville.href}
+                                  key={ville.name}
+                                  href={`/villes/${ville.name}`}
                                   className="block py-1 text-sm text-gray-600 hover:text-amber-600"
                                   onClick={() => setIsMenuOpen(false)}
                                 >
