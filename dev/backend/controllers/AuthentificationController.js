@@ -1,40 +1,4 @@
 const jwt = require("jsonwebtoken");
-<<<<<<< HEAD
-
-const SECRET = process.env.JWT_SECRET;
-
-const USERS = [
-  { email: "user@test.com", password: "123456", role: "user" },
-  { email: "admin@test.com", password: "admin123", role: "admin" },
-];
-//Temporaire
-
-exports.login = (req, res) => {
-  const { email, password } = req.body;
-
-  const user = USERS.find(
-    (u) => u.email === email && u.password === password
-  );
-
-  if (!user) {
-    return res.status(401).json({ message: "Identifiants invalides" });
-  }
-
-  const token = jwt.sign(
-    { email: user.email, role: user.role },
-    SECRET,
-    { expiresIn: "1h" }
-  );
-
-  res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "strict",
-    secure: false, 
-    maxAge: 60 * 60 * 1000,
-  });
-
-  res.json({ message: "Connexion réussie" });
-=======
 const Account = require("../models/AccountModel");
 const bcrypt = require("bcrypt")
 
@@ -75,7 +39,6 @@ exports.login = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
->>>>>>> main
 };
 
 
