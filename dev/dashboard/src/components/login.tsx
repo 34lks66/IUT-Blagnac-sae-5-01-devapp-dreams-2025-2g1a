@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
+import Loading from './loading';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -115,7 +116,7 @@ function Login() {
                                 : "bg-yellow-600 hover:bg-yellow-700"
                             }`}
                     >
-                        {loading ? "Chargement..." : "Se connecter"}
+                        {loading ? <div className="flex justify-center"><Loading /></div> : "Se connecter"}
                     </button>
                 </form>
             </div>

@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen text-gray-600">
-                Vérification de la session...
+                Vérification de l'authentification...
             </div>
         );
     }
