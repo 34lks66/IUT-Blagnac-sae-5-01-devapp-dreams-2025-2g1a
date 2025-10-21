@@ -21,10 +21,6 @@ const PagesSite: React.FC = () => {
         </button>
 
         <CardFrame>
-          <h2 className="text-xl font-bold text-gray-900">Page Pays</h2>
-          <p className="text-gray-600 mt-1">
-            Renseignez le contenu d’un pays : pays, bannière, description, actualités et antennes.
-          </p>
           <div className="mt-6">
             <PagePaysForm />
           </div>
