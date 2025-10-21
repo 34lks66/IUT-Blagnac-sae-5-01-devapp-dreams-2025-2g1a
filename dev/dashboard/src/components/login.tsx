@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import Loading from './loading';
+import Loading from './Loadings/loading';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -47,9 +47,6 @@ function Login() {
             if (!response.ok) {
                 throw new Error("Erreur lors de la connexion");
             }
-
-            const data = await response.json();
-            console.log("Connexion réussie :", data);
             window.location.href = "/";
 
         }

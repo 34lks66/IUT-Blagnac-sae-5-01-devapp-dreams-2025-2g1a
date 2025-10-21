@@ -5,10 +5,24 @@ interface SidebarProps {
   setIsMobileOpen: (open: boolean) => void;
 }
 
+async function logout() {
+  try {
+    const response = await fetch("http://localhost:5000/api/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    if (response.ok) {
+      window.location.href = "/login";
+    }
+  } catch (error) {
+    console.error("Erreur lors de la déconnexion", error);
+  }
+}
+
 const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: SidebarProps) => {
   const menuItems = [
-    { 
-      id: 'dashboard', 
+    {
+      id: 'dashboard',
       label: 'Tableau de bord',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -16,8 +30,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'hebergement', 
+    {
+      id: 'hebergement',
       label: 'Hébergement',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,8 +39,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'accompagnement', 
+    {
+      id: 'accompagnement',
       label: 'Accompagnement',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,8 +48,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'sensibilisation', 
+    {
+      id: 'sensibilisation',
       label: 'Sensibilisation',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,8 +57,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'pages', 
+    {
+      id: 'pages',
       label: 'Pages du site',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,8 +66,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'users', 
+    {
+      id: 'users',
       label: 'Utilisateurs',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,8 +75,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'settings', 
+    {
+      id: 'settings',
       label: 'Paramètres',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,12 +91,12 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
     <>
       {/* Mobile Overlay */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
-      
+
       {/* Sidebar */}
       <aside className={`
         fixed md:static inset-y-0 left-0 z-50
@@ -95,7 +109,7 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
           <div className="p-6 border-b border-white/20">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">DREAMS</h2>
-              <button 
+              <button
                 className="md:hidden text-white hover:text-yellow-100 transition-colors"
                 onClick={() => setIsMobileOpen(false)}
               >
@@ -106,7 +120,7 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
             </div>
             <p className="text-xs text-white/80 mt-1">Admin Dashboard</p>
           </div>
-          
+
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
             <ul className="space-y-1">
@@ -120,8 +134,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
                     className={`
                       w-full text-left px-4 py-3 rounded-lg transition-all duration-200
                       flex items-center gap-3 font-medium text-sm
-                      ${activeTab === item.id 
-                        ? 'bg-white text-[#93720a] shadow-lg' 
+                      ${activeTab === item.id
+                        ? 'bg-white text-[#93720a] shadow-lg'
                         : 'hover:bg-white/10 text-white/90'
                       }
                     `}
@@ -133,10 +147,10 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
               ))}
             </ul>
           </nav>
-          
+
           {/* Footer */}
           <div className="p-4 border-t border-white/20">
-            <button className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3 font-medium text-sm">
+            <button className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3 font-medium text-sm" onClick={logout}> 
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
