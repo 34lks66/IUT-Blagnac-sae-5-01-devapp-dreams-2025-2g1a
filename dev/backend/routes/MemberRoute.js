@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
+const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
 
 const router = Router()
 
@@ -21,6 +22,8 @@ const router = Router()
  *                 $ref: '#/components/schemas/Member'
  */
 router.get('/get', getMembers)
+router.get('/antenne/get', getAntennes)
+
 
 /**
  * @openapi
@@ -38,6 +41,8 @@ router.get('/get', getMembers)
  *         description: Created
  */
 router.post('/save', saveMember)
+router.post('/antenne/save', saveAntenne)
+
 
 /**
  * @openapi
@@ -60,6 +65,8 @@ router.post('/save', saveMember)
  *         description: Updated
  */
 router.put('/update/:id', updateMember)
+router.put('/antenne/update/:id', updateAntenne)
+
 
 /**
  * @openapi
@@ -77,6 +84,8 @@ router.put('/update/:id', updateMember)
  *         description: No Content
  */
 router.delete('/delete/:id', deleteMember)
+router.delete('/antenne/delete/:id', deleteAntenne)
+
 
 
 module.exports = router 
