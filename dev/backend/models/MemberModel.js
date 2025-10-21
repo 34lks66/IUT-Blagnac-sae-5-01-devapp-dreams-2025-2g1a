@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 
 const MemberSchema = new mongoose.Schema({
-<<<<<<< HEAD
     text: { 
         type: String, 
         required: true 
     },
-=======
     nom: { 
         type: String, 
         required: true 
@@ -24,7 +22,6 @@ const MemberSchema = new mongoose.Schema({
         required: true 
     },
     
->>>>>>> main
 });
 
 const Member = mongoose.model('Member', MemberSchema);
