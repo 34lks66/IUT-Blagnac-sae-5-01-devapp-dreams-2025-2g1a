@@ -1,3 +1,5 @@
+// ...existing code...
+import React, { useEffect, useState } from "react";
 import type { Event } from "../../data/type";
 
 function groupEventsByMonth(events: Event[]) {
@@ -17,104 +19,63 @@ function groupEventsByMonth(events: Event[]) {
 }
 
 export default function Agenda() {
+    const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
+    const [events, setEvents] = useState<Event[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
+    useEffect(() => {
+        const ctrl = new AbortController();
+        async function fetchGeneral() {
+            setLoading(true);
+            setError(null);
+            try {
+                // on demande uniquement l'agenda général
+                const res = await fetch(`${API_BASE}/api/events?general=true`, { signal: ctrl.signal });
+                if (!res.ok) {
+                    throw new Error(`Erreur HTTP ${res.status}`);
+                }
+                const data = await res.json();
+                // normaliser les ids (backend peut renvoyer _id)
+                const normalized: Event[] = Array.isArray(data) ? data.map((e: any, idx: number) => ({
+                    id: e.id ?? e._id ?? idx,
+                    title: e.title,
+                    date: e.date,
+                    time: e.time,
+                    location: e.location,
+                    description: e.description,
+                    antenna: e.antenna ?? null,
+                })) : [];
+                // trier par date descendante (comme avant)
+                normalized.sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime());
+                setEvents(normalized);
+            } catch (err: any) {
+                if (err.name !== 'AbortError') {
+                    console.error(err);
+                    setError(err.message || 'Erreur lors du chargement des événements');
+                }
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchGeneral();
+        return () => ctrl.abort();
+    }, [API_BASE]);
 
-    const events: Event[] = [
-        {
-            id: 1,
-            title: "Atelier d’accompagnement juridique",
-            date: "2025-10-21",
-            time: "14:00",
-            location: "Maison des associations, Toulouse",
-            description:
-                "Séance d’aide pour les démarches de régularisation et les demandes d’asile.",
-            antenna: "France - Toulouse",
-        },
-        {
-            id: 2,
-            title: "Café-rencontre interculturel ",
-            date: "2025-10-25",
-            time: "16:00",
-            location: "Centre communautaire, Bruxelles",
-            description:
-                "Moment convivial pour échanger sur les cultures et les parcours de vie.",
-            antenna: "Belgique - Bruxelles",
-        },
-        {
-            id: 3,
-            title: "Journée portes ouvertes DREAMS ",
-            date: "2025-11-02",
-            time: "10:00",
-            location: "Maison DREAMS, Paris",
-            description:
-                "Présentation de l’association et de ses projets dans chaque antenne.",
-            antenna: "France - Paris",
-        },
-        {
-            id: 4,
-            title: "Atelier CV & emploi",
-            date: "2025-11-08",
-            time: "15:30",
-            location: "Bibliothèque municipale, Vientiane",
-            description:
-                "Atelier pour accompagner les réfugiés dans la rédaction de CV et lettres de motivation.",
-            antenna: "Laos - Vientiane",
-        },
-        {
-            id: 5,
-            title: "Formation bénévoles DREAMS ",
-            date: "2025-11-15",
-            time: "09:00",
-            location: "Local DREAMS, Rome",
-            description:
-                "Session de formation à l’accueil et à l’accompagnement administratif.",
-            antenna: "Italie - Rome",
-        },
-        {
-            id: 6,
-            title: "Fête de fin d’année ",
-            date: "2025-12-20",
-            time: "18:00",
-            location: "Salle des fêtes, Paris",
-            description:
-                "Soirée festive rassemblant toutes les antennes DREAMS pour célébrer l’année écoulée.",
-            antenna: "France - Paris",
-        },
-        {
-            id: 7,
-            title: "Début normalement",
-            date: "2000-12-20",
-            time: "18:00",
-            location: "Salle des fêtes, Paris",
-            description:
-                "Soirée festive rassemblant toutes les antennes DREAMS pour célébrer l’année écoulée.",
-            antenna: "France - Paris",
-        },
-        {
-            id: 8,
-            title: "Anniverssaire du GOAT",
-            date: "2026-02-23",
-            time: "18:00",
-            location: "Salle des fêtes, Toulouse",
-            description:
-                "Soirée festive rassemblant toutes les antennes DREAMS pour célébrer l'anniversaire du goat.",
-            antenna: "France - Toulouse",
-        },
-    ];
-
-    const groupedEvents = groupEventsByMonth(events.sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime()));
-
+    const groupedEvents = groupEventsByMonth(events);
 
     return (
-
         <div className="max-w-4xl mx-auto my-12 px-4">
             <h1 className="text-4xl font-bold text-center mb-10 text-gray-800">
                 Agenda <span className="text-yellow-500">DREAMS</span>
             </h1>
-            {events.length === 0 && (
+
+            {loading && <p className="text-center text-gray-600">Chargement des événements…</p>}
+            {error && <p className="text-center text-red-600">Erreur : {error}</p>}
+            {!loading && events.length === 0 && (
                 <p className="text-center text-gray-600">Aucun événement à venir pour le moment. Revenez bientôt !</p>
             )}
-            
+
             {Object.entries(groupedEvents).map(([monthYear, monthEvents]) => (
                 <div key={monthYear} className="mb-10">
                     <h2 className="text-2xl font-semibold text-yellow-500 mb-4 capitalize border-b pb-2">
@@ -132,7 +93,7 @@ export default function Agenda() {
 
                             return (
                                 <div
-                                    key={event.id}
+                                    key={String(event.id)}
                                     className="flex items-center bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition"
                                 >
                                     <div className="bg-yellow-400 text-white rounded-xl px-3 py-2 text-center mr-4">
@@ -143,13 +104,13 @@ export default function Agenda() {
                                     <div>
                                         <h3 className="text-lg font-semibold">{event.title}</h3>
                                         <p className="text-gray-600">
-                                            {event.location} à {event.time}
+                                            {event.location} {event.time ? `à ${event.time}` : ''}
                                         </p>
                                         <p className="text-sm text-gray-500">
                                             {event.description}
                                         </p>
                                         <p className="text-base text-yellow-600">
-                                            {event.antenna}
+                                            {event.antenna ?? 'Général'}
                                         </p>
                                     </div>
                                 </div>
@@ -162,3 +123,4 @@ export default function Agenda() {
         </div>
     );
 }
+// ...existing code...
