@@ -1,4 +1,5 @@
 import React from 'react';
+import AgendaAdmin from './AgendaAdmin';
 
 interface ContentProps {
   activeTab: string;
@@ -208,10 +209,8 @@ const Content = ({ activeTab }: ContentProps) => {
       'Accompagnement',
       'Suivez les accompagnements individuels et collectifs'
     ),
-    sensibilisation: renderPlaceholder(
-      'Sensibilisation',
-      'Organisez et gérez les événements de sensibilisation'
-    ),
+    sensibilisation: <AgendaAdmin />
+,
     pages: renderPlaceholder(
       'Pages du site',
       'Modifiez le contenu des différentes pages du site DREAMS'

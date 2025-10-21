@@ -1,6 +1,5 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
-
 const router = Router()
 
 // router.get('/', getMembers) 

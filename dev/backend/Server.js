@@ -9,10 +9,11 @@ const path = require('path');
 
 const routes = require('./routes/MemberRoute');
 const authRoutes = require('./routes/AuthentificationRoute');
+const eventRoutes = require('./routes/EventRoute');
 const cookieParser = require("cookie-parser"); 
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 
@@ -101,6 +102,7 @@ app.get('/swagger.json', (req, res) => {
 
 app.use('/api', routes);
 app.use('/api', authRoutes);
+app.use('/api', eventRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
