@@ -12,15 +12,6 @@ module.exports.getMembers = async (req, res) => {
 
 module.exports.saveMember = async (req, res) => {
   try {
-<<<<<<< HEAD
-    const { text } = req.body;
-
-    if (!text) {
-      return res.status(400).json({ error: "Text field is required" });
-    }
-
-    const newMember = await MemberModel.create({ text });
-=======
     const { nom, prenom, telephone, mail } = req.body;
 
     // Validation des champs requis
@@ -37,7 +28,6 @@ module.exports.saveMember = async (req, res) => {
       mail 
     });
     
->>>>>>> main
     console.log("Saved successfully...");
     res.status(201).json(newMember);
   } catch (error) {
@@ -48,18 +38,6 @@ module.exports.saveMember = async (req, res) => {
 
 module.exports.updateMember = async (req, res) => {
   try {
-<<<<<<< HEAD
-    const { id } = req.params; // Récupéré de l'URL
-    const { text } = req.body; // Récupéré du body
-
-    if (!text) {
-      return res.status(400).json({ error: "Text field is required" });
-    }
-
-    const updatedMember = await MemberModel.findByIdAndUpdate(
-      id, 
-      { text }, 
-=======
     const { id } = req.params;
     const { nom, prenom, telephone, mail } = req.body;
 
@@ -78,7 +56,6 @@ module.exports.updateMember = async (req, res) => {
     const updatedMember = await MemberModel.findByIdAndUpdate(
       id, 
       updateData, 
->>>>>>> main
       { new: true }
     );
 
@@ -95,11 +72,7 @@ module.exports.updateMember = async (req, res) => {
 
 module.exports.deleteMember = async (req, res) => {
   try {
-<<<<<<< HEAD
-    const { id } = req.params; // Récupéré de l'URL
-=======
     const { id } = req.params;
->>>>>>> main
 
     const deletedMember = await MemberModel.findByIdAndDelete(id);
 
