@@ -1,5 +1,8 @@
 import React from 'react';
+<<<<<<< HEAD
 import PagesSite from './PagesSite';
+=======
+>>>>>>> main
 
 interface ContentProps {
   activeTab: string;

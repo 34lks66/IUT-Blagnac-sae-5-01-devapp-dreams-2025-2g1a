@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import Loading2 from "./Loadings/loading2";
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -25,7 +26,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen text-gray-600">
-                Vérification de l'authentification...
+                <Loading2 />
             </div>
         );
     }

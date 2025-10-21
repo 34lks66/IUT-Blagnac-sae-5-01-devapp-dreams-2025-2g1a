@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const MemberSchema = new mongoose.Schema({
-    text: { 
-        type: String, 
-        required: true 
-    },
     nom: { 
         type: String, 
         required: true 

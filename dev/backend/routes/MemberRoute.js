@@ -2,6 +2,7 @@ const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
 const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
 const { getNewsPays, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
+const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
 
 const router = Router()
 
@@ -25,6 +26,8 @@ const router = Router()
 router.get('/get', getMembers)
 router.get('/pays/get', getPays);
 router.get('/newspays/get', getNewsPays)
+router.get('/antenne/get', getAntennes)
+
 
 /**
  * @openapi
@@ -44,6 +47,8 @@ router.get('/newspays/get', getNewsPays)
 router.post('/save', saveMember)
 router.post('/pays/save', savePays)
 router.post('/newspays/save', saveNewsPays)
+router.post('/antenne/save', saveAntenne)
+
 
 /**
  * @openapi
@@ -68,6 +73,8 @@ router.post('/newspays/save', saveNewsPays)
 router.put('/update/:id', updateMember)
 router.put('/pays/update/:id', updatePays)
 router.put('/newspays/update/:id', updateNewsPays)
+router.put('/antenne/update/:id', updateAntenne)
+
 
 /**
  * @openapi
@@ -87,6 +94,8 @@ router.put('/newspays/update/:id', updateNewsPays)
 router.delete('/delete/:id', deleteMember)
 router.delete('/pays/delete/:id', deletePays)
 router.delete('/newspays/delete/:id', deleteNewsPays)
+router.delete('/antenne/delete/:id', deleteAntenne)
+
 
 
 module.exports = router 

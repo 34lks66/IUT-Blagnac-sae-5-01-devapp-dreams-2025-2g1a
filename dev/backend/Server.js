@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
             getMembers: 'GET /api/get',
             saveMember: 'POST /api/save',
             updateMember: 'PUT /api/update/:id',
-            deleteMember: 'DELETE /api/delete/:id',
+            deleteMember: 'DELETE /api/delete/:id'
         }
     });
 });
