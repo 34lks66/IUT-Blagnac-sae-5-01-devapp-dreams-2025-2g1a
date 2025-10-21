@@ -22,18 +22,18 @@ function App() {
     <Router>
       <Header/>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/accueil" element={<Home />} />
-        <Route path="/accueil_public" element={<PageAccueilPublic />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/hebergement" element={<Hebergement />} />
-        <Route path="/sensibilisation" element={<Sensi />} />
-        <Route path="/accompagnement" element={<Accompagnement />} />
-        <Route path="/villes/:nom" element={<Villes />} />
-        <Route path="/evaluation" element={<EvaluationOrientation />} />
-        <Route path="/devenir-benevole" element={<DevenirBenevole />} />
-        <Route path="/agenda" element={<PageAgenda />} />
-        <Route path="/contact" element={<Contact />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/accueil" element={<Home />} />
+      <Route path="/accueil_public" element={<PageAccueilPublic />} />
+      <Route path="/test" element={<Test />} />
+      <Route path="/hebergement" element={<Hebergement />} />
+      <Route path="/sensibilisation" element={<Sensi />} />
+      <Route path="/accompagnement" element={<Accompagnement />} />
+      <Route path="/villes/:nom" element={<Villes />} />
+      <Route path="/evaluation" element={<EvaluationOrientation />} />
+      <Route path="/devenir-benevole" element={<DevenirBenevole />} />
+      <Route path="/agenda" element={<PageAgenda />} />
+      <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
     <FooterMain />
