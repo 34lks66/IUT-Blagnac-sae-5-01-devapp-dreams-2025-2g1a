@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+require("dotenv").config();
+>>>>>>> main
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,14 +11,31 @@ const fs = require('fs');
 const path = require('path');
 
 const routes = require('./routes/MemberRoute');
+<<<<<<< HEAD
 
 require('dotenv').config();
+=======
+const authRoutes = require('./routes/AuthentificationRoute');
+const cookieParser = require("cookie-parser"); 
+>>>>>>> main
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+<<<<<<< HEAD
 app.use(cors());
+=======
+
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://localhost:5174"], 
+    credentials: true, 
+  })
+);
+>>>>>>> main
 
 mongoose
     .connect(process.env.MONGODB_URL)
@@ -91,9 +112,17 @@ app.get('/swagger.json', (req, res) => {
  });
 
 app.use('/api', routes);
+<<<<<<< HEAD
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 app.listen(PORT, () => console.log(`Docs: http://localhost:${PORT}/api-docs`));
 app.listen(PORT, () => console.log(`ReDoc: http://localhost:${PORT}/api-docs-redoc`));
+=======
+app.use('/api', authRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+>>>>>>> main
