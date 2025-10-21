@@ -9,8 +9,6 @@ const path = require('path');
 
 const routes = require('./routes/MemberRoute');
 const authRoutes = require('./routes/AuthentificationRoute');
-const paysRoutes      = require('./routes/PaysRoute');
-const newsPaysRoutes  = require('./routes/NewsPaysRoute');
 const cookieParser = require("cookie-parser"); 
 
 const app = express();
@@ -40,21 +38,6 @@ app.get('/', (req, res) => {
             saveMember: 'POST /api/save',
             updateMember: 'PUT /api/update/:id',
             deleteMember: 'DELETE /api/delete/:id',
-
-            pays: {
-              list: 'GET /api/pays/get',
-              one: 'GET /api/pays/get/:id',
-              create: 'POST /api/pays/save',
-              update: 'PUT /api/pays/update/:id',
-              delete: 'DELETE /api/pays/delete/:id'
-            },
-            newsPays: {
-              list: 'GET /api/news-pays/get (?pays={id} pour filtrer)',
-              one: 'GET /api/news-pays/get/:id',
-              create: 'POST /api/news-pays/save',
-              update: 'PUT /api/news-pays/update/:id',
-              delete: 'DELETE /api/news-pays/delete/:id'
-            }
         }
     });
 });
@@ -118,8 +101,6 @@ app.get('/swagger.json', (req, res) => {
 
 app.use('/api', routes);
 app.use('/api', authRoutes);
-app.use('/api/pays', paysRoutes);
-app.use('/api/news-pays', newsPaysRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 

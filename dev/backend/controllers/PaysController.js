@@ -1,10 +1,9 @@
 const PaysModel = require("../models/pays");
-const NewsPaysModel = require("../models/newspays");
+const NewsPaysModel = require("../models/newsPays"); // 👈 on importe le modèle des actus
 
-// GET /api/pays
 module.exports.getPays = async (req, res) => {
   try {
-    const pays = await PaysModel.find().sort({ nom: 1 });
+    const pays = await PaysModel.find();
     res.json(pays);
   } catch (error) {
     console.error("Error fetching pays:", error);
@@ -12,24 +11,6 @@ module.exports.getPays = async (req, res) => {
   }
 };
 
-// GET /api/pays/:id
-module.exports.getPaysById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const pays = await PaysModel.findById(id);
-
-    if (!pays) {
-      return res.status(404).json({ error: "Pays introuvable" });
-    }
-
-    res.json(pays);
-  } catch (error) {
-    console.error("Error fetching pays by id:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-// POST /api/pays
 module.exports.savePays = async (req, res) => {
   try {
     const { nom, description, image } = req.body;
@@ -37,17 +18,17 @@ module.exports.savePays = async (req, res) => {
     // Validation des champs requis
     if (!nom || !description || !image) {
       return res.status(400).json({
-        error: "Champs requis manquants : nom, description, image",
+        error: "Tous les champs sont requis: nom, description, image",
       });
     }
 
     const newPays = await PaysModel.create({
       nom,
       description,
-      image, // ex: "/uploads/pays/xxx.jpg" ou URL complète
+      image,
     });
 
-    console.log("Pays saved successfully...");
+    console.log("Saved successfully...");
     res.status(201).json(newPays);
   } catch (error) {
     console.error("Error saving pays:", error);
@@ -55,7 +36,6 @@ module.exports.savePays = async (req, res) => {
   }
 };
 
-// PATCH /api/pays/:id
 module.exports.updatePays = async (req, res) => {
   try {
     const { id } = req.params;
@@ -64,7 +44,7 @@ module.exports.updatePays = async (req, res) => {
     if (!nom && !description && !image) {
       return res.status(400).json({
         error:
-          "Au moins un champ doit être fourni : nom, description, image",
+          "Au moins un champ doit être fourni: nom, description, image",
       });
     }
 
@@ -75,11 +55,10 @@ module.exports.updatePays = async (req, res) => {
 
     const updatedPays = await PaysModel.findByIdAndUpdate(id, updateData, {
       new: true,
-      runValidators: true,
     });
 
     if (!updatedPays) {
-      return res.status(404).json({ error: "Pays introuvable" });
+      return res.status(404).json({ error: "Pays not found" });
     }
 
     res.json({ message: "Updated successfully", pays: updatedPays });
@@ -89,20 +68,25 @@ module.exports.updatePays = async (req, res) => {
   }
 };
 
-// DELETE /api/pays/:id
 module.exports.deletePays = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // 1) Supprime le pays
     const deletedPays = await PaysModel.findByIdAndDelete(id);
 
     if (!deletedPays) {
-      return res.status(404).json({ error: "Pays introuvable" });
+      return res.status(404).json({ error: "Pays not found" });
     }
 
-    await NewsPaysModel.deleteMany({ pays: id });
+    // 2) Supprime toutes les actualités liées à ce pays
+    const deleteResult = await NewsPaysModel.deleteMany({ pays: id });
 
-    res.json({ message: "Deleted successfully", pays: deletedPays });
+    res.json({
+      message: "Deleted successfully",
+      pays: deletedPays,
+      deletedNewsCount: deleteResult.deletedCount || 0, // 👈 utile pour savoir combien ont été supprimées
+    });
   } catch (error) {
     console.error("Error deleting pays:", error);
     res.status(500).json({ error: "Internal server error" });
