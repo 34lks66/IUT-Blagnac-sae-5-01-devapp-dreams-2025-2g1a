@@ -11,17 +11,17 @@ function DevenirBenevole() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    console.log ("données :", formData)
+    console.log("données :", formData);
     setFormData({
-        nom: ''
-        , prenom: ''
-        , email: ''
-        , telephone: ''
-    })
+      nom: '',
+      prenom: '',
+      email: '',
+      telephone: ''
+    });
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Section horizontale : Formulaire à droite, Texte à gauche */}
         <div className="flex flex-col lg:flex-row gap-8 mb-12">
@@ -91,7 +91,6 @@ function DevenirBenevole() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-
                     <input
                       type="text"
                       id="prenom"
