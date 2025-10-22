@@ -102,7 +102,7 @@ app.get('/swagger.json', (req, res) => {
 
 app.use('/api', routes);
 app.use('/api', authRoutes);
-app.use('/api', eventRoutes);
+app.use('/api/events', eventRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 

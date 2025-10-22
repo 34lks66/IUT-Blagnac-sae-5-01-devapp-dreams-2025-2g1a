@@ -35,7 +35,7 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/Event'
  */
-router.get('/list', listEvents);
+router.get('/', listEvents);
 
 /**
  * @openapi
@@ -58,7 +58,7 @@ router.get('/list', listEvents);
  *       404:
  *         description: Événement introuvable
  */
-router.get('/get/:id', getEvent);
+router.get('/:id', getEvent);
 
 /**
  * @openapi
@@ -77,7 +77,7 @@ router.get('/get/:id', getEvent);
  *       400:
  *         description: Champs requis manquants
  */
-router.post('/create', createEvent);
+router.post('/', createEvent);
 
 /**
  * @openapi
@@ -101,7 +101,7 @@ router.post('/create', createEvent);
  *       404:
  *         description: Événement introuvable
  */
-router.put('/update/:id', updateEvent);
+router.put('/:id', updateEvent);
 
 /**
  * @openapi
@@ -120,6 +120,6 @@ router.put('/update/:id', updateEvent);
  *       404:
  *         description: Événement introuvable
  */
-router.delete('/delete/:id', deleteEvent);
+router.delete('/:id', deleteEvent);
 
 module.exports = router;

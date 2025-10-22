@@ -21,7 +21,7 @@ export default function AgendaAdmin() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/events`);
+      const res = await fetch(`${API_BASE}/api/events/`);
       const data = await res.json();
       setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
