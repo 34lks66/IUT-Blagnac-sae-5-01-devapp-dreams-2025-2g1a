@@ -102,6 +102,6 @@ app.get('/swagger.json', (req, res) => {
 app.use('/api', memberRoutes);
 app.use('/api', newsRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

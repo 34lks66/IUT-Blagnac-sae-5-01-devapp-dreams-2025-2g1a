@@ -4,16 +4,22 @@ const News: React.FC = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setEditForm] = useState(false);
-  const [isDelete, setDelete] = useState(false);
+  const [isPopupDelete, setDeletePopup] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [news, setNews] = useState<any[]>([]);
   const [deleteNews, setDeleteNews] = useState<string | null>(null);
+  const [editNews, setEditNews] = useState<string | null>(null);
 
-  const [NewsImage, setImage] = useState('');
+  const [NewsImage, setImage] = useState<File | null>(null);
   const [NewsDate, setDate] = useState('');
   const [NewsTitle, setTitle] = useState('');
   const [NewsLink, setLink] = useState('');
+
+  const [NewsImageEdit, setImageEdit] = useState<File | string>('');
+  const [NewsDateEdit, setDateEdit] = useState('');
+  const [NewsTitleEdit, setTitleEdit] = useState('');
+  const [NewsLinkEdit, setLinkEdit] = useState('');
 
   useEffect(() => {
         fetch('http://localhost:5000/api/news/get')
@@ -22,41 +28,94 @@ const News: React.FC = () => {
         .catch((err) => console.log(err));
   }, [])
 
-  const onSubmit = async (e: { preventDefault: () => void; }) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type' : 'application/json' },
-        body: JSON.stringify({
-          image: NewsImage,
-          date: NewsDate,
-          title: NewsTitle,
-          link: NewsLink
-        })
-    };
+
+    if (!NewsImage) {
+      console.error("Image requise !");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", NewsImage);
+    formData.append("date", NewsDate);
+    formData.append("title", NewsTitle);
+    formData.append("link", NewsLink);
+
     try {
-      const res = await fetch('http://localhost:5000/api/news/save', requestOptions);
+      const res = await fetch("http://localhost:5000/api/news/save", {
+        method: "POST",
+        body: formData,
+      });
+
       if(!res.ok) {
-        throw new Error('Erreur lors de l\'ajout de l\'actualité');
-      }
+          throw new Error("Erreur lors de l'ajout de l'actualité");
+        }
+
       const savedNews = await res.json();
-      setNews((prev) => [...prev, savedNews])
-      setImage('');
-      setDate('');
-      setTitle('');
-      setLink('');
+      setNews((prev) => [...prev, savedNews]);
+      setImage(null);
+      setDate("");
+      setTitle("");
+      setLink("");
       setShowForm(false);
-      console.log("Actualité ajouté !")
+
+      console.log("Actualité ajoutée !");
+    } catch (error) {
+      console.error("Erreur fetch:", error);
+    }
+};
+
+  const handleEditClick = (id: string) => {
+    const selected = news.find(item => item._id === id);
+    if(!selected) return;
+
+    setEditNews(id);
+    setImageEdit(selected.image);
+    setDateEdit(selected.date);
+    setTitleEdit(selected.title);
+    setLinkEdit(selected.link);
+    setEditForm(true);
+  }
+
+  const onEdit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (NewsImageEdit) formData.append("image", NewsImageEdit);
+    formData.append("date", NewsDateEdit);
+    formData.append("title", NewsTitleEdit);
+    formData.append("link", NewsLinkEdit);
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/news/update/${editNews}`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if(!res.ok) {
+        throw new Error('Erreur lors de la modification de l\'actualité');
+      }
+        const updatedNews = await res.json();
+        const newNews = updatedNews.news ? updatedNews.news : updatedNews;
+        setNews((prev) =>
+          prev.map((item) => (item._id === editNews ? newNews : item))
+        );
+
+        setEditNews(null);
+        setImageEdit('');
+        setDateEdit('');
+        setTitleEdit('');
+        setLinkEdit('');
+        setEditForm(false);
+        console.log("Actualité modifié !")
     } catch (error) {
       console.error(error);
     }
-    // fetch('http://localhost:5000/api/news/save', requestOptions)
-    //     .then(response => response.json())
   };
 
   const handleDeleteClick = (id: string) => {
     setDeleteNews(id);
-    setDelete(true);
+    setDeletePopup(true);
   }
 
   const onDelete = async () => {
@@ -67,8 +126,9 @@ const News: React.FC = () => {
       });
 
       if(res.ok) {
-        setNews(news.filter(item => item._id !== deleteNews));
-        setDelete(false);
+        // setNews(news.filter(item => item._id !== deleteNews));
+        setNews(prev => prev.filter(item => item._id !== deleteNews));
+        setDeletePopup(false);
         setDeleteNews(null);
       } else {
         console.error("erreur lors de la suppression");
@@ -94,26 +154,35 @@ const News: React.FC = () => {
         {showForm && (
           <div className="bg-white p-8 rounded-lg shadow-lg mb-12 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Ajout d'une nouvelle actualité</h3>
-            <form className="space-y-6">
-              {/* <div>
+            <form onSubmit={onSubmit} className="space-y-6">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                     Image
                 </label>
                 <div className="flex items-center justify-center w-full">
                     <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          { NewsImage ? (
+                            <>
+                              <img src={URL.createObjectURL(NewsImage)} alt="Preview" className="w-40 h-40 object-cover rounded-lg mb-4" />
+                              <p className="text-sm text-gray-500 dark:text-gray-400">{NewsImage.name}</p>
+                            </>
+                          ) : (
+                            <>
                             <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                             </svg>
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                            </>
+                          )}
                         </div>
-                        <input id="dropzone-file" type="file" className="hidden" />
+                        <input onChange={(e) => {if (e.target.files && e.target.files[0]) { setImage(e.target.files[0]);}}}id="dropzone-file" type="file" className="hidden" />
                     </label>
                 </div> 
-              </div> */}
+              </div>
 
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Image
                 </label>
@@ -123,7 +192,7 @@ const News: React.FC = () => {
                     type="text"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
-              </div>
+              </div> */}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -172,7 +241,6 @@ const News: React.FC = () => {
               
               <div className="flex space-x-4">
                 <button
-                  onClick={onSubmit}
                   type="submit"
                   className="text-white bg-blue-700 hover:bg-blue-800 px-6 py-2 rounded-lg transition-colors duration-200 font-medium"
                   // disabled={isSubmitting}
@@ -224,10 +292,10 @@ const News: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {news.map((item, index) => (
-                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                    {news.map((item) => (
+                        <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                           <th scope="col" className="px-16 py-3">
-                            <img src={item.image} alt={item.title} className="w-12 h-12 object-cover"/>
+                            <img src={`http://localhost:5000${item.image}`} alt={item.title} className="w-12 h-12 object-cover"/>
                           </th>
                           <td className="px-6 py-4">
                             {item.date}
@@ -239,7 +307,7 @@ const News: React.FC = () => {
                             {item.link}
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button onClick={() => setEditForm(true)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+                            <button onClick={() => handleEditClick(item._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
                           </td>
                           <td className="px-6 py-4 text-right">
                             <button onClick={() => handleDeleteClick(item._id)} className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
@@ -247,6 +315,7 @@ const News: React.FC = () => {
                         </tr> 
                     ))}                        
                 </tbody>
+            </table>
 
             {showEditForm && (
               <div className="overflow-y-auto overflow-x-hidden fixed flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -262,24 +331,40 @@ const News: React.FC = () => {
                                 </svg>
                             </button>
                         </div>
-                        <form className="p-4 md:p-5">
+                        <form onSubmit={onEdit} className="p-4 md:p-5">
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
-                                    <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"></input>
-
+                                    {NewsImageEdit && typeof NewsImageEdit === "string" && (
+                                      <img
+                                        src={`http://localhost:5000${NewsImageEdit}`}
+                                        alt="Image actuelle"
+                                        className="w-32 h-32 object-cover rounded-lg mb-3"
+                                      />
+                                    )}
+                                    {/* <input value={NewsImageEdit} onChange={(e) => setImageEdit(e.target.value)} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"></input> */}
+                                    <input
+                                      onChange={(e) => {
+                                        if (e.target.files && e.target.files[0]) {
+                                          setImageEdit(e.target.files[0]);
+                                        }
+                                      }}
+                                      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                      id="file_input"
+                                      type="file"
+                                    ></input>
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                                    <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
+                                    <input value={NewsDateEdit} onChange={(e) => setDateEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
-                                    <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
+                                    <input value={NewsTitleEdit} onChange={(e) => setTitleEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
                                 </div>
                                 <div className="col-span-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lien</label>
-                                    <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
+                                    <input value={NewsLinkEdit} onChange={(e) => setLinkEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
                                 </div>
                             </div>
                             <button type="submit" className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -292,11 +377,11 @@ const News: React.FC = () => {
             </div> 
             )}
 
-            {isDelete && ( 
+            {isPopupDelete && ( 
               <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
                 <div className="relative p-4 w-full max-w-md max-h-full">
                     <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                        <button onClick={() => setDelete(false)} type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        <button onClick={() => setDeletePopup(false)} type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                             </svg>
@@ -306,19 +391,16 @@ const News: React.FC = () => {
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>
                             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Etes-vous sûr de vouloir supprimer cette actualité</h3>
-                            <button onClick={onDelete} type="button" className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                            <button onClick={onDelete} className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                 Supprimer
                             </button>
-                            <button onClick={() => setDelete(false)} data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Annuler</button>
+                            <button onClick={() => setDeletePopup(false)} data-modal-hide="popup-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Annuler</button>
                         </div>
                     </div>
                 </div>
               </div>
             )}
-
-            </table>
         </div>
-
 
         {/* <form className="max-w-sm mx-auto">
         <div className="mb-5">

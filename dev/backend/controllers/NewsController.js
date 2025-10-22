@@ -1,4 +1,6 @@
 const NewsModel = require("../models/NewsModel");
+const path = require("path");
+const fs = require("fs").promises;
 
 module.exports.getNews = async (req, res) => {
   try {
@@ -12,7 +14,10 @@ module.exports.getNews = async (req, res) => {
 
 module.exports.saveNews = async (req, res) => {
   try {
-    const { image, date, title, link } = req.body;
+    const { date, title, link } = req.body;
+
+    // Ligne à ajouter pour l'image
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
 
     // Validation des champs requis
     if (!image || !date || !title || !link) {
@@ -39,19 +44,41 @@ module.exports.saveNews = async (req, res) => {
 module.exports.updateNews = async (req, res) => {
   try {
     const { id } = req.params;
-    const { image, date, title, link } = req.body;
+    const { date, title, link } = req.body;
 
-    if (!image && !date && !title && !link) {
+    // Ligne à ajouter pour l'image
+    const newImage = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const existingNews = await NewsModel.findById(id);
+
+    if(newImage && existingNews.image) {
+      try {
+        const relPath = existingNews.image.replace(/^\/+/, "");
+        const absImagePath = path.join(__dirname, "..", relPath);
+        await fs.access(absImagePath);
+        await fs.unlink(absImagePath)
+        console.log("Ancienne image supprimée :", absImagePath);
+      } catch (errFile) {
+          console.warn("Erreur lors de la suppression de l'ancienne image :", errFile);
+      }
+    }
+
+    if (!date && !title && !link) {
       return res.status(400).json({ 
-        error: "Au moins un champ doit être fourni: image, date, title, link" 
+        error: "Au moins un champ doit être fourni: date, title, link" 
       });
     }
 
-    const updateData = {};
-    if (image) updateData.image = image;
-    if (date) updateData.date = date;
-    if (title) updateData.title = title;
-    if (link) updateData.link = link;
+    const updateData = {
+      date: date || existingNews.date,
+      title: title || existingNews.title,
+      link: link || existingNews.link,
+      image: newImage || existingNews.image,
+    };
+    // if (image) updateData.image = image;
+    // if (date) updateData.date = date;
+    // if (title) updateData.title = title;
+    // if (link) updateData.link = link;
 
     const updatedNews = await NewsModel.findByIdAndUpdate(
       id, 
@@ -73,6 +100,22 @@ module.exports.updateNews = async (req, res) => {
 module.exports.deleteNews = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Code à ajouter pour l'image
+    const news = await NewsModel.findById(id);
+    if (news.image) {
+      try {
+        let imagePath = news.image;
+        const relPath = imagePath.replace(/^\/+/, "");
+        const absImagePath = path.join(__dirname, "..", relPath);
+        console.log("Chemin absolut de l'image à supprimer :", absImagePath);
+        await fs.access(absImagePath);
+        await fs.unlink(absImagePath)
+        console.log("Image supprimée :", absImagePath);
+      } catch(errFile) {
+        console.log("Erreur lors de la suppression du fichier image :", errFile);
+      }
+    }
 
     const deletedNews = await NewsModel.findByIdAndDelete(id);
 

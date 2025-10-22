@@ -2,6 +2,22 @@ const { Router } = require('express')
 const { getNews, saveNews, updateNews, deleteNews } = require('../controllers/NewsController')
 
 const router = Router()
+
+const multer = require('multer')
+const path = require('path')
+
+const uploadDir = path.join(__dirname, '../uploads');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage })
  
 /**
  * @openapi
@@ -35,7 +51,7 @@ router.get('/news/get', getNews)
  *       201:
  *         description: Created
  */
-router.post('/news/save', saveNews)
+router.post('/news/save', upload.single('image'), saveNews)
 
 /**
  * @openapi
@@ -57,7 +73,7 @@ router.post('/news/save', saveNews)
  *       200:
  *         description: Updated
  */
-router.put('/news/update/:id', updateNews)
+router.put('/news/update/:id', upload.single('image'), updateNews)
 
 /**
  * @openapi
