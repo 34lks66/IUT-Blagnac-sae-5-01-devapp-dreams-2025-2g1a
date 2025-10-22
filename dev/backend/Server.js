@@ -7,7 +7,10 @@ const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
 const path = require('path');
 
-const routes = require('./routes/MemberRoute');
+const memberRoutes = require('./routes/MemberRoute');
+const newsRoutes = require('./routes/NewsRoute');
+const authRoutes = require('./routes/AuthentificationRoute');
+const cookieParser = require("cookie-parser"); 
 
 require('dotenv').config();
 
