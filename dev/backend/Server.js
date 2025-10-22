@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,8 +7,7 @@ const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
 const path = require('path');
 
-const memberRoutes = require('./routes/MemberRoute');
-const newsRoutes = require('./routes/NewsRoute');
+const routes = require('./routes/MemberRoute');
 
 require('dotenv').config();
 
@@ -15,7 +15,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use(cors());
+
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://localhost:5174"], 
+    credentials: true, 
+  })
+);
 
 mongoose
     .connect(process.env.MONGODB_URL)
@@ -101,6 +109,7 @@ app.get('/swagger.json', (req, res) => {
 
 app.use('/api', memberRoutes);
 app.use('/api', newsRoutes);
+app.use('/api', authRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
