@@ -45,7 +45,7 @@ function Login() {
             });
 
             if (!response.ok) {
-                throw new Error("Erreur lors de la connexion");
+                throw new Error("Email ou mot de passe incorrect.");
             }
             window.location.href = "/";
 
