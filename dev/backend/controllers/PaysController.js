@@ -1,5 +1,10 @@
 const PaysModel = require("../models/pays");
-const NewsPaysModel = require("../models/newsPays"); // 👈 on importe le modèle des actus
+const NewsPaysModel = require("../models/newsPays");
+const AntenneModel = require("../models/AntenneModel"); // 👈 NEW: pour supprimer les antennes liées
+
+//ajoutés pour gérer les fichiers comme dans ton NewsController
+const path = require("path");
+const fs = require("fs").promises;
 
 module.exports.getPays = async (req, res) => {
   try {
@@ -13,9 +18,12 @@ module.exports.getPays = async (req, res) => {
 
 module.exports.savePays = async (req, res) => {
   try {
-    const { nom, description, image } = req.body;
+    const { nom, description } = req.body;
 
-    // Validation des champs requis
+    // ✅ image via Multer (comme dans ton autre controller)
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // si tu veux la rendre obligatoire, laisse ce check strict
     if (!nom || !description || !image) {
       return res.status(400).json({
         error: "Tous les champs sont requis: nom, description, image",
@@ -39,19 +47,42 @@ module.exports.savePays = async (req, res) => {
 module.exports.updatePays = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nom, description, image } = req.body;
+    const { nom, description } = req.body;
 
-    if (!nom && !description && !image) {
+    // nouvelle image uploadée ?
+    const newImage = req.file ? `/uploads/${req.file.filename}` : null;
+
+    if (!nom && !description && !newImage) {
       return res.status(400).json({
-        error:
-          "Au moins un champ doit être fourni: nom, description, image",
+        error: "Au moins un champ doit être fourni: nom, description, image",
       });
     }
 
-    const updateData = {};
-    if (nom) updateData.nom = nom;
-    if (description) updateData.description = description;
-    if (image) updateData.image = image;
+    // on récupère l'existant pour savoir quoi remplacer/supprimer
+    const existingPays = await PaysModel.findById(id);
+    if (!existingPays) {
+      return res.status(404).json({ error: "Pays not found" });
+    }
+
+    // si une nouvelle image arrive, on supprime l’ancienne du disque
+    if (newImage && existingPays.image) {
+      try {
+        const relPath = existingPays.image.replace(/^\/+/, "");
+        const absImagePath = path.join(__dirname, "..", relPath);
+        await fs.access(absImagePath);
+        await fs.unlink(absImagePath);
+        console.log("Ancienne image du pays supprimée :", absImagePath);
+      } catch (errFile) {
+        console.warn("Erreur suppression ancienne image pays :", errFile);
+      }
+    }
+
+    // on construit les nouvelles valeurs
+    const updateData = {
+      nom: nom || existingPays.nom,
+      description: description || existingPays.description,
+      image: newImage || existingPays.image,
+    };
 
     const updatedPays = await PaysModel.findByIdAndUpdate(id, updateData, {
       new: true,
@@ -72,20 +103,52 @@ module.exports.deletePays = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // 1) Supprime le pays
-    const deletedPays = await PaysModel.findByIdAndDelete(id);
-
-    if (!deletedPays) {
+    // on récupère le pays d’abord pour connaître le chemin image
+    const existingPays = await PaysModel.findById(id);
+    if (!existingPays) {
       return res.status(404).json({ error: "Pays not found" });
     }
 
-    // 2) Supprime toutes les actualités liées à ce pays
-    const deleteResult = await NewsPaysModel.deleteMany({ pays: id });
+    // suppression du fichier image du pays (si présent)
+    if (existingPays.image) {
+      try {
+        const relPath = existingPays.image.replace(/^\/+/, "");
+        const absImagePath = path.join(__dirname, "..", relPath);
+        console.log("Suppression image pays :", absImagePath);
+        await fs.access(absImagePath);
+        await fs.unlink(absImagePath);
+      } catch (errFile) {
+        console.warn("Erreur suppression image pays :", errFile);
+      }
+    }
+
+    // suppression du document pays
+    const deletedPays = await PaysModel.findByIdAndDelete(id);
+
+    // suppression des actualités liées (+ suppression de leurs images si présentes)
+    const relatedNews = await NewsPaysModel.find({ pays: id });
+    for (const n of relatedNews) {
+      if (n.image) {
+        try {
+          const rel = n.image.replace(/^\/+/, "");
+          const abs = path.join(__dirname, "..", rel);
+          await fs.access(abs);
+          await fs.unlink(abs);
+          console.log("Image news-pays supprimée :", abs);
+        } catch (errFile) {
+          console.warn("Erreur suppression image news-pays :", errFile);
+        }
+      }
+    }
+    const deleteNewsResult = await NewsPaysModel.deleteMany({ pays: id });
+
+    const deleteAntennesResult = await AntenneModel.deleteMany({ pays: id });
 
     res.json({
       message: "Deleted successfully",
       pays: deletedPays,
-      deletedNewsCount: deleteResult.deletedCount || 0, // 👈 utile pour savoir combien ont été supprimées
+      deletedNewsCount: deleteNewsResult.deletedCount || 0,
+      deletedAntennesCount: deleteAntennesResult.deletedCount || 0, // 👈 renvoyé pour info
     });
   } catch (error) {
     console.error("Error deleting pays:", error);

@@ -1,15 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import "../styles/pays.css";
 
-type NewsItem = {
+// ---------------- Types côté UI ----------------
+type UINewsItem = {
   id: string;
   img: string;
   title: string;
   text: string;
 };
 
-type Feature = {
+type UIFeature = {
   img: string;
   title: string;
   text: string;
@@ -17,158 +18,162 @@ type Feature = {
   cta: string;
 };
 
-type CountryContent = {
+type UICountryContent = {
   name: string;
   heroImg: string;
   intro: string;
-  news: NewsItem[];
-  features: Feature[]; // ← plusieurs antennes possibles
+  news: UINewsItem[];
+  features: UIFeature[];
 };
 
-// --------- CONTENU PAR PAYS  ----------
-const COUNTRIES: Record<string, CountryContent> = {
-  france: {
-    name: "France",
-    heroImg: "/images/pays/hero-france.jpg",
-    intro:
-      "DREAMS accompagne les personnes LGBTQQ+ en France grâce à un réseau d’antennes et de partenaires. Nous proposons un accueil bienveillant, une évaluation personnalisée des besoins et une orientation vers les services juridiques, administratifs, sociaux et de santé. Nos équipes locales développent aussi des actions de sensibilisation.",
-    news: [
-      { id: "n1", img: "/images/pays/news-1.jpg", title: "Atelier d’accueil", text: "Première rencontre d’accueil et d’écoute bienveillante pour les nouveaux arrivants." },
-      { id: "n2", img: "/images/pays/news-2.jpg", title: "Permanence juridique", text: "Séance d’information sur l’asile et la régularisation, en partenariat avec des juristes bénévoles." },
-      { id: "n3", img: "/images/pays/news-3.jpg", title: "Soutien santé", text: "Orientation vers des structures de santé et de soutien psychologique partenaires." },
-      { id: "n4", img: "/images/pays/news-4.jpg", title: "Hébergement solidaire", text: "Mise en relation avec des familles et lieux d’accueil temporaires." },
-      { id: "n5", img: "/images/pays/news-5.jpg", title: "Sensibilisation", text: "Ateliers contre l’homophobie et la transphobie, ouverts au grand public." }
-    ],
-    // ← EXEMPLE : 2 antennes en France
-    features: [
-      {
-        img: "/images/pays/feature-toulouse.jpg",
-        title: "Antenne Toulouse",
-        text: "Coordonnées, permanences locales et ressources pour vos démarches (asile, régularisation, accès aux droits et à la santé).",
-        url: "#",
-        cta: "Voir les ressources →"
-      },
-      {
-        img: "/images/pays/feature-paris.jpg",
-        title: "Antenne Paris",
-        text: "Informations pratiques, partenaires et accompagnements disponibles en Île-de-France.",
-        url: "#",
-        cta: "Découvrir l’antenne →"
-      }
-    ]
-  },
-
-  italie: {
-    name: "Italie",
-    heroImg: "/images/pays/hero-italie.jpg",
-    intro:
-      "En Italie, DREAMS développe des actions d’accueil et d’orientation en lien avec des structures locales : accompagnement administratif et social, mise en réseau et sensibilisation.",
-    news: [
-      { id: "n1", img: "/images/pays/it-news-1.jpg", title: "Rencontre associative", text: "Temps d’échanges et d’information sur les droits et dispositifs locaux." },
-      { id: "n2", img: "/images/pays/it-news-2.jpg", title: "Orientation sociale", text: "Accompagnement vers les structures de santé et d’insertion." },
-      { id: "n3", img: "/images/pays/it-news-3.jpg", title: "Sensibilisation", text: "Atelier de lutte contre les discriminations." }
-    ],
-    features: [
-      {
-        img: "/images/pays/it-feature.jpg",
-        title: "Antenne Italie",
-        text: "Consultez les informations pratiques, les horaires de permanences et les contacts utiles.",
-        url: "#",
-        cta: "Accéder aux infos →"
-      }
-    ]
-  },
-
-  togo: {
-    name: "Togo",
-    heroImg: "/images/pays/hero-togo.jpg",
-    intro:
-      "Au Togo, nous soutenons des parcours de mise à l’abri, d’orientation sociale et d’accès aux soins, en collaboration avec des partenaires locaux.",
-    news: [
-      { id: "n1", img: "/images/pays/tg-news-1.jpg", title: "Accueil & écoute", text: "Premier accueil bienveillant pour les personnes en besoin d’orientation." },
-      { id: "n2", img: "/images/pays/tg-news-2.jpg", title: "Mise à l’abri", text: "Solutions temporaires d’hébergement solidaire." },
-      { id: "n3", img: "/images/pays/tg-news-3.jpg", title: "Accès aux soins", text: "Relais vers les structures de santé partenaires." }
-    ],
-    features: [
-      {
-        img: "/images/pays/tg-feature.jpg",
-        title: "Antenne Togo",
-        text: "Découvrez les lieux d’accueil et les contacts référents dans la région.",
-        url: "#",
-        cta: "Voir l’antenne →"
-      }
-    ]
-  },
-
-  "burkina-faso": {
-    name: "Burkina Faso",
-    heroImg: "/images/pays/hero-bf.jpg",
-    intro:
-      "Au Burkina Faso, DREAMS agit avec un réseau de partenaires pour l’orientation, l’accès aux droits et l’accompagnement social.",
-    news: [
-      { id: "n1", img: "/images/pays/bf-news-1.jpg", title: "Orientation", text: "Information sur l’accès aux droits et dispositifs d’assistance." },
-      { id: "n2", img: "/images/pays/bf-news-2.jpg", title: "Réseau local", text: "Mise en relation avec des structures communautaires." },
-      { id: "n3", img: "/images/pays/bf-news-3.jpg", title: "Sensibilisation", text: "Actions de prévention et d’éducation." }
-    ],
-    features: [
-      {
-        img: "/images/pays/bf-feature.jpg",
-        title: "Antenne Burkina Faso",
-        text: "Ressources disponibles, points de contact et horaires de permanence.",
-        url: "#",
-        cta: "Toutes les infos →"
-      }
-    ]
-  },
-
-  "cote-d-ivoire": {
-    name: "Côte d’Ivoire",
-    heroImg: "/images/pays/hero-ci.jpg",
-    intro:
-      "En Côte d’Ivoire, DREAMS intervient sur l’accueil, l’orientation, la mise à l’abri et la sensibilisation, en lien avec les acteurs locaux.",
-    news: [
-      { id: "n1", img: "/images/pays/ci-news-1.jpg", title: "Premier accueil", text: "Écoute bienveillante et évaluation des besoins." },
-      { id: "n2", img: "/images/pays/ci-news-2.jpg", title: "Soutien social", text: "Orientation vers les dispositifs d’aide adaptés." },
-      { id: "n3", img: "/images/pays/ci-news-3.jpg", title: "Prévention & santé", text: "Relais santé et actions de prévention." }
-    ],
-    features: [
-      {
-        img: "/images/pays/ci-feature.jpg",
-        title: "Antenne Côte d’Ivoire",
-        text: "Informations pratiques, partenaires et ressources locales.",
-        url: "#",
-        cta: "Découvrir →"
-      }
-    ]
-  }
+// ---------------- Types API ----------------
+type ApiCountry = {
+  _id: string;
+  nom: string;
+  description: string;
+  image?: string | null;   // ex "/uploads/xxx.jpg"
 };
-// -------------------------------------------------------------------
 
+type ApiNews = {
+  _id: string;
+  titre: string;
+  description: string;
+  image?: string | null;   // ex "/uploads/xxx.jpg"
+  pays: string | { _id: string };
+};
+
+type ApiAntenne = {
+  _id: string;
+  nom: string;
+  description: string;
+  pays: string | { _id: string };
+};
+
+// ---------------- Helpers ----------------
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_ORIGIN = API_BASE.replace(/\/api$/, "");
+
+// Fallbacks (assets côté site)
+const HERO_DEFAULT = "/images/pays/hero-default.jpg";
+const ANTENNE_PLACEHOLDER = "/images/pays/antenne-placeholder.jpg";
+
+const slugify = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
+// ---------------- Composant ----------------
 const Pays: React.FC = () => {
-  // /pays/:slug => ex. "france", "italie", "togo", "burkina-faso", "cote-d-ivoire"
   const { slug = "france" } = useParams<{ slug: string }>();
 
-  const data: CountryContent | undefined = COUNTRIES[slug.toLowerCase()];
-  const country = useMemo<CountryContent | null>(() => {
-    if (data) return data;
-    // Fallback simple si slug non trouvé
+  const [countries, setCountries] = useState<ApiCountry[]>([]);
+  const [countryId, setCountryId] = useState<string | null>(null);
+
+  const [news, setNews] = useState<UINewsItem[]>([]);
+  const [features, setFeatures] = useState<UIFeature[]>([]);
+
+  const [loadingCountry, setLoadingCountry] = useState(true);
+  const [loadingContent, setLoadingContent] = useState(false);
+
+  // 1) Charger tous les pays puis choisir celui qui correspond au slug
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoadingCountry(true);
+        const res = await fetch(`${API_BASE}/pays/get`, { credentials: "include" });
+        if (!res.ok) throw new Error("Erreur chargement pays");
+        const data: ApiCountry[] = await res.json();
+        setCountries(data);
+
+        // Trouver le pays correspondant au slug
+        const match = data.find((p) => slugify(p.nom) === slug.toLowerCase());
+        setCountryId(match ? match._id : null);
+      } catch (e) {
+        console.error(e);
+        setCountryId(null);
+      } finally {
+        setLoadingCountry(false);
+      }
+    })();
+  }, [slug]);
+
+  // country sélectionné (ou null)
+  const selectedCountry = useMemo<ApiCountry | null>(() => {
+    if (!countryId) return null;
+    return countries.find((c) => c._id === countryId) || null;
+  }, [countries, countryId]);
+
+  // 2) Charger news & antennes du pays sélectionné
+  useEffect(() => {
+    if (!selectedCountry?._id) return;
+
+    (async () => {
+      try {
+        setLoadingContent(true);
+
+        // NEWS
+        const resNews = await fetch(
+          `${API_BASE}/newspays/get?pays=${selectedCountry._id}`,
+          { credentials: "include" }
+        );
+        const dataNews: ApiNews[] = resNews.ok ? await resNews.json() : [];
+
+        const uiNews: UINewsItem[] = (dataNews || []).map((n) => ({
+          id: n._id,
+          img: n.image ? `${API_ORIGIN}${n.image}` : HERO_DEFAULT, // news devraient avoir une image, mais fallback au cas où
+          title: n.titre,
+          text: n.description,
+        }));
+        setNews(uiNews);
+
+        // ANTENNES
+        const resAnt = await fetch(
+          `${API_BASE}/antennes/get?pays=${selectedCountry._id}`,
+          { credentials: "include" }
+        );
+        const dataAnt: ApiAntenne[] = resAnt.ok ? await resAnt.json() : [];
+
+        const uiFeatures: UIFeature[] = (dataAnt || []).map((a) => ({
+          img: ANTENNE_PLACEHOLDER, // pas d'image antenne pour l'instant
+          title: `Antenne ${a.nom}`,
+          text: a.description,
+          url: "#", // si tu fais une page antenne plus tard, tu pourras mettre /antenne/:id
+          cta: "Voir l’antenne →",
+        }));
+        setFeatures(uiFeatures);
+      } catch (e) {
+        console.error(e);
+        setNews([]);
+        setFeatures([]);
+      } finally {
+        setLoadingContent(false);
+      }
+    })();
+  }, [selectedCountry?._id]);
+
+  // Country content pour le rendu
+  const country: UICountryContent = useMemo(() => {
+    if (!selectedCountry) {
+      return {
+        name: "Pays",
+        heroImg: HERO_DEFAULT,
+        intro:
+          "Présentation à venir. Retrouvez bientôt les informations détaillées pour ce pays (antennes, permanences, partenaires et ressources).",
+        news: [],
+        features: [],
+      };
+    }
     return {
-      name: "Pays",
-      heroImg: "/images/pays/hero-default.jpg",
-      intro:
-        "Présentation à venir. Retrouvez bientôt les informations détaillées pour ce pays (antennes, permanences, partenaires et ressources).",
-      news: [],
-      features: [
-        {
-          img: "/images/pays/feature.jpg",
-          title: "Informations",
-          text: "Ressources et coordonnées disponibles prochainement.",
-          url: "/",
-          cta: "Revenir à l’accueil →"
-        }
-      ]
+      name: selectedCountry.nom,
+      heroImg: selectedCountry.image ? `${API_ORIGIN}${selectedCountry.image}` : HERO_DEFAULT,
+      intro: selectedCountry.description || "",
+      news,
+      features,
     };
-  }, [data]);
+  }, [selectedCountry, news, features]);
 
   const scrollByAmount = (direction: "left" | "right") => {
     const el = document.querySelector<HTMLDivElement>(".pays-viewport");
@@ -178,17 +183,22 @@ const Pays: React.FC = () => {
     el.scrollBy({ left: delta, behavior: "smooth" });
   };
 
+  // ---------------- Render ----------------
   return (
     <main className="pays">
       {/* HERO */}
       <section className="pays-hero">
-        <img className="pays-hero__img" src={country!.heroImg} alt={`${country!.name} - DREAMS`} />
+        <img
+          className="pays-hero__img"
+          src={country.heroImg}
+          alt={`${country.name} - DREAMS`}
+        />
         <div className="pays-hero__content">
           <div className="pays-hero__card">
             <p className="pays-hero__breadcrumb">
-              <Link to="/" className="pays-crumb">Accueil</Link> / Pays / {country!.name}
+              <Link to="/" className="pays-crumb">Accueil</Link> / Pays / {country.name}
             </p>
-            <h1 className="pays-title">{country!.name}</h1>
+            <h1 className="pays-title">{country.name}</h1>
             <p className="pays-hero__subtitle">
               Antennes locales, accueil, orientation et actions de sensibilisation.
             </p>
@@ -201,12 +211,16 @@ const Pays: React.FC = () => {
         <div className="pays-intro__inner">
           <h2 className="pays-subtitle">Présentation</h2>
           <div className="pays-divider pays-divider--rainbow" />
-          <p className="pays-paragraph">{country!.intro}</p>
+          {loadingCountry ? (
+            <p className="pays-paragraph">Chargement…</p>
+          ) : (
+            <p className="pays-paragraph">{country.intro || "Présentation en cours de mise à jour."}</p>
+          )}
         </div>
       </section>
 
-      {/* CARROUSSEL si contenu */}
-      {country!.news.length > 0 && (
+      {/* NEWS */}
+      {!loadingContent && country.news.length > 0 && (
         <section className="pays-news">
           <div className="pays-news__head">
             <div>
@@ -221,7 +235,7 @@ const Pays: React.FC = () => {
 
           <div className="pays-viewport">
             <div className="pays-track">
-              {country!.news.map((item) => (
+              {country.news.map((item) => (
                 <article key={item.id} className="pays-card">
                   <div className="pays-card__imgWrap">
                     <img src={item.img} alt={item.title} className="pays-card__img" />
@@ -237,10 +251,10 @@ const Pays: React.FC = () => {
         </section>
       )}
 
-      {/* FEATURES (une ou plusieurs antennes) */}
-      {country!.features?.length > 0 && (
+      {/* FEATURES (antennes) */}
+      {!loadingContent && country.features.length > 0 && (
         <section className="pays-features">
-          {country!.features.map((f, idx) => (
+          {country.features.map((f, idx) => (
             <div key={`${f.title}-${idx}`} className="pays-feature__grid">
               <div className="pays-feature__media">
                 <img src={f.img} alt={f.title} className="pays-feature__img" />
