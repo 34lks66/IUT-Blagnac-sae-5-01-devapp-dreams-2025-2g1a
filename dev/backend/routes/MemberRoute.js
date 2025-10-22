@@ -20,6 +20,10 @@ const router = Router()
  *                 $ref: '#/components/schemas/Member'
  */
 router.get('/get', getMembers)
+router.get('/pays/get', getPays);
+router.get('/newspays/get', getNewsPays)
+router.get('/antenne/get', getAntennes)
+
 
 /**
  * @openapi
@@ -37,6 +41,10 @@ router.get('/get', getMembers)
  *         description: Created
  */
 router.post('/save', saveMember)
+router.post('/pays/save', savePays)
+router.post('/newspays/save', saveNewsPays)
+router.post('/antenne/save', saveAntenne)
+
 
 /**
  * @openapi
@@ -59,6 +67,10 @@ router.post('/save', saveMember)
  *         description: Updated
  */
 router.put('/update/:id', updateMember)
+router.put('/pays/update/:id', updatePays)
+router.put('/newspays/update/:id', updateNewsPays)
+router.put('/antenne/update/:id', updateAntenne)
+
 
 /**
  * @openapi
@@ -76,6 +88,10 @@ router.put('/update/:id', updateMember)
  *         description: No Content
  */
 router.delete('/delete/:id', deleteMember)
+router.delete('/pays/delete/:id', deletePays)
+router.delete('/newspays/delete/:id', deleteNewsPays)
+router.delete('/antenne/delete/:id', deleteAntenne)
+
 
 
 module.exports = router 

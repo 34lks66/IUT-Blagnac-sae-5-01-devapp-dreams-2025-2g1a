@@ -11,9 +11,11 @@ import PageAccueilPublic from "./pages/page_accueil_public";
 import Accompagnement from "./pages/accompagnement";
 import Villes from "./pages_dynamiques/villes"; 
 import EvaluationOrientation from "./pages/EvaluationOrientation";
+import Pays from "./pages_dynamiques/pays";
 import DevenirBenevole from "./pages/devenirBenevole";
 import PageAgenda from "./pages/page_agenda";
 import Contact from "./components/Contact";
+import Donations from "./pages/donations";
 
 function App() {
 
@@ -22,18 +24,20 @@ function App() {
     <Router>
       <Header/>
       <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/accueil" element={<Home />} />
-      <Route path="/accueil_public" element={<PageAccueilPublic />} />
-      <Route path="/test" element={<Test />} />
-      <Route path="/hebergement" element={<Hebergement />} />
-      <Route path="/sensibilisation" element={<Sensi />} />
-      <Route path="/accompagnement" element={<Accompagnement />} />
-      <Route path="/villes/:nom" element={<Villes />} />
-      <Route path="/evaluation" element={<EvaluationOrientation />} />
-      <Route path="/devenir-benevole" element={<DevenirBenevole />} />
-      <Route path="/agenda" element={<PageAgenda />} />
-      <Route path="/contact" element={<Contact />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/accueil" element={<Home />} />
+        <Route path="/accueil_public" element={<PageAccueilPublic />} />
+        <Route path="/test" element={<Test />} />
+        <Route path="/hebergement" element={<Hebergement />} />
+        <Route path="/sensibilisation" element={<Sensi />} />
+        <Route path="/accompagnement" element={<Accompagnement />} />
+        <Route path="/villes/:nom" element={<Villes />} />
+        <Route path="/evaluation" element={<EvaluationOrientation />} />
+        <Route path="/pays/:slug" element={<Pays />} />
+        <Route path="/devenir-benevole" element={<DevenirBenevole />} />
+        <Route path="/agenda" element={<PageAgenda />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/don" element={<Donations />} />
       </Routes>
     </Router>
     <FooterMain />

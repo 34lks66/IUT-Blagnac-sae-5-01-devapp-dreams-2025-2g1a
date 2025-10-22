@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import "../styles/evaluation.css";
 import hero from "../assets/hero_section/evaluation_orientation.png";
 
@@ -13,46 +13,54 @@ type Partner = {
 const partnersSeed: Partner[] = [
   {
     id: "p1",
-    name: "Structure A",
-    img: "/images/partner-1.jpg",
-    excerpt:
-      "Accompagnement social et administratif pour les personnes migrantes LGBTQIA+.",
-    url: "#",
+    name: "JEKO Toulouse",
+    img: "/images/jeko.jpg",
+    excerpt: "Association de soutien aux personnes LGBTQI+ migrantes à Toulouse.",
+    url: "https://jekoweb.wordpress.com/"
   },
   {
     id: "p2",
-    name: "Structure B",
-    img: "/images/partner-2.jpg",
+    name: "ALDA",
+    img: "/images/alda.jpg",
     excerpt:
-      "Soutien juridique et orientation dans les démarches d’asile et de régularisation.",
-    url: "#",
+      "Réseau de solidarité avec les lesbiennes réfugiées et demandeuses d’asile à Toulouse. Accueil, écoute et accompagnement administratif.",
+    url: "https://coeur-de-ville.com/index.php/demarches/lgbtqia/747-alda-pour-lesbiennes-refugiees"
   },
   {
     id: "p3",
-    name: "Structure C",
-    img: "/images/partner-3.jpg",
-    excerpt:
-      "Accès à la santé, prévention et écoute, réseau de psychologues partenaires.",
-    url: "#",
+    name: "ENIPSE",
+    img: "/images/enipse-logo.png",
+    excerpt: "Association nationale de prévention et de santé communautaire.",
+    url: "https://www.enipse.fr/"
   },
   {
     id: "p4",
-    name: "Structure D",
-    img: "/images/partner-4.jpg",
+    name: "Act Up",
+    img: "/images/actup.jpg",
     excerpt:
-      "Mise à l’abri temporaire et hébergement solidaire en lien avec les associations locales.",
-    url: "#",
+      "Association de lutte contre le VIH/sida et les discriminations envers les personnes LGBTQIA+.",
+    url: "https://www.addictopole-occitanie.com/annuaire/association-de-reduction-des-risques-act-up-sud-ouest"
   },
+  {
+    id: "p5",
+    name: "RETSER",
+    img: "/images/rester.png",
+    excerpt: "Réseau toulousain en soutien aux personnes exilées et réfugiées.",
+    url: "https://retser31.wordpress.com/"
+  }
 ];
 
 const EvaluationOrientation: React.FC = () => {
   const partners = useMemo(() => partnersSeed, []);
-  const [index, setIndex] = useState(0);
-  const visible = 3;
-  const maxIndex = Math.max(0, partners.length - visible);
 
-  const prev = () => setIndex((i) => Math.max(0, i - 1));
-  const next = () => setIndex((i) => Math.min(maxIndex, i + 1));
+  // Scroll control for arrows
+  const scrollByAmount = (direction: "left" | "right") => {
+    const el = document.querySelector<HTMLDivElement>(".eval-viewport");
+    if (!el) return;
+    const width = el.clientWidth;
+    const scroll = direction === "left" ? -width / 3 : width / 3;
+    el.scrollBy({ left: scroll, behavior: "smooth" });
+  };
 
   return (
     <main className="eval">
@@ -65,9 +73,7 @@ const EvaluationOrientation: React.FC = () => {
         />
         <div className="eval-hero__content">
           <div className="eval-hero__card">
-            <p className="eval-hero__breadcrumb">
-              Accueil / Évaluation & Orientation
-            </p>
+            <p className="eval-hero__breadcrumb">Accueil / Évaluation & Orientation</p>
             <h1 className="eval-title">Évaluation et orientation</h1>
             <p className="eval-hero__subtitle">
               Un accompagnement personnalisé pour chaque personne.
@@ -79,23 +85,21 @@ const EvaluationOrientation: React.FC = () => {
       {/* 2) DÉMARCHE D’ÉVALUATION PERSONNALISÉE */}
       <section className="eval-section">
         <div className="eval-section__grid">
-
-            <div className="eval-section__media">
+          <div className="eval-section__media">
             <img
               src="/images/partie1.png"
               alt="Entretien d’évaluation"
               className="eval-media"
             />
           </div>
-
           <div className="eval-section__text">
             <h2 className="eval-subtitle">Démarche d’évaluation personnalisée</h2>
             <div className="eval-divider eval-divider--rainbow" />
             <p className="eval-paragraph">
               Nous recevons chaque personne avec écoute et bienveillance pour
               comprendre sa situation, ses besoins et ses objectifs. À partir de
-              ce premier échange, nous définissons ensemble un parcours d’accompagnement
-              adapté.
+              ce premier échange, nous définissons ensemble un parcours
+              d’accompagnement adapté.
             </p>
             <ul className="eval-list">
               <li>Accueil confidentiel et non-jugeant</li>
@@ -103,7 +107,6 @@ const EvaluationOrientation: React.FC = () => {
               <li>Plan d’action personnalisé et étapes claires</li>
             </ul>
           </div>
-          
         </div>
       </section>
 
@@ -123,31 +126,37 @@ const EvaluationOrientation: React.FC = () => {
             </h2>
             <div className="eval-divider eval-divider--rainbow2" />
             <p className="eval-paragraph">
-              En fonction des besoins, nous vous orientons vers les dispositifs adaptés
-              (asile, régularisation, accès aux droits, santé, soutien psychologique…).
-              Nous travaillons en réseau avec des partenaires de confiance pour assurer
-              une prise en charge complète.
+              En fonction des besoins, nous vous orientons vers les dispositifs
+              adaptés (asile, régularisation, accès aux droits, santé, soutien
+              psychologique…). Nous travaillons en réseau avec des partenaires de
+              confiance pour assurer une prise en charge complète.
             </p>
 
             <div className="eval-cards">
               <article className="eval-card">
                 <span className="eval-badge">⚖️ Juridique</span>
-                <p className="eval-card__text">Droit d’asile, titres de séjour, recours.</p>
+                <p className="eval-card__text">
+                  Droit d’asile, titres de séjour, recours.
+                </p>
               </article>
               <article className="eval-card">
                 <span className="eval-badge">🏛️ Administratif</span>
-                <p className="eval-card__text">Démarches, documents, sécurisation des droits.</p>
+                <p className="eval-card__text">
+                  Démarches, documents, sécurisation des droits.
+                </p>
               </article>
               <article className="eval-card">
                 <span className="eval-badge">🤝 Social / Santé</span>
-                <p className="eval-card__text">Accès aux soins, soutien psychologique, aide sociale.</p>
+                <p className="eval-card__text">
+                  Accès aux soins, soutien psychologique, aide sociale.
+                </p>
               </article>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4) PARTENAIRES – CARROUSEL */}
+      {/* 4) PARTENAIRES – CARROUSEL scroll-snap */}
       <section className="eval-partners">
         <div className="eval-partners__head">
           <div>
@@ -156,20 +165,27 @@ const EvaluationOrientation: React.FC = () => {
             </h2>
             <div className="eval-divider eval-divider--warm" />
           </div>
+
           <div className="eval-arrows">
-            <button className="eval-arrow" onClick={prev} aria-label="Précédent">‹</button>
-            <button className="eval-arrow" onClick={next} aria-label="Suivant">›</button>
+            <button
+              className="eval-arrow"
+              onClick={() => scrollByAmount("left")}
+              aria-label="Précédent"
+            >
+              ‹
+            </button>
+            <button
+              className="eval-arrow"
+              onClick={() => scrollByAmount("right")}
+              aria-label="Suivant"
+            >
+              ›
+            </button>
           </div>
         </div>
 
-        <div className="eval-carousel">
-          <div
-            className="eval-track"
-            style={{
-              transform: `translateX(-${(index * 100) / 3}%)`,
-              width: `${(partners.length * 100) / 3}%`,
-            }}
-          >
+        <div className="eval-viewport">
+          <div className="eval-track">
             {partners.map((p) => (
               <article key={p.id} className="eval-cardPartner">
                 <div className="eval-cardPartner__imgWrap">
@@ -179,7 +195,7 @@ const EvaluationOrientation: React.FC = () => {
                 <div className="eval-cardPartner__body">
                   <h3 className="eval-cardPartner__title">{p.name}</h3>
                   <p className="eval-cardPartner__excerpt">{p.excerpt}</p>
-                  <a href={p.url} className="eval-link">
+                  <a href={p.url} className="eval-link" target="_blank" rel="noreferrer">
                     Découvrir la structure →
                   </a>
                 </div>
@@ -197,7 +213,12 @@ const EvaluationOrientation: React.FC = () => {
             Notre équipe DREAMS est disponible pour vous écouter et vous orienter.
           </p>
           <div className="eval-cta__actions">
-            <a href="mailto:assodreamsfr@gmail.com" className="eval-btn eval-btn--ghost">Nous écrire</a>
+            <a
+              href="mailto:assodreamsfr@gmail.com"
+              className="eval-btn eval-btn--ghost"
+            >
+              Nous écrire
+            </a>
           </div>
         </div>
       </section>
