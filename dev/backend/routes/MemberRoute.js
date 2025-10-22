@@ -6,6 +6,22 @@ const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../c
 
 const router = Router()
 
+const multer = require('multer')
+const path = require('path')
+
+const uploadDir = path.join(__dirname, '../uploads');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage })
+
 // router.get('/', getMembers) 
 
 /**
@@ -45,8 +61,8 @@ router.get('/antenne/get', getAntennes)
  *         description: Created
  */
 router.post('/save', saveMember)
-router.post('/pays/save', savePays)
-router.post('/newspays/save', saveNewsPays)
+router.post('/pays/save', upload.single('image'), savePays)
+router.post('/newspays/save', upload.single('image'), saveNewsPays)
 router.post('/antenne/save', saveAntenne)
 
 
@@ -71,8 +87,8 @@ router.post('/antenne/save', saveAntenne)
  *         description: Updated
  */
 router.put('/update/:id', updateMember)
-router.put('/pays/update/:id', updatePays)
-router.put('/newspays/update/:id', updateNewsPays)
+router.put('/pays/update/:id', upload.single('image'), updatePays)
+router.put('/newspays/update/:id', upload.single('image'), updateNewsPays)
 router.put('/antenne/update/:id', updateAntenne)
 
 

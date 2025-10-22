@@ -9,10 +9,11 @@ const AntenneSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    pays: { 
-        type: String, 
-        required: true 
-    },    
+    pays: {
+            type: mongoose.Schema.Types.ObjectId, // référence vers la collection Pays
+            ref: 'Pays',
+            required: true
+        },    
 });
 
 const Antenne = mongoose.model('Antenne', AntenneSchema);
