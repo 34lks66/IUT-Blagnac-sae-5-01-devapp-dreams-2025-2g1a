@@ -5,7 +5,9 @@ import logo from "../assets/logo.png";
 type DropdownKey = "antennes" | "missions" | "soutenir";
 
 const Logo = () => (
-  <a href="/" className="min-w-[128px] min-h-[128px]">
+  <a href="/" 
+  // className="min-w-[128px] min-h-[128px]"
+  >
     <img src={logo} alt="Logo" className="h-32 w-auto" />
   </a>
 );
