@@ -49,6 +49,18 @@ app.get('/', (req, res) => {
             saveNews: 'POST /api/news/save',
             updateNews: 'PUT /api/news/update/:id',
             deleteNews: 'DELETE /api/news/delete/:id'
+          },
+          pays: {
+            getPays: 'GET /api/pays/get',
+            savePays: 'POST /api/pays/save',
+            updatePays: 'PUT /api/pays/update/:id',
+            deletePays: 'DELETE /api/pays/delete/:id'
+          },
+          antennes: {
+            getAntennes: 'GET /api/antenne/get',
+            saveAntenne: 'POST /api/antenne/save',
+            updateAntenne: 'PUT /api/antenne/update/:id',
+            deleteAntenne: 'DELETE /api/antenne/delete/:id'
           }
         }
     });

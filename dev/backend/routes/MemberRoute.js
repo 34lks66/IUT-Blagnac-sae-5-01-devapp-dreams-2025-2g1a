@@ -21,6 +21,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
+//////////////////////////////////////////////////////////////////
+///////////////////////// MEMBERS ////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 // router.get('/', getMembers) 
 
 /**
@@ -39,10 +43,6 @@ const upload = multer({ storage })
  *                 $ref: '#/components/schemas/Member'
  */
 router.get('/get', getMembers)
-router.get('/pays/get', getPays);
-router.get('/newspays/get', getNewsPays)
-router.get('/antenne/get', getAntennes)
-
 
 /**
  * @openapi
@@ -60,10 +60,6 @@ router.get('/antenne/get', getAntennes)
  *         description: Created
  */
 router.post('/save', saveMember)
-router.post('/pays/save', upload.single('image'), savePays)
-router.post('/newspays/save', upload.single('image'), saveNewsPays)
-router.post('/antenne/save', saveAntenne)
-
 
 /**
  * @openapi
@@ -86,10 +82,6 @@ router.post('/antenne/save', saveAntenne)
  *         description: Updated
  */
 router.put('/update/:id', updateMember)
-router.put('/pays/update/:id', upload.single('image'), updatePays)
-router.put('/newspays/update/:id', upload.single('image'), updateNewsPays)
-router.put('/antenne/update/:id', updateAntenne)
-
 
 /**
  * @openapi
@@ -107,10 +99,34 @@ router.put('/antenne/update/:id', updateAntenne)
  *         description: No Content
  */
 router.delete('/delete/:id', deleteMember)
-router.delete('/pays/delete/:id', deletePays)
-router.delete('/newspays/delete/:id', deleteNewsPays)
-router.delete('/antenne/delete/:id', deleteAntenne)
 
+//////////////////////////////////////////////////////////////////
+///////////////////////// Pays // ////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+router.get('/pays/get', getPays);
+router.post('/pays/save', upload.single('image'), savePays)
+router.put('/pays/update/:id', upload.single('image'), updatePays)
+router.delete('/pays/delete/:id', deletePays)
+
+
+//////////////////////////////////////////////////////////////////
+///////////////////////// NewsPays ///////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+router.get('/newspays/get', getNewsPays)
+router.post('/newspays/save', upload.single('image'), saveNewsPays)
+router.put('/newspays/update/:id', upload.single('image'), updateNewsPays)
+router.delete('/newspays/delete/:id', deleteNewsPays)
+
+//////////////////////////////////////////////////////////////////
+///////////////////////// Antenne ////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+router.get('/antenne/get', getAntennes)
+router.post('/antenne/save', saveAntenne)
+router.put('/antenne/update/:id', updateAntenne)
+router.delete('/antenne/delete/:id', deleteAntenne)
 
 
 module.exports = router 
