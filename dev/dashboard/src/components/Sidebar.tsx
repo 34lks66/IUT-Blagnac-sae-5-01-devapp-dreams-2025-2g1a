@@ -5,10 +5,24 @@ interface SidebarProps {
   setIsMobileOpen: (open: boolean) => void;
 }
 
+async function logout() {
+  try {
+    const response = await fetch("http://localhost:5000/api/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    if (response.ok) {
+      window.location.href = "/login";
+    }
+  } catch (error) {
+    console.error("Erreur lors de la déconnexion", error);
+  }
+}
+
 const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: SidebarProps) => {
   const menuItems = [
-    { 
-      id: 'dashboard', 
+    {
+      id: 'dashboard',
       label: 'Tableau de bord',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,25 +31,34 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
       )
     },
     { 
-      id: 'hebergement', 
-      label: 'Hébergement',
+      id: 'accueil', 
+      label: 'Page d\'accueil',
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-newspaper-icon lucide-newspaper">
+          <path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/>
         </svg>
       )
     },
-    { 
-      id: 'accompagnement', 
-      label: 'Accompagnement',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      )
-    },
-    { 
-      id: 'sensibilisation', 
+    // { 
+    //   id: 'hebergement', 
+    //   label: 'Hébergement',
+    //   icon: (
+    //     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    //     </svg>
+    //   )
+    // },
+    // {
+    //   id: 'accompagnement',
+    //   label: 'Accompagnement',
+    //   icon: (
+    //     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+    //     </svg>
+    //   )
+    // },
+    {
+      id: 'sensibilisation',
       label: 'Sensibilisation',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,8 +66,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'pages', 
+    {
+      id: 'pages',
       label: 'Pages du site',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,8 +75,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'users', 
+    {
+      id: 'users',
       label: 'Utilisateurs',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,8 +84,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    { 
-      id: 'settings', 
+    {
+      id: 'settings',
       label: 'Paramètres',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,12 +100,11 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
     <>
       {/* Mobile Overlay */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
-      
       {/* Sidebar */}
       <aside className={`
         fixed md:static inset-y-0 left-0 z-50
@@ -95,7 +117,7 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
           <div className="p-6 border-b border-white/20">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">DREAMS</h2>
-              <button 
+              <button
                 className="md:hidden text-white hover:text-yellow-100 transition-colors"
                 onClick={() => setIsMobileOpen(false)}
               >
@@ -106,7 +128,6 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
             </div>
             <p className="text-xs text-white/80 mt-1">Admin Dashboard</p>
           </div>
-          
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
             <ul className="space-y-1">
@@ -120,8 +141,8 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
                     className={`
                       w-full text-left px-4 py-3 rounded-lg transition-all duration-200
                       flex items-center gap-3 font-medium text-sm
-                      ${activeTab === item.id 
-                        ? 'bg-white text-[#93720a] shadow-lg' 
+                      ${activeTab === item.id
+                        ? 'bg-white text-[#93720a] shadow-lg'
                         : 'hover:bg-white/10 text-white/90'
                       }
                     `}
@@ -133,10 +154,10 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
               ))}
             </ul>
           </nav>
-          
+
           {/* Footer */}
           <div className="p-4 border-t border-white/20">
-            <button className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3 font-medium text-sm">
+            <button className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3 font-medium text-sm" onClick={logout}> 
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>

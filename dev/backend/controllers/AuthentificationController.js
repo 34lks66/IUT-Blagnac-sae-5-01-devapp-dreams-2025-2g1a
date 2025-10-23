@@ -1,38 +1,44 @@
 const jwt = require("jsonwebtoken");
+const Account = require("../models/AccountModel");
+const bcrypt = require("bcrypt")
 
 const SECRET = process.env.JWT_SECRET;
 
-const USERS = [
-  { email: "user@test.com", password: "123456", role: "user" },
-  { email: "admin@test.com", password: "admin123", role: "admin" },
-];
-//Temporaire
-
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = USERS.find(
-    (u) => u.email === email && u.password === password
-  );
+  try {
+    const account = await Account.findOne({ email });
 
-  if (!user) {
-    return res.status(401).json({ message: "Identifiants invalides" });
+    if (!account) {
+      return res.status(401).json({ message: "Email introuvable" });
+    }
+
+    const same = await bcrypt.compare(password, account.password);
+    if (!same) {
+      return res.status(401).json({ message: "Mot de passe incorrect" });
+    }
+    if (account.statut === 'O' ) {
+      return res.status(403).json({ message: "Accès refusé" });
+    }
+
+    const token = jwt.sign(
+      { email: account.email, role: account.statut },
+      SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: false, 
+      maxAge: 60 * 60 * 1000,
+    });
+
+    res.json({ message: "Connexion réussie", token, account });
+  } catch (err) {
+    res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
-
-  const token = jwt.sign(
-    { email: user.email, role: user.role },
-    SECRET,
-    { expiresIn: "1h" }
-  );
-
-  res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "strict",
-    secure: false, 
-    maxAge: 60 * 60 * 1000,
-  });
-
-  res.json({ message: "Connexion réussie" });
 };
 
 

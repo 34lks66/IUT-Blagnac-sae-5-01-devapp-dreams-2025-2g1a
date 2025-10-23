@@ -8,7 +8,7 @@ const Logo = () => (
   <a href="/" 
   // className="min-w-[128px] min-h-[128px]"
   >
-    <img src={logo} alt="Logo" className="h-24 w-auto" />
+    <img src={logo} alt="Logo" className="h-32 w-auto" />
   </a>
 );
 
@@ -19,12 +19,12 @@ const Header = () => {
 
   const menuStructure = {
     antennes: {
-      title: "Nos antennes",
+      title: "DREAMS et ses antennes",
       pays: [
-        // { name: "Accueil", href: "/" },
+        { name: "Accueil", href: "/" },
         {
           name: "France",
-          href: "/france",
+          href: "/pays/france",
           villes: [
             { name: "Toulouse"},
             { name: "Carcassonne"},
@@ -33,12 +33,12 @@ const Header = () => {
         },
         {
           name: "Togo",
-          href: "/togo",
+          href: "/pays/togo",
           villes: [{ name: "Lomé"}],
         },
         {
           name: "Burkina Faso",
-          href: "/burkina-faso",
+          href: "/pays/burkina-faso",
           villes: [
             { name: "Bobo-Dioulasso"},
             { name: "Ouagadougou"},
@@ -46,13 +46,13 @@ const Header = () => {
         },
         {
           name: "Côte d'Ivoire",
-          href: "/cote-divoire",
+          href: "/pays/cote-divoire",
           villes: [
             { name: "Abidjan"},
             { name: "Bouaké"},
           ],
         },
-        { name: "Italie", href: "/italie" },
+        { name: "Italie", href: "/pays/italie" },
       ],
     },
     missions: {
@@ -109,26 +109,22 @@ const Header = () => {
               className="hidden md:flex items-center px-4 py-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-md hover:shadow-lg transition-all text-sm font-medium"
             >
               Donner
-            </a>    
-          </div>
+            </a>
 
-          {/* Menu mobile */}
+            {/* Menu mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-gray-700 z-50 mr-4"
+              className="md:hidden text-gray-700 z-50"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
+          </div>
         </div>
 
         {/* NAVIGATION DESKTOP */}
         <nav className="hidden md:block border-t border-gray-100">
           <div className="flex items-center justify-center px-6 py-3 space-x-2">
-
-            <a href="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600">
-              Accueil
-            </a>
 
             {/* === ANTENNES === */}
             <div className="relative group">

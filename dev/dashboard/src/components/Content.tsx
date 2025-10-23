@@ -1,4 +1,6 @@
 import React from 'react';
+import Accueil from '../components/News';
+import PagesSite from './PagesSite';
 
 interface ContentProps {
   activeTab: string;
@@ -200,22 +202,21 @@ const Content = ({ activeTab }: ContentProps) => {
 
   const contentMap: Record<string, React.ReactElement> = {
     dashboard: renderDashboard(),
-    hebergement: renderPlaceholder(
-      'Gestion des hébergements',
-      'Gérez les demandes d\'hébergement, les bénéficiaires et le suivi'
-    ),
-    accompagnement: renderPlaceholder(
-      'Accompagnement',
-      'Suivez les accompagnements individuels et collectifs'
-    ),
+    accueil: <Accueil />,
+    // hebergement: renderPlaceholder(
+    //   'Gestion des hébergements',
+    //   'Gérez les demandes d\'hébergement, les bénéficiaires et le suivi'
+    // ),
+    // accompagnement: renderPlaceholder(
+    //   'Accompagnement',
+    //   'Suivez les accompagnements individuels et collectifs'
+    // ),
     sensibilisation: renderPlaceholder(
-      'Sensibilisation',
+      'Agenda',
       'Organisez et gérez les événements de sensibilisation'
     ),
-    pages: renderPlaceholder(
-      'Pages du site',
-      'Modifiez le contenu des différentes pages du site DREAMS'
-    ),
+    pages: <PagesSite />,
+    
     users: renderPlaceholder(
       'Utilisateurs',
       'Gérez les comptes utilisateurs et les permissions'
