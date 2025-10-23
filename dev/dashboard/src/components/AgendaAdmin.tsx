@@ -16,7 +16,7 @@ type AntenneItem = {
   nom: string;
 };
 
-const API_BASE = 'http://localhost:5001';
+const API_BASE = 'http://localhost:5000';
 
 export default function AgendaAdmin() {
   const [events, setEvents] = useState<EventItem[]>([]);

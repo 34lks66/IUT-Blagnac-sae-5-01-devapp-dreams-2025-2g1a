@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:5001/api/me", {
+        fetch("http://localhost:5000/api/me", {
             credentials: "include", 
         })
             .then((res) => {

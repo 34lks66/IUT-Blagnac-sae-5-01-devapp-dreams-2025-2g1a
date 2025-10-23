@@ -13,7 +13,7 @@ function Login() {
     useEffect(() => {
         const checkLogin = async () => {
             try {
-                const response = await fetch("http://localhost:5001/api/me", {
+                const response = await fetch("http://localhost:5000/api/me", {
                     credentials: "include",
                 });
                 if (response.ok) {
@@ -38,7 +38,7 @@ function Login() {
 
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:5001/api/login", {
+            const response = await fetch("http://localhost:5000/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",

@@ -19,7 +19,7 @@ function groupEventsByMonth(events: Event[]) {
 }
 
 export default function Agenda() {
-    const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
+    const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
     const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
