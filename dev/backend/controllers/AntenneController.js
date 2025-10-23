@@ -3,7 +3,14 @@ const AntenneModel = require("../models/AntenneModel");
 
 module.exports.getAntennes = async (req, res) => {
   try {
-    const antennes = await AntenneModel.find();
+    const { nom, pays } = req.query; 
+    const filtre = {};
+
+    if (nom) {
+      filtre.nom = new RegExp(`^${nom}$`, 'i');
+    }
+
+    const antennes = await AntenneModel.find(filtre);
     res.json(antennes);
   } catch (error) {
     console.error("Error fetching antennes:", error);

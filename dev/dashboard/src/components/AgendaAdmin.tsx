@@ -7,16 +7,34 @@ type EventItem = {
   time?: string;
   location?: string;
   description?: string;
-  antenna?: string | null;
+  antenna?: string | null; // for events API this is a string (nom) after normalisation
   isGeneral?: boolean;
+};
+
+type AntenneItem = {
+  _id: string;
+  nom: string;
 };
 
 const API_BASE = 'http://localhost:5001';
 
 export default function AgendaAdmin() {
   const [events, setEvents] = useState<EventItem[]>([]);
+  const [antennes, setAntennes] = useState<AntenneItem[]>([]);
   const [form, setForm] = useState<EventItem>({ title: '', date: '', isGeneral: false });
   const [loading, setLoading] = useState(false);
+
+  const fetchAntennes = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/antenne/get`);
+      if (!res.ok) return setAntennes([]);
+      const data = await res.json();
+      setAntennes(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('fetchAntennes', err);
+      setAntennes([]);
+    }
+  };
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -32,6 +50,7 @@ export default function AgendaAdmin() {
   };
 
   useEffect(() => {
+    fetchAntennes();
     fetchEvents();
   }, []);
 
@@ -41,10 +60,12 @@ export default function AgendaAdmin() {
     try {
       const method = form._id ? 'PUT' : 'POST';
       const url = form._id ? `${API_BASE}/api/events/${form._id}` : `${API_BASE}/api/events`;
+
+      const payload = { ...form };
       await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       setForm({ title: '', date: '', isGeneral: false });
       await fetchEvents();
@@ -53,7 +74,13 @@ export default function AgendaAdmin() {
     }
   };
 
-  const edit = (ev: EventItem) => setForm(ev);
+  const edit = (ev: EventItem) => {
+    const selectedAntenne = antennes.find(a => a.nom === ev.antenna);
+    setForm({
+      ...ev,
+      antenna: selectedAntenne ? selectedAntenne._id : ev.antenna ?? null,
+    });
+  };
 
   const remove = async (id?: string) => {
     if (!id || !confirm('Supprimer cet événement ?')) return;
@@ -99,12 +126,19 @@ export default function AgendaAdmin() {
           value={form.location ?? ''}
           onChange={e => setForm({ ...form, location: e.target.value })}
         />
-        <input
+
+        {/* replaced free-text antenna input by select populated from backend antennes */}
+        <select
           className="p-2 border rounded col-span-1 md:col-span-2"
-          placeholder="Antenne (laisser vide = agenda général)"
           value={form.antenna ?? ''}
           onChange={e => setForm({ ...form, antenna: e.target.value || null })}
-        />
+        >
+          <option value=""></option>
+          {antennes.map(a => (
+            <option key={a._id} value={a._id}>{a.nom}</option>
+          ))}
+        </select>
+
         <label className="flex items-center gap-2">
           <input
             type="checkbox"

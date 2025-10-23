@@ -180,12 +180,7 @@ function Villes() {
 
             </div> */}
             <div className="max-h-70 overflow-y-auto">
-              <AgendaAntennes lEvents={[{ id: 1, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
-                { id: 2, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
-                { id: 3, title: "Événement 1", date: "2023-12-04" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
-                { id: 4, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
-                { id: 5, title: "Événement 1", date: "2023-10-01" , location: ville?.nom ?? "", antenna: ville?.nom ?? "", description: "Description de l'événement 1", time: "10:00" },
-              ].sort((b, a) => new Date(a.date).getTime() - new Date(b.date).getTime())} />
+              <AgendaAntennes antennaName={ville?.nom} />
             </div>
           </div>
         </div>

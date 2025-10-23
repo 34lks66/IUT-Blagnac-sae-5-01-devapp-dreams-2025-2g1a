@@ -1,5 +1,5 @@
 // ...existing code...
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Event } from "../../data/type";
 
 function groupEventsByMonth(events: Event[]) {

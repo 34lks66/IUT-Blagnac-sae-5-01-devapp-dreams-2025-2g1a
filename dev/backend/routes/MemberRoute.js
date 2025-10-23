@@ -1,5 +1,8 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
+const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
+const { getNewsPays, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
+const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
 const router = Router()
 
 // router.get('/', getMembers) 
