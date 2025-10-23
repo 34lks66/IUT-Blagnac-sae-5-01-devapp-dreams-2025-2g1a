@@ -142,7 +142,7 @@ const News: React.FC = () => {
     <section>
         {/* FORMULAIRE D'AJOUT */}
         <div className="flex items-center justify-between mb-6">
-            <h1 className="text-4xl font-extrabold dark:text-white">Section Actualité</h1>
+            <h1 className="text-4xl font-extrabold ">Section Actualité</h1>
             <button
             onClick={() => setShowForm(true)}
             className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"

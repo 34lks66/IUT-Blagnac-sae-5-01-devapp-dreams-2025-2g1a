@@ -203,16 +203,16 @@ const Content = ({ activeTab }: ContentProps) => {
   const contentMap: Record<string, React.ReactElement> = {
     dashboard: renderDashboard(),
     accueil: <Accueil />,
-    hebergement: renderPlaceholder(
-      'Gestion des hébergements',
-      'Gérez les demandes d\'hébergement, les bénéficiaires et le suivi'
-    ),
-    accompagnement: renderPlaceholder(
-      'Accompagnement',
-      'Suivez les accompagnements individuels et collectifs'
-    ),
+    // hebergement: renderPlaceholder(
+    //   'Gestion des hébergements',
+    //   'Gérez les demandes d\'hébergement, les bénéficiaires et le suivi'
+    // ),
+    // accompagnement: renderPlaceholder(
+    //   'Accompagnement',
+    //   'Suivez les accompagnements individuels et collectifs'
+    // ),
     sensibilisation: renderPlaceholder(
-      'Sensibilisation',
+      'Agenda',
       'Organisez et gérez les événements de sensibilisation'
     ),
     pages: <PagesSite />,
