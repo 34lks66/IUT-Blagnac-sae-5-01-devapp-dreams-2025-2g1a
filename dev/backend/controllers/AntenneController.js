@@ -1,4 +1,6 @@
 // controllers/AntenneController.js
+const AntenneModel = require("../models/AntenneModel");
+
 module.exports.getAntennes = async (req, res) => {
   try {
     const { nom, pays } = req.query; 
@@ -10,12 +12,13 @@ module.exports.getAntennes = async (req, res) => {
 
     if (pays) {
       if (typeof pays === "string" && pays.includes(",")) {
-        filtre.pays = { $in: pays.split(",").map((p) => p.trim()) };
+        filtre.pays = { $in: pays.split(",").map((id) => id.trim()) };
       } else {
         filtre.pays = pays;
       }
     }
 
+    // populate pour récupérer quelques infos du pays (facultatif)
     const antennes = await AntenneModel
       .find(filtre)
       .populate("pays", "nom description image");
@@ -26,7 +29,6 @@ module.exports.getAntennes = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 module.exports.saveAntenne = async (req, res) => {
   try {

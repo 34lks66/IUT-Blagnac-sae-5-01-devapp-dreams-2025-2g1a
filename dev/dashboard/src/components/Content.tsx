@@ -211,7 +211,7 @@ const Content = ({ activeTab }: ContentProps) => {
       'Accompagnement',
       'Suivez les accompagnements individuels et collectifs'
     ),
-    sensibilisation: <AgendaAdmin />,
+    agenda: <AgendaAdmin />,
     accueil: <Accueil />,
     // hebergement: renderPlaceholder(
     //   'Gestion des hébergements',

@@ -7,7 +7,7 @@ type EventItem = {
   time?: string;
   location?: string;
   description?: string;
-  antenna?: string | null; // for events API this is a string (nom) after normalisation
+  antenna?: string | null;
   isGeneral?: boolean;
 };
 
@@ -21,8 +21,9 @@ const API_BASE = 'http://localhost:5001';
 export default function AgendaAdmin() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [antennes, setAntennes] = useState<AntenneItem[]>([]);
-  const [form, setForm] = useState<EventItem>({ title: '', date: '', isGeneral: false });
+  const [form, setForm] = useState<EventItem>({ title: '', date: '', isGeneral: false, antenna: null });
   const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const fetchAntennes = async () => {
     try {
@@ -54,9 +55,18 @@ export default function AgendaAdmin() {
     fetchEvents();
   }, []);
 
+  const isFormValid = () => {
+    // titre et date requis + soit antenne soit isGeneral coché
+    return !!form.title && !!form.date && (!!form.isGeneral || !!form.antenna);
+  };
+
   const submit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!form.title || !form.date) return;
+    setFormError(null);
+    if (!isFormValid()) {
+      setFormError("Remplissez le titre, la date et choisissez une antenne ou cochez 'Agenda général'.");
+      return;
+    }
     try {
       const method = form._id ? 'PUT' : 'POST';
       const url = form._id ? `${API_BASE}/api/events/${form._id}` : `${API_BASE}/api/events`;
@@ -67,7 +77,7 @@ export default function AgendaAdmin() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      setForm({ title: '', date: '', isGeneral: false });
+      setForm({ title: '', date: '', isGeneral: false, antenna: null });
       await fetchEvents();
     } catch (err) {
       console.error(err);
@@ -80,6 +90,7 @@ export default function AgendaAdmin() {
       ...ev,
       antenna: selectedAntenne ? selectedAntenne._id : ev.antenna ?? null,
     });
+    setFormError(null);
   };
 
   const remove = async (id?: string) => {
@@ -104,14 +115,14 @@ export default function AgendaAdmin() {
           className="p-2 border rounded"
           placeholder="Titre"
           value={form.title}
-          onChange={e => setForm({ ...form, title: e.target.value })}
+          onChange={e => { setForm({ ...form, title: e.target.value }); setFormError(null); }}
           required
         />
         <input
           type="date"
           className="p-2 border rounded"
           value={form.date}
-          onChange={e => setForm({ ...form, date: e.target.value })}
+          onChange={e => { setForm({ ...form, date: e.target.value }); setFormError(null); }}
           required
         />
         <input
@@ -127,13 +138,17 @@ export default function AgendaAdmin() {
           onChange={e => setForm({ ...form, location: e.target.value })}
         />
 
-        {/* replaced free-text antenna input by select populated from backend antennes */}
         <select
           className="p-2 border rounded col-span-1 md:col-span-2"
           value={form.antenna ?? ''}
-          onChange={e => setForm({ ...form, antenna: e.target.value || null })}
+          onChange={e => {
+            const val = e.target.value || null;
+            setForm({ ...form, antenna: val, isGeneral: val ? false : form.isGeneral });
+            setFormError(null);
+          }}
+          disabled={!!form.isGeneral}
         >
-          <option value=""></option>
+          <option value="">Sélectionner une antenne</option>
           {antennes.map(a => (
             <option key={a._id} value={a._id}>{a.nom}</option>
           ))}
@@ -143,7 +158,12 @@ export default function AgendaAdmin() {
           <input
             type="checkbox"
             checked={!!form.isGeneral}
-            onChange={e => setForm({ ...form, isGeneral: e.target.checked })}
+            onChange={e => {
+              const checked = e.target.checked;
+              setForm({ ...form, isGeneral: checked, antenna: checked ? null : form.antenna });
+              setFormError(null);
+            }}
+            disabled={!!form.antenna}
           />
           Agenda général
         </label>
@@ -155,14 +175,24 @@ export default function AgendaAdmin() {
         />
         <div className="col-span-1 md:col-span-3 flex gap-2 justify-end">
           {form._id && (
-            <button type="button" onClick={() => setForm({ title: '', date: '', isGeneral: false })} className="px-3 py-1 border rounded">
+            <button
+              type="button"
+              onClick={() => { setForm({ title: '', date: '', isGeneral: false, antenna: null }); setFormError(null); }}
+              className="px-3 py-1 border rounded"
+            >
               Annuler
             </button>
           )}
-          <button type="submit" onClick={submit} className="px-4 py-2 bg-yellow-500 text-white rounded">
+          <button
+            type="submit"
+            onClick={submit}
+            disabled={!isFormValid()}
+            className={`px-4 py-2 text-white rounded ${isFormValid() ? 'bg-yellow-500' : 'bg-gray-300 cursor-not-allowed'}`}
+          >
             {form._id ? 'Mettre à jour' : 'Créer'}
           </button>
         </div>
+        {formError && <div className="col-span-1 md:col-span-3 text-red-600 text-sm">{formError}</div>}
       </form>
 
       <div className="bg-white rounded-lg shadow-sm p-4">
