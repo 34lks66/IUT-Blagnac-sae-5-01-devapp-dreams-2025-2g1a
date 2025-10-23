@@ -5,7 +5,9 @@ import logo from "../assets/logo.png";
 type DropdownKey = "antennes" | "missions" | "soutenir";
 
 const Logo = () => (
-  <a href="/" className="min-w-[128px] min-h-[128px]">
+  <a href="/" 
+  // className="min-w-[128px] min-h-[128px]"
+  >
     <img src={logo} alt="Logo" className="h-32 w-auto" />
   </a>
 );
@@ -22,7 +24,7 @@ const Header = () => {
         { name: "Accueil", href: "/" },
         {
           name: "France",
-          href: "/france",
+          href: "/pays/france",
           villes: [
             { name: "Toulouse"},
             { name: "Carcassonne"},
@@ -31,12 +33,12 @@ const Header = () => {
         },
         {
           name: "Togo",
-          href: "/togo",
+          href: "/pays/togo",
           villes: [{ name: "Lomé"}],
         },
         {
           name: "Burkina Faso",
-          href: "/burkina-faso",
+          href: "/pays/burkina-faso",
           villes: [
             { name: "Bobo-Dioulasso"},
             { name: "Ouagadougou"},
@@ -44,13 +46,13 @@ const Header = () => {
         },
         {
           name: "Côte d'Ivoire",
-          href: "/cote-divoire",
+          href: "/pays/cote-divoire",
           villes: [
             { name: "Abidjan"},
             { name: "Bouaké"},
           ],
         },
-        { name: "Italie", href: "/italie" },
+        { name: "Italie", href: "/pays/italie" },
       ],
     },
     missions: {

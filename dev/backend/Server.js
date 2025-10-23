@@ -7,10 +7,13 @@ const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
 const path = require('path');
 
-const routes = require('./routes/MemberRoute');
+const memberRoutes = require('./routes/MemberRoute');
+const newsRoutes = require('./routes/NewsRoute');
 const authRoutes = require('./routes/AuthentificationRoute');
 const eventRoutes = require('./routes/EventRoute');
 const cookieParser = require("cookie-parser"); 
+
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -35,10 +38,18 @@ app.get('/', (req, res) => {
     res.json({ 
         message: 'Server is running!',
         routes: {
+          members: {
             getMembers: 'GET /api/get',
             saveMember: 'POST /api/save',
             updateMember: 'PUT /api/update/:id',
             deleteMember: 'DELETE /api/delete/:id'
+          },
+          news: {
+            getNews: 'GET /api/news/get',
+            saveNews: 'POST /api/news/save',
+            updateNews: 'PUT /api/news/update/:id',
+            deleteNews: 'DELETE /api/news/delete/:id'
+          }
         }
     });
 });
@@ -100,10 +111,11 @@ app.get('/swagger.json', (req, res) => {
    `);
  });
 
-app.use('/api', routes);
+app.use('/api', memberRoutes);
+app.use('/api', newsRoutes);
 app.use('/api', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

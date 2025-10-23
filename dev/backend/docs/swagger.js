@@ -19,6 +19,15 @@ const options = {
                         texte: { type: 'string', example: 'hello world'},
                     },
                 },
+                News: {
+                    type: 'object',
+                    properties: {
+                        image: { type: 'string', example: '/uploads/image123.jpg' },
+                        title: { type: 'string', example: 'Nouvelle actu' },
+                        date: { type: 'string', example: '23 octobre' },
+                        link: { type: 'string', example: 'href' },
+                    }
+                },
             },
         },
     },

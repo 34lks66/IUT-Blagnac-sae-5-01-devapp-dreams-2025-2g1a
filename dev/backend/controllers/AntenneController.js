@@ -1,6 +1,4 @@
 // controllers/AntenneController.js
-const AntenneModel = require("../models/AntenneModel");
-
 module.exports.getAntennes = async (req, res) => {
   try {
     const { nom, pays } = req.query; 
@@ -10,13 +8,25 @@ module.exports.getAntennes = async (req, res) => {
       filtre.nom = new RegExp(`^${nom}$`, 'i');
     }
 
-    const antennes = await AntenneModel.find(filtre);
+    if (pays) {
+      if (typeof pays === "string" && pays.includes(",")) {
+        filtre.pays = { $in: pays.split(",").map((p) => p.trim()) };
+      } else {
+        filtre.pays = pays;
+      }
+    }
+
+    const antennes = await AntenneModel
+      .find(filtre)
+      .populate("pays", "nom description image");
+
     res.json(antennes);
   } catch (error) {
     console.error("Error fetching antennes:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 module.exports.saveAntenne = async (req, res) => {
   try {
