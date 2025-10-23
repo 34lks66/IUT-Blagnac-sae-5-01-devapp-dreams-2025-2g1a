@@ -10,7 +10,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+        <h1 className="text-2xl font-bold text-yellow-500 bg-clip-text text-transparent">
           Tableau de bord DREAMS
         </h1>
       </div>
@@ -19,7 +19,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
           href="http://localhost:5173"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-yellow-500 to-[#93720a] rounded-md shadow hover:opacity-90 transition"
+          className="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md shadow hover:opacity-90 transition"
         >
           Voir le site
         </a>

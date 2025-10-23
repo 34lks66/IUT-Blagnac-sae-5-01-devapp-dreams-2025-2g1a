@@ -313,7 +313,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold bg-yellow-500 bg-clip-text text-transparent">
             {country.nom} Éditeur
           </h2>
           <p className="text-gray-600">Édite la description, l’image et les actualités du pays.</p>
@@ -489,7 +489,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         <button
           type="submit"
           disabled={saving || newNewsMissingImage}
-          className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110 disabled:opacity-60"
+          className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110 disabled:opacity-60"
         >
           {saving ? "Enregistrement…" : "Enregistrer"}
         </button>
