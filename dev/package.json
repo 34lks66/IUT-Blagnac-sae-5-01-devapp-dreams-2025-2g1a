@@ -1,0 +1,14 @@
+{
+  "name": "dev-root",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run backend\" \"npm run frontend\" \"npm run dashboard\"",
+    "backend": "cd backend && npm start",
+    "frontend": "cd site_dreams && npm run dev",
+    "dashboard": "cd dashboard && npm run dev",
+    "install-all": "npm --prefix backend install && npm --prefix site_dreams install && npm --prefix dashboard install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
