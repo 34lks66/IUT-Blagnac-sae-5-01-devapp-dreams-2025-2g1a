@@ -1,6 +1,7 @@
 import React from 'react';
 import Accueil from '../components/News';
 import PagesSite from './PagesSite';
+import Utilisateurs from './Utilisateurs';
 
 interface ContentProps {
   activeTab: string;
@@ -217,10 +218,7 @@ const Content = ({ activeTab }: ContentProps) => {
     ),
     pages: <PagesSite />,
     
-    users: renderPlaceholder(
-      'Utilisateurs',
-      'Gérez les comptes utilisateurs et les permissions'
-    ),
+    users: <Utilisateurs />,
     settings: renderPlaceholder(
       'Paramètres',
       'Configurez les paramètres généraux de l\'application'
