@@ -87,7 +87,6 @@ module.exports.updateAntenne = async (req, res) => {
   }
 };
 
-// CORRECTION : Changé de deleteAtenne à deleteAntenne
 module.exports.deleteAntenne = async (req, res) => {
   try {
     const { id } = req.params;

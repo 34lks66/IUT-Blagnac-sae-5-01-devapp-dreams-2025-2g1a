@@ -2,6 +2,7 @@ import React from 'react';
 import AgendaAdmin from './AgendaAdmin';
 import Accueil from '../components/News';
 import PagesSite from './PagesSite';
+import PageAntennes from './page_antenne';
 
 interface ContentProps {
   activeTab: string;
@@ -222,6 +223,9 @@ const Content = ({ activeTab }: ContentProps) => {
     //   'Suivez les accompagnements individuels et collectifs'
     // ),
     pages: <PagesSite />,
+    
+    pages_antennes: <PageAntennes />,
+
     
     users: renderPlaceholder(
       'Utilisateurs',
