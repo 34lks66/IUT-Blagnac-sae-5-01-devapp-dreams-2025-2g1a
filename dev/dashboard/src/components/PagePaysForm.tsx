@@ -1,12 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import Page_antenne from "./pages_site/page_antenne";
+import React, { useEffect, useRef, useState } from "react";
+
+// ---------- Props ----------
+type Props = {
+  countryId: string;
+  onBack?: () => void;
+};
 
 // ---------- Types ----------
 type Country = {
   _id: string;
   nom: string;
   description: string;
-  image?: string;
+  image?: string; // ex: "/uploads/xxx.jpg"
   createdAt?: string;
   updatedAt?: string;
 };
@@ -15,15 +20,15 @@ type NewsItem = {
   _id?: string; // absent => à créer
   titre: string;
   description: string;
-  image?: string | null; // ignoré côté backend pour l'instant
+  image?: File | string | null; // File (nouvelle), string (existante "/uploads/..."), null
   pays: string; // id du pays
 };
 
 // ---------- Helpers ----------
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const DEFAULT_COUNTRY_IMAGE = "placeholder-country.jpg"; // <- à changer si tu veux
+const API_ORIGIN = API_BASE.replace(/\/api$/, "");
 
-// Petits composants UI
+// UI helpers
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
   htmlFor,
   children,
@@ -32,7 +37,6 @@ const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
     {children}
   </label>
 );
-
 const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
   <input
     {...p}
@@ -42,7 +46,6 @@ const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
     }
   />
 );
-
 const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
   p
 ) => (
@@ -56,151 +59,76 @@ const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
 );
 
 // ---------- Composant principal ----------
-const PagePaysForm: React.FC = () => {
+const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   // Pays
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCountryId, setSelectedCountryId] = useState<string | null>(
-    null
-  );
-  const selectedCountry = useMemo(
-    () => countries.find((c) => c._id === selectedCountryId) || null,
-    [countries, selectedCountryId]
-  );
+  const [country, setCountry] = useState<Country | null>(null);
 
-  // Form pays (édition)
+  // Edition du pays
   const [description, setDescription] = useState<string>("");
-
-  // Form création de pays
-  const [creatingOpen, setCreatingOpen] = useState(false);
-  const [creatingLoading, setCreatingLoading] = useState(false);
-  const [newCountry, setNewCountry] = useState<{
-    nom: string;
-    description: string;
-  }>({
-    nom: "",
-    description: "",
-  });
+  const [countryImageFile, setCountryImageFile] = useState<File | null>(null); // nouvelle image du pays
 
   // News
   const [news, setNews] = useState<NewsItem[]>([]);
   const initialNewsIdsRef = useRef<Set<string>>(new Set());
 
-  // UI loading/saving
-  const [loadingCountries, setLoadingCountries] = useState(false);
-  const [loadingContent, setLoadingContent] = useState(false);
+  // UI states
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deletingCountry, setDeletingCountry] = useState(false);
 
-  // ----- Chargement des pays -----
-  useEffect(() => {
-    const loadCountries = async () => {
-      try {
-        setLoadingCountries(true);
-        const res = await fetch(`${API_BASE}/pays/get`, {
-          credentials: "include",
-        });
-        if (!res.ok) throw new Error("Erreur chargement pays");
-        const data: Country[] = await res.json();
-        setCountries(data);
-        if (data.length && !selectedCountryId) {
-          setSelectedCountryId(data[0]._id);
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Impossible de charger les pays.");
-      } finally {
-        setLoadingCountries(false);
-      }
-    };
-    loadCountries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // ----- Quand un pays est sélectionné : charger description + news -----
-  useEffect(() => {
-    if (!selectedCountryId) return;
-
-    const loadCountryAndNews = async () => {
-      try {
-        setLoadingContent(true);
-        const country = countries.find((c) => c._id === selectedCountryId);
-        setDescription(country?.description || "");
-
-        const resNews = await fetch(
-          `${API_BASE}/newspays/get?pays=${selectedCountryId}`,
-          {
-            credentials: "include",
-          }
-        );
-        if (!resNews.ok) throw new Error("Erreur chargement actu");
-        const dataNews: NewsItem[] = await resNews.json();
-
-        setNews(dataNews);
-        initialNewsIdsRef.current = new Set(
-          dataNews.filter((n) => n._id).map((n) => n._id!)
-        );
-      } catch (err) {
-        console.error(err);
-        alert("Impossible de charger les infos du pays.");
-      } finally {
-        setLoadingContent(false);
-      }
-    };
-
-    loadCountryAndNews();
-  }, [selectedCountryId, countries]);
-
-  // ----- Handlers -----
-  const handleSelectCountry = (id: string) => {
-    if (id === selectedCountryId) return;
-    setSelectedCountryId(id);
-  };
-
-  // Création d'un nouveau pays
-  const handleCreateCountry = async () => {
-    if (!newCountry.nom.trim() || !newCountry.description.trim()) {
-      alert("Renseigne au moins le nom et la description.");
-      return;
-    }
+  // ----- Load pays + news -----
+  const loadCountryAndNews = async (id: string) => {
+    setLoading(true);
     try {
-      setCreatingLoading(true);
-      const res = await fetch(`${API_BASE}/pays/save`, {
-        method: "POST",
+      // Charger tous les pays (ou remplace par /pays/:id si tu l'as)
+      const resPays = await fetch(`${API_BASE}/pays/get`, {
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nom: newCountry.nom.trim(),
-          description: newCountry.description.trim(),
-          // image requise côté modèle ? on envoie un placeholder pour l'instant
-          image: DEFAULT_COUNTRY_IMAGE,
-        }),
       });
-      if (!res.ok) throw new Error("Échec création du pays");
-      const created: Country = await res.json();
+      const all: Country[] = resPays.ok ? await resPays.json() : [];
+      const current = all.find((c) => c._id === id) || null;
+      setCountry(current);
+      setDescription(current?.description || "");
+      setCountryImageFile(null);
 
-      // injecter dans la liste + sélectionner
-      setCountries((prev) => [created, ...prev]);
-      setSelectedCountryId(created._id);
-
-      // reset UI création
-      setNewCountry({ nom: "", description: "" });
-      setCreatingOpen(false);
+      // News
+      const resNews = await fetch(`${API_BASE}/newspays/get?pays=${id}`, {
+        credentials: "include",
+      });
+      const dataNews: any[] = resNews.ok ? await resNews.json() : [];
+      setNews(
+        dataNews.map((n) => ({
+          _id: n._id,
+          titre: n.titre,
+          description: n.description,
+          image: n.image ?? null,
+          pays: n.pays?._id || n.pays || id,
+        }))
+      );
+      initialNewsIdsRef.current = new Set(
+        dataNews.filter((n) => n._id).map((n) => n._id)
+      );
     } catch (e) {
       console.error(e);
-      alert("Impossible de créer le pays.");
+      setCountry(null);
+      setNews([]);
+      initialNewsIdsRef.current = new Set();
     } finally {
-      setCreatingLoading(false);
+      setLoading(false);
     }
   };
 
-  // News
+  useEffect(() => {
+    if (countryId) loadCountryAndNews(countryId);
+  }, [countryId]);
+
+  // News helpers
   const addNews = () => {
-    if (!selectedCountryId) return;
+    if (!country?._id) return;
     setNews((s) => [
       ...s,
-      { titre: "", description: "", image: null, pays: selectedCountryId },
+      { titre: "", description: "", image: null, pays: country._id },
     ]);
   };
-
   const removeNews = (idx: number) => {
     setNews((s) => {
       const copy = [...s];
@@ -208,35 +136,74 @@ const PagePaysForm: React.FC = () => {
       return copy;
     });
   };
-
   const updateNewsField = (idx: number, patch: Partial<NewsItem>) => {
     setNews((s) =>
       s.map((item, i) => (i === idx ? { ...item, ...patch } : item))
     );
   };
 
-  // ----- Enregistrer -----
+  const renderImageThumb = (img?: File | string | null) => {
+    if (!img) return null;
+    if (typeof img === "string") {
+      return (
+        <img
+          src={`${API_ORIGIN}${img}`}
+          className="w-28 h-20 object-cover rounded-md border border-gray-200"
+        />
+      );
+    }
+    return (
+      <img
+        src={URL.createObjectURL(img)}
+        className="w-28 h-20 object-cover rounded-md border border-gray-200"
+      />
+    );
+  };
+
+  const newNewsMissingImage = news.some(
+    (n) => !n._id && !(n.image instanceof File)
+  );
+
+  // ----- Submit -----
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedCountryId) {
-      alert("Sélectionne un pays d'abord.");
-      return;
-    }
+    if (!country?._id) return;
 
     try {
       setSaving(true);
 
-      // 1) Update description du pays
-      await fetch(`${API_BASE}/pays/update/${selectedCountryId}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description }),
-      }).then((r) => {
-        if (!r.ok) throw new Error("Échec update pays");
-      });
+      // images obligatoires pour nouvelles actus
+      const toCreatePreview = news.filter((n) => !n._id);
+      for (const n of toCreatePreview) {
+        if (!(n.image instanceof File)) {
+          alert("Chaque nouvelle actualité doit avoir une image.");
+          setSaving(false);
+          return;
+        }
+      }
 
-      // 2) Diff news
+      // Update pays
+      if (countryImageFile) {
+        const fd = new FormData();
+        fd.append("description", description);
+        fd.append("image", countryImageFile);
+        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+          method: "PUT",
+          credentials: "include",
+          body: fd,
+        });
+        if (!r.ok) throw new Error("Échec update pays");
+      } else {
+        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ description }),
+        });
+        if (!r.ok) throw new Error("Échec update pays");
+      }
+
+      // Diff news
       const currentIds = new Set(news.filter((n) => n._id).map((n) => n._id!));
       const toDelete = [...initialNewsIdsRef.current].filter(
         (id) => !currentIds.has(id)
@@ -248,42 +215,54 @@ const PagePaysForm: React.FC = () => {
 
       if (toCreate.length) {
         await Promise.all(
-          toCreate.map((n) =>
-            fetch(`${API_BASE}/newspays/save`, {
+          toCreate.map(async (n) => {
+            const fd = new FormData();
+            fd.append("titre", n.titre);
+            fd.append("description", n.description);
+            fd.append("pays", country._id);
+            if (n.image && n.image instanceof File) fd.append("image", n.image);
+            const r = await fetch(`${API_BASE}/newspays/save`, {
               method: "POST",
               credentials: "include",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                titre: n.titre,
-                description: n.description,
-                image: DEFAULT_COUNTRY_IMAGE,
-                pays: selectedCountryId,
-              }),
-            }).then((r) => {
-              if (!r.ok) throw new Error("Échec create news");
-              return r.json();
-            })
-          )
+              body: fd,
+            });
+            if (!r.ok) throw new Error("Échec create news");
+            return r.json();
+          })
         );
       }
 
       if (toUpdate.length) {
         await Promise.all(
-          toUpdate.map((n) =>
-            fetch(`${API_BASE}/newspays/update/${n._id}`, {
-              method: "PUT",
-              credentials: "include",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                titre: n.titre,
-                description: n.description,
-                pays: selectedCountryId,
-              }),
-            }).then((r) => {
-              if (!r.ok) throw new Error("Échec update news");
+          toUpdate.map(async (n) => {
+            if (n.image && n.image instanceof File) {
+              const fd = new FormData();
+              fd.append("titre", n.titre);
+              fd.append("description", n.description);
+              fd.append("pays", country._id);
+              fd.append("image", n.image);
+              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+                method: "PUT",
+                credentials: "include",
+                body: fd,
+              });
+              if (!r.ok) throw new Error("Échec update news (file)");
               return r.json();
-            })
-          )
+            } else {
+              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+                method: "PUT",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  titre: n.titre,
+                  description: n.description,
+                  pays: country._id,
+                }),
+              });
+              if (!r.ok) throw new Error("Échec update news (json)");
+              return r.json();
+            }
+          })
         );
       }
 
@@ -301,26 +280,7 @@ const PagePaysForm: React.FC = () => {
         );
       }
 
-      // Recharger les news fraiches + sync ids initiaux
-      const resNews = await fetch(
-        `${API_BASE}/newspays/get?pays=${selectedCountryId}`,
-        {
-          credentials: "include",
-        }
-      );
-      const fresh = (await resNews.json()) as NewsItem[];
-      setNews(fresh);
-      initialNewsIdsRef.current = new Set(
-        fresh.filter((n) => n._id).map((n) => n._id!)
-      );
-
-      // MàJ locale de la description
-      setCountries((list) =>
-        list.map((c) =>
-          c._id === selectedCountryId ? { ...c, description } : c
-        )
-      );
-
+      await loadCountryAndNews(country._id);
       alert("Enregistré !");
     } catch (err) {
       console.error(err);
@@ -330,270 +290,268 @@ const PagePaysForm: React.FC = () => {
     }
   };
 
-  // ---------- Rendu ----------
+  // Delete pays (optionnel dans le form)
+  const handleDeleteCountry = async () => {
+    if (!country?._id) return;
+    const ok = window.confirm(
+      `Supprimer le pays "${country.nom}" ?\n\nToutes ses actualités liées seront supprimées.`
+    );
+    if (!ok) return;
+
+    try {
+      setDeletingCountry(true);
+      const res = await fetch(`${API_BASE}/pays/delete/${country._id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Échec suppression du pays");
+
+      alert("Pays supprimé !");
+      if (onBack) onBack();
+    } catch (e) {
+      console.error(e);
+      alert("Impossible de supprimer le pays.");
+    } finally {
+      setDeletingCountry(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="text-sm text-gray-500">Chargement…</div>;
+  }
+
+  if (!country) {
+    return (
+      <div className="p-6 rounded-lg border border-red-200 bg-red-50 text-red-700">
+        Impossible de charger ce pays. Il a peut-être été supprimé.
+        {onBack && (
+          <div className="mt-3">
+            <button
+              onClick={onBack}
+              className="px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700"
+            >
+              ← Revenir à la liste
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <form onSubmit={onSubmit} className="space-y-8">
-        {/* Header */}
+    <form onSubmit={onSubmit} className="space-y-8">
+      {/* Header */}
+      <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-            Page Pays — Éditeur
+            {country.nom} Éditeur
           </h2>
           <p className="text-gray-600">
-            Sélectionne un pays, édite sa description et ses actualités.
+            Édite la description, l'image et les actualités du pays.
           </p>
         </div>
 
-        {/* Pays + Description */}
-        <div className="grid md:grid-cols-[320px_1fr] gap-6">
-          {/* Colonne gauche : création + liste des pays */}
-          <div>
-            <div className="flex items-center justify-between">
-              <Label>Pays (BD)</Label>
-              <button
-                type="button"
-                onClick={() => setCreatingOpen((v) => !v)}
-                className="text-sm px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200"
-              >
-                {creatingOpen ? "Fermer" : "Nouveau pays"}
-              </button>
-            </div>
-
-            {creatingOpen && (
-              <div className="mt-2 p-3 border border-yellow-200 rounded-lg bg-yellow-50 space-y-2">
-                <div>
-                  <Label htmlFor="new-country-nom">Nom *</Label>
-                  <Input
-                    id="new-country-nom"
-                    value={newCountry.nom}
-                    onChange={(e) =>
-                      setNewCountry((s) => ({ ...s, nom: e.target.value }))
-                    }
-                    placeholder="Ex : France"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="new-country-desc">Description *</Label>
-                  <TextArea
-                    id="new-country-desc"
-                    rows={3}
-                    value={newCountry.description}
-                    onChange={(e) =>
-                      setNewCountry((s) => ({
-                        ...s,
-                        description: e.target.value,
-                      }))
-                    }
-                    placeholder="Présentation du pays…"
-                  />
-                </div>
-                <div className="flex gap-2 justify-end pt-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setCreatingOpen(false);
-                      setNewCountry({ nom: "", description: "" });
-                    }}
-                    className="px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200"
-                  >
-                    Annuler
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCreateCountry}
-                    disabled={creatingLoading}
-                    className="px-3 py-1.5 rounded-md text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110 disabled:opacity-60"
-                  >
-                    {creatingLoading ? "Création…" : "Créer"}
-                  </button>
-                </div>
-              </div>
-            )}
-
-            <div className="mt-3 h-[280px] overflow-y-auto rounded-lg border border-gray-300 bg-white">
-              {loadingCountries ? (
-                <div className="p-3 text-sm text-gray-500">Chargement…</div>
-              ) : countries.length === 0 ? (
-                <div className="p-3 text-sm text-gray-500">Aucun pays</div>
-              ) : (
-                <ul className="divide-y divide-gray-100">
-                  {countries.map((c) => (
-                    <li
-                      key={c._id}
-                      className={`px-3 py-2 cursor-pointer hover:bg-gray-50 ${
-                        c._id === selectedCountryId
-                          ? "bg-yellow-50 ring-1 ring-yellow-200"
-                          : ""
-                      }`}
-                      onClick={() => handleSelectCountry(c._id)}
-                    >
-                      <div className="font-semibold text-gray-800">{c.nom}</div>
-                      <div className="text-xs text-gray-500 truncate">
-                        {c.description}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-
-          {/* Form du pays sélectionné */}
-          <div>
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-gray-900">Informations du pays</h3>
-              {loadingContent && (
-                <span className="text-xs text-gray-500">chargement…</span>
-              )}
-            </div>
-
-            {selectedCountry ? (
-              <>
-                <div className="mt-3">
-                  <Label>Nom du pays</Label>
-                  <Input value={selectedCountry.nom} disabled />
-                </div>
-
-                <div className="mt-3">
-                  <Label>Description</Label>
-                  <TextArea
-                    rows={6}
-                    placeholder="Présentation du pays (accueil, orientation, partenaires, etc.)"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </div>
-              </>
-            ) : (
-              <div className="text-sm text-gray-500 mt-2">
-                Sélectionne un pays…
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Actus du pays */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-gray-900">Actualités du pays</h3>
+        <div className="flex items-center gap-2">
+          {onBack && (
             <button
               type="button"
-              onClick={addNews}
-              disabled={!selectedCountryId}
-              className="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-50"
+              onClick={onBack}
+              className="px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700"
             >
-              + Ajouter une actualité
+              ← Retour
             </button>
-          </div>
-
-          {news.length === 0 ? (
-            <div className="text-sm text-gray-500">
-              Aucune actualité pour ce pays.
-            </div>
-          ) : (
-            <div className="grid gap-6">
-              {news.map((n, idx) => (
-                <div
-                  key={n._id || `tmp-${idx}`}
-                  className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
-                >
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor={`news-title-${idx}`}>Titre</Label>
-                      <Input
-                        id={`news-title-${idx}`}
-                        placeholder="Ex : Permanence juridique"
-                        value={n.titre}
-                        onChange={(e) =>
-                          updateNewsField(idx, { titre: e.target.value })
-                        }
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor={`news-desc-${idx}`}>Description</Label>
-                      <TextArea
-                        id={`news-desc-${idx}`}
-                        rows={3}
-                        placeholder="Texte de l'actualité"
-                        value={n.description}
-                        onChange={(e) =>
-                          updateNewsField(idx, { description: e.target.value })
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">
-                      {n._id
-                        ? `ID: ${n._id}`
-                        : "Nouvelle actualité (sera créée)"}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removeNews(idx)}
-                      className="text-sm text-red-600 hover:underline"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
           )}
-        </section>
-
-        {/* Actions */}
-        <div className="pt-2 flex items-center justify-end gap-3">
           <button
             type="button"
-            onClick={() => {
-              if (!selectedCountry) return;
-              setDescription(selectedCountry.description || "");
-              (async () => {
-                try {
-                  const resNews = await fetch(
-                    `${API_BASE}/newspays/get?pays=${selectedCountry._id}`,
-                    {
-                      credentials: "include",
-                    }
-                  );
-                  const fresh = (await resNews.json()) as NewsItem[];
-                  setNews(fresh);
-                  initialNewsIdsRef.current = new Set(
-                    fresh.filter((n) => n._id).map((n) => n._id!)
-                  );
-                } catch (e) {
-                  console.error(e);
-                }
-              })();
-            }}
-            className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800"
+            onClick={handleDeleteCountry}
+            disabled={deletingCountry}
+            className="text-sm px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 disabled:opacity-60"
+            title="Supprimer ce pays et toutes ses actualités"
           >
-            Réinitialiser
+            {deletingCountry ? "Suppression…" : "Supprimer le pays"}
           </button>
-
-          <button
-            type="submit"
-            disabled={!selectedCountryId || saving}
-            className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110 disabled:opacity-60"
-          >
-            {saving ? "Enregistrement…" : "Enregistrer"}
-          </button>
-        </div>
-      </form>
-      <div className="relative my-16">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300"></div>
-        </div>
-        <div className="relative flex justify-center">
-          <span className="bg-white px-4 text-sm text-gray-500">
-            Gestion des Antennes
-          </span>
         </div>
       </div>
-      <Page_antenne />
-    </div>
+
+      {/* Pays (nom lecture + image + description) */}
+      <div className="grid md:grid-cols-[1fr_auto] gap-4 items-start">
+        <div>
+          <Label>Nom du pays</Label>
+          <Input value={country.nom} disabled />
+        </div>
+
+        <div>
+          <Label>Image du pays</Label>
+          <div className="mt-1 flex items-center gap-3">
+            <div className="w-28 h-20 rounded-md bg-gray-100 border border-gray-200 overflow-hidden grid place-items-center">
+              {countryImageFile ? (
+                <img
+                  src={URL.createObjectURL(countryImageFile)}
+                  className="w-full h-full object-cover"
+                />
+              ) : country.image ? (
+                <img
+                  src={`${API_ORIGIN}${country.image}`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-xs text-gray-400">Aucune image</span>
+              )}
+            </div>
+
+            <label className="inline-flex items-center px-3 py-2 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-50">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0] || null;
+                  setCountryImageFile(f);
+                }}
+              />
+              Changer d'image
+            </label>
+            {countryImageFile && (
+              <span className="text-xs text-gray-500">
+                {countryImageFile.name}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <Label>Description</Label>
+        <TextArea
+          rows={6}
+          placeholder="Présentation du pays (accueil, orientation, partenaires, etc.)"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+
+      {/* Section Actualités */}
+      <section className="border-t border-gray-200 pt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">Actualités du pays</h3>
+          <button
+            type="button"
+            onClick={addNews}
+            className="px-3 py-1.5 rounded-lg bg-green-100 text-green-700 hover:bg-green-200"
+          >
+            + Ajouter une actualité
+          </button>
+        </div>
+
+        {news.length === 0 ? (
+          <div className="text-sm text-gray-500">
+            Aucune actualité pour ce pays.
+          </div>
+        ) : (
+          <div className="grid gap-6">
+            {news.map((n, idx) => (
+              <div
+                key={n._id || `tmp-${idx}`}
+                className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
+              >
+                <div className="grid md:grid-cols-[1fr_1fr_auto] gap-4 items-start">
+                  <div>
+                    <Label htmlFor={`news-title-${idx}`}>Titre</Label>
+                    <Input
+                      id={`news-title-${idx}`}
+                      placeholder="Ex : Permanence juridique"
+                      value={n.titre}
+                      onChange={(e) =>
+                        updateNewsField(idx, { titre: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor={`news-desc-${idx}`}>Description</Label>
+                    <TextArea
+                      id={`news-desc-${idx}`}
+                      rows={3}
+                      placeholder="Texte de l'actualité"
+                      value={n.description}
+                      onChange={(e) =>
+                        updateNewsField(idx, { description: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div>
+                    <Label>Image</Label>
+                    <div className="mt-1 flex items-center gap-3">
+                      <div className="w-28 h-20 rounded-md bg-gray-100 border border-gray-200 overflow-hidden grid place-items-center">
+                        {renderImageThumb(n.image)}
+                        {!n.image && (
+                          <span className="text-[11px] text-gray-400 px-1 text-center">
+                            Image requise
+                          </span>
+                        )}
+                      </div>
+                      <label className="inline-flex items-center px-3 py-2 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-50">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const f = e.target.files?.[0] || null;
+                            if (f) updateNewsField(idx, { image: f });
+                          }}
+                        />
+                        Choisir une image
+                      </label>
+                    </div>
+                    {!n._id && !(n.image instanceof File) && (
+                      <p className="mt-1 text-xs text-red-600">
+                        Obligatoire pour une nouvelle actualité.
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-500">
+                    {n._id ? `ID: ${n._id}` : "Nouvelle actualité (sera créée)"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => removeNews(idx)}
+                    className="text-sm text-red-600 hover:underline"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Actions */}
+      <div className="pt-2 flex items-center justify-end gap-3">
+        <button
+          type="button"
+          onClick={() => {
+            if (!country) return;
+            loadCountryAndNews(country._id);
+            setCountryImageFile(null);
+          }}
+          className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800"
+        >
+          Réinitialiser
+        </button>
+
+        <button
+          type="submit"
+          disabled={saving || newNewsMissingImage}
+          className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110 disabled:opacity-60"
+        >
+          {saving ? "Enregistrement…" : "Enregistrer"}
+        </button>
+      </div>
+    </form>
   );
 };
 

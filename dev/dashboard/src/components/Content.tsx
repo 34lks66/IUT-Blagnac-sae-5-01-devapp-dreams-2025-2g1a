@@ -1,4 +1,6 @@
 import React from 'react';
+import AgendaAdmin from './AgendaAdmin';
+import Accueil from '../components/News';
 import PagesSite from './PagesSite';
 
 interface ContentProps {
@@ -209,10 +211,16 @@ const Content = ({ activeTab }: ContentProps) => {
       'Accompagnement',
       'Suivez les accompagnements individuels et collectifs'
     ),
-    sensibilisation: renderPlaceholder(
-      'Sensibilisation',
-      'Organisez et gérez les événements de sensibilisation'
-    ),
+    agenda: <AgendaAdmin />,
+    accueil: <Accueil />,
+    // hebergement: renderPlaceholder(
+    //   'Gestion des hébergements',
+    //   'Gérez les demandes d\'hébergement, les bénéficiaires et le suivi'
+    // ),
+    // accompagnement: renderPlaceholder(
+    //   'Accompagnement',
+    //   'Suivez les accompagnements individuels et collectifs'
+    // ),
     pages: <PagesSite />,
     
     users: renderPlaceholder(

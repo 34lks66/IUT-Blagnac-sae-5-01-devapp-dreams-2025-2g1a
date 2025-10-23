@@ -3,7 +3,26 @@ const AntenneModel = require("../models/AntenneModel");
 
 module.exports.getAntennes = async (req, res) => {
   try {
-    const antennes = await AntenneModel.find();
+    const { nom, pays } = req.query; 
+    const filtre = {};
+
+    if (nom) {
+      filtre.nom = new RegExp(`^${nom}$`, 'i');
+    }
+
+    if (pays) {
+      if (typeof pays === "string" && pays.includes(",")) {
+        filtre.pays = { $in: pays.split(",").map((id) => id.trim()) };
+      } else {
+        filtre.pays = pays;
+      }
+    }
+
+    // populate pour récupérer quelques infos du pays (facultatif)
+    const antennes = await AntenneModel
+      .find(filtre)
+      .populate("pays", "nom description image");
+
     res.json(antennes);
   } catch (error) {
     console.error("Error fetching antennes:", error);
