@@ -14,11 +14,7 @@ interface User {
 
 
 const Users = () => {
-  const [users, setUsers] = useState<User[]>([
-    { nom: 'Dupont', prenom: 'Marie', email: 'marie.dupont@example.com', statut: 'X', telephone: '0601020304', pays: 'France' },
-    { nom: 'Martin', prenom: 'Jean', email: 'jean.martin@example.com', statut: 'O', telephone: '0605060708', pays: 'Belgique' },
-    { nom: 'Bernard', prenom: 'Sophie', email: 'sophie.bernard@example.com', statut: 'X', telephone: '0609091011', pays: 'Suisse' },
-  ]);
+  const [users, setUsers] = useState<User[]>([]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
