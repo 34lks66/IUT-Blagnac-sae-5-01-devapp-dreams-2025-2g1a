@@ -1,6 +1,4 @@
-import React, { useEffect,useState, useMemo } from 'react';
-
-const API_URL = "http://localhost:5000/api/accounts";
+import { useEffect,useState, useMemo } from 'react';
 
 interface User {
   _id?: string;
@@ -154,23 +152,25 @@ const Users = () => {
 
 
   return (
-    <div className="bg-white rounded-xl p-12 shadow-md">
-      <div className="max-w-6xl mx-auto">
-        {/* En-tête */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-[#93720a] rounded-xl mx-auto mb-4 flex items-center justify-center">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          </div>
+    
 
-          <h2 className="text-2xl font-bold mb-3 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
             Utilisateurs
           </h2>
-          <p className="text-gray-600 mb-6">Gérez les comptes utilisateurs et leurs informations</p>
+          <p className="text-gray-600">
+            Gérez les comptes utilisateurs et leurs informations
+          </p>
         </div>
+        
+      </div>
+      
 
         {/* Barre de recherche + bouton */}
+
+        <section className="border-t border-gray-200 pt-6">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
             <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -249,7 +249,7 @@ const Users = () => {
             </tbody>
           </table>
         </div>
-      </div>
+        </section>
 
       {/* Modale */}
       {isModalOpen && (
