@@ -10,6 +10,7 @@ const path = require('path');
 const memberRoutes = require('./routes/MemberRoute');
 const newsRoutes = require('./routes/NewsRoute');
 const authRoutes = require('./routes/AuthentificationRoute');
+const accountRoutes = require('./routes/AccountRoute');
 const cookieParser = require("cookie-parser"); 
 
 require('dotenv').config();
@@ -113,6 +114,7 @@ app.get('/swagger.json', (req, res) => {
 app.use('/api', memberRoutes);
 app.use('/api', newsRoutes);
 app.use('/api', authRoutes);
+app.use('/api/accounts', accountRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

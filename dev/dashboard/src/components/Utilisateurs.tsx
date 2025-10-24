@@ -1,20 +1,23 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect,useState, useMemo } from 'react';
+
+const API_URL = "http://localhost:5000/api/accounts";
 
 interface User {
-  id: number;
+  _id?: string;
   nom: string;
   prenom: string;
-  mail: string;
-  role: string;
+  email: string;
   telephone: string;
   pays: string;
+  statut: string;
 }
+
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([
-    { id: 1, nom: 'Dupont', prenom: 'Marie', mail: 'marie.dupont@example.com', role: 'Administrateur', telephone: '0601020304', pays: 'France' },
-    { id: 2, nom: 'Martin', prenom: 'Jean', mail: 'jean.martin@example.com', role: 'Bénévole', telephone: '0605060708', pays: 'Belgique' },
-    { id: 3, nom: 'Bernard', prenom: 'Sophie', mail: 'sophie.bernard@example.com', role: 'Administrateur', telephone: '0609091011', pays: 'Suisse' },
+    { nom: 'Dupont', prenom: 'Marie', email: 'marie.dupont@example.com', statut: 'X', telephone: '0601020304', pays: 'France' },
+    { nom: 'Martin', prenom: 'Jean', email: 'jean.martin@example.com', statut: 'O', telephone: '0605060708', pays: 'Belgique' },
+    { nom: 'Bernard', prenom: 'Sophie', email: 'sophie.bernard@example.com', statut: 'X', telephone: '0609091011', pays: 'Suisse' },
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,15 +26,92 @@ const Users = () => {
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
-    mail: '',
-    role: '',
+    email: '',
     telephone: '',
     pays: '',
+    statut: 'O'
   });
+
+  useEffect(() => {
+  const fetchAccounts = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/accounts");
+      if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
+      const data = await res.json();
+      setUsers(data);
+    } catch (error) {   
+      console.error(error);
+    }
+  };
+
+  fetchAccounts();
+  }, []);
+
+  const handleSubmit = async () => {
+  const { nom, prenom, telephone, email, pays, statut } = formData;
+
+  if (!nom || !prenom || !telephone || !email || !statut || !pays) {
+    alert("Veuillez remplir tous les champs");
+    return;
+  }
+
+  const userData = {
+    nom,
+    prenom,
+    telephone,
+    email: email,
+    password: "123456", // temporaire
+    statut,
+    pays,
+  };
+
+  try {
+    let res;
+    if (editingUser) {
+      res = await fetch(`http://localhost:5000/api/accounts/${editingUser._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+    } else {
+      res = await fetch("http://localhost:5000/api/accounts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+    }
+
+    if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
+
+    // Recharge les comptes après création / modification
+    const newRes = await fetch("http://localhost:5000/api/accounts");
+    const newData = await newRes.json();
+    setUsers(newData);
+    closeModal();
+  } catch (error) {
+    console.error(error);
+  }
+  };
+
+  const deleteUser = async (id: string) => {
+  if (!window.confirm("Supprimer cet utilisateur ?")) return;
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/accounts/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) throw new Error("Erreur lors de la suppression");
+    setUsers(users.filter((u) => u._id !== id));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
-      [user.nom, user.prenom, user.mail, user.role, user.telephone, user.pays]
+      [user.nom, user.prenom, user.email, user.statut, user.telephone, user.pays]
         .join(' ')
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
@@ -44,20 +124,20 @@ const Users = () => {
       setFormData({
         nom: user.nom,
         prenom: user.prenom,
-        mail: user.mail,
-        role: user.role,
+        email: user.email,
         telephone: user.telephone,
         pays: user.pays,
+        statut: user.statut
       });
     } else {
       setEditingUser(null);
       setFormData({
         nom: '',
         prenom: '',
-        mail: '',
-        role: '',
+        email: '',
         telephone: '',
         pays: '',
+        statut: 'O'
       });
     }
     setIsModalOpen(true);
@@ -69,35 +149,13 @@ const Users = () => {
     setFormData({
       nom: '',
       prenom: '',
-      mail: '',
-      role: '',
+      email: '',
       telephone: '',
       pays: '',
+      statut: ''
     });
   };
 
-  const handleSubmit = () => {
-    if (!formData.nom || !formData.prenom || !formData.mail || !formData.role) return;
-
-    if (editingUser) {
-      setUsers(
-        users.map((u) =>
-          u.id === editingUser.id ? { ...u, ...formData } : u
-        )
-      );
-    } else {
-      const newId = users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
-      setUsers([...users, { id: newId, ...formData }]);
-    }
-
-    closeModal();
-  };
-
-  const deleteUser = (id: number) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
-      setUsers(users.filter((u) => u.id !== id));
-    }
-  };
 
   return (
     <div className="bg-white rounded-xl p-12 shadow-md">
@@ -148,10 +206,10 @@ const Users = () => {
               <tr className="bg-gradient-to-r from-yellow-50 to-orange-50 border-b-2 border-yellow-200">
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Nom</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Prénom</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Mail</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Email</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Téléphone</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Pays</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Rôle</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Statut</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
               </tr>
             </thead>
@@ -164,28 +222,26 @@ const Users = () => {
                 </tr>
               ) : (
                 filteredUsers.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-100 hover:bg-yellow-50 transition-colors">
+                  <tr key={user._id} className="border-b border-gray-100 hover:bg-yellow-50 transition-colors">
                     <td className="px-6 py-4 font-medium text-gray-800">{user.nom}</td>
                     <td className="px-6 py-4 text-gray-700">{user.prenom}</td>
-                    <td className="px-6 py-4 text-gray-700">{user.mail}</td>
+                    <td className="px-6 py-4 text-gray-700">{user.email}</td>
                     <td className="px-6 py-4 text-gray-700">{user.telephone}</td>
                     <td className="px-6 py-4 text-gray-700">{user.pays}</td>
-                    <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                        {user.role}
-                      </span>
+                    <td>
+                        {user.statut === 'O' ? 'Bénévole' : user.statut === 'X' ? 'Administrateur' : 'Super administrateur'}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
                         <button
                           onClick={() => openModal(user)}
-                          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm font-medium transition-colors"
+                          className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm font-medium transition-colors"
                         >
                           Modifier
                         </button>
                         <button
-                          onClick={() => deleteUser(user.id)}
-                          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm font-medium transition-colors"
+                          onClick={() => deleteUser(user._id!)}
+                          className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 text-sm font-medium transition-colors"
                         >
                           Supprimer
                         </button>
@@ -235,11 +291,11 @@ const Users = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Adresse mail</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Adresse email</label>
                 <input
                   type="email"
-                  value={formData.mail}
-                  onChange={(e) => setFormData({ ...formData, mail: e.target.value })}
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
                 />
               </div>
@@ -264,42 +320,47 @@ const Users = () => {
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
                     required
                 >
-                    <option value="france">France</option>
-                    <option value="belgique">Togo</option>
-                    <option value="suisse">Burkina Faso</option>
-                    <option value="canada">Côte D'Ivoire</option>
-                    <option value="luxembourg">Italie</option>
-                    <option value="autre">Autre</option>
+                    <option value="">-- Sélectionnez un pays --</option>
+                    <option value="France">France</option>
+                    <option value="Togo">Togo</option>
+                    <option value="Burkina Faso">Burkina Faso</option>
+                    <option value="Côte D'Ivoire">Côte D'Ivoire</option>
+                    <option value="Italie">Italie</option>
+                    <option value="Autre">Autre</option>
                 </select>
                 </div>
 
-
-              <div className="sm:col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Rôle</label>
-                <div className="flex flex-wrap gap-3">
-                  {['Bénévole', 'Administrateur', 'Super administrateur'].map((role) => (
+                </div>
+                <div className="mt-5">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Statut</label>
+                <div className="flex flex-col sm:flex-row gap-3">
+                    {[
+                    { label: "Bénévole", value: "O" },
+                    { label: "Administrateur", value: "X" },
+                    { label: "Super administrateur", value: "S" }
+                    ].map((role) => (
                     <label
-                      key={role}
-                      className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${
-                        formData.role === role
-                          ? 'border-yellow-500 bg-yellow-50'
-                          : 'border-gray-200 hover:border-yellow-400'
-                      }`}
+                        key={role.value}
+                        className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${
+                        formData.statut === role.value
+                            ? "border-yellow-500 bg-yellow-50"
+                            : "border-gray-200 hover:border-yellow-400"
+                        }`}
                     >
-                      <input
+                        <input
                         type="radio"
                         name="role"
-                        value={role}
-                        checked={formData.role === role}
-                        onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                        value={role.value}
+                        checked={formData.statut === role.value}
+                        onChange={(e) => setFormData({ ...formData, statut: e.target.value })}
                         className="text-yellow-500 focus:ring-yellow-500"
                         required
-                      />
-                      <span className="text-gray-700 font-medium">{role}</span>
+                        />
+                        <span className="text-gray-700 font-medium">{role.label}</span>
                     </label>
-                  ))}
+                    ))}
                 </div>
-              </div>
+                
             </div>
 
             <div className="flex gap-3 mt-8">
