@@ -46,11 +46,6 @@ const Content = ({ activeTab }: ContentProps) => {
     users: <Utilisateurs />,
     pages_antennes: <PageAntennes />,
 
-    
-    users: renderPlaceholder(
-      'Utilisateurs',
-      'Gérez les comptes utilisateurs et les permissions'
-    ),
     settings: renderPlaceholder(
       'Paramètres',
       'Configurez les paramètres généraux de l\'application'
