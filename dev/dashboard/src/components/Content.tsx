@@ -2,6 +2,7 @@ import React from 'react';
 import AgendaAdmin from './AgendaAdmin';
 import Accueil from '../components/News';
 import PagesSite from './PagesSite';
+import Utilisateurs from './Utilisateurs';
 import PageAntennes from './page_antenne';
 
 interface ContentProps {
@@ -42,6 +43,7 @@ const Content = ({ activeTab }: ContentProps) => {
     accueil: <Accueil />,
     pages: <PagesSite />,
     
+    users: <Utilisateurs />,
     pages_antennes: <PageAntennes />,
 
     
