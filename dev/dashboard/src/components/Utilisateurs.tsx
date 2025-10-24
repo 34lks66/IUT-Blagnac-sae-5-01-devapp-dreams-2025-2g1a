@@ -54,7 +54,7 @@ const Users = () => {
     prenom,
     telephone,
     email: email,
-    password: "123456", // temporaire
+    password: "123456", // mdp temporaire
     statut,
     pays,
   };
@@ -100,8 +100,6 @@ const Users = () => {
     console.error(error);
   }
 };
-
-
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
@@ -168,7 +166,7 @@ const Users = () => {
       </div>
       
 
-        {/* Barre de recherche + bouton */}
+        {/* Barre de recherche */}
 
         <section className="border-t border-gray-200 pt-6">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
