@@ -19,9 +19,8 @@ const Header = () => {
 
   const menuStructure = {
     antennes: {
-      title: "DREAMS et ses antennes",
+      title: "Nos antennes",
       pays: [
-        { name: "Accueil", href: "/" },
         {
           name: "France",
           href: "/pays/france",
@@ -125,6 +124,10 @@ const Header = () => {
         {/* NAVIGATION DESKTOP */}
         <nav className="hidden md:block border-t border-gray-100">
           <div className="flex items-center justify-center px-6 py-3 space-x-2">
+
+            <a href="/" className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-amber-600">
+              Accueil
+            </a>
 
             {/* === ANTENNES === */}
             <div className="relative group">

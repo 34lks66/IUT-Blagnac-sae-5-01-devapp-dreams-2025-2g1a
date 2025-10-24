@@ -1,3 +1,5 @@
+import logoDreams from "../../../site_dreams/src/assets/logo.png"
+
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -39,36 +41,28 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
         </svg>
       )
     },
-    // { 
-    //   id: 'hebergement', 
-    //   label: 'Hébergement',
-    //   icon: (
-    //     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-    //     </svg>
-    //   )
-    // },
-    // {
-    //   id: 'accompagnement',
-    //   label: 'Accompagnement',
-    //   icon: (
-    //     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-    //     </svg>
-    //   )
-    // },
-    {
-      id: 'sensibilisation',
-      label: 'Sensibilisation',
+   {
+      id: 'agenda',
+      label: 'Agenda',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2}/>
+          <path d="M16 2v4M8 2v4" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       )
     },
     {
       id: 'pages',
       label: 'Pages du site',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      )
+    },
+    {
+      id: 'pages_antennes',
+      label: 'Pages antennes',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -108,7 +102,7 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
       {/* Sidebar */}
       <aside className={`
         fixed md:static inset-y-0 left-0 z-50
-        w-64 bg-gradient-to-b from-yellow-500 to-[#93720a] text-white
+        w-64
         transform transition-transform duration-300 ease-in-out
         ${isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
@@ -116,9 +110,15 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
           {/* Header */}
           <div className="p-6 border-b border-white/20">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">DREAMS</h2>
+              <div className="flex items-center gap-14">
+                <div>
+                  <h2 className="text-2xl font-bold">DREAMS</h2>
+                  <p className="text-xs text-black/80 mt-1">Admin Dashboard</p>
+                </div>
+                <img src={logoDreams} alt="logo DREAMS" className="h-20 w-auto"/>
+              </div>
               <button
-                className="md:hidden text-white hover:text-yellow-100 transition-colors"
+                className="md:hidden text-black hover:text-yellow-100 transition-colors"
                 onClick={() => setIsMobileOpen(false)}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,7 +126,6 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
                 </svg>
               </button>
             </div>
-            <p className="text-xs text-white/80 mt-1">Admin Dashboard</p>
           </div>
           {/* Navigation */}
           <nav className="flex-1 p-4 overflow-y-auto">
@@ -143,7 +142,7 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
                       flex items-center gap-3 font-medium text-sm
                       ${activeTab === item.id
                         ? 'bg-white text-[#93720a] shadow-lg'
-                        : 'hover:bg-white/10 text-white/90'
+                        : 'hover:bg-white/10 text-black/90'
                       }
                     `}
                   >

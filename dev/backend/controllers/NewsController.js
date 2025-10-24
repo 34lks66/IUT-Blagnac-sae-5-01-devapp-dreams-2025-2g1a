@@ -68,7 +68,7 @@ module.exports.updateNews = async (req, res) => {
         error: "Au moins un champ doit être fourni: date, title, link" 
       });
     }
-
+ 
     const updateData = {
       date: date || existingNews.date,
       title: title || existingNews.title,
