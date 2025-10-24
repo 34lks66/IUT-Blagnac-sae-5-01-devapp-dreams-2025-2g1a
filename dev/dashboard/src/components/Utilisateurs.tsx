@@ -1,6 +1,4 @@
-import React, { useEffect,useState, useMemo } from 'react';
-
-const API_URL = "http://localhost:5000/api/accounts";
+import { useEffect,useState, useMemo } from 'react';
 
 interface User {
   _id?: string;
