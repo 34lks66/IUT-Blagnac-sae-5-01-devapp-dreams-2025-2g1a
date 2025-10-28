@@ -4,6 +4,7 @@ type Antenne = {
   _id: string;
   nom: string;
   description: string;
+  image: string;
   pays: string | { 
     _id: string;
     nom: string;
@@ -17,7 +18,7 @@ type Pays = {
   image: string;
 };
 
-// UI helpers - IDENTIQUES à PagePaysForm
+// UI helpers
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
   htmlFor,
   children,
@@ -57,9 +58,11 @@ function AntenneForm() {
     description: "",
     pays: "",
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [showForm, setShowForm] = useState(false); // ✅ Nouvel état pour afficher/masquer le formulaire
+  const [showForm, setShowForm] = useState(false);
 
   const getPaysNom = (paysData: string | { _id: string; nom: string }): string => {
     if (typeof paysData === 'object' && paysData !== null) {
@@ -88,15 +91,34 @@ function AntenneForm() {
       .catch((err) => console.error("Erreur:", err));
   };
 
-  const handleCreateClick = () => {
-    setShowForm(true); 
-    setFormUpdate(false);
-    setEditingAntenne(null);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      // Créer une preview de l'image
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const resetForm = () => {
     setFormData({
       nom: "",
       description: "",
       pays: "",
     });
+    setImageFile(null);
+    setImagePreview("");
+  };
+
+  const handleCreateClick = () => {
+    setShowForm(true); 
+    setFormUpdate(false);
+    setEditingAntenne(null);
+    resetForm();
   };
 
   const handleEditClick = (antenne: Antenne) => {
@@ -116,17 +138,21 @@ function AntenneForm() {
       description: antenne.description,
       pays: paysId,
     });
+    
+    // Si l'antenne a une image, on la montre en preview
+    if (antenne.image) {
+      setImagePreview(`http://localhost:5000${antenne.image}`);
+    } else {
+      setImagePreview("");
+    }
+    setImageFile(null);
   };
 
   const handleCancelUpdate = () => {
-    setShowForm(false); // ✅ Masquer le formulaire
+    setShowForm(false);
     setFormUpdate(false);
     setEditingAntenne(null);
-    setFormData({
-      nom: "",
-      description: "",
-      pays: "",
-    });
+    resetForm();
   };
 
   async function handleUpdate(e: React.FormEvent) {
@@ -136,15 +162,20 @@ function AntenneForm() {
     setIsLoading(true);
     setMessage("");
 
+    const formDataToSend = new FormData();
+    formDataToSend.append('nom', formData.nom);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('pays', formData.pays);
+    if (imageFile) {
+      formDataToSend.append('image', imageFile);
+    }
+
     try {
       const response = await fetch(
-        'http://localhost:5000/api/antenne/update/' + editingAntenne._id,
+        `http://localhost:5000/api/antenne/update/${editingAntenne._id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
       if (response.ok) {
@@ -168,7 +199,7 @@ function AntenneForm() {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/antenne/delete/' + id,
+        `http://localhost:5000/api/antenne/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -189,24 +220,29 @@ function AntenneForm() {
     setIsLoading(true);
     setMessage("");
 
+    if (!imageFile) {
+      setMessage("❌ Veuillez sélectionner une image");
+      setIsLoading(false);
+      return;
+    }
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('nom', formData.nom);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('pays', formData.pays);
+    formDataToSend.append('image', imageFile);
+
     try {
       const response = await fetch('http://localhost:5000/api/antenne/save', {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       if (response.ok) {
         setMessage("✅ Antenne créée avec succès !");
-        setFormData({ 
-          nom: "", 
-          description: "", 
-          pays: ""
-        });
+        resetForm();
         fetchAntennes();
-        setShowForm(false); // ✅ Ferme le formulaire après création
+        setShowForm(false);
       } else {
         setMessage("❌ Erreur lors de la création");
       }
@@ -228,7 +264,6 @@ function AntenneForm() {
             Créez et gérez les antennes locales de votre réseau
           </p>
         </div>
-        {/* ✅ Bouton "Créer une antenne" dans le header */}
         {!showForm && (
           <button
             onClick={handleCreateClick}
@@ -239,7 +274,6 @@ function AntenneForm() {
         )}
       </div>
 
-      {/* ✅ Formulaire conditionnel */}
       {showForm && (
         <form onSubmit={formUpdate ? handleUpdate : handleSubmit} className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -320,6 +354,57 @@ function AntenneForm() {
                 />
               </div>
 
+              {/* Section Image */}
+              <div>
+                <Label>
+                  {formUpdate ? "Image de l'antenne" : "Image de l'antenne *"}
+                  {!formUpdate && (
+                    <span className="text-red-500 ml-1">*</span>
+                  )}
+                </Label>
+                <div className="mt-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
+                  />
+                  <p className="mt-1 text-sm text-gray-500">
+                    {formUpdate 
+                      ? "Choisissez une nouvelle image pour remplacer l'actuelle (optionnel)"
+                      : "Sélectionnez une image représentative de l'antenne"}
+                  </p>
+                </div>
+
+                {/* Preview de l'image */}
+                {imagePreview && (
+                  <div className="mt-4">
+                    <p className="text-sm font-medium text-gray-700 mb-2">Aperçu :</p>
+                    <div className="relative w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                      <img 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Image actuelle en modification */}
+                {formUpdate && editingAntenne && editingAntenne.image && !imagePreview && (
+                  <div className="mt-4">
+                    <p className="text-sm font-medium text-gray-700 mb-2">Image actuelle :</p>
+                    <div className="relative w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                      <img 
+                        src={`http://localhost:5000${editingAntenne.image}`} 
+                        alt="Actuelle" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div className="flex items-center justify-end gap-3 pt-4">
                 <button
                   type="button"
@@ -345,7 +430,7 @@ function AntenneForm() {
         </form>
       )}
 
-      {/* Section Liste des antennes - Toujours visible */}
+      {/* Section Liste des antennes */}
       <section className="border-t border-gray-200 pt-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Antennes existantes</h3>
@@ -377,7 +462,18 @@ function AntenneForm() {
                 key={antenne._id}
                 className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
               >
-                <div className="grid md:grid-cols-[1fr_auto] gap-4 items-start">
+                <div className="grid md:grid-cols-[auto_1fr_auto] gap-4 items-start">
+                  {/* Image de l'antenne */}
+                  {antenne.image && (
+                    <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
+                      <img 
+                        src={`http://localhost:5000${antenne.image}`} 
+                        alt={antenne.nom}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <h4 className="font-semibold text-gray-900">

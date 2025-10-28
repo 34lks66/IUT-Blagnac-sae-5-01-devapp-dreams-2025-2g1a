@@ -124,8 +124,8 @@ router.delete('/newspays/delete/:id', deleteNewsPays)
 //////////////////////////////////////////////////////////////////
 
 router.get('/antenne/get', getAntennes)
-router.post('/antenne/save', saveAntenne)
-router.put('/antenne/update/:id', updateAntenne)
+router.post('/antenne/save', upload.single('image'), saveAntenne)
+router.put('/antenne/update/:id', upload.single('image'), updateAntenne)
 router.delete('/antenne/delete/:id', deleteAntenne)
 
 
