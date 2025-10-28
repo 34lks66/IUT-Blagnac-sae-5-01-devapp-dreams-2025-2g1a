@@ -157,7 +157,7 @@ const Users = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold text-yellow-500 bg-clip-text text-transparent">
             Utilisateurs
           </h2>
           <p className="text-gray-600">
@@ -186,7 +186,7 @@ const Users = () => {
           </div>
           <button
             onClick={() => openModal()}
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-br from-yellow-500 to-[#93720a] text-white rounded-xl hover:shadow-lg transition-all font-medium"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -261,7 +261,7 @@ const Users = () => {
             className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold mb-6 text-yellow-500 bg-clip-text text-transparent">
               {editingUser ? 'Modifier un utilisateur' : 'Ajouter un utilisateur'}
             </h2>
 
@@ -368,7 +368,7 @@ const Users = () => {
               </button>
               <button
                 onClick={handleSubmit}
-                className="flex-1 px-6 py-3 bg-gradient-to-br from-yellow-500 to-[#93720a] text-white rounded-xl hover:shadow-lg transition-all font-medium"
+                className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
               >
                 Enregistrer
               </button>

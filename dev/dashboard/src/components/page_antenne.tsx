@@ -223,7 +223,7 @@ function AntenneForm() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold text-yellow-500 mb-1">
             Gestion des Antennes
           </h2>
           <p className="text-gray-600">
@@ -234,7 +234,7 @@ function AntenneForm() {
         {!showForm && (
           <button
             onClick={handleCreateClick}
-            className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110"
+            className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110"
           >
             + Créer une antenne
           </button>
@@ -333,7 +333,7 @@ function AntenneForm() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110 disabled:opacity-60"
+                  className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110 disabled:opacity-60"
                 >
                   {isLoading
                     ? "Enregistrement…"
@@ -367,7 +367,7 @@ function AntenneForm() {
             </p>
             <button
               onClick={handleCreateClick}
-              className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110"
+              className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110"
             >
               + Créer une antenne
             </button>
