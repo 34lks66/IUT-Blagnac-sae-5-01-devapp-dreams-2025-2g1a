@@ -17,7 +17,6 @@ type Pays = {
   image: string;
 };
 
-// UI helpers - IDENTIQUES à PagePaysForm
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
   htmlFor,
   children,
