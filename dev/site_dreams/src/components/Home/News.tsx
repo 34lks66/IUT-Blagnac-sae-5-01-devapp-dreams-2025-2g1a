@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react"
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const News: React.FC = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [news, setNews] = useState<any[]>([]);
 
   useEffect(() => {
-        fetch('http://localhost:5000/api/news/get')
+        fetch(`${API_BASE}/api/news/get`)
         .then((res) => res.json())
         .then((data) => setNews(data))
         .catch((err) => console.log(err));
@@ -42,7 +44,7 @@ const News: React.FC = () => {
                   className="flex-shrink-0 w-full px-2"
                 >
                   <div className="relative">
-                    <img src={`http://localhost:5000${item.image}`} alt={item.title} className="w-full h-56 object-cover"/>
+                    <img src={`${API_BASE}${item.image}`} alt={item.title} className="w-full h-56 object-cover"/>
                     <span className="absolute top-4 left-4 bg-teal-700 text-white text-sm font-semibold px-3 py-1 rounded-full">
                         Actualité
                     </span>
@@ -86,7 +88,7 @@ const News: React.FC = () => {
                   className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
                 >
                   <div className="relative">
-                    <img src={`http://localhost:5000${item.image}`} alt={item.title} className="w-full h-56 object-cover"/>
+                    <img src={`${API_BASE}${item.image}`} alt={item.title} className="w-full h-56 object-cover"/>
                     <span className="absolute top-4 left-4 bg-teal-700 text-white text-sm font-semibold px-3 py-1 rounded-full">
                         Actualité
                     </span>

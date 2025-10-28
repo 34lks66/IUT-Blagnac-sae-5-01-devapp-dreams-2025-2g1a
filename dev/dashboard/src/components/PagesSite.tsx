@@ -10,7 +10,7 @@ type Country = {
   updatedAt?: string;
 };
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const CardFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">{children}</div>
@@ -35,7 +35,7 @@ const PagesSite: React.FC = () => {
   const loadCountries = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/pays/get`, { credentials: "include" });
+      const res = await fetch(`${API_BASE}/api/pays/get`, { credentials: "include" });
       if (!res.ok) throw new Error("Erreur chargement pays");
       const data: Country[] = await res.json();
       setCountries(data);
@@ -59,7 +59,7 @@ const PagesSite: React.FC = () => {
     if (!ok) return;
 
     try {
-      const res = await fetch(`${API_BASE}/pays/delete/${id}`, {
+      const res = await fetch(`${API_BASE}/api/pays/delete/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -83,7 +83,7 @@ const PagesSite: React.FC = () => {
       fd.append("description", newCountry.description.trim());
       if (newCountry.image) fd.append("image", newCountry.image);
 
-      const res = await fetch(`${API_BASE}/pays/save`, {
+      const res = await fetch(`${API_BASE}/api/pays/save`, {
         method: "POST",
         credentials: "include",
         body: fd,

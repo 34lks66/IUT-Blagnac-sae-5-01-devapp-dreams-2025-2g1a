@@ -1,5 +1,7 @@
 import logoDreams from "../../../site_dreams/src/assets/logo.png"
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -9,7 +11,7 @@ interface SidebarProps {
 
 async function logout() {
   try {
-    const response = await fetch("http://localhost:5000/api/logout", {
+    const response = await fetch(`${API_BASE}/api/logout`, {
       method: "POST",
       credentials: "include",
     });

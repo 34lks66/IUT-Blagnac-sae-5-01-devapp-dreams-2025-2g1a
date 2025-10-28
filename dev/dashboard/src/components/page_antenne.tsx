@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 type Antenne = {
   _id: string;
   nom: string;
@@ -75,14 +77,14 @@ function AntenneForm() {
   }, []);
 
   const fetchAntennes = () => {
-    fetch('http://localhost:5000/api/antenne/get')
+    fetch(`${API_BASE}/api/antenne/get`)
       .then((res) => res.json())
       .then((data) => setAntennes(data))
       .catch((err) => console.error("Erreur:", err));
   };
 
   const fetchPays = () => {
-    fetch('http://localhost:5000/api/pays/get')
+    fetch(`${API_BASE}/api/pays/get`)
       .then((res) => res.json())
       .then((data) => setPays(data))
       .catch((err) => console.error("Erreur:", err));
@@ -138,7 +140,7 @@ function AntenneForm() {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/antenne/update/' + editingAntenne._id,
+        `${API_BASE}/api/antenne/update/${editingAntenne._id}`,
         {
           method: "PUT",
           headers: {
@@ -148,14 +150,14 @@ function AntenneForm() {
         }
       );
       if (response.ok) {
-        setMessage("✅ Antenne modifiée avec succès !");
+        setMessage("Antenne modifiée avec succès !");
         fetchAntennes();
         handleCancelUpdate();
       } else {
-        setMessage("❌ Erreur lors de la modification");
+        setMessage("Erreur lors de la modification");
       }
     } catch (error) {
-      setMessage("❌ Erreur de connexion");
+      setMessage("Erreur de connexion");
     } finally {
       setIsLoading(false);
     }
@@ -168,19 +170,19 @@ function AntenneForm() {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/antenne/delete/' + id,
+        `${API_BASE}/api/antenne/delete/${id}`,
         {
           method: "DELETE",
         }
       );
       if (response.ok) {
-        setMessage("✅ Antenne supprimée avec succès !");
+        setMessage("Antenne supprimée avec succès !");
         fetchAntennes();
       } else {
-        setMessage("❌ Erreur lors de la suppression");
+        setMessage("Erreur lors de la suppression");
       }
     } catch (error) {
-      setMessage("❌ Erreur de connexion");
+      setMessage("Erreur de connexion");
     }
   }
 
@@ -190,7 +192,7 @@ function AntenneForm() {
     setMessage("");
 
     try {
-      const response = await fetch('http://localhost:5000/api/antenne/save', {
+      const response = await fetch(`${API_BASE}/api/antenne/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -199,19 +201,19 @@ function AntenneForm() {
       });
 
       if (response.ok) {
-        setMessage("✅ Antenne créée avec succès !");
+        setMessage("Antenne créée avec succès !");
         setFormData({ 
           nom: "", 
           description: "", 
           pays: ""
         });
         fetchAntennes();
-        setShowForm(false); // ✅ Ferme le formulaire après création
+        setShowForm(false); // Ferme le formulaire après création
       } else {
-        setMessage("❌ Erreur lors de la création");
+        setMessage("Erreur lors de la création");
       }
     } catch (error) {
-      setMessage("❌ Erreur de connexion");
+      setMessage("Erreur de connexion");
     } finally {
       setIsLoading(false);
     }
@@ -228,7 +230,7 @@ function AntenneForm() {
             Créez et gérez les antennes locales de votre réseau
           </p>
         </div>
-        {/* ✅ Bouton "Créer une antenne" dans le header */}
+        {/* Bouton "Créer une antenne" dans le header */}
         {!showForm && (
           <button
             onClick={handleCreateClick}
@@ -239,7 +241,7 @@ function AntenneForm() {
         )}
       </div>
 
-      {/* ✅ Formulaire conditionnel */}
+      {/* Formulaire conditionnel */}
       {showForm && (
         <form onSubmit={formUpdate ? handleUpdate : handleSubmit} className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const News: React.FC = () => {
 
   const [showForm, setShowForm] = useState(false);
@@ -22,7 +24,7 @@ const News: React.FC = () => {
   const [NewsLinkEdit, setLinkEdit] = useState('');
 
   useEffect(() => {
-        fetch('http://localhost:5000/api/news/get')
+        fetch(`${API_BASE}/api/news/get`)
         .then((res) => res.json())
         .then((data) => setNews(data))
         .catch((err) => console.log(err));
@@ -43,7 +45,7 @@ const News: React.FC = () => {
     formData.append("link", NewsLink);
 
     try {
-      const res = await fetch("http://localhost:5000/api/news/save", {
+      const res = await fetch(`${API_BASE}/api/news/save`, {
         method: "POST",
         body: formData,
       });
@@ -87,7 +89,7 @@ const News: React.FC = () => {
     formData.append("link", NewsLinkEdit);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/news/update/${editNews}`, {
+      const res = await fetch(`${API_BASE}/api/news/update/${editNews}`, {
         method: "PUT",
         body: formData,
       });
@@ -121,7 +123,7 @@ const News: React.FC = () => {
   const onDelete = async () => {
     if(!deleteNews) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/news/delete/${deleteNews}`, {
+      const res = await fetch(`${API_BASE}/api/news/delete/${deleteNews}`, {
         method: 'DELETE',
       });
 
@@ -299,7 +301,7 @@ const News: React.FC = () => {
                     {news.map((item) => (
                         <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                           <th scope="col" className="px-16 py-3">
-                            <img src={`http://localhost:5000${item.image}`} alt={item.title} className="w-12 h-12 object-cover"/>
+                            <img src={`${API_BASE}${item.image}`} alt={item.title} className="w-12 h-12 object-cover"/>
                           </th>
                           <td className="px-6 py-4">
                             {item.date}
@@ -341,7 +343,7 @@ const News: React.FC = () => {
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
                                     {NewsImageEdit && typeof NewsImageEdit === "string" && (
                                       <img
-                                        src={`http://localhost:5000${NewsImageEdit}`}
+                                        src={`${API_BASE}${NewsImageEdit}`}
                                         alt="Image actuelle"
                                         className="w-32 h-32 object-cover rounded-lg mb-3"
                                       />

@@ -1,5 +1,7 @@
 import { useEffect,useState, useMemo } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 interface User {
   _id?: string;
   nom: string;
@@ -29,7 +31,7 @@ const Users = () => {
   useEffect(() => {
   const fetchAccounts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/accounts");
+      const res = await fetch(`${API_BASE}/api/accounts`);
       if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
       const data = await res.json();
       setUsers(data);
@@ -62,13 +64,13 @@ const Users = () => {
   try {
     let res;
     if (editingUser) {
-      res = await fetch(`http://localhost:5000/api/accounts/${editingUser._id}`, {
+      res = await fetch(`${API_BASE}/api/accounts/${editingUser._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
     } else {
-      res = await fetch("http://localhost:5000/api/accounts", {
+      res = await fetch(`${API_BASE}/api/accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -78,7 +80,7 @@ const Users = () => {
     if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
 
     // Recharge les comptes après création / modification
-    const newRes = await fetch("http://localhost:5000/api/accounts");
+    const newRes = await fetch(`${API_BASE}/api/accounts`);
     const newData = await newRes.json();
     setUsers(newData);
     closeModal();
@@ -91,7 +93,7 @@ const Users = () => {
   if (!window.confirm("Supprimer cet utilisateur ?")) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/accounts/${id}`, {
+    const res = await fetch(`${API_BASE}/api/accounts/${id}`, {
       method: "DELETE",
     });
     if (!res.ok) throw new Error("Erreur lors de la suppression");
