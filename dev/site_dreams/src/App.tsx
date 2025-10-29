@@ -35,6 +35,7 @@ function App() {
         <Route path="/evaluation" element={<EvaluationOrientation />} />
         <Route path="/pays/:slug" element={<Pays />} />
         <Route path="/devenir-benevole" element={<DevenirBenevole />} />
+        <Route path="/donner" element={<Donations/>}/>
         <Route path="/agenda" element={<PageAgenda />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/don" element={<Donations />} />

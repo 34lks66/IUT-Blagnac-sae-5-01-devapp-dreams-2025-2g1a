@@ -138,6 +138,17 @@ const PagesSite: React.FC = () => {
   }
 
   return (
+    <section>
+    <div className="flex items-center justify-between mb-6">
+          <h1 className="text-4xl font-extrabold ">Gestion Pays</h1>
+        <button
+          onClick={() => setCreatingOpen((v) => !v)}
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          Nouveau pays
+        </button>
+    </div>
+
     <CardFrame>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -245,13 +256,15 @@ const PagesSite: React.FC = () => {
                       setEditingCountryId(c._id);
                       setMode("edit");
                     }}
-                    className="px-3 py-1.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100"
+                    // className="px-3 py-1.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100"
+                    className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
                   >
-                    Éditer
+                    Modifier
                   </button>
                   <button
                     onClick={() => handleDelete(c._id)}
-                    className="px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100"
+                    // className="px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100"
+                    className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
                   >
                     Supprimer
                   </button>
@@ -262,6 +275,7 @@ const PagesSite: React.FC = () => {
         </div>
       </div>
     </CardFrame>
+    </section>
   );
 };
 

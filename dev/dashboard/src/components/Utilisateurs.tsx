@@ -155,6 +155,15 @@ const Users = () => {
     
 
     <div className="space-y-8">
+      <div className="flex items-center justify-between mb-6">
+          <h1 className="text-4xl font-extrabold ">Gestion Utilisateurs</h1>
+        <button
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          Ajouter
+        </button>
+      </div>
+
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-yellow-500 bg-clip-text text-transparent">
@@ -231,13 +240,15 @@ const Users = () => {
                       <div className="flex gap-2">
                         <button
                           onClick={() => openModal(user)}
-                          className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm font-medium transition-colors"
+                          // className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm font-medium transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
                         >
                           Modifier
                         </button>
                         <button
                           onClick={() => deleteUser(user._id!)}
-                          className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 text-sm font-medium transition-colors"
+                          // className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 text-sm font-medium transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
                         >
                           Supprimer
                         </button>

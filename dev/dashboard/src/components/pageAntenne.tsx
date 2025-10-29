@@ -157,7 +157,7 @@ function AntenneForm() {
         setMessage("Erreur lors de la modification");
       }
     } catch (error) {
-      setMessage("Erreur de connexion");
+      setMessage("Erreur de connexion :");
     } finally {
       setIsLoading(false);
     }
@@ -221,6 +221,14 @@ function AntenneForm() {
 
   return (
     <div className="space-y-8">
+      <div className="flex items-center justify-between mb-6">
+          <h1 className="text-4xl font-extrabold ">Gestion Antennes</h1>
+        <button
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          Nouvelle Antenne
+        </button>
+      </div>
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-yellow-500 mb-1">
