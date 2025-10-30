@@ -25,8 +25,7 @@ type NewsItem = {
 };
 
 // ---------- Helpers ----------
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const API_ORIGIN = API_BASE.replace(/\/api$/, "");
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // UI helpers
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
@@ -81,7 +80,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
     setLoading(true);
     try {
       // Charger tous les pays (ou remplace par /pays/:id si tu l'as)
-      const resPays = await fetch(`${API_BASE}/pays/get`, {
+      const resPays = await fetch(`${API_BASE}/api/pays/get`, {
         credentials: "include",
       });
       const all: Country[] = resPays.ok ? await resPays.json() : [];
@@ -91,7 +90,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       setCountryImageFile(null);
 
       // News
-      const resNews = await fetch(`${API_BASE}/newspays/get?pays=${id}`, {
+      const resNews = await fetch(`${API_BASE}/api/newspays/get?pays=${id}`, {
         credentials: "include",
       });
       const dataNews: any[] = resNews.ok ? await resNews.json() : [];
@@ -147,7 +146,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
     if (typeof img === "string") {
       return (
         <img
-          src={`${API_ORIGIN}${img}`}
+          src={`${API_BASE}${img}`}
           className="w-28 h-20 object-cover rounded-md border border-gray-200"
         />
       );
@@ -187,14 +186,14 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         const fd = new FormData();
         fd.append("description", description);
         fd.append("image", countryImageFile);
-        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
           method: "PUT",
           credentials: "include",
           body: fd,
         });
         if (!r.ok) throw new Error("Échec update pays");
       } else {
-        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -221,7 +220,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
             fd.append("description", n.description);
             fd.append("pays", country._id);
             if (n.image && n.image instanceof File) fd.append("image", n.image);
-            const r = await fetch(`${API_BASE}/newspays/save`, {
+            const r = await fetch(`${API_BASE}/api/newspays/save`, {
               method: "POST",
               credentials: "include",
               body: fd,
@@ -241,7 +240,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               fd.append("description", n.description);
               fd.append("pays", country._id);
               fd.append("image", n.image);
-              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
                 method: "PUT",
                 credentials: "include",
                 body: fd,
@@ -249,7 +248,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               if (!r.ok) throw new Error("Échec update news (file)");
               return r.json();
             } else {
-              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
                 method: "PUT",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -269,7 +268,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       if (toDelete.length) {
         await Promise.all(
           toDelete.map((id) =>
-            fetch(`${API_BASE}/newspays/delete/${id}`, {
+            fetch(`${API_BASE}/api/newspays/delete/${id}`, {
               method: "DELETE",
               credentials: "include",
             }).then((r) => {
@@ -300,7 +299,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
 
     try {
       setDeletingCountry(true);
-      const res = await fetch(`${API_BASE}/pays/delete/${country._id}`, {
+      const res = await fetch(`${API_BASE}/api/pays/delete/${country._id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -391,7 +390,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
                 />
               ) : country.image ? (
                 <img
-                  src={`${API_ORIGIN}${country.image}`}
+                  src={`${API_BASE}${country.image}`}
                   className="w-full h-full object-cover"
                 />
               ) : (

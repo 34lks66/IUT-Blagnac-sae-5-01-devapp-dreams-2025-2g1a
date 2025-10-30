@@ -50,8 +50,7 @@ type ApiAntenne = {
 };
 
 // ---------------- Helpers ----------------
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const API_ORIGIN = API_BASE.replace(/\/api$/, "");
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // Fallbacks (assets côté site)
 const HERO_DEFAULT = "/images/pays/hero-default.jpg";
@@ -83,7 +82,7 @@ const Pays: React.FC = () => {
     (async () => {
       try {
         setLoadingCountry(true);
-        const res = await fetch(`${API_BASE}/pays/get`, { credentials: "include" });
+        const res = await fetch(`${API_BASE}/api/pays/get`, { credentials: "include" });
         if (!res.ok) throw new Error("Erreur chargement pays");
         const data: ApiCountry[] = await res.json();
         setCountries(data);
@@ -116,14 +115,14 @@ const Pays: React.FC = () => {
 
         // NEWS
         const resNews = await fetch(
-          `${API_BASE}/newspays/get?pays=${selectedCountry._id}`,
+          `${API_BASE}/api/newspays/get?pays=${selectedCountry._id}`,
           { credentials: "include" }
         );
         const dataNews: ApiNews[] = resNews.ok ? await resNews.json() : [];
 
         const uiNews: UINewsItem[] = (dataNews || []).map((n) => ({
           id: n._id,
-          img: n.image ? `${API_ORIGIN}${n.image}` : HERO_DEFAULT, // news devraient avoir une image, mais fallback au cas où
+          img: n.image ? `${API_BASE}${n.image}` : HERO_DEFAULT, // news devraient avoir une image, mais fallback au cas où
           title: n.titre,
           text: n.description,
         }));
@@ -131,7 +130,7 @@ const Pays: React.FC = () => {
 
         // ANTENNES
         const resAnt = await fetch(
-          `${API_BASE}/antennes/get?pays=${selectedCountry._id}`,
+          `${API_BASE}/api/antennes/get?pays=${selectedCountry._id}`,
           { credentials: "include" }
         );
         const dataAnt: ApiAntenne[] = resAnt.ok ? await resAnt.json() : [];
@@ -168,7 +167,7 @@ const Pays: React.FC = () => {
     }
     return {
       name: selectedCountry.nom,
-      heroImg: selectedCountry.image ? `${API_ORIGIN}${selectedCountry.image}` : HERO_DEFAULT,
+      heroImg: selectedCountry.image ? `${API_BASE}${selectedCountry.image}` : HERO_DEFAULT,
       intro: selectedCountry.description || "",
       news,
       features,

@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import AgendaAntennes from "../components/Agenda/agenda_antennes";
 import { CalendarDays } from "lucide-react";
 
+// const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Villes() {
   const data = [
     {

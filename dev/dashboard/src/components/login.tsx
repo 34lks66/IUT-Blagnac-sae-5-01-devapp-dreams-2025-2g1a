@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import Loading from './Loadings/loading';
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -13,7 +15,7 @@ function Login() {
     useEffect(() => {
         const checkLogin = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/me", {
+                const response = await fetch(`${API_BASE}/api/me`, {
                     credentials: "include",
                 });
                 if (response.ok) {
@@ -38,7 +40,7 @@ function Login() {
 
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:5000/api/login", {
+            const response = await fetch(`${API_BASE}/api/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",

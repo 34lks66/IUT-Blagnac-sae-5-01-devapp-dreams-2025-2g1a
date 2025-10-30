@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const News: React.FC = () => {
 
   const [showForm, setShowForm] = useState(false);
@@ -22,7 +24,7 @@ const News: React.FC = () => {
   const [NewsLinkEdit, setLinkEdit] = useState('');
 
   useEffect(() => {
-        fetch('http://localhost:5000/api/news/get')
+        fetch(`${API_BASE}/api/news/get`)
         .then((res) => res.json())
         .then((data) => setNews(data))
         .catch((err) => console.log(err));
@@ -43,7 +45,7 @@ const News: React.FC = () => {
     formData.append("link", NewsLink);
 
     try {
-      const res = await fetch("http://localhost:5000/api/news/save", {
+      const res = await fetch(`${API_BASE}/api/news/save`, {
         method: "POST",
         body: formData,
       });
@@ -87,7 +89,7 @@ const News: React.FC = () => {
     formData.append("link", NewsLinkEdit);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/news/update/${editNews}`, {
+      const res = await fetch(`${API_BASE}/api/news/update/${editNews}`, {
         method: "PUT",
         body: formData,
       });
@@ -121,7 +123,7 @@ const News: React.FC = () => {
   const onDelete = async () => {
     if(!deleteNews) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/news/delete/${deleteNews}`, {
+      const res = await fetch(`${API_BASE}/api/news/delete/${deleteNews}`, {
         method: 'DELETE',
       });
 
@@ -269,7 +271,7 @@ const News: React.FC = () => {
         {/* AFFICHAGE LISTE */}
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-6 py-3">
                             Image
@@ -299,7 +301,7 @@ const News: React.FC = () => {
                     {news.map((item) => (
                         <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                           <th scope="col" className="px-16 py-3">
-                            <img src={`http://localhost:5000${item.image}`} alt={item.title} className="w-12 h-12 object-cover"/>
+                            <img src={`${API_BASE}${item.image}`} alt={item.title} className="w-12 h-12 object-cover"/>
                           </th>
                           <td className="px-6 py-4">
                             {item.date}
@@ -311,10 +313,10 @@ const News: React.FC = () => {
                             {item.link}
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button onClick={() => handleEditClick(item._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+                            <button onClick={() => handleEditClick(item._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</button>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button onClick={() => handleDeleteClick(item._id)} className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                            <button onClick={() => handleDeleteClick(item._id)} className="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</button>
                           </td>    
                         </tr> 
                     ))}                        
@@ -322,8 +324,8 @@ const News: React.FC = () => {
             </table>
 
             {showEditForm && (
-              <div className="overflow-y-auto overflow-x-hidden fixed flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div className="relative p-4 w-full max-w-md max-h-full">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                <div className="ml-64 w-full max-w-md max-h-[90vh] overflow-auto p-4">
                     <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -341,7 +343,7 @@ const News: React.FC = () => {
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
                                     {NewsImageEdit && typeof NewsImageEdit === "string" && (
                                       <img
-                                        src={`http://localhost:5000${NewsImageEdit}`}
+                                        src={`${API_BASE}${NewsImageEdit}`}
                                         alt="Image actuelle"
                                         className="w-32 h-32 object-cover rounded-lg mb-3"
                                       />
@@ -382,8 +384,8 @@ const News: React.FC = () => {
             )}
 
             {isPopupDelete && ( 
-              <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
-                <div className="relative p-4 w-full max-w-md max-h-full">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                <div className="ml-64 w-full max-w-md max-h-[90vh] overflow-auto p-4">
                     <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                         <button onClick={() => setDeletePopup(false)} type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -394,7 +396,7 @@ const News: React.FC = () => {
                             <svg className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>
-                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Etes-vous sûr de vouloir supprimer cette actualité</h3>
+                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Êtes-vous sûr de vouloir supprimer cette actualité ?</h3>
                             <button onClick={onDelete} className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                 Supprimer
                             </button>

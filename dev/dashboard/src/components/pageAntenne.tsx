@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 type Antenne = {
   _id: string;
   nom: string;
@@ -18,7 +20,10 @@ type Pays = {
   image: string;
 };
 
+<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
 // UI helpers
+=======
+>>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
   htmlFor,
   children,
@@ -78,14 +83,14 @@ function AntenneForm() {
   }, []);
 
   const fetchAntennes = () => {
-    fetch('http://localhost:5000/api/antenne/get')
+    fetch(`${API_BASE}/api/antenne/get`)
       .then((res) => res.json())
       .then((data) => setAntennes(data))
       .catch((err) => console.error("Erreur:", err));
   };
 
   const fetchPays = () => {
-    fetch('http://localhost:5000/api/pays/get')
+    fetch(`${API_BASE}/api/pays/get`)
       .then((res) => res.json())
       .then((data) => setPays(data))
       .catch((err) => console.error("Erreur:", err));
@@ -172,21 +177,25 @@ function AntenneForm() {
 
     try {
       const response = await fetch(
+<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
         `http://localhost:5000/api/antenne/update/${editingAntenne._id}`,
+=======
+        `${API_BASE}/api/antenne/update/${editingAntenne._id}`,
+>>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
         {
           method: "PUT",
           body: formDataToSend,
         }
       );
       if (response.ok) {
-        setMessage("✅ Antenne modifiée avec succès !");
+        setMessage("Antenne modifiée avec succès !");
         fetchAntennes();
         handleCancelUpdate();
       } else {
-        setMessage("❌ Erreur lors de la modification");
+        setMessage("Erreur lors de la modification");
       }
     } catch (error) {
-      setMessage("❌ Erreur de connexion");
+      setMessage("Erreur de connexion :");
     } finally {
       setIsLoading(false);
     }
@@ -199,19 +208,23 @@ function AntenneForm() {
 
     try {
       const response = await fetch(
+<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
         `http://localhost:5000/api/antenne/delete/${id}`,
+=======
+        `${API_BASE}/api/antenne/delete/${id}`,
+>>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
         {
           method: "DELETE",
         }
       );
       if (response.ok) {
-        setMessage("✅ Antenne supprimée avec succès !");
+        setMessage("Antenne supprimée avec succès !");
         fetchAntennes();
       } else {
-        setMessage("❌ Erreur lors de la suppression");
+        setMessage("Erreur lors de la suppression");
       }
     } catch (error) {
-      setMessage("❌ Erreur de connexion");
+      setMessage("Erreur de connexion");
     }
   }
 
@@ -233,21 +246,32 @@ function AntenneForm() {
     formDataToSend.append('image', imageFile);
 
     try {
-      const response = await fetch('http://localhost:5000/api/antenne/save', {
+      const response = await fetch(`${API_BASE}/api/antenne/save`, {
         method: "POST",
         body: formDataToSend,
       });
 
       if (response.ok) {
+<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
         setMessage("✅ Antenne créée avec succès !");
         resetForm();
         fetchAntennes();
         setShowForm(false);
+=======
+        setMessage("Antenne créée avec succès !");
+        setFormData({ 
+          nom: "", 
+          description: "", 
+          pays: ""
+        });
+        fetchAntennes();
+        setShowForm(false); // Ferme le formulaire après création
+>>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
       } else {
-        setMessage("❌ Erreur lors de la création");
+        setMessage("Erreur lors de la création");
       }
     } catch (error) {
-      setMessage("❌ Erreur de connexion");
+      setMessage("Erreur de connexion");
     } finally {
       setIsLoading(false);
     }
@@ -255,25 +279,41 @@ function AntenneForm() {
 
   return (
     <div className="space-y-8">
+      <div className="flex items-center justify-between mb-6">
+          <h1 className="text-4xl font-extrabold ">Gestion Antennes</h1>
+        <button
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          Nouvelle Antenne
+        </button>
+      </div>
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold text-yellow-500 mb-1">
             Gestion des Antennes
           </h2>
           <p className="text-gray-600">
             Créez et gérez les antennes locales de votre réseau
           </p>
         </div>
+<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
+=======
+        {/* Bouton "Créer une antenne" dans le header */}
+>>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
         {!showForm && (
           <button
             onClick={handleCreateClick}
-            className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110"
+            className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110"
           >
             + Créer une antenne
           </button>
         )}
       </div>
 
+<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
+=======
+      {/* Formulaire conditionnel */}
+>>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
       {showForm && (
         <form onSubmit={formUpdate ? handleUpdate : handleSubmit} className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -416,7 +456,7 @@ function AntenneForm() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110 disabled:opacity-60"
+                  className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110 disabled:opacity-60"
                 >
                   {isLoading
                     ? "Enregistrement…"
@@ -450,7 +490,7 @@ function AntenneForm() {
             </p>
             <button
               onClick={handleCreateClick}
-              className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110"
+              className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110"
             >
               + Créer une antenne
             </button>

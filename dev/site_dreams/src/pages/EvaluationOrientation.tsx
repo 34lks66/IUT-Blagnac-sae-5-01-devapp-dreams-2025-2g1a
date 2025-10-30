@@ -74,7 +74,7 @@ const EvaluationOrientation: React.FC = () => {
         <div className="eval-hero__content">
           <div className="eval-hero__card">
             <p className="eval-hero__breadcrumb">Accueil / Évaluation & Orientation</p>
-            <h1 className="eval-title">Évaluation et orientation</h1>
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">Évaluation et orientation</h1>
             <p className="eval-hero__subtitle">
               Un accompagnement personnalisé pour chaque personne.
             </p>
@@ -93,7 +93,7 @@ const EvaluationOrientation: React.FC = () => {
             />
           </div>
           <div className="eval-section__text">
-            <h2 className="eval-subtitle">Démarche d’évaluation personnalisée</h2>
+            <h2 className="text-2xl md:text-2xl font-bold  mb-4">Démarche d’évaluation <span className="text-yellow-500">personnalisée</span></h2>
             <div className="eval-divider eval-divider--rainbow" />
             <p className="eval-paragraph">
               Nous recevons chaque personne avec écoute et bienveillance pour
@@ -121,8 +121,8 @@ const EvaluationOrientation: React.FC = () => {
             />
           </div>
           <div className="eval-section__text">
-            <h2 className="eval-subtitle">
-              Orientation vers services juridiques, administratifs et sociaux
+            <h2 className="text-2xl md:text-2xl font-bold  mb-4">
+              Orientation vers services juridiques,<span className="text-yellow-500"> administratifs et sociaux</span>  
             </h2>
             <div className="eval-divider eval-divider--rainbow2" />
             <p className="eval-paragraph">
@@ -160,7 +160,7 @@ const EvaluationOrientation: React.FC = () => {
       <section className="eval-partners">
         <div className="eval-partners__head">
           <div>
-            <h2 className="eval-subtitle">
+            <h2 className="text-2xl md:text-2xl font-bold  mb-4 text-yellow-500">
               Suivi en lien avec autres structures partenaires
             </h2>
             <div className="eval-divider eval-divider--warm" />
