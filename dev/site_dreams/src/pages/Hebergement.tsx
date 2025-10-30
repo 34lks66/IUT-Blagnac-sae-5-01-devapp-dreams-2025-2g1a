@@ -16,11 +16,11 @@ const Hebergement = () => {
               Hébergement solidaire et temporaire
             </h1>
             <p className="text-gray-700">
-              Parce qu’être <span className="font-semibold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">LGBTQIA+</span> et en demande d’asile,
+              Parce qu’être <span className="font-semibold text-yellow-500">LGBTQIA+</span> et en demande d’asile,
               c’est souvent fuir la haine pour en retrouver ici.
               <br />
-              Dans un système d’hébergement <span className="font-semibold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">solidaire et temporaire</span>,
-              nous offrons un <span className="font-semibold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">refuge sûr et bienveillant </span>
+              Dans un système d’hébergement <span className="font-semibold text-yellow-500">solidaire et temporaire</span>,
+              nous offrons un <span className="font-semibold text-yellow-500">refuge sûr et bienveillant </span>
               à celles et ceux qui ont subi des violences liées au genre et à l’orientation sexuelle.
             </p>
           </div>
@@ -37,9 +37,9 @@ const Hebergement = () => {
           </p>
           <p className="text-xl md:text-2xl text-gray-700 font-semibold">
             Face à l'exclusion et à la peur, nous répondons par la{' '}
-            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">solidarité</span>, l'
-            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">inclusion</span> et la{' '}
-            <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">fierté</span>.
+            <span className="text-yellow-500">solidarité</span>, l'
+            <span className="text-yellow-500">inclusion</span> et la{' '}
+            <span className="text-yellow-500">fierté</span>.
           </p>
         </div>
       </section>
@@ -47,7 +47,7 @@ const Hebergement = () => {
      {/* Section Objectifs */}
       <section className="px-6 md:px-20 py-16 bg-gradient-to-br from-gray-50 to-gray-100">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
-          Nos <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">Objectifs</span>
+          Nos <span className="text-yellow-500">Objectifs</span>
         </h2>
         <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-16 rounded-full"></div>
 
@@ -58,7 +58,7 @@ const Hebergement = () => {
               {/* <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
               </div> */}
-              <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
+              <h4 className="text-sm font-semibold text-yellow-500 uppercase tracking-wide">
                 Urgence
               </h4>
             </div>
@@ -77,7 +77,7 @@ const Hebergement = () => {
               {/* <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
               </div> */}
-              <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
+              <h4 className="text-sm font-semibold text-yellow-500 uppercase tracking-wide">
                 Protection
               </h4>
             </div>
@@ -96,7 +96,7 @@ const Hebergement = () => {
               {/* <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-[#93720a] flex items-center justify-center shadow-md">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
               </div> */}
-              <h4 className="text-sm font-semibold text-[#93720a] uppercase tracking-wide">
+              <h4 className="text-sm font-semibold text-yellow-500 uppercase tracking-wide">
                 Autonomie
               </h4>
             </div>
@@ -114,7 +114,7 @@ const Hebergement = () => {
       {/* Section Que proposons-nous ? - Alternance avec images */}
       <section className="px-6 md:px-20 py-16 bg-white">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
-          Que <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">proposons-nous</span> ?
+          Que <span className="text-yellow-500">proposons-nous ?</span> 
         </h2>
         <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-16 rounded-full"></div>
         {/* ====== SYSTÈME D’HÉBERGEMENT ROTATIF ====== */}
@@ -137,11 +137,11 @@ const Hebergement = () => {
                 </h4>
               </div> */}
 
-              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
-                Système d’hébergement rotatif
+              <h3 className="text-2xl md:text-3xl font-bold  mb-4">
+                Système d’hébergement <span className="text-yellow-500">rotatif</span>
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Durée flexible de <strong className="text-[#93720a]">1 semaine à 6 mois</strong>,
+                Durée flexible de <strong className="text-yellow-500">1 semaine à 6 mois</strong>,
                 selon les besoins spécifiques de chaque bénéficiaire. Cette approche permet
                 une adaptation personnalisée aux situations individuelles.
               </p>
@@ -176,11 +176,11 @@ const Hebergement = () => {
                 </h4>
               </div> */}
 
-              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
-                Soutien aux victimes de VBG
+              <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                Soutien aux victimes <span className="text-yellow-500">de VBG</span>
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Mise à disposition d’un <strong className="text-[#93720a]">cadre protecteur </strong>
+                Mise à disposition d’un <strong className="text-yellow-500">cadre protecteur </strong>
                 pour les victimes de violences basées sur le genre, avec un accompagnement
                 psychologique et social spécialisé.
               </p>
@@ -229,12 +229,12 @@ const Hebergement = () => {
                 </h4>
               </div> */}
 
-              <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent mb-4">
-                Mise à l’abri et suivi
+              <h3 className="text-2xl md:text-3xl font-bold  mb-4">
+                Mise à l’abri <span className="text-yellow-500">et suivi</span>
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 Accueil dans un environnement sûr avec un
-                <strong className="text-[#93720a]"> accompagnement personnalisé</strong> :
+                <strong className="text-yellow-500"> accompagnement personnalisé</strong> :
                 orientation, suivi de parcours et soutien continu vers l'autonomie.
               </p>
               <ul className="space-y-3 text-gray-700">
@@ -260,7 +260,7 @@ const Hebergement = () => {
       {/* Section Témoignages */}
       <section className="px-6 md:px-20 py-16 bg-gradient-to-br from-yellow-50 to-orange-50">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
-          <span className="bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">Témoignages</span>
+          <span className="text-yellow-500">Témoignages</span>
         </h2>
         <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-12 rounded-full"></div>
 

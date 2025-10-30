@@ -1,9 +1,9 @@
 import React from 'react';
-import AgendaAdmin from './AgendaAdmin';
+import AgendaAdmin from './Agenda';
 import Accueil from '../components/News';
-import PagesSite from './PagesSite';
+import PagesSite from './PagePays';
 import Utilisateurs from './Utilisateurs';
-import PageAntennes from './page_antenne';
+import PageAntennes from './pageAntenne';
 
 interface ContentProps {
   activeTab: string;
@@ -12,7 +12,7 @@ interface ContentProps {
 const Content = ({ activeTab }: ContentProps) => {
   const renderDashboard = () => (
     <div>
-      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl">Bienvue dans le tableau de bord <span className="underline underline-offset-3 decoration-8 decoration-yellow-500">DREAMS</span></h1>
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl">Bienvenue dans le tableau de bord <span className="underline underline-offset-3 decoration-8 decoration-yellow-500">DREAMS</span></h1>
       <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Vous pouvez gérer les différentes sections et pages du site DREAMS.</p>
       <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Utilisez le menu latéral pour naviguer entre les différentes sections afin d'ajouter ou modifier du contenus pour les pages.</p>
     </div>
