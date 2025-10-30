@@ -89,16 +89,16 @@ module.exports.updateAntenne = async (req, res) => {
           try {
             await fs.access(absImagePath);
             await fs.unlink(absImagePath);
-            console.log("✅ Ancienne image supprimée:", absImagePath);
+            console.log("Ancienne image supprimée:", absImagePath);
           } catch (accessError) {
             if (accessError.code === 'ENOENT') {
-              console.log("ℹ️  Ancienne image non trouvée, poursuite du traitement");
+              console.log("Ancienne image non trouvée, poursuite du traitement");
             } else {
               throw accessError;
             }
           }
         } catch (errFile) {
-          console.warn("⚠️  Erreur gestion ancienne image:", errFile.message);
+          console.warn("Erreur gestion ancienne image:", errFile.message);
         }
       }
       updateData.image = newImage;
@@ -114,7 +114,7 @@ module.exports.updateAntenne = async (req, res) => {
       return res.status(404).json({ error: "Antenne not found" });
     }
 
-    console.log("✅ Antenne mise à jour:", updatedAntenne.nom);
+    console.log("Antenne mise à jour:", updatedAntenne.nom);
     res.json({ message: "Updated successfully", antenne: updatedAntenne });
   } catch (error) {
     console.error("Error updating antenne:", error);
@@ -140,10 +140,10 @@ module.exports.deleteAntenne = async (req, res) => {
         try {
           await fs.access(absImagePath);
           await fs.unlink(absImagePath);
-          console.log("✅ Image supprimée:", absImagePath);
+          console.log("Image supprimée:", absImagePath);
         } catch (accessError) {
           if (accessError.code === 'ENOENT') {
-            console.log("ℹ️  Image non trouvée lors de la suppression");
+            console.log("Image non trouvée lors de la suppression");
           } else {
             throw accessError;
           }
