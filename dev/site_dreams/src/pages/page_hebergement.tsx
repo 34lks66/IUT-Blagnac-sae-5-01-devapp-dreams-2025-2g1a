@@ -1,9 +1,11 @@
+import hero from "../assets/hero_section/hebergement.jpg";
+
 const Hebergement = () => {
   return (
     <main className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <section className="eval-hero relative overflow-hidden">
         <img
-          src="/images/hebergement-intro.jpg"
+          src={hero}
           alt="Hébergement solidaire et temporaire"
           className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
         />

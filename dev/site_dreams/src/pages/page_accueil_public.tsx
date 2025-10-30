@@ -1,11 +1,7 @@
 import { FileText, Hospital, HouseHeart, MapPinned, ShieldCheck, ShieldHalf } from "lucide-react";
-import hero from "../assets/hero_section/accueilpublicImg.png";
+import hero from "../assets/hero_section/accueil_public.png";
 import { useEffect, useState } from "react";
 import none from "../assets/none.jpg";
-
-
-
-
 
 function PageAccueilPublic() {
 
