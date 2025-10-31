@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 type Antenne = {
   _id: string;
   nom: string;
@@ -20,10 +18,6 @@ type Pays = {
   image: string;
 };
 
-<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
-// UI helpers
-=======
->>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
   htmlFor,
   children,
@@ -83,14 +77,14 @@ function AntenneForm() {
   }, []);
 
   const fetchAntennes = () => {
-    fetch(`${API_BASE}/api/antenne/get`)
+    fetch(`http://localhost:5000/api/antenne/get`)
       .then((res) => res.json())
       .then((data) => setAntennes(data))
       .catch((err) => console.error("Erreur:", err));
   };
 
   const fetchPays = () => {
-    fetch(`${API_BASE}/api/pays/get`)
+    fetch(`http://localhost:5000/api/pays/get`)
       .then((res) => res.json())
       .then((data) => setPays(data))
       .catch((err) => console.error("Erreur:", err));
@@ -177,11 +171,7 @@ function AntenneForm() {
 
     try {
       const response = await fetch(
-<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
         `http://localhost:5000/api/antenne/update/${editingAntenne._id}`,
-=======
-        `${API_BASE}/api/antenne/update/${editingAntenne._id}`,
->>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
         {
           method: "PUT",
           body: formDataToSend,
@@ -208,11 +198,7 @@ function AntenneForm() {
 
     try {
       const response = await fetch(
-<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
         `http://localhost:5000/api/antenne/delete/${id}`,
-=======
-        `${API_BASE}/api/antenne/delete/${id}`,
->>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
         {
           method: "DELETE",
         }
@@ -246,18 +232,12 @@ function AntenneForm() {
     formDataToSend.append('image', imageFile);
 
     try {
-      const response = await fetch(`${API_BASE}/api/antenne/save`, {
+      const response = await fetch(`http://localhost:5000/api/antenne/save`, {
         method: "POST",
         body: formDataToSend,
       });
 
       if (response.ok) {
-<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
-        setMessage("✅ Antenne créée avec succès !");
-        resetForm();
-        fetchAntennes();
-        setShowForm(false);
-=======
         setMessage("Antenne créée avec succès !");
         setFormData({ 
           nom: "", 
@@ -266,7 +246,6 @@ function AntenneForm() {
         });
         fetchAntennes();
         setShowForm(false); // Ferme le formulaire après création
->>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
       } else {
         setMessage("Erreur lors de la création");
       }
@@ -296,10 +275,7 @@ function AntenneForm() {
             Créez et gérez les antennes locales de votre réseau
           </p>
         </div>
-<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
-=======
         {/* Bouton "Créer une antenne" dans le header */}
->>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
         {!showForm && (
           <button
             onClick={handleCreateClick}
@@ -310,10 +286,7 @@ function AntenneForm() {
         )}
       </div>
 
-<<<<<<< HEAD:dev/dashboard/src/components/page_antenne.tsx
-=======
       {/* Formulaire conditionnel */}
->>>>>>> main:dev/dashboard/src/components/pageAntenne.tsx
       {showForm && (
         <form onSubmit={formUpdate ? handleUpdate : handleSubmit} className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
