@@ -116,18 +116,18 @@ router.delete('/pays/delete/:id',authVerif, deletePays)
 //////////////////////////////////////////////////////////////////
 
 router.get('/newspays/get', getNewsPays)
-router.post('/newspays/save', upload.single('image'), saveNewsPays)
-router.put('/newspays/update/:id', upload.single('image'), updateNewsPays)
-router.delete('/newspays/delete/:id', deleteNewsPays)
+router.post('/newspays/save',authVerif, upload.single('image'), saveNewsPays)
+router.put('/newspays/update/:id',authVerif, upload.single('image'), updateNewsPays)
+router.delete('/newspays/delete/:id',authVerif, deleteNewsPays)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Antenne ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 router.get('/antenne/get', getAntennes)
-router.post('/antenne/save', saveAntenne)
-router.put('/antenne/update/:id', updateAntenne)
-router.delete('/antenne/delete/:id', deleteAntenne)
+router.post('/antenne/save',authVerif, saveAntenne)
+router.put('/antenne/update/:id',authVerif, updateAntenne)
+router.delete('/antenne/delete/:id',authVerif, deleteAntenne)
 
 
 module.exports = router 

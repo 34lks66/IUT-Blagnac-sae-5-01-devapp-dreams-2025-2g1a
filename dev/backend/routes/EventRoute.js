@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const authVerif = require("../middlewares/auth");
 const { 
   listEvents, 
   getEvent, 
@@ -77,7 +78,7 @@ router.get('/:id', getEvent);
  *       400:
  *         description: Champs requis manquants
  */
-router.post('/', createEvent);
+router.post('/',authVerif, createEvent);
 
 /**
  * @openapi
@@ -101,7 +102,7 @@ router.post('/', createEvent);
  *       404:
  *         description: Événement introuvable
  */
-router.put('/:id', updateEvent);
+router.put('/:id',authVerif, updateEvent);
 
 /**
  * @openapi
@@ -120,6 +121,6 @@ router.put('/:id', updateEvent);
  *       404:
  *         description: Événement introuvable
  */
-router.delete('/:id', deleteEvent);
+router.delete('/:id',authVerif, deleteEvent);
 
 module.exports = router;
