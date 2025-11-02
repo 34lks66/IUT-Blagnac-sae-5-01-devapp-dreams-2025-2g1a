@@ -1,5 +1,9 @@
-import { House, Bed, Compass, Megaphone, FileText} from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import accueil from "../../assets/hero_section/accueil_public.png";
+import orientation from "../../assets/hero_section/evaluation_orientation.png";
+import hebergement from "../../assets/hero_section/hebergement.jpg";
+import accompagement from "../../assets/hero_section/accompagnement.png";
+import sensibilisation from "../../assets/hero_section/sensibilisation.png";
 
 const Mission: React.FC = () => {
 
@@ -7,76 +11,82 @@ const Mission: React.FC = () => {
 
     const missions = [
     {
-      icon: <House className="w-10 h-10 md:w-15 md:h-15" />,
+      image: accueil,
       title: 'Accueil',
-      href: '/accueil',
+      description: 'DREAMS vous accueille dans son espace sécurisé afin de vous accompagner.',
+      href: '/accueil_public',
     },
     {
-      icon: <Compass className="w-10 h-10 md:w-15 md:h-15" />,
+      image: orientation,
       title: 'Orientation',
+      description: 'DREAMS vous propose un accompagnement personnalisé pour chaque personne.',
       href: '/orientation',
     },
     {
-      icon: <Bed className="w-10 h-10 md:w-15 md:h-15" />,
+      image: hebergement,
       title: 'Hébergement',
+      description: 'Nous vous offrons un refuge sûr et bienveillant avec notre système d’hébergement solidaire.',
       href: '/hebergement',
     },
     {
-      icon: <FileText className="w-10 h-10 md:w-15 md:h-15" />,
+      image: accompagement,
       title: 'Accompagnement',
+      description: 'Nous sommes là pour vous accompagner pour toutes vos démarches.',
       href: '/accompagnement',
     },
     {
-      icon: <Megaphone className="w-10 h-10 md:w-15 md:h-15" />,
+      image: sensibilisation,
       title: 'Sensibilisation',
+      description: 'Découvrez nos actions de sensibilisations menés par DREAMS',
       href: '/sensibilisation',
     }
   ];
 
-    const bgColors = [
-    "bg-red-500",
-    "bg-yellow-400",
-    "bg-teal-500",
-    "bg-blue-500",
-    "bg-purple-500",
-    ];
+  const handleClick = (href: string) => {
+      navigate(href);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-    const handleClick = (href: string) => {
-         navigate(href);
-    };
+ return (
+    <div id="missions" className="mx-3 mb-20">
+      <p className="text-lg text-gray-700 text-center max-w-3xl mx-auto mb-10">Plusieurs types d’interventions sont proposés par notre association : </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        {missions.map((mission, index) => (
+          <article
+            key={index}
+            className="grid place-items-center max-w-[21.875rem] h-[25rem] mx-auto overflow-hidden rounded-[0.625rem] shadow-md transition-all duration-300 hover:shadow-xl cursor-pointer"
+          >
+            <div className="relative w-full h-full">
+              <img
+                className="object-cover w-full h-full bg-gray-200"
+                src={mission.image || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1000&q=80"}
+                alt={`Illustration de la mission ${mission.title}`}
+              />
 
-    return (
-        <div id="missions" className="mb-20 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-12 lg:px-4">
-              {/* <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-                Nos Missions
-              </h2> */}
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
-                    Nos{" "}
-                    <span className="text-yellow-500">Missions</span>
-              </h1>
-              <p className="text-lg text-gray-700 text-center max-w-3xl mx-auto mb-10">Plusieurs types d’interventions sont proposés par notre association : </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                {missions.map((mission, index) => (
-                  <div
-                    key={index}
-                    className={`mission-card ${bgColors[index]} p-6 md:p-8 rounded-lg transition-all duration-300 group md:flex md:flex-col md:items-center md:text-center md:min-h-[280px] h-full hover:shadow-lg hover:scale-105`}
-                  >
-                    <div className="text-white mb-4 group-hover:text-white transition-colors">
-                      {mission.icon}
-                    </div>
-                    <h3 className="text-2xl text-white mb-3">
-                      {mission.title}
-                    </h3>
-                    <button onClick={() => handleClick(mission.href)} className="bg-teal-700 text-white px-6 py-2 rounded-lg hover:bg-teal-900 transition-colors duration-200 font-medium md:w-auto mt-auto">
-                        En savoir plus
-                    </button>
-                  </div>
-                ))}
+              <div className="absolute inset-0 flex flex-col justify-between bg-gradient-to-b from-transparent via-black/50 to-black px-5 pb-6 pt-40">
+                <h2 className="relative text-xl font-bold text-white leading-tight w-fit after:content-[''] after:absolute after:h-1 after:w-[calc(100%+1.25rem)] after:bottom-[-0.5rem] after:left-[-1.25rem] after:bg-yellow-500">
+                  {mission.title}
+                </h2>
+
+                <div>
+                <p className="mt-6 text-white text-sm leading-relaxed">
+                  {mission.description}
+                </p>
+
+                <button
+                  onClick={() => handleClick(mission.href)}
+                  className="mt-6 w-fit px-6 py-3 font-bold text-base text-white bg-yellow-500 rounded-lg transition-all duration-200 hover:from-yellow-700 hover:to-yellow-900 hover:shadow-lg transform hover:-translate-y-0.5 hover:scale-105 focus:outline-2 focus:outline-white"
+                >
+                  En savoir plus
+                </button>
+                </div>
               </div>
             </div>
-        </div>
-    );
+          </article>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Mission;

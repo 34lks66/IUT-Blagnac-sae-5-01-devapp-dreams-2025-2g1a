@@ -31,7 +31,9 @@ const Users = () => {
   useEffect(() => {
   const fetchAccounts = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/accounts`);
+      const res = await fetch(`${API_BASE}/api/accounts`, {
+        credentials: "include",
+      });
       if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
       const data = await res.json();
       setUsers(data);
@@ -67,12 +69,14 @@ const Users = () => {
       res = await fetch(`${API_BASE}/api/accounts/${editingUser._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(userData),
       });
     } else {
       res = await fetch(`${API_BASE}/api/accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(userData),
       });
     }
@@ -80,7 +84,10 @@ const Users = () => {
     if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
 
     // Recharge les comptes après création / modification
-    const newRes = await fetch(`${API_BASE}/api/accounts`);
+    const newRes = await fetch(`${API_BASE}/api/accounts`, {
+      credentials: "include",
+    });
+    if (!newRes.ok) throw new Error("Erreur lors du rechargement des comptes");
     const newData = await newRes.json();
     setUsers(newData);
     closeModal();
@@ -95,6 +102,7 @@ const Users = () => {
   try {
     const res = await fetch(`${API_BASE}/api/accounts/${id}`, {
       method: "DELETE",
+      credentials: "include",
     });
     if (!res.ok) throw new Error("Erreur lors de la suppression");
     setUsers(users.filter((u) => u._id !== id));

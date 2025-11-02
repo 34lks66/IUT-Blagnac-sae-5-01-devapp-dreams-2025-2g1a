@@ -13,6 +13,7 @@ const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
 const eventRoutes = require('./routes/EventRoute');
 const cookieParser = require("cookie-parser"); 
+const authVerif = require("./middlewares/auth");
 
 require('dotenv').config();
 
@@ -127,7 +128,7 @@ app.get('/swagger.json', (req, res) => {
 app.use('/api', memberRoutes);
 app.use('/api', newsRoutes);
 app.use('/api', authRoutes);
-app.use('/api/accounts', accountRoutes);
+app.use('/api/accounts', authVerif, accountRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
