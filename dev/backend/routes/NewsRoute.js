@@ -34,7 +34,7 @@ const upload = multer({ storage })
  *               items:
  *                 $ref: '#/components/schemas/News'
  */
-router.get('/news/get', getNews)
+router.get('/get', getNews)
 
 /**
  * @openapi
@@ -51,7 +51,7 @@ router.get('/news/get', getNews)
  *       201:
  *         description: Created
  */
-router.post('/news/save', upload.single('image'), saveNews)
+router.post('/save', upload.single('image'), saveNews)
 
 /**
  * @openapi
@@ -73,7 +73,7 @@ router.post('/news/save', upload.single('image'), saveNews)
  *       200:
  *         description: Updated
  */
-router.put('/news/update/:id', upload.single('image'), updateNews)
+router.put('/update/:id', upload.single('image'), updateNews)
 
 /**
  * @openapi
@@ -90,7 +90,7 @@ router.put('/news/update/:id', upload.single('image'), updateNews)
  *       204:
  *         description: No Content
  */
-router.delete('/news/delete/:id', deleteNews)
+router.delete('/delete/:id', deleteNews)
 
 
 module.exports = router 
