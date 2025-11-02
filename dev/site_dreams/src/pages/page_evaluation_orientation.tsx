@@ -94,7 +94,6 @@ const EvaluationOrientation: React.FC = () => {
           </div>
           <div className="eval-section__text">
             <h2 className="text-2xl md:text-2xl font-bold  mb-4">Démarche d’évaluation <span className="text-yellow-500">personnalisée</span></h2>
-            <div className="eval-divider eval-divider--rainbow" />
             <p className="eval-paragraph">
               Nous recevons chaque personne avec écoute et bienveillance pour
               comprendre sa situation, ses besoins et ses objectifs. À partir de
@@ -124,7 +123,6 @@ const EvaluationOrientation: React.FC = () => {
             <h2 className="text-2xl md:text-2xl font-bold  mb-4">
               Orientation vers services juridiques,<span className="text-yellow-500"> administratifs et sociaux</span>  
             </h2>
-            <div className="eval-divider eval-divider--rainbow2" />
             <p className="eval-paragraph">
               En fonction des besoins, nous vous orientons vers les dispositifs
               adaptés (asile, régularisation, accès aux droits, santé, soutien
@@ -134,19 +132,19 @@ const EvaluationOrientation: React.FC = () => {
 
             <div className="eval-cards">
               <article className="eval-card">
-                <span className="eval-badge">⚖️ Juridique</span>
+                <span className="eval-badge">Juridique</span>
                 <p className="eval-card__text">
                   Droit d’asile, titres de séjour, recours.
                 </p>
               </article>
               <article className="eval-card">
-                <span className="eval-badge">🏛️ Administratif</span>
+                <span className="eval-badge">Administratif</span>
                 <p className="eval-card__text">
                   Démarches, documents, sécurisation des droits.
                 </p>
               </article>
               <article className="eval-card">
-                <span className="eval-badge">🤝 Social / Santé</span>
+                <span className="eval-badge">Social / Santé</span>
                 <p className="eval-card__text">
                   Accès aux soins, soutien psychologique, aide sociale.
                 </p>
@@ -163,7 +161,6 @@ const EvaluationOrientation: React.FC = () => {
             <h2 className="text-2xl md:text-2xl font-bold  mb-4 text-yellow-500">
               Suivi en lien avec autres structures partenaires
             </h2>
-            <div className="eval-divider eval-divider--warm" />
           </div>
 
           <div className="eval-arrows">
