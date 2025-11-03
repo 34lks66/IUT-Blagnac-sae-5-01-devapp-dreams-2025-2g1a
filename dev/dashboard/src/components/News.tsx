@@ -51,6 +51,7 @@ const News: React.FC = () => {
     try {
       const res = await fetch(`${API_BASE}/api/news/save`, {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
 
@@ -106,6 +107,7 @@ const News: React.FC = () => {
     try {
       const res = await fetch(`${API_BASE}/api/news/update/${editNews}`, {
         method: "PUT",
+        credentials: "include",
         body: formData,
       });
 
@@ -141,6 +143,7 @@ const News: React.FC = () => {
     try {
       const res = await fetch(`${API_BASE}/api/news/delete/${deleteNews}`, {
         method: 'DELETE',
+        credentials: "include",
       });
 
       if(res.ok) {
