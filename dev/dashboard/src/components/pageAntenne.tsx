@@ -5,10 +5,12 @@ type Antenne = {
   nom: string;
   description: string;
   image: string;
-  pays: string | { 
-    _id: string;
-    nom: string;
-  };
+  pays:
+    | string
+    | {
+        _id: string;
+        nom: string;
+      };
 };
 
 type Pays = {
@@ -37,7 +39,9 @@ const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
   />
 );
 
-const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (p) => (
+const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
+  p
+) => (
   <textarea
     {...p}
     className={
@@ -63,11 +67,13 @@ function AntenneForm() {
   const [message, setMessage] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  const getPaysNom = (paysData: string | { _id: string; nom: string }): string => {
-    if (typeof paysData === 'object' && paysData !== null) {
+  const getPaysNom = (
+    paysData: string | { _id: string; nom: string }
+  ): string => {
+    if (typeof paysData === "object" && paysData !== null) {
       return paysData.nom;
     }
-    const paysTrouve = pays.find(p => p._id === paysData);
+    const paysTrouve = pays.find((p) => p._id === paysData);
     return paysTrouve ? paysTrouve.nom : "Pays inconnu";
   };
 
@@ -114,7 +120,7 @@ function AntenneForm() {
   };
 
   const handleCreateClick = () => {
-    setShowForm(true); 
+    setShowForm(true);
     setFormUpdate(false);
     setEditingAntenne(null);
     resetForm();
@@ -122,11 +128,11 @@ function AntenneForm() {
 
   const handleEditClick = (antenne: Antenne) => {
     setShowForm(true);
-    setFormUpdate(true); 
+    setFormUpdate(true);
     setEditingAntenne(antenne);
-    
+
     let paysId = "";
-    if (typeof antenne.pays === 'object') {
+    if (typeof antenne.pays === "object") {
       paysId = antenne.pays._id;
     } else {
       paysId = antenne.pays;
@@ -137,7 +143,7 @@ function AntenneForm() {
       description: antenne.description,
       pays: paysId,
     });
-    
+
     // Si l'antenne a une image, on la montre en preview
     if (antenne.image) {
       setImagePreview(`http://localhost:5000${antenne.image}`);
@@ -162,11 +168,11 @@ function AntenneForm() {
     setMessage("");
 
     const formDataToSend = new FormData();
-    formDataToSend.append('nom', formData.nom);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('pays', formData.pays);
+    formDataToSend.append("nom", formData.nom);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("pays", formData.pays);
     if (imageFile) {
-      formDataToSend.append('image', imageFile);
+      formDataToSend.append("image", imageFile);
     }
 
     try {
@@ -226,10 +232,10 @@ function AntenneForm() {
     }
 
     const formDataToSend = new FormData();
-    formDataToSend.append('nom', formData.nom);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('pays', formData.pays);
-    formDataToSend.append('image', imageFile);
+    formDataToSend.append("nom", formData.nom);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("pays", formData.pays);
+    formDataToSend.append("image", imageFile);
 
     try {
       const response = await fetch(`http://localhost:5000/api/antenne/save`, {
@@ -239,10 +245,10 @@ function AntenneForm() {
 
       if (response.ok) {
         setMessage("Antenne créée avec succès !");
-        setFormData({ 
-          nom: "", 
-          description: "", 
-          pays: ""
+        setFormData({
+          nom: "",
+          description: "",
+          pays: "",
         });
         fetchAntennes();
         setShowForm(false); // Ferme le formulaire après création
@@ -259,51 +265,35 @@ function AntenneForm() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between mb-6">
-          <h1 className="text-4xl font-extrabold ">Gestion Antennes</h1>
-        <button
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
+        <h1 className="text-4xl font-extrabold ">Gestion Antennes</h1>
+        <button onClick={handleCreateClick} className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105">
           Nouvelle Antenne
         </button>
-      </div>
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-yellow-500 mb-1">
-            Gestion des Antennes
-          </h2>
-          <p className="text-gray-600">
-            Créez et gérez les antennes locales de votre réseau
-          </p>
-        </div>
-        {/* Bouton "Créer une antenne" dans le header */}
-        {!showForm && (
-          <button
-            onClick={handleCreateClick}
-            className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110"
-          >
-            + Créer une antenne
-          </button>
-        )}
       </div>
 
       {/* Formulaire conditionnel */}
       {showForm && (
-        <form onSubmit={formUpdate ? handleUpdate : handleSubmit} className="space-y-6">
+        <form
+          onSubmit={formUpdate ? handleUpdate : handleSubmit}
+          className="space-y-6"
+        >
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className={`w-2 h-8 rounded-full ${
-                  formUpdate 
-                    ? "bg-gradient-to-b from-blue-500 to-blue-600" 
-                    : "bg-gradient-to-b from-yellow-500 to-amber-600"
-                }`}></div>
+                <div
+                  className={`w-2 h-8 rounded-full ${
+                    formUpdate
+                      ? "bg-gradient-to-b from-blue-500 to-blue-600"
+                      : "bg-gradient-to-b from-yellow-500 to-amber-600"
+                  }`}
+                ></div>
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">
                     {formUpdate ? "Modifier l'Antenne" : "Nouvelle Antenne"}
                   </h2>
                   <p className="text-gray-600 text-sm">
-                    {formUpdate 
-                      ? "Modifiez les informations de l'antenne" 
+                    {formUpdate
+                      ? "Modifiez les informations de l'antenne"
                       : "Ajoutez une nouvelle antenne locale"}
                   </p>
                 </div>
@@ -320,7 +310,9 @@ function AntenneForm() {
               >
                 <div className="flex items-center gap-2">
                   <span>{message.includes("✅") ? "✅" : "❌"}</span>
-                  <span className="text-sm font-medium">{message.replace("✅", "").replace("❌", "")}</span>
+                  <span className="text-sm font-medium">
+                    {message.replace("✅", "").replace("❌", "")}
+                  </span>
                 </div>
               </div>
             )}
@@ -333,7 +325,9 @@ function AntenneForm() {
                     type="text"
                     value={formData.nom}
                     required
-                    onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, nom: e.target.value })
+                    }
                     placeholder="Paris, Lyon, Toulouse..."
                   />
                 </div>
@@ -343,7 +337,9 @@ function AntenneForm() {
                   <select
                     value={formData.pays}
                     required
-                    onChange={(e) => setFormData({ ...formData, pays: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, pays: e.target.value })
+                    }
                     className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                   >
                     <option value="">Sélectionnez un pays</option>
@@ -362,7 +358,9 @@ function AntenneForm() {
                   rows={4}
                   value={formData.description}
                   required
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   placeholder="Décrivez les activités, le rôle et les objectifs de cette antenne..."
                 />
               </div>
@@ -371,9 +369,7 @@ function AntenneForm() {
               <div>
                 <Label>
                   {formUpdate ? "Image de l'antenne" : "Image de l'antenne *"}
-                  {!formUpdate && (
-                    <span className="text-red-500 ml-1">*</span>
-                  )}
+                  {!formUpdate && <span className="text-red-500 ml-1">*</span>}
                 </Label>
                 <div className="mt-2">
                   <input
@@ -383,7 +379,7 @@ function AntenneForm() {
                     className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                   />
                   <p className="mt-1 text-sm text-gray-500">
-                    {formUpdate 
+                    {formUpdate
                       ? "Choisissez une nouvelle image pour remplacer l'actuelle (optionnel)"
                       : "Sélectionnez une image représentative de l'antenne"}
                   </p>
@@ -392,11 +388,13 @@ function AntenneForm() {
                 {/* Preview de l'image */}
                 {imagePreview && (
                   <div className="mt-4">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Aperçu :</p>
+                    <p className="text-sm font-medium text-gray-700 mb-2">
+                      Aperçu :
+                    </p>
                     <div className="relative w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
-                      <img 
-                        src={imagePreview} 
-                        alt="Preview" 
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -404,18 +402,23 @@ function AntenneForm() {
                 )}
 
                 {/* Image actuelle en modification */}
-                {formUpdate && editingAntenne && editingAntenne.image && !imagePreview && (
-                  <div className="mt-4">
-                    <p className="text-sm font-medium text-gray-700 mb-2">Image actuelle :</p>
-                    <div className="relative w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
-                      <img 
-                        src={`http://localhost:5000${editingAntenne.image}`} 
-                        alt="Actuelle" 
-                        className="w-full h-full object-cover"
-                      />
+                {formUpdate &&
+                  editingAntenne &&
+                  editingAntenne.image &&
+                  !imagePreview && (
+                    <div className="mt-4">
+                      <p className="text-sm font-medium text-gray-700 mb-2">
+                        Image actuelle :
+                      </p>
+                      <div className="relative w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                        <img
+                          src={`http://localhost:5000${editingAntenne.image}`}
+                          alt="Actuelle"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-4">
@@ -452,82 +455,60 @@ function AntenneForm() {
           </span>
         </div>
 
-        {antennes.length === 0 ? (
-          <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
-            <div className="text-4xl mb-3 text-gray-300">🏢</div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Aucune antenne créée
-            </h3>
-            <p className="text-gray-500 text-sm mb-4">
-              Commencez par créer votre première antenne
-            </p>
-            <button
-              onClick={handleCreateClick}
-              className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110"
+        <div className="grid gap-4">
+          {antennes.map((antenne) => (
+            <div
+              key={antenne._id}
+              className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
             >
-              + Créer une antenne
-            </button>
-          </div>
-        ) : (
-          <div className="grid gap-4">
-            {antennes.map((antenne) => (
-              <div
-                key={antenne._id}
-                className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
-              >
-                <div className="grid md:grid-cols-[auto_1fr_auto] gap-4 items-start">
-                  {/* Image de l'antenne */}
-                  {antenne.image && (
-                    <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
-                      <img 
-                        src={`http://localhost:5000${antenne.image}`} 
-                        alt={antenne.nom}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-semibold text-gray-900">
-                        {antenne.nom}
-                      </h4>
-                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
-                        {getPaysNom(antenne.pays)}
-                      </span>
-                    </div>
-                    <p className="text-gray-600 text-sm">
-                      {antenne.description}
-                    </p>
+              <div className="grid md:grid-cols-[auto_1fr_auto] gap-4 items-start">
+                {/* Image de l'antenne */}
+                {antenne.image && (
+                  <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
+                    <img
+                      src={`http://localhost:5000${antenne.image}`}
+                      alt={antenne.nom}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
+                )}
 
+                <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleEditClick(antenne)}
-                      className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
-                    >
-                      Modifier
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(antenne._id)}
-                      className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
-                    >
-                      Supprimer
-                    </button>
+                    <h4 className="font-semibold text-gray-900">
+                      {antenne.nom}
+                    </h4>
+                    <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                      {getPaysNom(antenne.pays)}
+                    </span>
                   </div>
+                  <p className="text-gray-600 text-sm">{antenne.description}</p>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">
-                    ID: {antenne._id}
-                  </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleEditClick(antenne)}
+                    className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(antenne._id)}
+                    className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
+                  >
+                    Supprimer
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">ID: {antenne._id}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
