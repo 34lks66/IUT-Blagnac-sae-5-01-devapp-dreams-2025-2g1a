@@ -145,6 +145,7 @@ function AntenneForm() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify(formData),
         }
       );
@@ -172,6 +173,7 @@ function AntenneForm() {
         `${API_BASE}/api/antenne/delete/${id}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       if (response.ok) {
@@ -196,6 +198,7 @@ function AntenneForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 
