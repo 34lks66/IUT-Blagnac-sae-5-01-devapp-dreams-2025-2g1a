@@ -275,7 +275,10 @@ function AntenneForm() {
     <div className="space-y-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-extrabold ">Gestion Antennes</h1>
-        <button onClick={handleCreateClick} className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105">
+        <button
+          onClick={handleCreateClick}
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
           Nouvelle Antenne
         </button>
       </div>
@@ -470,7 +473,7 @@ function AntenneForm() {
               key={antenne._id}
               className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
             >
-              <div className="grid md:grid-cols-[auto_1fr_auto] gap-4 items-start">
+              <div className="grid md:grid-cols-[1fr_auto] gap-4 items-start">
                 {/* Image de l'antenne */}
                 {antenne.image && (
                   <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
@@ -494,6 +497,7 @@ function AntenneForm() {
                   <p className="text-gray-600 text-sm">{antenne.description}</p>
                 </div>
 
+                
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
