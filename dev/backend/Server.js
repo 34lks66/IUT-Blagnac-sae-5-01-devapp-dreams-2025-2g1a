@@ -126,7 +126,7 @@ app.get('/swagger.json', (req, res) => {
  });
 
 app.use('/api', memberRoutes);
-app.use('/api', newsRoutes);
+app.use('/api/news', newsRoutes);
 app.use('/api', authRoutes);
 app.use('/api/accounts', authVerif, accountRoutes);
 app.use('/api/events', eventRoutes);

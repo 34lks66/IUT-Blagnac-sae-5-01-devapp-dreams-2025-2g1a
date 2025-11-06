@@ -7,6 +7,7 @@ const News: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setEditForm] = useState(false);
   const [isPopupDelete, setDeletePopup] = useState(false);
+  const [selectedRadio, setSelectedRadio] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [news, setNews] = useState<any[]>([]);
@@ -17,11 +18,13 @@ const News: React.FC = () => {
   const [NewsDate, setDate] = useState('');
   const [NewsTitle, setTitle] = useState('');
   const [NewsLink, setLink] = useState('');
+  const [NewsDescription, setDescription] = useState('');
 
   const [NewsImageEdit, setImageEdit] = useState<File | string>('');
   const [NewsDateEdit, setDateEdit] = useState('');
   const [NewsTitleEdit, setTitleEdit] = useState('');
   const [NewsLinkEdit, setLinkEdit] = useState('');
+  const [NewsDescriptionEdit, setDescriptionEdit] = useState('');
 
   useEffect(() => {
         fetch(`${API_BASE}/api/news/get`)
@@ -43,16 +46,18 @@ const News: React.FC = () => {
     formData.append("date", NewsDate);
     formData.append("title", NewsTitle);
     formData.append("link", NewsLink);
+    formData.append("description", NewsDescription);
 
     try {
       const res = await fetch(`${API_BASE}/api/news/save`, {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
 
       if(!res.ok) {
           throw new Error("Erreur lors de l'ajout de l'actualité");
-        }
+      }
 
       const savedNews = await res.json();
       setNews((prev) => [...prev, savedNews]);
@@ -60,6 +65,7 @@ const News: React.FC = () => {
       setDate("");
       setTitle("");
       setLink("");
+      setDescription("");
       setShowForm(false);
 
       console.log("Actualité ajoutée !");
@@ -72,11 +78,20 @@ const News: React.FC = () => {
     const selected = news.find(item => item._id === id);
     if(!selected) return;
 
+    if(selected.description && selected.description.trim() !== ""){
+      setSelectedRadio("description");
+    } else if(selected.link && selected.link.trim() != ""){
+      setSelectedRadio("link");
+    } else {
+      setSelectedRadio("description");
+    }
+
     setEditNews(id);
     setImageEdit(selected.image);
     setDateEdit(selected.date);
     setTitleEdit(selected.title);
     setLinkEdit(selected.link);
+    setDescriptionEdit(selected.description);
     setEditForm(true);
   }
 
@@ -87,10 +102,12 @@ const News: React.FC = () => {
     formData.append("date", NewsDateEdit);
     formData.append("title", NewsTitleEdit);
     formData.append("link", NewsLinkEdit);
+    formData.append("description", NewsDescriptionEdit);
 
     try {
       const res = await fetch(`${API_BASE}/api/news/update/${editNews}`, {
         method: "PUT",
+        credentials: "include",
         body: formData,
       });
 
@@ -108,6 +125,7 @@ const News: React.FC = () => {
         setDateEdit('');
         setTitleEdit('');
         setLinkEdit('');
+        setDescriptionEdit('');
         setEditForm(false);
         console.log("Actualité modifié !")
     } catch (error) {
@@ -125,6 +143,7 @@ const News: React.FC = () => {
     try {
       const res = await fetch(`${API_BASE}/api/news/delete/${deleteNews}`, {
         method: 'DELETE',
+        credentials: "include",
       });
 
       if(res.ok) {
@@ -184,18 +203,6 @@ const News: React.FC = () => {
                 </div> 
               </div>
 
-              {/* <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Image
-                </label>
-                <input
-                    value={NewsImage}
-                    onChange={(e) => setImage(e.target.value)}
-                    type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  />
-              </div> */}
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -226,7 +233,19 @@ const News: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
+              <div className="flex">
+                  <div className="flex items-center me-4">
+                      <input id="inline-radio" type="radio" name="inline-radio-group" checked={selectedRadio === "description"} onChange={() => setSelectedRadio("description")} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
+                      <label className="block text-sm font-medium text-gray-700 ms-2">Ajouter une description</label>
+                  </div>
+                  <div className="flex items-center me-4">
+                      <input id="inline-2-radio" type="radio" value="" name="inline-radio-group" checked={selectedRadio === "link"} onChange={() => setSelectedRadio("link")} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
+                      <label className="block text-sm font-medium text-gray-700 ms-2">Ajouter un lien</label>
+                  </div>
+              </div>
+
+              {selectedRadio === "link" && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Lien
@@ -240,6 +259,17 @@ const News: React.FC = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
               </div>
+              )}
+
+              {selectedRadio === "description" && (
+              <div>                
+                <label className="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                <textarea 
+                    value={NewsDescription}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
+              </div>
+              )}
               
               <div className="flex space-x-4">
                 <button
@@ -286,11 +316,16 @@ const News: React.FC = () => {
                                 Titre
                             </div>
                         </th>
+                        {/* <th scope="col" className="px-6 py-3">
+                            <div className="flex items-center">
+                                Description
+                            </div>
+                        </th>
                         <th scope="col" className="px-6 py-3">
                             <div className="flex items-center">
                                 Lien
                             </div>
-                        </th>
+                        </th> */}
                         <th scope="col" className="px-6 py-3">
                         </th>
                         <th scope="col" className="px-6 py-3">
@@ -309,9 +344,12 @@ const News: React.FC = () => {
                           <td className="px-6 py-4">
                             {item.title}
                           </td>
+                          {/* <td className="px-6 py-4">
+                            {item.description}
+                          </td>
                           <td className="px-6 py-4">
                             {item.link}
-                          </td>
+                          </td>      */}
                           <td className="px-6 py-4 text-right">
                             <button onClick={() => handleEditClick(item._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</button>
                           </td>
@@ -368,10 +406,26 @@ const News: React.FC = () => {
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
                                     <input value={NewsTitleEdit} onChange={(e) => setTitleEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
                                 </div>
-                                <div className="col-span-2">
+                                {/* <div className="col-span-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lien</label>
-                                    <input value={NewsLinkEdit} onChange={(e) => setLinkEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
+                                    <input value={NewsLinkEdit} onChange={(e) => setLinkEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"></input>
                                 </div>
+                                <div className="col-span-2">
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                    <textarea value={NewsDescriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)} name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"></textarea>
+                                </div> */}           
+                              {selectedRadio === "link" && (
+                              <div className="col-span-2">
+                                <label className="block mb-2 text-sm font-medium text-gray-900">Lien</label>
+                                <input value={NewsLinkEdit} onChange={(e) => setLinkEdit(e.target.value)} type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"/>
+                              </div>
+                              )}
+                              {selectedRadio === "description" && (
+                              <div className="col-span-2">    
+                                <label className="block mb-2 text-sm font-medium text-gray-900">Description</label>            
+                                <textarea value={NewsDescriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
+                              </div>
+                              )}
                             </div>
                             <button type="submit" className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>

@@ -180,7 +180,11 @@ function AntenneForm() {
         `http://localhost:5000/api/antenne/update/${editingAntenne._id}`,
         {
           method: "PUT",
-          body: formDataToSend,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(formData),
         }
       );
       if (response.ok) {
@@ -207,6 +211,7 @@ function AntenneForm() {
         `http://localhost:5000/api/antenne/delete/${id}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       if (response.ok) {
@@ -240,7 +245,11 @@ function AntenneForm() {
     try {
       const response = await fetch(`http://localhost:5000/api/antenne/save`, {
         method: "POST",
-        body: formDataToSend,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {

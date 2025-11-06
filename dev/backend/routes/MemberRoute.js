@@ -4,6 +4,7 @@ const { getPays, savePays, updatePays, deletePays } = require('../controllers/Pa
 const { getNewsPays, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
 const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
 const router = Router()
+const authVerif = require("../middlewares/auth");
 
 const multer = require('multer')
 const path = require('path')
@@ -42,7 +43,7 @@ const upload = multer({ storage })
  *               items:
  *                 $ref: '#/components/schemas/Member'
  */
-router.get('/get', getMembers)
+router.get('/get',authVerif, getMembers)
 
 /**
  * @openapi
@@ -59,7 +60,7 @@ router.get('/get', getMembers)
  *       201:
  *         description: Created
  */
-router.post('/save', saveMember)
+router.post('/save',authVerif, saveMember)
 
 /**
  * @openapi
@@ -81,7 +82,7 @@ router.post('/save', saveMember)
  *       200:
  *         description: Updated
  */
-router.put('/update/:id', updateMember)
+router.put('/update/:id',authVerif, updateMember)
 
 /**
  * @openapi
@@ -98,16 +99,16 @@ router.put('/update/:id', updateMember)
  *       204:
  *         description: No Content
  */
-router.delete('/delete/:id', deleteMember)
+router.delete('/delete/:id',authVerif, deleteMember)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 router.get('/pays/get', getPays);
-router.post('/pays/save', upload.single('image'), savePays)
-router.put('/pays/update/:id', upload.single('image'), updatePays)
-router.delete('/pays/delete/:id', deletePays)
+router.post('/pays/save',authVerif, upload.single('image'), savePays)
+router.put('/pays/update/:id',authVerif, upload.single('image'), updatePays)
+router.delete('/pays/delete/:id',authVerif, deletePays)
 
 
 //////////////////////////////////////////////////////////////////
@@ -115,18 +116,24 @@ router.delete('/pays/delete/:id', deletePays)
 //////////////////////////////////////////////////////////////////
 
 router.get('/newspays/get', getNewsPays)
-router.post('/newspays/save', upload.single('image'), saveNewsPays)
-router.put('/newspays/update/:id', upload.single('image'), updateNewsPays)
-router.delete('/newspays/delete/:id', deleteNewsPays)
+router.post('/newspays/save',authVerif, upload.single('image'), saveNewsPays)
+router.put('/newspays/update/:id',authVerif, upload.single('image'), updateNewsPays)
+router.delete('/newspays/delete/:id',authVerif, deleteNewsPays)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Antenne ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 router.get('/antenne/get', getAntennes)
+<<<<<<< HEAD
 router.post('/antenne/save', upload.single('image'), saveAntenne)
 router.put('/antenne/update/:id', upload.single('image'), updateAntenne)
 router.delete('/antenne/delete/:id', deleteAntenne)
+=======
+router.post('/antenne/save',authVerif, saveAntenne)
+router.put('/antenne/update/:id',authVerif, updateAntenne)
+router.delete('/antenne/delete/:id',authVerif, deleteAntenne)
+>>>>>>> main
 
 
 module.exports = router 

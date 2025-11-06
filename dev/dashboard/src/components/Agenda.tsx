@@ -80,6 +80,7 @@ export default function AgendaAdmin() {
       await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
+        credentials: "include",
         body: JSON.stringify(payload),
       });
       setForm({ title: '', date: '', isGeneral: false, antenna: null });
@@ -101,7 +102,7 @@ export default function AgendaAdmin() {
   const remove = async (id?: string) => {
     if (!id || !confirm('Supprimer cet événement ?')) return;
     try {
-      await fetch(`${API_BASE}/api/events/${id}`, { method: 'DELETE' });
+      await fetch(`${API_BASE}/api/events/${id}`, { method: 'DELETE', credentials: "include" });
       fetchEvents();
     } catch (err) {
       console.error(err);

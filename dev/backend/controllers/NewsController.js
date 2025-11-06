@@ -14,15 +14,21 @@ module.exports.getNews = async (req, res) => {
 
 module.exports.saveNews = async (req, res) => {
   try {
-    const { date, title, link } = req.body;
+    const { date, title, link, description } = req.body;
 
     // Ligne à ajouter pour l'image
     const image = req.file ? `/uploads/${req.file.filename}` : null;
 
     // Validation des champs requis
-    if (!image || !date || !title || !link) {
+    if (!image || !date || !title) {
       return res.status(400).json({ 
         error: "Tous les champs sont requis: image, date, title, link" 
+      });
+    }
+
+    if (!link && !description) {
+      return res.status(400).json({ 
+        error: "Veuillez fournir soit un lien, soit une description" 
       });
     }
 
@@ -30,7 +36,8 @@ module.exports.saveNews = async (req, res) => {
       image,
       date,
       title,
-      link
+      link,
+      description
     });
     
     console.log("Saved successfully...");
@@ -44,7 +51,7 @@ module.exports.saveNews = async (req, res) => {
 module.exports.updateNews = async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, title, link } = req.body;
+    const { date, title, link, description } = req.body;
 
     // Ligne à ajouter pour l'image
     const newImage = req.file ? `/uploads/${req.file.filename}` : null;
@@ -63,9 +70,9 @@ module.exports.updateNews = async (req, res) => {
       }
     }
 
-    if (!date && !title && !link) {
+    if (!date && !title && !link && !description) {
       return res.status(400).json({ 
-        error: "Au moins un champ doit être fourni: date, title, link" 
+        error: "Au moins un champ doit être fourni: date, title, link, description" 
       });
     }
  
@@ -74,6 +81,7 @@ module.exports.updateNews = async (req, res) => {
       title: title || existingNews.title,
       link: link || existingNews.link,
       image: newImage || existingNews.image,
+      description: description || existingNews.description
     };
     // if (image) updateData.image = image;
     // if (date) updateData.date = date;
