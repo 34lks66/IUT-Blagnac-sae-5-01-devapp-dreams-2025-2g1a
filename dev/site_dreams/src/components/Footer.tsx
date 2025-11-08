@@ -58,13 +58,13 @@ const FooterMain: React.FC = () => {
             </ul>
 
             <div className="footer-legal">
-              <a href="/mentions-legales#mentions" className="footer-legal__link">Mentions légales</a>
+              <a href="/politiques-de-confidentialites" className="footer-legal__link">Politique de confidentialité</a>
               <span>·</span>
-              <a href="/mentions-legales#vie-privee" className="footer-legal__link">Vie privée</a>
+              <a href="/politiques-de-confidentialites/#vie-privee" className="footer-legal__link">Vie privée</a>
               <span>·</span>
-              <a href="/mentions-legales#cookies" className="footer-legal__link">Cookies</a>
+              <a href="/politiques-de-confidentialites/#cookies" className="footer-legal__link">Cookies</a>
               <span>·</span>
-              <a href="/mentions-legales#accessibilite" className="footer-legal__link">Accessibilité</a>
+              <a href="/politiques-de-confidentialites/#mentions-legales" className="footer-legal__link">Mentions légales</a>
             </div>
 
             <div className="footer-socials">
