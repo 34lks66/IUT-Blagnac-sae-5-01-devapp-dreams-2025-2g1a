@@ -8,10 +8,8 @@ const fs = require('fs');
 const path = require('path');
 
 const Routes = require('./routes/Route');
-// const newsRoutes = require('./routes/NewsRoute');
 const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
-// const eventRoutes = require('./routes/EventRoute');
 const cookieParser = require("cookie-parser"); 
 const authVerif = require("./middlewares/auth");
 const { events } = require("./models/MemberModel");
@@ -133,10 +131,8 @@ app.get('/swagger.json', (req, res) => {
  });
 
 app.use('/api', Routes);
-// app.use('/api/news', newsRoutes);
 app.use('/api', authRoutes);
 app.use('/api/accounts', authVerif, accountRoutes);
-// app.use('/api/events', eventRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

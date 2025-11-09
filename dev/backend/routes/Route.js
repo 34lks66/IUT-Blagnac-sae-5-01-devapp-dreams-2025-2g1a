@@ -214,9 +214,9 @@ router.delete('/news/delete/:id', authVerif, deleteNews)
 
 /**
  * @openapi
- * /api/events/list:
+ * /api/event/get:
  *   get:
- *     summary: Liste tous les événements (généraux ou d'une antenne)
+ *     summary: /api/event/get 
  *     parameters:
  *       - in: query
  *         name: general
@@ -242,9 +242,9 @@ router.get('/event/get', listEvents);
 
 /**
  * @openapi
- * /api/events/get/{id}:
+ * /api/event/get/{id}:
  *   get:
- *     summary: Récupère un événement par son ID
+ *     summary: api/event/get/{id}
  *     parameters:
  *       - in: path
  *         name: id
@@ -261,13 +261,13 @@ router.get('/event/get', listEvents);
  *       404:
  *         description: Événement introuvable
  */
-router.get('event/get/:id', getEvent);
+router.get('/event/get/:id', getEvent);
 
 /**
  * @openapi
- * /api/events/create:
+ * /api/event/save:
  *   post:
- *     summary: Crée un nouvel événement
+ *     summary: /api/event/save
  *     requestBody:
  *       required: true
  *       content:
@@ -284,9 +284,9 @@ router.post('/event/save',authVerif, saveEvent);
 
 /**
  * @openapi
- * /api/events/update/{id}:
+ * /api/event/update/{id}:
  *   put:
- *     summary: Met à jour un événement existant
+ *     summary: /api/event/update/{id}
  *     parameters:
  *       - in: path
  *         name: id
@@ -308,9 +308,9 @@ router.put('/event/update/:id',authVerif, updateEvent);
 
 /**
  * @openapi
- * /api/events/delete/{id}:
+ * /api/event/delete/{id}:
  *   delete:
- *     summary: Supprime un événement par son ID
+ *     summary: /api/event/delete/{id}
  *     parameters:
  *       - in: path
  *         name: id

@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronUp, Menu, X } from "lucide-react";
 import logo from "../assets/logo.png";
+// import { title } from "framer-motion/client";
+// import { href } from "react-router-dom";
+// import Villes from "../pages_dynamiques/villes";
 
 type DropdownKey = "antennes" | "missions" | "soutenir";
+
+interface Antenne {
+  name: string;
+  id: string;
+}
+
+interface CountryGroup {
+  country: string;
+  antennes: Antenne[];
+}
 
 const Logo = () => (
   <a href="/" 
@@ -12,48 +25,102 @@ const Logo = () => (
   </a>
 );
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const Header = () => {
   const [openCountry, setOpenCountry] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
 
+  const [antennes, setAntennes] = useState<CountryGroup[]>([]);
+  useEffect(() => {
+    const fetchAntennesAndCountries = async () => {
+      try {
+        // Récupérer toutes les antennes
+        const resAntenne = await fetch(`${API_BASE}/api/antenne/get`);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const antennesData: any[] = await resAntenne.json();
+
+        // Regrouper les antennes par pays
+        const grouped: { [key: string]: Antenne[] } = {};
+        antennesData.forEach((antenne) => {
+          const countryName = antenne.pays?.nom || "Inconnu";
+          if (!grouped[countryName]) grouped[countryName] = [];
+          grouped[countryName].push({ name: antenne.nom, id: antenne._id });
+        });
+
+        // Récupérer tous les pays
+        const resPays = await fetch(`${API_BASE}/api/pays/get`);
+        const allCountries: { nom: string }[] = await resPays.json(); // adapter selon ton API
+
+        // Transformer en tableau pour le menu
+        const result: CountryGroup[] = allCountries.map((country) => ({
+          country: country.nom,
+          antennes: grouped[country.nom] || [],
+        }));
+
+        setAntennes(result);
+      } catch (err) {
+        console.error("Erreur lors du chargement des antennes ou pays :", err);
+      }
+    };
+
+    fetchAntennesAndCountries();
+  }, []);
+
   const menuStructure = {
     antennes: {
       title: "Nos antennes",
-      pays: [
-        {
-          name: "France",
-          href: "/pays/france",
-          villes: [
-            { name: "Toulouse"},
-            { name: "Carcassonne"},
-            { name: "Narbonne"},
-          ],
-        },
-        {
-          name: "Togo",
-          href: "/pays/togo",
-          villes: [{ name: "Lomé"}],
-        },
-        {
-          name: "Burkina Faso",
-          href: "/pays/burkina-faso",
-          villes: [
-            { name: "Bobo-Dioulasso"},
-            { name: "Ouagadougou"},
-          ],
-        },
-        {
-          name: "Côte d'Ivoire",
-          href: "/pays/cote-divoire",
-          villes: [
-            { name: "Abidjan"},
-            { name: "Bouaké"},
-          ],
-        },
-        { name: "Italie", href: "/pays/italie" },
-      ],
+      pays: antennes.map((p) => {
+        const slug = p.country
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+
+        return {
+          name: p.country,
+          href: `/pays/${slug}`,
+          villes: p.antennes.map((a) => ({ name: a.name, id: a.id })),
+        };
+      }),
     },
+    // antennes: {
+    //   title: "Nos antennes",
+    //   pays: [
+    //     {
+    //       name: "France",
+    //       href: "/pays/france",
+    //       villes: [
+    //         { name: "Toulouse"},
+    //         { name: "Carcassonne"},
+    //         { name: "Narbonne"},
+    //       ],
+    //     },
+    //     {
+    //       name: "Togo",
+    //       href: "/pays/togo",
+    //       villes: [{ name: "Lomé"}],
+    //     },
+    //     {
+    //       name: "Burkina Faso",
+    //       href: "/pays/burkina-faso",
+    //       villes: [
+    //         { name: "Bobo-Dioulasso"},
+    //         { name: "Ouagadougou"},
+    //       ],
+    //     },
+    //     {
+    //       name: "Côte d'Ivoire",
+    //       href: "/pays/cote-divoire",
+    //       villes: [
+    //         { name: "Abidjan"},
+    //         { name: "Bouaké"},
+    //       ],
+    //     },
+    //     { name: "Italie", href: "/pays/italie" },
+    //   ],
+    // },
     missions: {
       title: "Nos missions",
       items: [
@@ -113,7 +180,7 @@ const Header = () => {
             {/* Menu mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-gray-700 z-50"
+              className="md:hidden text-gray-700 z-50 mr-2"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -156,7 +223,7 @@ const Header = () => {
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 font-medium flex justify-between items-center"
                       >
                         {pays.name}
-                        {pays.villes && (
+                        {pays.villes && pays.villes.length > 0 && (
                           <ChevronUp
                             size={14}
                             className="ml-2 text-gray-500 transform transition-transform duration-300 group-hover/item:rotate-90 group-hover/item:text-amber-600"

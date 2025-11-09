@@ -130,7 +130,7 @@ const Pays: React.FC = () => {
 
         // ANTENNES
         const resAnt = await fetch(
-          `${API_BASE}/api/antennes/get?pays=${selectedCountry._id}`,
+          `${API_BASE}/api/antenne/get?pays=${selectedCountry._id}`,
           { credentials: "include" }
         );
         const dataAnt: ApiAntenne[] = resAnt.ok ? await resAnt.json() : [];
