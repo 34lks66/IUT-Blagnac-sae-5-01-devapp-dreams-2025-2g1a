@@ -41,7 +41,7 @@ export default function AgendaAdmin() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/events/`);
+      const res = await fetch(`${API_BASE}/api/event/get/`);
       const data = await res.json();
       setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -70,7 +70,7 @@ export default function AgendaAdmin() {
     }
     try {
       const method = form._id ? 'PUT' : 'POST';
-      const url = form._id ? `${API_BASE}/api/events/${form._id}` : `${API_BASE}/api/events`;
+      const url = form._id ? `${API_BASE}/api/event/update/${form._id}` : `${API_BASE}/api/event/save`;
 
       const payload = { ...form };
       await fetch(url, {
@@ -98,7 +98,7 @@ export default function AgendaAdmin() {
   const remove = async (id?: string) => {
     if (!id || !confirm('Supprimer cet événement ?')) return;
     try {
-      await fetch(`${API_BASE}/api/events/${id}`, { method: 'DELETE', credentials: "include" });
+      await fetch(`${API_BASE}/api/event/delete/${id}`, { method: 'DELETE', credentials: "include" });
       fetchEvents();
     } catch (err) {
       console.error(err);

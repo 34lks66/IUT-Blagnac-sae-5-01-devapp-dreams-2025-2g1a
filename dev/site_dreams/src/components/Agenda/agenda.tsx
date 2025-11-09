@@ -31,7 +31,7 @@ export default function Agenda() {
             setError(null);
             try {
                 // on demande uniquement l'agenda général
-                const res = await fetch(`${API_BASE}/api/events?general=true`, { signal: ctrl.signal });
+                const res = await fetch(`${API_BASE}/api/event/get/?general=true`, { signal: ctrl.signal });
                 if (!res.ok) {
                     throw new Error(`Erreur HTTP ${res.status}`);
                 }

@@ -7,13 +7,14 @@ const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
 const path = require('path');
 
-const memberRoutes = require('./routes/MemberRoute');
-const newsRoutes = require('./routes/NewsRoute');
+const Routes = require('./routes/Route');
+// const newsRoutes = require('./routes/NewsRoute');
 const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
-const eventRoutes = require('./routes/EventRoute');
+// const eventRoutes = require('./routes/EventRoute');
 const cookieParser = require("cookie-parser"); 
 const authVerif = require("./middlewares/auth");
+const { events } = require("./models/MemberModel");
 
 require('dotenv').config();
 
@@ -63,6 +64,12 @@ app.get('/', (req, res) => {
             saveAntenne: 'POST /api/antenne/save',
             updateAntenne: 'PUT /api/antenne/update/:id',
             deleteAntenne: 'DELETE /api/antenne/delete/:id'
+          },
+          events: {
+            getEvent: 'GET /api/event/get',
+            saveEvent: 'POST /api/event/save',
+            updateEvent: 'PUT /api/event/update/:id',
+            deleteEvent: 'DELETE /api/event/delete/:id'
           }
         }
     });
@@ -125,11 +132,11 @@ app.get('/swagger.json', (req, res) => {
    `);
  });
 
-app.use('/api', memberRoutes);
-app.use('/api/news', newsRoutes);
+app.use('/api', Routes);
+// app.use('/api/news', newsRoutes);
 app.use('/api', authRoutes);
 app.use('/api/accounts', authVerif, accountRoutes);
-app.use('/api/events', eventRoutes);
+// app.use('/api/events', eventRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
