@@ -12,6 +12,11 @@ type Country = {
   nom: string;
   description: string;
   image?: string; // ex: "/uploads/xxx.jpg"
+  nomSiege: string;
+  adresse: string;
+  horaire: string;
+  mail: string;
+  number: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -25,11 +30,13 @@ type NewsItem = {
 };
 
 // ---------- Helpers ----------
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const API_ORIGIN = API_BASE.replace(/\/api$/, "");
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // UI helpers
-const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({ htmlFor, children }) => (
+const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
+  htmlFor,
+  children,
+}) => (
   <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">
     {children}
   </label>
@@ -38,16 +45,18 @@ const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
   <input
     {...p}
     className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" +
       (p.className ?? "")
     }
   />
 );
-const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (p) => (
+const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
+  p
+) => (
   <textarea
     {...p}
     className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" +
       (p.className ?? "")
     }
   />
@@ -61,6 +70,11 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   // Edition du pays
   const [description, setDescription] = useState<string>("");
   const [countryImageFile, setCountryImageFile] = useState<File | null>(null); // nouvelle image du pays
+  const [nomSiege, setNomSiege] = useState<string>("");
+  const [adresse, setAdresse] = useState<string>("");
+  const [horaire, setHoraire] = useState<string>("");
+  const [mail, setMail] = useState<string>("");
+  const [number, setNumber] = useState<string>("");
 
   // News
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -76,17 +90,25 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
     setLoading(true);
     try {
       // Charger tous les pays (ou remplace par /pays/:id si tu l'as)
-      const resPays = await fetch(`${API_BASE}/pays/get`, { credentials: "include" });
+      const resPays = await fetch(`${API_BASE}/api/pays/get`, {
+        credentials: "include",
+      });
       const all: Country[] = resPays.ok ? await resPays.json() : [];
       const current = all.find((c) => c._id === id) || null;
       setCountry(current);
       setDescription(current?.description || "");
       setCountryImageFile(null);
+      setNomSiege(current?.nomSiege || "");
+      setAdresse(current?.adresse || "");
+      setHoraire(current?.horaire || "");
+      setMail(current?.mail || "");
+      setNumber(current?.number || "");
 
       // News
-      const resNews = await fetch(`${API_BASE}/newspays/get?pays=${id}`, {
+      const resNews = await fetch(`${API_BASE}/api/newspays/get?pays=${id}`, {
         credentials: "include",
       });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataNews: any[] = resNews.ok ? await resNews.json() : [];
       setNews(
         dataNews.map((n) => ({
@@ -97,7 +119,9 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
           pays: n.pays?._id || n.pays || id,
         }))
       );
-      initialNewsIdsRef.current = new Set(dataNews.filter((n) => n._id).map((n) => n._id));
+      initialNewsIdsRef.current = new Set(
+        dataNews.filter((n) => n._id).map((n) => n._id)
+      );
     } catch (e) {
       console.error(e);
       setCountry(null);
@@ -115,7 +139,10 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   // News helpers
   const addNews = () => {
     if (!country?._id) return;
-    setNews((s) => [...s, { titre: "", description: "", image: null, pays: country._id }]);
+    setNews((s) => [
+      ...s,
+      { titre: "", description: "", image: null, pays: country._id },
+    ]);
   };
   const removeNews = (idx: number) => {
     setNews((s) => {
@@ -125,18 +152,32 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
     });
   };
   const updateNewsField = (idx: number, patch: Partial<NewsItem>) => {
-    setNews((s) => s.map((item, i) => (i === idx ? { ...item, ...patch } : item)));
+    setNews((s) =>
+      s.map((item, i) => (i === idx ? { ...item, ...patch } : item))
+    );
   };
 
   const renderImageThumb = (img?: File | string | null) => {
     if (!img) return null;
     if (typeof img === "string") {
-      return <img src={`${API_ORIGIN}${img}`} className="w-28 h-20 object-cover rounded-md border border-gray-200" />;
+      return (
+        <img
+          src={`${API_BASE}${img}`}
+          className="w-28 h-20 object-cover rounded-md border border-gray-200"
+        />
+      );
     }
-    return <img src={URL.createObjectURL(img)} className="w-28 h-20 object-cover rounded-md border border-gray-200" />;
+    return (
+      <img
+        src={URL.createObjectURL(img)}
+        className="w-28 h-20 object-cover rounded-md border border-gray-200"
+      />
+    );
   };
 
-  const newNewsMissingImage = news.some((n) => !n._id && !(n.image instanceof File));
+  const newNewsMissingImage = news.some(
+    (n) => !n._id && !(n.image instanceof File)
+  );
 
   // ----- Submit -----
   const onSubmit = async (e: React.FormEvent) => {
@@ -161,26 +202,35 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         const fd = new FormData();
         fd.append("description", description);
         fd.append("image", countryImageFile);
-        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+        fd.append("nom_siege", nomSiege);
+        fd.append("adresse", adresse);
+        fd.append("horaire", horaire);
+        fd.append("mail", mail);
+        fd.append("number", number);
+        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
           method: "PUT",
           credentials: "include",
           body: fd,
         });
         if (!r.ok) throw new Error("Échec update pays");
       } else {
-        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ description }),
+          body: JSON.stringify({ description, nomSiege, adresse, horaire, mail, number }),
         });
         if (!r.ok) throw new Error("Échec update pays");
       }
 
       // Diff news
       const currentIds = new Set(news.filter((n) => n._id).map((n) => n._id!));
-      const toDelete = [...initialNewsIdsRef.current].filter((id) => !currentIds.has(id));
-      const toCreate = news.filter((n) => !n._id && (n.titre.trim() || n.description.trim()));
+      const toDelete = [...initialNewsIdsRef.current].filter(
+        (id) => !currentIds.has(id)
+      );
+      const toCreate = news.filter(
+        (n) => !n._id && (n.titre.trim() || n.description.trim())
+      );
       const toUpdate = news.filter((n) => !!n._id);
 
       if (toCreate.length) {
@@ -191,7 +241,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
             fd.append("description", n.description);
             fd.append("pays", country._id);
             if (n.image && n.image instanceof File) fd.append("image", n.image);
-            const r = await fetch(`${API_BASE}/newspays/save`, {
+            const r = await fetch(`${API_BASE}/api/newspays/save`, {
               method: "POST",
               credentials: "include",
               body: fd,
@@ -211,7 +261,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               fd.append("description", n.description);
               fd.append("pays", country._id);
               fd.append("image", n.image);
-              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
                 method: "PUT",
                 credentials: "include",
                 body: fd,
@@ -219,7 +269,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               if (!r.ok) throw new Error("Échec update news (file)");
               return r.json();
             } else {
-              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
                 method: "PUT",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -239,7 +289,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       if (toDelete.length) {
         await Promise.all(
           toDelete.map((id) =>
-            fetch(`${API_BASE}/newspays/delete/${id}`, {
+            fetch(`${API_BASE}/api/newspays/delete/${id}`, {
               method: "DELETE",
               credentials: "include",
             }).then((r) => {
@@ -254,7 +304,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       alert("Enregistré !");
     } catch (err) {
       console.error(err);
-      alert("Erreur pendant l’enregistrement.");
+      alert("Erreur pendant l'enregistrement.");
     } finally {
       setSaving(false);
     }
@@ -270,7 +320,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
 
     try {
       setDeletingCountry(true);
-      const res = await fetch(`${API_BASE}/pays/delete/${country._id}`, {
+      const res = await fetch(`${API_BASE}/api/pays/delete/${country._id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -313,10 +363,12 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold bg-yellow-500 bg-clip-text text-transparent">
             {country.nom} Éditeur
           </h2>
-          <p className="text-gray-600">Édite la description, l’image et les actualités du pays.</p>
+          <p className="text-gray-600">
+            Édite la description, l'image et les actualités du pays.
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -353,9 +405,15 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
           <div className="mt-1 flex items-center gap-3">
             <div className="w-28 h-20 rounded-md bg-gray-100 border border-gray-200 overflow-hidden grid place-items-center">
               {countryImageFile ? (
-                <img src={URL.createObjectURL(countryImageFile)} className="w-full h-full object-cover" />
+                <img
+                  src={URL.createObjectURL(countryImageFile)}
+                  className="w-full h-full object-cover"
+                />
               ) : country.image ? (
-                <img src={`${API_ORIGIN}${country.image}`} className="w-full h-full object-cover" />
+                <img
+                  src={`${API_BASE}${country.image}`}
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <span className="text-xs text-gray-400">Aucune image</span>
               )}
@@ -371,9 +429,13 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
                   setCountryImageFile(f);
                 }}
               />
-              Changer d’image
+              Changer d'image
             </label>
-            {countryImageFile && <span className="text-xs text-gray-500">{countryImageFile.name}</span>}
+            {countryImageFile && (
+              <span className="text-xs text-gray-500">
+                {countryImageFile.name}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -388,25 +450,30 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         />
       </div>
 
-      {/* Actus du pays */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-bold text-gray-900">Actualités du pays</h3>
+      {/* Section Actualités */}
+      <section className="border-t border-gray-200 pt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">Actualités du pays</h3>
           <button
             type="button"
             onClick={addNews}
-            className="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200"
+            className="px-3 py-1.5 rounded-lg bg-green-100 text-green-700 hover:bg-green-200"
           >
             + Ajouter une actualité
           </button>
         </div>
 
         {news.length === 0 ? (
-          <div className="text-sm text-gray-500">Aucune actualité pour ce pays.</div>
+          <div className="text-sm text-gray-500">
+            Aucune actualité pour ce pays.
+          </div>
         ) : (
           <div className="grid gap-6">
             {news.map((n, idx) => (
-              <div key={n._id || `tmp-${idx}`} className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white">
+              <div
+                key={n._id || `tmp-${idx}`}
+                className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
+              >
                 <div className="grid md:grid-cols-[1fr_1fr_auto] gap-4 items-start">
                   <div>
                     <Label htmlFor={`news-title-${idx}`}>Titre</Label>
@@ -414,7 +481,9 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
                       id={`news-title-${idx}`}
                       placeholder="Ex : Permanence juridique"
                       value={n.titre}
-                      onChange={(e) => updateNewsField(idx, { titre: e.target.value })}
+                      onChange={(e) =>
+                        updateNewsField(idx, { titre: e.target.value })
+                      }
                     />
                   </div>
                   <div>
@@ -422,9 +491,11 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
                     <TextArea
                       id={`news-desc-${idx}`}
                       rows={3}
-                      placeholder="Texte de l’actualité"
+                      placeholder="Texte de l'actualité"
                       value={n.description}
-                      onChange={(e) => updateNewsField(idx, { description: e.target.value })}
+                      onChange={(e) =>
+                        updateNewsField(idx, { description: e.target.value })
+                      }
                     />
                   </div>
 
@@ -433,7 +504,11 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
                     <div className="mt-1 flex items-center gap-3">
                       <div className="w-28 h-20 rounded-md bg-gray-100 border border-gray-200 overflow-hidden grid place-items-center">
                         {renderImageThumb(n.image)}
-                        {!n.image && <span className="text-[11px] text-gray-400 px-1 text-center">Image requise</span>}
+                        {!n.image && (
+                          <span className="text-[11px] text-gray-400 px-1 text-center">
+                            Image requise
+                          </span>
+                        )}
                       </div>
                       <label className="inline-flex items-center px-3 py-2 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-50">
                         <input
@@ -449,7 +524,9 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
                       </label>
                     </div>
                     {!n._id && !(n.image instanceof File) && (
-                      <p className="mt-1 text-xs text-red-600">Obligatoire pour une nouvelle actualité.</p>
+                      <p className="mt-1 text-xs text-red-600">
+                        Obligatoire pour une nouvelle actualité.
+                      </p>
                     )}
                   </div>
                 </div>
@@ -472,6 +549,39 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         )}
       </section>
 
+      {/* Contact */}
+      <section className="border-t border-gray-200 pt-6">
+        <h3 className="text-lg font-semibold mb-6">Contact du pays</h3>
+        <div className="flex items-center justify-between mb-4">
+          <form className="space-y-8">
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label>Nom du siège</Label>
+                  <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+                <div className="flex-[2]">
+                  <Label>Adresse</Label>
+                  <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+                <div className="flex-[2]"> 
+                <Label>Horaire</Label>
+                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+              </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label>Adresse mail</Label>
+                  <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+                <div className="flex-1">
+                  <Label>Numéro de téléphone</Label>
+                  <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+              </div>
+          </form>
+        </div>
+      </section>
+
       {/* Actions */}
       <div className="pt-2 flex items-center justify-end gap-3">
         <button
@@ -489,7 +599,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         <button
           type="submit"
           disabled={saving || newNewsMissingImage}
-          className="px-4 py-2 rounded-lg text-white bg-gradient-to-b from-yellow-500 to-[#93720a] hover:brightness-110 disabled:opacity-60"
+          className="px-4 py-2 rounded-lg text-white bg-yellow-500 hover:brightness-110 disabled:opacity-60"
         >
           {saving ? "Enregistrement…" : "Enregistrer"}
         </button>

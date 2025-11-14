@@ -28,7 +28,7 @@ export default function Agenda({ antennaName }: AgendaProps) {
     const isObjectId = (s: string) => /^[0-9a-fA-F]{24}$/.test(s);
 
     async function fetchEventsByAntennaId(id: string) {
-      const res = await fetch(`${API_BASE}/api/events?antenna=${encodeURIComponent(id)}`, { signal: ctrl.signal });
+      const res = await fetch(`${API_BASE}/api/event/get/?antenna=${encodeURIComponent(id)}`, { signal: ctrl.signal });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return (await res.json()) || [];
     }

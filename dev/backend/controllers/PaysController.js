@@ -18,7 +18,7 @@ module.exports.getPays = async (req, res) => {
 
 module.exports.savePays = async (req, res) => {
   try {
-    const { nom, description } = req.body;
+    const { nom, description, nomSiege, adresse, horaire, mail, number } = req.body;
 
     // ✅ image via Multer (comme dans ton autre controller)
     const image = req.file ? `/uploads/${req.file.filename}` : null;
@@ -34,6 +34,11 @@ module.exports.savePays = async (req, res) => {
       nom,
       description,
       image,
+      nomSiege,
+      adresse,
+      horaire,
+      mail,
+      number
     });
 
     console.log("Saved successfully...");
@@ -47,7 +52,7 @@ module.exports.savePays = async (req, res) => {
 module.exports.updatePays = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nom, description } = req.body;
+    const { nom, description, nomSiege, adresse, horaire, mail, number} = req.body;
 
     // nouvelle image uploadée ?
     const newImage = req.file ? `/uploads/${req.file.filename}` : null;
@@ -82,6 +87,11 @@ module.exports.updatePays = async (req, res) => {
       nom: nom || existingPays.nom,
       description: description || existingPays.description,
       image: newImage || existingPays.image,
+      nomSiege: nomSiege || existingPays.nomSiege,
+      adresse: adresse || existingPays.adresse,
+      horaire: horaire || existingPays.horaire,
+      mail: mail || existingPays.mail,
+      number: number || existingPays.number
     };
 
     const updatedPays = await PaysModel.findByIdAndUpdate(id, updateData, {

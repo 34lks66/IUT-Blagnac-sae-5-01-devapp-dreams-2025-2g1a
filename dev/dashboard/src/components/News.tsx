@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const News: React.FC = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setEditForm] = useState(false);
   const [isPopupDelete, setDeletePopup] = useState(false);
+  const [selectedRadio, setSelectedRadio] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [news, setNews] = useState<any[]>([]);
@@ -15,14 +18,16 @@ const News: React.FC = () => {
   const [NewsDate, setDate] = useState('');
   const [NewsTitle, setTitle] = useState('');
   const [NewsLink, setLink] = useState('');
+  const [NewsDescription, setDescription] = useState('');
 
   const [NewsImageEdit, setImageEdit] = useState<File | string>('');
   const [NewsDateEdit, setDateEdit] = useState('');
   const [NewsTitleEdit, setTitleEdit] = useState('');
   const [NewsLinkEdit, setLinkEdit] = useState('');
+  const [NewsDescriptionEdit, setDescriptionEdit] = useState('');
 
   useEffect(() => {
-        fetch('http://localhost:5000/api/news/get')
+        fetch(`${API_BASE}/api/news/get`)
         .then((res) => res.json())
         .then((data) => setNews(data))
         .catch((err) => console.log(err));
@@ -41,16 +46,18 @@ const News: React.FC = () => {
     formData.append("date", NewsDate);
     formData.append("title", NewsTitle);
     formData.append("link", NewsLink);
+    formData.append("description", NewsDescription);
 
     try {
-      const res = await fetch("http://localhost:5000/api/news/save", {
+      const res = await fetch(`${API_BASE}/api/news/save`, {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
 
       if(!res.ok) {
           throw new Error("Erreur lors de l'ajout de l'actualité");
-        }
+      }
 
       const savedNews = await res.json();
       setNews((prev) => [...prev, savedNews]);
@@ -58,6 +65,7 @@ const News: React.FC = () => {
       setDate("");
       setTitle("");
       setLink("");
+      setDescription("");
       setShowForm(false);
 
       console.log("Actualité ajoutée !");
@@ -70,11 +78,20 @@ const News: React.FC = () => {
     const selected = news.find(item => item._id === id);
     if(!selected) return;
 
+    if(selected.description && selected.description.trim() !== ""){
+      setSelectedRadio("description");
+    } else if(selected.link && selected.link.trim() != ""){
+      setSelectedRadio("link");
+    } else {
+      setSelectedRadio("description");
+    }
+
     setEditNews(id);
     setImageEdit(selected.image);
     setDateEdit(selected.date);
     setTitleEdit(selected.title);
     setLinkEdit(selected.link);
+    setDescriptionEdit(selected.description);
     setEditForm(true);
   }
 
@@ -85,10 +102,12 @@ const News: React.FC = () => {
     formData.append("date", NewsDateEdit);
     formData.append("title", NewsTitleEdit);
     formData.append("link", NewsLinkEdit);
+    formData.append("description", NewsDescriptionEdit);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/news/update/${editNews}`, {
+      const res = await fetch(`${API_BASE}/api/news/update/${editNews}`, {
         method: "PUT",
+        credentials: "include",
         body: formData,
       });
 
@@ -106,6 +125,7 @@ const News: React.FC = () => {
         setDateEdit('');
         setTitleEdit('');
         setLinkEdit('');
+        setDescriptionEdit('');
         setEditForm(false);
         console.log("Actualité modifié !")
     } catch (error) {
@@ -121,8 +141,9 @@ const News: React.FC = () => {
   const onDelete = async () => {
     if(!deleteNews) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/news/delete/${deleteNews}`, {
+      const res = await fetch(`${API_BASE}/api/news/delete/${deleteNews}`, {
         method: 'DELETE',
+        credentials: "include",
       });
 
       if(res.ok) {
@@ -182,18 +203,6 @@ const News: React.FC = () => {
                 </div> 
               </div>
 
-              {/* <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Image
-                </label>
-                <input
-                    value={NewsImage}
-                    onChange={(e) => setImage(e.target.value)}
-                    type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  />
-              </div> */}
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -224,7 +233,19 @@ const News: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
+              <div className="flex">
+                  <div className="flex items-center me-4">
+                      <input id="inline-radio" type="radio" name="inline-radio-group" checked={selectedRadio === "description"} onChange={() => setSelectedRadio("description")} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
+                      <label className="block text-sm font-medium text-gray-700 ms-2">Ajouter une description</label>
+                  </div>
+                  <div className="flex items-center me-4">
+                      <input id="inline-2-radio" type="radio" value="" name="inline-radio-group" checked={selectedRadio === "link"} onChange={() => setSelectedRadio("link")} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
+                      <label className="block text-sm font-medium text-gray-700 ms-2">Ajouter un lien</label>
+                  </div>
+              </div>
+
+              {selectedRadio === "link" && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Lien
@@ -238,6 +259,17 @@ const News: React.FC = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   />
               </div>
+              )}
+
+              {selectedRadio === "description" && (
+              <div>                
+                <label className="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                <textarea 
+                    value={NewsDescription}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
+              </div>
+              )}
               
               <div className="flex space-x-4">
                 <button
@@ -269,7 +301,7 @@ const News: React.FC = () => {
         {/* AFFICHAGE LISTE */}
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-6 py-3">
                             Image
@@ -284,11 +316,16 @@ const News: React.FC = () => {
                                 Titre
                             </div>
                         </th>
+                        {/* <th scope="col" className="px-6 py-3">
+                            <div className="flex items-center">
+                                Description
+                            </div>
+                        </th>
                         <th scope="col" className="px-6 py-3">
                             <div className="flex items-center">
                                 Lien
                             </div>
-                        </th>
+                        </th> */}
                         <th scope="col" className="px-6 py-3">
                         </th>
                         <th scope="col" className="px-6 py-3">
@@ -299,7 +336,7 @@ const News: React.FC = () => {
                     {news.map((item) => (
                         <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                           <th scope="col" className="px-16 py-3">
-                            <img src={`http://localhost:5000${item.image}`} alt={item.title} className="w-12 h-12 object-cover"/>
+                            <img src={`${API_BASE}${item.image}`} alt={item.title} className="w-12 h-12 object-cover"/>
                           </th>
                           <td className="px-6 py-4">
                             {item.date}
@@ -307,14 +344,17 @@ const News: React.FC = () => {
                           <td className="px-6 py-4">
                             {item.title}
                           </td>
+                          {/* <td className="px-6 py-4">
+                            {item.description}
+                          </td>
                           <td className="px-6 py-4">
                             {item.link}
+                          </td>      */}
+                          <td className="px-6 py-4 text-right">
+                            <button onClick={() => handleEditClick(item._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</button>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button onClick={() => handleEditClick(item._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
-                          </td>
-                          <td className="px-6 py-4 text-right">
-                            <button onClick={() => handleDeleteClick(item._id)} className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                            <button onClick={() => handleDeleteClick(item._id)} className="font-medium text-red-600 dark:text-red-500 hover:underline">Supprimer</button>
                           </td>    
                         </tr> 
                     ))}                        
@@ -322,8 +362,8 @@ const News: React.FC = () => {
             </table>
 
             {showEditForm && (
-              <div className="overflow-y-auto overflow-x-hidden fixed flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div className="relative p-4 w-full max-w-md max-h-full">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                <div className="ml-64 w-full max-w-md max-h-[90vh] overflow-auto p-4">
                     <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -341,7 +381,7 @@ const News: React.FC = () => {
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
                                     {NewsImageEdit && typeof NewsImageEdit === "string" && (
                                       <img
-                                        src={`http://localhost:5000${NewsImageEdit}`}
+                                        src={`${API_BASE}${NewsImageEdit}`}
                                         alt="Image actuelle"
                                         className="w-32 h-32 object-cover rounded-lg mb-3"
                                       />
@@ -366,10 +406,26 @@ const News: React.FC = () => {
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
                                     <input value={NewsTitleEdit} onChange={(e) => setTitleEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
                                 </div>
-                                <div className="col-span-2">
+                                {/* <div className="col-span-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lien</label>
-                                    <input value={NewsLinkEdit} onChange={(e) => setLinkEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required></input>
+                                    <input value={NewsLinkEdit} onChange={(e) => setLinkEdit(e.target.value)} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"></input>
                                 </div>
+                                <div className="col-span-2">
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                    <textarea value={NewsDescriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)} name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"></textarea>
+                                </div> */}           
+                              {selectedRadio === "link" && (
+                              <div className="col-span-2">
+                                <label className="block mb-2 text-sm font-medium text-gray-900">Lien</label>
+                                <input value={NewsLinkEdit} onChange={(e) => setLinkEdit(e.target.value)} type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"/>
+                              </div>
+                              )}
+                              {selectedRadio === "description" && (
+                              <div className="col-span-2">    
+                                <label className="block mb-2 text-sm font-medium text-gray-900">Description</label>            
+                                <textarea value={NewsDescriptionEdit} onChange={(e) => setDescriptionEdit(e.target.value)} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
+                              </div>
+                              )}
                             </div>
                             <button type="submit" className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
@@ -382,8 +438,8 @@ const News: React.FC = () => {
             )}
 
             {isPopupDelete && ( 
-              <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
-                <div className="relative p-4 w-full max-w-md max-h-full">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+                <div className="ml-64 w-full max-w-md max-h-[90vh] overflow-auto p-4">
                     <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
                         <button onClick={() => setDeletePopup(false)} type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -394,7 +450,7 @@ const News: React.FC = () => {
                             <svg className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>
-                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Etes-vous sûr de vouloir supprimer cette actualité</h3>
+                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Êtes-vous sûr de vouloir supprimer cette actualité ?</h3>
                             <button onClick={onDelete} className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                 Supprimer
                             </button>

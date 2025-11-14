@@ -38,8 +38,7 @@ function Contact() {
         <div className="flex flex-col gap-3">
             {/* <div className="m-0 text-xl font-bold no-underline">Horaires</div> */}
             <div className="text-2xl font-bold text-gray-800 border-b pb-2">Horaires</div>
-            <p className="text-gray-600">Lundi - Vendredi: 10h - 18h</p>
-            <p className="text-gray-600">Samedi: 10h - 13h</p>
+            <p className="text-gray-600">Lundi et Vendredi: 18h - 20h</p>
         </div>
         {/* <div className="gap-4 border-b border-gray-300 flex flex-col items-start w-[400px] p-6"> */}
         <div className="flex flex-col gap-3">

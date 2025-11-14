@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Loading2 from "./Loadings/loading2";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 interface ProtectedRouteProps {
     children: React.ReactNode;
 }
@@ -11,7 +13,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/me", {
+        fetch(`${API_BASE}/api/me`, {
             credentials: "include", 
         })
             .then((res) => {

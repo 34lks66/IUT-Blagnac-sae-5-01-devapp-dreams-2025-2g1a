@@ -42,7 +42,7 @@ module.exports.getEvent = async (req, res) => {
   }
 };
 
-module.exports.createEvent = async (req, res) => {
+module.exports.saveEvent = async (req, res) => {
   try {
     const { title, date, time, location, description, antenna, isGeneral } = req.body;
     if (!title || !date) return res.status(400).json({ error: 'title and date required' });
