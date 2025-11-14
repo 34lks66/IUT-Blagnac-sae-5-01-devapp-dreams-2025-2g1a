@@ -130,12 +130,7 @@ app.get('/swagger.json', (req, res) => {
    `);
  });
 
-<<<<<<< HEAD
-app.use('/api', memberRoutes);
-app.use('/api/news', newsRoutes);
-=======
 app.use('/api', Routes);
->>>>>>> main
 app.use('/api', authRoutes);
 app.use('/api/accounts', authVerif, accountRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

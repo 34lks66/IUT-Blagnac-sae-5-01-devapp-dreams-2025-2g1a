@@ -102,11 +102,7 @@ export default function AgendaAdmin() {
   const remove = async (id?: string) => {
     if (!id || !confirm('Supprimer cet événement ?')) return;
     try {
-<<<<<<< HEAD
-      await fetch(`${API_BASE}/api/events/${id}`, { method: 'DELETE', credentials: "include" });
-=======
       await fetch(`${API_BASE}/api/event/delete/${id}`, { method: 'DELETE', credentials: "include" });
->>>>>>> main
       fetchEvents();
     } catch (err) {
       console.error(err);
