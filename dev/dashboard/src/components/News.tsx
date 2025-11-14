@@ -1,7 +1,3 @@
-// -------------------------
-// NEWS.tsx (VERSION RELOOKÉE)
-// -------------------------
-
 import { useEffect, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -155,7 +151,7 @@ const News: React.FC = () => {
   // ---------------------------
 
   return (
-    <section className="space-y-10">
+    <section className="">
 
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
@@ -172,166 +168,170 @@ const News: React.FC = () => {
       {/* SOUS-TITRE */}
       <div>
         <h2 className="text-2xl font-bold text-yellow-500">Actualités</h2>
-        <p className="text-gray-600">Gérez les actualités publiées sur le site</p>
+        <p className="text-gray-600 mb-4">Gérez les actualités publiées sur le site</p>
       </div>
 
       {/* FORMULAIRE D'AJOUT */}
       {showForm && (
-        <div className="bg-white rounded-xl shadow-2xl p-8 max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold mb-6 text-yellow-500">
-            Ajouter une actualité
-          </h3>
+        <div
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-[9999] p-4"
+          onClick={() => setShowForm(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-2xl font-bold mb-6 text-yellow-500">
+              Ajouter une actualité
+            </h3>
 
-          <form onSubmit={onSubmit} className="space-y-6">
-            {/* IMAGE UPLOAD */}
-            <div>
-              <label className="block text-sm font-semibold mb-2">Image</label>
+            <form onSubmit={onSubmit} className="space-y-6">
 
-              <label className="flex flex-col items-center justify-center w-full h-60 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  {NewsImage ? (
-                    <>
-                      <img
-                        src={URL.createObjectURL(NewsImage)}
-                        className="w-40 h-40 object-cover rounded-xl mb-4"
-                      />
-                      <p className="text-sm text-gray-600">{NewsImage.name}</p>
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        className="w-10 h-10 text-gray-400 mb-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeWidth={2}
-                          d="M3 16l6-6 4 4 8-8"
+              {/* IMAGE UPLOAD */}
+              <div>
+                <label className="block text-sm font-semibold mb-2">Image</label>
+
+                <label className="flex flex-col items-center justify-center w-full h-60 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    {NewsImage ? (
+                      <>
+                        <img
+                          src={URL.createObjectURL(NewsImage)}
+                          className="w-40 h-40 object-cover rounded-xl mb-4"
                         />
-                      </svg>
-                      <p className="text-gray-600 text-sm">
-                        Cliquez pour upload
-                      </p>
-                    </>
-                  )}
+                        <p className="text-sm text-gray-600">{NewsImage.name}</p>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          className="w-10 h-10 text-gray-400 mb-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeWidth={2} d="M3 16l6-6 4 4 8-8" />
+                        </svg>
+                        <p className="text-gray-600 text-sm">Cliquez pour upload</p>
+                      </>
+                    )}
+                  </div>
+
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={(e) =>
+                      e.target.files && setImage(e.target.files[0])
+                    }
+                  />
+                </label>
+              </div>
+
+              {/* DATE + TITRE */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Date
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={NewsDate}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                  />
                 </div>
 
-                <input
-                  type="file"
-                  className="hidden"
-                  onChange={(e) =>
-                    e.target.files && setImage(e.target.files[0])
-                  }
-                />
-              </label>
-            </div>
-
-            {/* DATE + TITRE */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Date
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={NewsDate}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                />
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Titre
+                  </label>
+                  <input
+                    type="text"
+                    value={NewsTitle}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Titre
-                </label>
-                <input
-                  type="text"
-                  value={NewsTitle}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                />
-              </div>
-            </div>
-
-            {/* RADIO */}
-            <div className="flex gap-6">
-              <label
-                className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${
-                  selectedRadio === "description"
+              {/* RADIO TYPE */}
+              <div className="flex gap-6">
+                <label
+                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${selectedRadio === "description"
                     ? "border-yellow-500 bg-yellow-50"
                     : "border-gray-200"
-                }`}
-              >
-                <input
-                  type="radio"
-                  checked={selectedRadio === "description"}
-                  onChange={() => setSelectedRadio("description")}
-                />
-                Description
-              </label>
-
-              <label
-                className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${
-                  selectedRadio === "link"
-                    ? "border-yellow-500 bg-yellow-50"
-                    : "border-gray-200"
-                }`}
-              >
-                <input
-                  type="radio"
-                  checked={selectedRadio === "link"}
-                  onChange={() => setSelectedRadio("link")}
-                />
-                Lien
-              </label>
-            </div>
-
-            {selectedRadio === "description" && (
-              <div>
-                <label className="block text-sm font-semibold mb-2">
+                    }`}
+                >
+                  <input
+                    type="radio"
+                    checked={selectedRadio === "description"}
+                    onChange={() => setSelectedRadio("description")}
+                  />
                   Description
                 </label>
 
-                <textarea
-                  value={NewsDescription}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                />
+                <label
+                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${selectedRadio === "link"
+                    ? "border-yellow-500 bg-yellow-50"
+                    : "border-gray-200"
+                    }`}
+                >
+                  <input
+                    type="radio"
+                    checked={selectedRadio === "link"}
+                    onChange={() => setSelectedRadio("link")}
+                  />
+                  Lien
+                </label>
               </div>
-            )}
 
-            {selectedRadio === "link" && (
-              <div>
-                <label className="block text-sm font-semibold mb-2">Lien</label>
-                <input
-                  type="text"
-                  value={NewsLink}
-                  onChange={(e) => setLink(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                />
+              {/* DESCRIPTION */}
+              {selectedRadio === "description" && (
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    value={NewsDescription}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                  />
+                </div>
+              )}
+
+              {/* LIEN */}
+              {selectedRadio === "link" && (
+                <div>
+                  <label className="block text-sm font-semibold mb-2">Lien</label>
+                  <input
+                    type="text"
+                    value={NewsLink}
+                    onChange={(e) => setLink(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                  />
+                </div>
+              )}
+
+              {/* BUTTONS */}
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="submit"
+                  className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+                >
+                  Ajouter
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all"
+                >
+                  Annuler
+                </button>
               </div>
-            )}
 
-            {/* BUTTONS */}
-            <div className="flex gap-4 pt-4">
-              <button
-                type="submit"
-                className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
-              >
-                Ajouter
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all"
-              >
-                Annuler
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       )}
 
@@ -352,7 +352,8 @@ const News: React.FC = () => {
               <th className="px-6 py-4 text-left font-semibold text-gray-700">
                 Type
               </th>
-              <th className="px-6 py-4"></th>
+              
+              <th className="px-10 py-4 text-right font-semibold text-gray-700">Actions</th>
             </tr>
           </thead>
 
@@ -406,147 +407,149 @@ const News: React.FC = () => {
 
       {/* MODALE EDIT */}
       {showEditForm && (
-        <div
-          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
-          onClick={() => setEditForm(false)}
-        >
-          <div
-            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-2xl font-bold mb-6 text-yellow-500">
-              Modifier l’actualité
-            </h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-auto">
+            <div className="relative bg-white rounded-xl shadow-2xl">
 
-            <form onSubmit={onEdit} className="space-y-6">
-              {/* IMAGE */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Image
-                </label>
-
-                {typeof NewsImageEdit === "string" && (
-                  <img
-                    src={`${API_BASE}${NewsImageEdit}`}
-                    className="w-32 h-32 object-cover rounded-xl mb-4"
-                  />
-                )}
-
-                <input
-                  type="file"
-                  onChange={(e) =>
-                    e.target.files && setImageEdit(e.target.files[0])
-                  }
-                  className="block w-full text-sm border-2 border-gray-200 rounded-xl p-2"
-                />
-              </div>
-
-              {/* DATE + TITRE */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    Date
-                  </label>
-                  <input
-                    type="text"
-                    value={NewsDateEdit}
-                    onChange={(e) => setDateEdit(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    Titre
-                  </label>
-                  <input
-                    type="text"
-                    value={NewsTitleEdit}
-                    onChange={(e) => setTitleEdit(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                  />
-                </div>
-              </div>
-
-              {/* TYPE (RADIO) */}
-              <div className="flex gap-6">
-                <label
-                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${
-                    selectedRadio === "description"
-                      ? "border-yellow-500 bg-yellow-50"
-                      : "border-gray-200"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    checked={selectedRadio === "description"}
-                    onChange={() => setSelectedRadio("description")}
-                  />
-                  Description
-                </label>
-
-                <label
-                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${
-                    selectedRadio === "link"
-                      ? "border-yellow-500 bg-yellow-50"
-                      : "border-gray-200"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    checked={selectedRadio === "link"}
-                    onChange={() => setSelectedRadio("link")}
-                  />
-                  Lien
-                </label>
-              </div>
-
-              {selectedRadio === "description" && (
-                <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    Description
-                  </label>
-                  <textarea
-                    value={NewsDescriptionEdit}
-                    onChange={(e) => setDescriptionEdit(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                  />
-                </div>
-              )}
-
-              {selectedRadio === "link" && (
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Lien</label>
-                  <input
-                    type="text"
-                    value={NewsLinkEdit}
-                    onChange={(e) => setLinkEdit(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
-                  />
-                </div>
-              )}
-
-              {/* BUTTONS */}
-              <div className="flex gap-4 pt-4">
+              {/* HEADER */}
+              <div className="flex items-center justify-between p-5 border-b border-gray-200 rounded-t-xl">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Modifier l'Actualité
+                </h3>
                 <button
-                  type="button"
                   onClick={() => setEditForm(false)}
-                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all"
+                  type="button"
+                  className="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
                 >
-                  Annuler
+                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
                 </button>
+              </div>
+
+              {/* FORM */}
+              <form onSubmit={onEdit} className="p-5">
+                <div className="grid gap-4 mb-4 grid-cols-2">
+
+                  {/* IMAGE */}
+                  <div className="col-span-2">
+                    <label className="block mb-2 text-sm font-medium text-gray-900">
+                      Image
+                    </label>
+                    {NewsImageEdit && typeof NewsImageEdit === "string" && (
+                      <img
+                        src={`${API_BASE}${NewsImageEdit}`}
+                        alt="Image actuelle"
+                        className="w-32 h-32 object-cover rounded-lg mb-3"
+                      />
+                    )}
+                    <input
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setImageEdit(e.target.files[0]);
+                        }
+                      }}
+                      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                      id="file_input"
+                      type="file"
+                    />
+                  </div>
+
+                  {/* DATE */}
+                  <div className="col-span-2 sm:col-span-1">
+                    <label className="block mb-2 text-sm font-medium text-gray-900">
+                      Date
+                    </label>
+                    <input
+                      value={NewsDateEdit}
+                      onChange={(e) => setDateEdit(e.target.value)}
+                      type="text"
+                      name="name"
+                      id="name"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-primary-600 focus:border-primary-600"
+                      required
+                    />
+                  </div>
+
+                  {/* TITRE */}
+                  <div className="col-span-2 sm:col-span-1">
+                    <label className="block mb-2 text-sm font-medium text-gray-900">
+                      Titre
+                    </label>
+                    <input
+                      value={NewsTitleEdit}
+                      onChange={(e) => setTitleEdit(e.target.value)}
+                      type="text"
+                      name="name"
+                      id="name"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-primary-600 focus:border-primary-600"
+                      required
+                    />
+                  </div>
+
+                  {/* LIEN – même logique que TON code */}
+                  {selectedRadio === "link" && (
+                    <div className="col-span-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-900">
+                        Lien
+                      </label>
+                      <input
+                        value={NewsLinkEdit}
+                        onChange={(e) => setLinkEdit(e.target.value)}
+                        type="text"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      />
+                    </div>
+                  )}
+
+                  {/* DESCRIPTION – même logique que TON code */}
+                  {selectedRadio === "description" && (
+                    <div className="col-span-2">
+                      <label className="block mb-2 text-sm font-medium text-gray-900">
+                        Description
+                      </label>
+                      <textarea
+                        value={NewsDescriptionEdit}
+                        onChange={(e) => setDescriptionEdit(e.target.value)}
+                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                  )}
+                </div>
 
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+                  className="text-white inline-flex items-center bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mr-2"
+                  >
+                    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                  </svg>
                   Modifier
                 </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       )}
+
 
       {/* POPUP SUPPRESSION */}
       {isPopupDelete && (
