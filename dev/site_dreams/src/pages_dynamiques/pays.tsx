@@ -1,58 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import "../styles/pays.css";
 
-// ---------------- Types côté UI ----------------
-type UINewsItem = {
-  id: string;
-  img: string;
-  title: string;
-  text: string;
-};
+type UINewsItem = { id: string; img: string; title: string; text: string };
+type UIFeature = { img: string; title: string; text: string; url: string; cta: string };
+type UICountryContent = { name: string; heroImg: string; intro: string; news: UINewsItem[]; features: UIFeature[] };
 
-type UIFeature = {
-  img: string;
-  title: string;
-  text: string;
-  url: string;
-  cta: string;
-};
+type ApiCountry = { _id: string; nom: string; description: string; image?: string | null };
+type ApiNews = { _id: string; titre: string; description: string; image?: string | null; pays: string | { _id: string } };
+type ApiAntenne = { _id: string; nom: string; description: string; pays: string | { _id: string } };
 
-type UICountryContent = {
-  name: string;
-  heroImg: string;
-  intro: string;
-  news: UINewsItem[];
-  features: UIFeature[];
-};
-
-// ---------------- Types API ----------------
-type ApiCountry = {
-  _id: string;
-  nom: string;
-  description: string;
-  image?: string | null;   // ex "/uploads/xxx.jpg"
-};
-
-type ApiNews = {
-  _id: string;
-  titre: string;
-  description: string;
-  image?: string | null;   // ex "/uploads/xxx.jpg"
-  pays: string | { _id: string };
-};
-
-type ApiAntenne = {
-  _id: string;
-  nom: string;
-  description: string;
-  pays: string | { _id: string };
-};
-
-// ---------------- Helpers ----------------
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-// Fallbacks (assets côté site)
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_ORIGIN = API_BASE.replace(/\/api$/, "");
 const HERO_DEFAULT = "/images/pays/hero-default.jpg";
 const ANTENNE_PLACEHOLDER = "/images/pays/antenne-placeholder.jpg";
 
@@ -64,34 +22,26 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)+/g, "");
 
-// ---------------- Composant ----------------
 const Pays: React.FC = () => {
   const { slug = "france" } = useParams<{ slug: string }>();
-
   const [countries, setCountries] = useState<ApiCountry[]>([]);
   const [countryId, setCountryId] = useState<string | null>(null);
-
   const [news, setNews] = useState<UINewsItem[]>([]);
   const [features, setFeatures] = useState<UIFeature[]>([]);
-
   const [loadingCountry, setLoadingCountry] = useState(true);
   const [loadingContent, setLoadingContent] = useState(false);
 
-  // 1) Charger tous les pays puis choisir celui qui correspond au slug
+  // --- chargement pays ---
   useEffect(() => {
     (async () => {
       try {
         setLoadingCountry(true);
-        const res = await fetch(`${API_BASE}/api/pays/get`, { credentials: "include" });
-        if (!res.ok) throw new Error("Erreur chargement pays");
-        const data: ApiCountry[] = await res.json();
+        const res = await fetch(`${API_BASE}/pays/get`, { credentials: "include" });
+        const data: ApiCountry[] = res.ok ? await res.json() : [];
         setCountries(data);
-
-        // Trouver le pays correspondant au slug
         const match = data.find((p) => slugify(p.nom) === slug.toLowerCase());
         setCountryId(match ? match._id : null);
-      } catch (e) {
-        console.error(e);
+      } catch {
         setCountryId(null);
       } finally {
         setLoadingCountry(false);
@@ -99,52 +49,43 @@ const Pays: React.FC = () => {
     })();
   }, [slug]);
 
-  // country sélectionné (ou null)
-  const selectedCountry = useMemo<ApiCountry | null>(() => {
-    if (!countryId) return null;
-    return countries.find((c) => c._id === countryId) || null;
-  }, [countries, countryId]);
+  const selectedCountry = useMemo(
+    () => (countryId ? countries.find((c) => c._id === countryId) || null : null),
+    [countries, countryId]
+  );
 
-  // 2) Charger news & antennes du pays sélectionné
+  // --- contenu ---
   useEffect(() => {
     if (!selectedCountry?._id) return;
-
     (async () => {
       try {
         setLoadingContent(true);
+        const [resNews, resAnt] = await Promise.all([
+          fetch(`${API_BASE}/newspays/get?pays=${selectedCountry._id}`, { credentials: "include" }),
+          fetch(`${API_BASE}/antennes/get?pays=${selectedCountry._id}`, { credentials: "include" }),
+        ]);
 
-        // NEWS
-        const resNews = await fetch(
-          `${API_BASE}/api/newspays/get?pays=${selectedCountry._id}`,
-          { credentials: "include" }
-        );
         const dataNews: ApiNews[] = resNews.ok ? await resNews.json() : [];
-
-        const uiNews: UINewsItem[] = (dataNews || []).map((n) => ({
-          id: n._id,
-          img: n.image ? `${API_BASE}${n.image}` : HERO_DEFAULT, // news devraient avoir une image, mais fallback au cas où
-          title: n.titre,
-          text: n.description,
-        }));
-        setNews(uiNews);
-
-        // ANTENNES
-        const resAnt = await fetch(
-          `${API_BASE}/api/antennes/get?pays=${selectedCountry._id}`,
-          { credentials: "include" }
-        );
         const dataAnt: ApiAntenne[] = resAnt.ok ? await resAnt.json() : [];
 
-        const uiFeatures: UIFeature[] = (dataAnt || []).map((a) => ({
-          img: ANTENNE_PLACEHOLDER, // pas d'image antenne pour l'instant
-          title: `Antenne ${a.nom}`,
-          text: a.description,
-          url: "#", // si tu fais une page antenne plus tard, tu pourras mettre /antenne/:id
-          cta: "Voir l’antenne →",
-        }));
-        setFeatures(uiFeatures);
-      } catch (e) {
-        console.error(e);
+        setNews(
+          dataNews.map((n) => ({
+            id: n._id,
+            img: n.image ? `${API_ORIGIN}${n.image}` : HERO_DEFAULT,
+            title: n.titre,
+            text: n.description,
+          }))
+        );
+        setFeatures(
+          dataAnt.map((a) => ({
+            img: ANTENNE_PLACEHOLDER,
+            title: `Antenne ${a.nom}`,
+            text: a.description,
+            url: "#",
+            cta: "Voir l’antenne →",
+          }))
+        );
+      } catch {
         setNews([]);
         setFeatures([]);
       } finally {
@@ -153,9 +94,8 @@ const Pays: React.FC = () => {
     })();
   }, [selectedCountry?._id]);
 
-  // Country content pour le rendu
   const country: UICountryContent = useMemo(() => {
-    if (!selectedCountry) {
+    if (!selectedCountry)
       return {
         name: "Pays",
         heroImg: HERO_DEFAULT,
@@ -164,41 +104,39 @@ const Pays: React.FC = () => {
         news: [],
         features: [],
       };
-    }
     return {
       name: selectedCountry.nom,
-      heroImg: selectedCountry.image ? `${API_BASE}${selectedCountry.image}` : HERO_DEFAULT,
+      heroImg: selectedCountry.image ? `${API_ORIGIN}${selectedCountry.image}` : HERO_DEFAULT,
       intro: selectedCountry.description || "",
       news,
       features,
     };
   }, [selectedCountry, news, features]);
 
-  const scrollByAmount = (direction: "left" | "right") => {
+  const scrollByAmount = (dir: "left" | "right") => {
     const el = document.querySelector<HTMLDivElement>(".pays-viewport");
     if (!el) return;
-    const width = el.clientWidth;
-    const delta = direction === "left" ? -width / 3 : width / 3;
-    el.scrollBy({ left: delta, behavior: "smooth" });
+    const w = el.clientWidth;
+    el.scrollBy({ left: dir === "left" ? -w / 3 : w / 3, behavior: "smooth" });
   };
 
-  // ---------------- Render ----------------
+  const goldTitle = "bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent";
+
   return (
-    <main className="pays">
+    <main className="bg-white text-gray-800 leading-relaxed">
       {/* HERO */}
-      <section className="pays-hero">
-        <img
-          className="pays-hero__img"
-          src={country.heroImg}
-          alt={`${country.name} - DREAMS`}
-        />
-        <div className="pays-hero__content">
-          <div className="pays-hero__card">
-            <p className="pays-hero__breadcrumb">
-              <Link to="/" className="pays-crumb">Accueil</Link> / Pays / {country.name}
+      <section className="relative overflow-hidden">
+        <img src={country.heroImg} alt={country.name} className="w-full h-[46vh] md:h-[58vh] object-cover" />
+        <div className="absolute inset-0 flex items-end">
+          <div className="w-full max-w-[960px] mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+            <p className="text-gray-500 text-xs">
+              <Link to="/" className="hover:underline">
+                Accueil
+              </Link>{" "}
+              / Pays / {country.name}
             </p>
-            <h1 className="pays-title">{country.name}</h1>
-            <p className="pays-hero__subtitle">
+            <h1 className={`text-3xl md:text-4xl font-extrabold ${goldTitle}`}>{country.name}</h1>
+            <p className="text-gray-700 mt-1">
               Antennes locales, accueil, orientation et actions de sensibilisation.
             </p>
           </div>
@@ -206,42 +144,55 @@ const Pays: React.FC = () => {
       </section>
 
       {/* INTRO */}
-      <section className="pays-intro">
-        <div className="pays-intro__inner">
-          <h2 className="pays-subtitle">Présentation</h2>
-          <div className="pays-divider pays-divider--rainbow" />
-          {loadingCountry ? (
-            <p className="pays-paragraph">Chargement…</p>
-          ) : (
-            <p className="pays-paragraph">{country.intro || "Présentation en cours de mise à jour."}</p>
-          )}
-        </div>
+      <section className="max-w-[1100px] mx-auto px-4 py-8">
+        <h2 className={`text-[22px] font-extrabold ${goldTitle}`}>Présentation</h2>
+        <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#ef4444_0%,#f59e0b_25%,#facc15_40%,#22c55e_60%,#3b82f6_80%,#8b5cf6_100%)]" />
+        <p className="text-gray-700">
+          {loadingCountry ? "Chargement…" : country.intro || "Présentation en cours de mise à jour."}
+        </p>
       </section>
 
       {/* NEWS */}
       {!loadingContent && country.news.length > 0 && (
-        <section className="pays-news">
-          <div className="pays-news__head">
+        <section className="max-w-[1100px] mx-auto px-4 py-6">
+          <div className="flex items-end justify-between gap-3 mb-3">
             <div>
-              <h3 className="pays-subtitle">Projets & actualités</h3>
-              <div className="pays-divider pays-divider--warm" />
+              <h3 className={`text-[22px] font-extrabold ${goldTitle}`}>Projets & actualités</h3>
+              <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#f43f5e,#fb923c,#facc15)]" />
             </div>
-            <div className="pays-arrows">
-              <button className="pays-arrow" onClick={() => scrollByAmount("left")} aria-label="Précédent">‹</button>
-              <button className="pays-arrow" onClick={() => scrollByAmount("right")} aria-label="Suivant">›</button>
+            <div className="flex gap-2">
+              <button
+                className="border border-gray-300 bg-white px-2.5 py-1.5 rounded-full hover:bg-gray-50 active:translate-y-px"
+                onClick={() => scrollByAmount("left")}
+              >
+                ‹
+              </button>
+              <button
+                className="border border-gray-300 bg-white px-2.5 py-1.5 rounded-full hover:bg-gray-50 active:translate-y-px"
+                onClick={() => scrollByAmount("right")}
+              >
+                ›
+              </button>
             </div>
           </div>
 
-          <div className="pays-viewport">
-            <div className="pays-track">
-              {country.news.map((item) => (
-                <article key={item.id} className="pays-card">
-                  <div className="pays-card__imgWrap">
-                    <img src={item.img} alt={item.title} className="pays-card__img" />
+          <div className="pays-viewport overflow-x-auto overflow-y-hidden snap-x snap-mandatory pb-1">
+            <div className="flex gap-4 p-1">
+              {country.news.map((n) => (
+                <article
+                  key={n.id}
+                  className="snap-start flex-[0_0_100%] sm:flex-[0_0_calc(50%-8px)] lg:flex-[0_0_calc(33.333%-10.6px)] bg-white border border-gray-200 rounded-2xl shadow-[0_6px_18px_rgba(0,0,0,0.05)] overflow-hidden"
+                >
+                  <div className="h-[200px] overflow-hidden">
+                    <img
+                      src={n.img}
+                      alt={n.title}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.04]"
+                    />
                   </div>
-                  <div className="pays-card__body">
-                    <h4 className="pays-card__title">{item.title}</h4>
-                    <p className="pays-card__text">{item.text}</p>
+                  <div className="p-3">
+                    <h4 className="text-sm font-bold text-gray-900">{n.title}</h4>
+                    <p className="text-sm text-gray-700 mt-1">{n.text}</p>
                   </div>
                 </article>
               ))}
@@ -250,19 +201,31 @@ const Pays: React.FC = () => {
         </section>
       )}
 
-      {/* FEATURES (antennes) */}
+      {/* FEATURES */}
       {!loadingContent && country.features.length > 0 && (
-        <section className="pays-features">
-          {country.features.map((f, idx) => (
-            <div key={`${f.title}-${idx}`} className="pays-feature__grid">
-              <div className="pays-feature__media">
-                <img src={f.img} alt={f.title} className="pays-feature__img" />
+        <section className="max-w-[1100px] mx-auto px-4 py-10 grid gap-8">
+          {country.features.map((f, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
+            >
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src={f.img}
+                  alt={f.title}
+                  className="w-full h-full max-h-[360px] object-cover rounded-2xl shadow-[0_10px_24px_rgba(0,0,0,0.06)] transition-transform duration-300 hover:scale-[1.04]"
+                />
               </div>
-              <div className="pays-feature__text">
-                <h3 className="pays-subtitle">{f.title}</h3>
-                <div className="pays-divider pays-divider--rainbow2" />
-                <p className="pays-paragraph">{f.text}</p>
-                <a href={f.url} className="pays-btn pays-btn--solid">{f.cta}</a>
+              <div>
+                <h3 className={`text-[22px] font-extrabold ${goldTitle}`}>{f.title}</h3>
+                <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#22c55e,#3b82f6,#8b5cf6)]" />
+                <p className="text-gray-700 mb-3">{f.text}</p>
+                <a
+                  href={f.url}
+                  className="inline-block px-4 py-2 rounded-xl font-bold bg-black text-white hover:bg-gray-800 transition"
+                >
+                  {f.cta}
+                </a>
               </div>
             </div>
           ))}
