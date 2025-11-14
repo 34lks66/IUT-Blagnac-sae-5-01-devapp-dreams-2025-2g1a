@@ -16,6 +16,7 @@ import DevenirBenevole from "./pages/devenirBenevole";
 import PageAgenda from "./pages/page_agenda";
 import Contact from "./components/Contact";
 import Donations from "./pages/donations";
+import PagePolitique from "./pages/page_politique";
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/agenda" element={<PageAgenda />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/don" element={<Donations />} />
+        <Route path="/politiques-de-confidentialites" element={<PagePolitique />} />
       </Routes>
     </Router>
     <FooterMain />
