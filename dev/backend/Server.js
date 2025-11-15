@@ -130,6 +130,7 @@ app.get('/swagger.json', (req, res) => {
    `);
  });
 
+ 
 app.use('/api', Routes);
 app.use('/api', authRoutes);
 app.use('/api/accounts', authVerif, accountRoutes);
