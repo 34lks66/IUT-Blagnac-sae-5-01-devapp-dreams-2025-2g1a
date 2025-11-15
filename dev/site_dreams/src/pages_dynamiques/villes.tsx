@@ -140,11 +140,6 @@ function Villes() {
                   }}
                 />
               </div>
-              <div className="mt-6 text-center">
-                <h4 className="text-lg font-semibold text-gray-900">
-                  Vue principale
-                </h4>
-              </div>
             </div>
 
             {/* Image 2 */}
@@ -158,11 +153,6 @@ function Villes() {
                     e.currentTarget.src = 'https://via.placeholder.com/600x400?text=Image+non+disponible';
                   }}
                 />
-              </div>
-              <div className="mt-6 text-center">
-                <h4 className="text-lg font-semibold text-gray-900">
-                  Espace communautaire
-                </h4>
               </div>
             </div>
           </div>
