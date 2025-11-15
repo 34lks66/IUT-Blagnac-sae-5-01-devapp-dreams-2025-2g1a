@@ -180,11 +180,8 @@ function AntenneForm() {
         `http://localhost:5000/api/antenne/update/${editingAntenne._id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
           credentials: "include",
-          body: JSON.stringify(formData),
+          body: JSON.stringify(formDataToSend),
         }
       );
       if (response.ok) {
@@ -246,7 +243,7 @@ function AntenneForm() {
     const response = await fetch(`http://localhost:5000/api/antenne/save`, {
       method: "POST",
       credentials: "include",
-      body: formDataToSend, // Utiliser FormData ici
+      body: formDataToSend, 
     });
 
     if (response.ok) {
