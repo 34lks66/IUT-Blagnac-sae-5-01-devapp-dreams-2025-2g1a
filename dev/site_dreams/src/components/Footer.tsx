@@ -106,13 +106,13 @@ const FooterMain: React.FC = () => {
             </ul>
 
             <div className="flex flex-wrap items-center gap-2 my-2">
-              <LegalLink href="/mentions-legales#mentions">Mentions légales</LegalLink>
+              <LegalLink href="/politiques-de-confidentialites#mentions-legales">Mentions légales</LegalLink>
               <span>·</span>
-              <LegalLink href="/mentions-legales#vie-privee">Vie privée</LegalLink>
+              <LegalLink href="/politiques-de-confidentialites#vie-privee">Vie privée</LegalLink>
               <span>·</span>
-              <LegalLink href="/mentions-legales#cookies">Cookies</LegalLink>
+              <LegalLink href="/politiques-de-confidentialites#cookies">Cookies</LegalLink>
               <span>·</span>
-              <LegalLink href="/mentions-legales#accessibilite">Accessibilité</LegalLink>
+              <LegalLink href="/politiques-de-confidentialites#droits">Accessibilité</LegalLink>
             </div>
 
             <div className="flex items-center gap-2">
