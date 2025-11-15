@@ -1,9 +1,9 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
 const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
-const { getNewsPays, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
+const { getNewsPays, getNewsPaysID, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
 const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
-const { getNews, saveNews, updateNews, deleteNews } = require('../controllers/NewsController')
+const { getNews, getNewsID, saveNews, updateNews, deleteNews } = require('../controllers/NewsController')
 const { listEvents, getEvent, saveEvent, updateEvent, deleteEvent } = require('../controllers/EventController');
 
 const router = Router()
@@ -119,6 +119,7 @@ router.delete('/pays/delete/:id',authVerif, deletePays)
 //////////////////////////////////////////////////////////////////
 
 router.get('/newspays/get', getNewsPays)
+router.get('/newspays/get/:id', getNewsPaysID)
 router.post('/newspays/save',authVerif, upload.single('image'), saveNewsPays)
 router.put('/newspays/update/:id',authVerif, upload.single('image'), updateNewsPays)
 router.delete('/newspays/delete/:id',authVerif, deleteNewsPays)
@@ -151,6 +152,7 @@ router.delete('/antenne/delete/:id',authVerif, deleteAntenne)
  *                 $ref: '#/components/schemas/News'
  */
 router.get('/news/get', getNews)
+router.get('/news/get/:id', getNewsID)
 
 /**
  * @openapi

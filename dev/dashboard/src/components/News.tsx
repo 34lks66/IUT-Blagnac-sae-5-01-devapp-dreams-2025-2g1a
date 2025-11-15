@@ -146,6 +146,16 @@ const News: React.FC = () => {
     }
   };
 
+  const handleRadioChange = (value: string) => {
+  setSelectedRadio(value);
+
+  if (value === "description") {
+    setLink("");  
+  } else if (value === "link") {
+    setDescription(""); 
+  }
+};
+
   // ---------------------------
   // UI STARTS HERE
   // ---------------------------
@@ -265,7 +275,7 @@ const News: React.FC = () => {
                   <input
                     type="radio"
                     checked={selectedRadio === "description"}
-                    onChange={() => setSelectedRadio("description")}
+                    onChange={() => handleRadioChange("description")}
                   />
                   Description
                 </label>
@@ -279,7 +289,7 @@ const News: React.FC = () => {
                   <input
                     type="radio"
                     checked={selectedRadio === "link"}
-                    onChange={() => setSelectedRadio("link")}
+                    onChange={() => handleRadioChange("link")}
                   />
                   Lien
                 </label>

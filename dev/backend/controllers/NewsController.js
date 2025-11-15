@@ -12,6 +12,17 @@ module.exports.getNews = async (req, res) => {
   }
 };
 
+module.exports.getNewsID = async (req, res) => {
+  try {
+    const news = await NewsModel.findById(req.params.id);
+    if (!news) return res.status(404).json({ error: "News not found" });
+    res.json(news);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports.saveNews = async (req, res) => {
   try {
     const { date, title, link, description } = req.body;

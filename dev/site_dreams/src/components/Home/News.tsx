@@ -66,10 +66,17 @@ const News: React.FC = () => {
                           {item.title}
                       </h3>
 
-                      <a href={item.link} className="text-gray-800 font-semibold hover:text-gray-900 transition-colors flex items-center text-lg">
+                      { item.link ? (
+                        <a href={item.link} className="text-gray-800 font-semibold hover:text-gray-900 transition-colors flex items-center text-lg">
                           Lire plus
-                          <span className="ml-2 text-xl">→</span>
-                      </a>
+                          <span className="ml-2 text-xl transform group-hover:translate-x-1 transition-transform">→</span>
+                        </a>
+                      ) : (
+                        <a href={`/news/${item._id}`} className="text-gray-800 font-semibold hover:text-gray-900 transition-colors flex items-center text-lg group">
+                          Lire plus
+                          <span className="ml-2 text-xl transform group-hover:translate-x-1 transition-transform">→</span>
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -115,10 +122,10 @@ const News: React.FC = () => {
                         <span className="ml-2 text-xl transform group-hover:translate-x-1 transition-transform">→</span>
                       </a>
                     ) : (
-                      <button className="text-gray-800 font-semibold hover:text-gray-900 transition-colors flex items-center text-lg group">
+                      <a href={`/news/${item._id}`} className="text-gray-800 font-semibold hover:text-gray-900 transition-colors flex items-center text-lg group">
                         Lire plus
                         <span className="ml-2 text-xl transform group-hover:translate-x-1 transition-transform">→</span>
-                      </button>
+                      </a>
                     )}
                     
                     {/* Modal (conservé mais stylisé) */}
