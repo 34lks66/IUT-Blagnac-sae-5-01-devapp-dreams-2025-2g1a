@@ -180,11 +180,8 @@ function AntenneForm() {
         `http://localhost:5000/api/antenne/update/${editingAntenne._id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
           credentials: "include",
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
       if (response.ok) {
@@ -194,6 +191,7 @@ function AntenneForm() {
       } else {
         setMessage("Erreur lors de la modification");
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setMessage("Erreur de connexion :");
     } finally {
@@ -220,6 +218,7 @@ function AntenneForm() {
       } else {
         setMessage("Erreur lors de la suppression");
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setMessage("Erreur de connexion");
     }
@@ -261,6 +260,7 @@ function AntenneForm() {
     } else {
       setMessage("Erreur lors de la création");
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     setMessage("Erreur de connexion");
   } finally {

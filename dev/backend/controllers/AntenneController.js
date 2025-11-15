@@ -80,29 +80,27 @@ module.exports.updateAntenne = async (req, res) => {
     if (description) updateData.description = description;
     if (pays) updateData.pays = pays;
 
-    if (newImage) {
-      if (existingAntenne.image) {
-        try {
-          const imageName = existingAntenne.image.replace('/uploads/', '');
-          const absImagePath = path.join(__dirname, '../uploads', imageName);
+     if (newImage && existingAntenne.image) {
+         try {
+           const imageName = existingAntenne.image.replace(/^\/+/, "");
+           const absImagePath = path.join(__dirname, "..", imageName);
           
-          try {
-            await fs.access(absImagePath);
-            await fs.unlink(absImagePath);
-            console.log("Ancienne image supprimée:", absImagePath);
-          } catch (accessError) {
-            if (accessError.code === 'ENOENT') {
-              console.log("Ancienne image non trouvée, poursuite du traitement");
-            } else {
-              throw accessError;
-            }
-          }
-        } catch (errFile) {
-          console.warn("Erreur gestion ancienne image:", errFile.message);
-        }
-      }
-      updateData.image = newImage;
-    }
+           try {
+             await fs.access(absImagePath);
+             await fs.unlink(absImagePath);
+             console.log("Ancienne image supprimée:", absImagePath);
+           } catch (accessError) {
+             if (accessError.code === 'ENOENT') {
+               console.log("Ancienne image non trouvée, poursuite du traitement");
+             } else {
+               throw accessError;
+             }
+           }
+         } catch (errFile) {
+           console.warn("Erreur gestion ancienne image:", errFile.message);
+         }
+       updateData.image = newImage;
+     }
 
     const updatedAntenne = await AntenneModel.findByIdAndUpdate(
       id, 
