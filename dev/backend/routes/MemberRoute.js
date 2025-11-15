@@ -125,9 +125,8 @@ router.delete('/newspays/delete/:id',authVerif, deleteNewsPays)
 //////////////////////////////////////////////////////////////////
 
 router.get('/antenne/get', getAntennes)
-router.post('/antenne/save',authVerif,upload.single('image'), saveAntenne)
-router.put('/antenne/update/:id',authVerif,upload.single('image'), updateAntenne)
-router.delete('/antenne/delete/:id',authVerif, deleteAntenne)
-
+router.post('/antenne/save', authVerif, upload.single('image'), saveAntenne) // Ajouter upload.single('image')
+router.put('/antenne/update/:id', authVerif, upload.single('image'), updateAntenne) // Ajouter aussi pour update
+router.delete('/antenne/delete/:id', authVerif, deleteAntenne)
 
 module.exports = router 

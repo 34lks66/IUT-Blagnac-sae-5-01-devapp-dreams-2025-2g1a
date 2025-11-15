@@ -226,50 +226,47 @@ function AntenneForm() {
   }
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setIsLoading(true);
-    setMessage("");
+  e.preventDefault();
+  setIsLoading(true);
+  setMessage("");
 
-    if (!imageFile) {
-      setMessage("❌ Veuillez sélectionner une image");
-      setIsLoading(false);
-      return;
-    }
-
-    const formDataToSend = new FormData();
-    formDataToSend.append("nom", formData.nom);
-    formDataToSend.append("description", formData.description);
-    formDataToSend.append("pays", formData.pays);
-    formDataToSend.append("image", imageFile);
-
-    try {
-      const response = await fetch(`http://localhost:5000/api/antenne/save`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setMessage("Antenne créée avec succès !");
-        setFormData({
-          nom: "",
-          description: "",
-          pays: "",
-        });
-        fetchAntennes();
-        setShowForm(false); // Ferme le formulaire après création
-      } else {
-        setMessage("Erreur lors de la création");
-      }
-    } catch (error) {
-      setMessage("Erreur de connexion");
-    } finally {
-      setIsLoading(false);
-    }
+  if (!imageFile) {
+    setMessage("❌ Veuillez sélectionner une image");
+    setIsLoading(false);
+    return;
   }
+
+  const formDataToSend = new FormData();
+  formDataToSend.append("nom", formData.nom);
+  formDataToSend.append("description", formData.description);
+  formDataToSend.append("image", imageFile);
+  formDataToSend.append("pays", formData.pays);
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/antenne/save`, {
+      method: "POST",
+      credentials: "include",
+      body: formDataToSend, // Utiliser FormData ici
+    });
+
+    if (response.ok) {
+      setMessage("Antenne créée avec succès !");
+      setFormData({
+        nom: "",
+        description: "",
+        pays: "",
+      });
+      fetchAntennes();
+      setShowForm(false); // Ferme le formulaire après création
+    } else {
+      setMessage("Erreur lors de la création");
+    }
+  } catch (error) {
+    setMessage("Erreur de connexion");
+  } finally {
+    setIsLoading(false);
+  }
+}
 
   return (
     <div className="space-y-8">

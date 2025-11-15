@@ -36,7 +36,7 @@ module.exports.saveAntenne = async (req, res) => {
 
     const image = req.file ? `/uploads/${req.file.filename}` : null;
 
-    if (!nom || !description || !image || !pays) {
+    if (!nom || !description || !pays) {
       return res.status(400).json({ 
         error: "Tous les champs sont requis: nom, description, pays" 
       });
