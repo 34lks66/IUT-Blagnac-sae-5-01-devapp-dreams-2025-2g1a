@@ -245,7 +245,7 @@ function AntenneForm() {
     const response = await fetch(`http://localhost:5000/api/antenne/save`, {
       method: "POST",
       credentials: "include",
-      body: formDataToSend, // Utiliser FormData ici
+      body: formDataToSend, 
     });
 
     if (response.ok) {

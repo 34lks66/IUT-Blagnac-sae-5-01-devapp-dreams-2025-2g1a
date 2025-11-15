@@ -1,35 +1,66 @@
-import Hero from './Hero';
-import About from './About';
-import Mission from './Mission';
-import News from './News'
-import History from './History';
-import Map from './Map';
-import Partner from './Partner'
+import Hero from "./Hero";
+import About from "./About";
+import Mission from "./Mission";
+import News from "./News";
+import History from "./History";
+import Map from "./Map";
+import Partner from "./Partner";
 
-function Home() {
-
+export default function Home() {
   return (
     <>
-    <Hero/>
-    <About/>
-    <Mission/>
-    <News/>
-    <History/>
-    {/* <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center p-10">
-                    Explorer{" "}
-                    <span className="text-yellow-500">la carte</span>
-    </h1> */}
-    <div className="mb-6"></div>
-    {/* <div className="h-[800px] overflow-y-auto col-span-12 p-0"> */}
-      <div className="col-span-12 lg:col-span-5 bg-[#93720a] absolute z-10 py-17 max-w-2xl p-10">
-        <h2 className="text-white text-3xl font-bold mb-6 text-center">LES PAYS D'ACTION DE DREAMS</h2>
-        <p className="text-white mt-5 mb-4">DREAMS est engagée en Afrique et en Europe pour vous accompagner. Découvrez notre carte interactive pour en savoir plus sur nos actions dans ces pays.</p>
-      </div>
-      <Map paysDreams={["FR", "BF", "TG", "CI", "IT"]}/>
-    {/* </div> */}
-    <Partner/>
-    </>
-  )
-}
+      {/* Section Hero */}
+      <section className="mb-20">
+        <Hero />
+      </section>
 
-export default Home
+      {/* Section About */}
+      <section className="mb-24">
+        <About />
+      </section>
+
+      {/* Section Mission */}
+      <section className="mb-24">
+        <Mission />
+      </section>
+
+      {/* Section News */}
+      <section className="mb-24">
+        <News />
+      </section>
+
+      {/* Section History */}
+      <section className="mb-24">
+        <History />
+      </section>
+
+      {/* Section Map agrandie */}
+      <section className="relative py-24 bg-white">
+        <div className="max-w-8xl mx-auto px-8 lg:px-12">
+          {/* En-tête grande */}
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              Zones d'Intervention
+            </h2>
+            <div className="w-32 h-1 bg-gray-300 mx-auto mb-8"></div>
+            <p className="text-2xl text-gray-600 max-w-5xl mx-auto leading-relaxed">
+              DREAMS déploie son expertise à travers l'Europe et l'Afrique.
+              Explorez notre carte interactive pour découvrir l'étendue de nos
+              actions et engagements.
+            </p>
+          </div>
+
+          {/* Carte agrandie */}
+          <div className="bg-white rounded-3xl border-2 border-gray-200 shadow-lg p-6">
+            <Map paysDreams={["FR", "BF", "TG", "CI", "IT"]} />
+          </div>
+        </div>
+      </section>
+
+      {/* Section Partners */}
+      <section className="mb-32">
+        <Partner />
+      </section>
+    </>
+  );
+}
