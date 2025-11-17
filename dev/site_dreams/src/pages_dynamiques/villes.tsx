@@ -19,6 +19,7 @@ type Antenne = {
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function Villes() {
+  console.log("LE TesT:", window.location.href);
   const [antennes, setAntennes] = useState<Antenne[]>([]);
   const [loading, setLoading] = useState(true);
   

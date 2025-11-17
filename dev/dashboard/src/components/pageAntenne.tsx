@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -54,6 +55,7 @@ const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
 );
 
 function AntenneForm() {
+  const navigate = useNavigate();
   const [pays, setPays] = useState<Pays[]>([]);
   const [antennes, setAntennes] = useState<Antenne[]>([]);
 
@@ -180,6 +182,8 @@ function AntenneForm() {
     setIsLoading(true);
     setMessage("");
 
+    const nomTrim = formData.nom.trim();
+
     if (!imageFile) {
       setMessage("❌ Veuillez sélectionner une image");
       setIsLoading(false);
@@ -187,7 +191,7 @@ function AntenneForm() {
     }
 
     const formDataToSend = new FormData();
-    formDataToSend.append("nom", formData.nom);
+    formDataToSend.append("nom", nomTrim);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("pays", formData.pays);
     formDataToSend.append("image", imageFile);
@@ -201,6 +205,11 @@ function AntenneForm() {
 
       if (response.ok) {
         setMessage("✅ Antenne créée avec succès !");
+        if(window.location.href.includes('localhost:5174')){
+          navigate('http://localhost:5173/villes/'+nomTrim);
+        }else{
+          navigate('http://localhost:5174/villes/'+nomTrim);
+        }
         loadAntennes();
         closeFormModal();
       } else {
@@ -217,12 +226,13 @@ function AntenneForm() {
   async function handleUpdate(e: React.FormEvent) {
     e.preventDefault();
     if (!editingAntenne) return;
-
+    
     setIsLoading(true);
     setMessage("");
+    const nomTrim = formData.nom.trim();
 
     const formDataToSend = new FormData();
-    formDataToSend.append("nom", formData.nom);
+    formDataToSend.append("nom", nomTrim);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("pays", formData.pays);
     if (imageFile) {
