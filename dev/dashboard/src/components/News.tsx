@@ -252,6 +252,17 @@ const News: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Titre *
+                  </label>
+                  <input
+                    type="text"
+                    value={NewsTitle}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Date *
                   </label>
                   <input
@@ -262,27 +273,16 @@ const News: React.FC = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Titre *
-                  </label>
-                  <input
-                    type="text"
-                    value={NewsTitle}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none"
-                  />
-                </div>
+
               </div>
 
               {/* RADIO TYPE */}
               <div className="flex gap-4">
                 <label
-                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${
-                    selectedRadio === "description"
-                      ? "border-yellow-500 bg-yellow-50"
-                      : "border-gray-200 hover:border-yellow-400"
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${selectedRadio === "description"
+                    ? "border-yellow-500 bg-yellow-50"
+                    : "border-gray-200 hover:border-yellow-400"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -293,11 +293,10 @@ const News: React.FC = () => {
                 </label>
 
                 <label
-                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${
-                    selectedRadio === "link"
-                      ? "border-yellow-500 bg-yellow-50"
-                      : "border-gray-200 hover:border-yellow-400"
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${selectedRadio === "link"
+                    ? "border-yellow-500 bg-yellow-50"
+                    : "border-gray-200 hover:border-yellow-400"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -347,11 +346,10 @@ const News: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isCreateDisabled}
-                  className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${
-                    isCreateDisabled
-                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
-                  }`}
+                  className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${isCreateDisabled
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
+                    }`}
                 >
                   Ajouter
                 </button>
@@ -515,20 +513,6 @@ const News: React.FC = () => {
                     />
                   </div>
 
-                  {/* DATE */}
-                  <div className="col-span-2 sm:col-span-1">
-                    <label className="block mb-2 text-sm font-medium text-gray-900">
-                      Date
-                    </label>
-                    <input
-                      value={NewsDateEdit}
-                      onChange={(e) => setDateEdit(e.target.value)}
-                      type="text"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
-                      required
-                    />
-                  </div>
-
                   {/* TITRE */}
                   <div className="col-span-2 sm:col-span-1">
                     <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -537,6 +521,20 @@ const News: React.FC = () => {
                     <input
                       value={NewsTitleEdit}
                       onChange={(e) => setTitleEdit(e.target.value)}
+                      type="text"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
+                      required
+                    />
+                  </div>
+
+                  {/* DATE */}
+                  <div className="col-span-2 sm:col-span-1">
+                    <label className="block mb-2 text-sm font-medium text-gray-900">
+                      Date
+                    </label>
+                    <input
+                      value={NewsDateEdit}
+                      onChange={(e) => setDateEdit(e.target.value)}
                       type="text"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
                       required
@@ -589,10 +587,11 @@ const News: React.FC = () => {
       {isPopupDelete && (
         <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4 text-red-600 text-center">
-              Supprimer cette actualité ?
+            <h2 className="text-xl font-bold mb-4 text-red-600 ">
+              Confirmer la suppression
             </h2>
-            <p className="mb-6 text-center text-gray-700">
+            <p className="text-gray-700 mb-6">
+              Voulez-vous vraiment supprimer cette actualité ? <br />
               Cette action est irréversible.
             </p>
             <div className="flex gap-4">
