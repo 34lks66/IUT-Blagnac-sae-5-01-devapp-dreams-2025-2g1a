@@ -25,7 +25,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://6qbmdkkp-5174.uks1.devtunnels.ms"], 
+    // origin: ["http://localhost:5173", "http://localhost:5174", "https://6qbmdkkp-5174.uks1.devtunnels.ms"],
+    origin: ["http://localhost:5173", "http://localhost:5174"], 
     credentials: true, 
   })
 );
