@@ -346,6 +346,7 @@ const News: React.FC = () => {
       )}
 
       {/* TABLEAU LISTE */}
+      <div className="border-t border-gray-200 pt-6"></div>
       <div className="overflow-x-auto rounded-xl border border-gray-200 shadow">
         <table className="w-full">
           <thead>

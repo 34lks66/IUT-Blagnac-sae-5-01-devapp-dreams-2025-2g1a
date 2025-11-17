@@ -25,7 +25,10 @@ const PagesSite: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Ajout
+  // Recherche
+  const [search, setSearch] = useState("");
+
+  // Ajout pays
   const [creatingOpen, setCreatingOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [newCountry, setNewCountry] = useState<{
@@ -38,13 +41,17 @@ const PagesSite: React.FC = () => {
     image: null,
   });
 
+  // Modale suppression
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
   const loadCountries = async () => {
     try {
       setLoading(true);
       const res = await fetch(`${API_BASE}/api/pays/get`, {
         credentials: "include",
       });
-      if (!res.ok) throw new Error("Erreur chargement pays");
+      if (!res.ok) throw new Error("Erreur");
       const data: Country[] = await res.json();
       setCountries(data);
     } catch (e) {
@@ -59,33 +66,29 @@ const PagesSite: React.FC = () => {
     loadCountries();
   }, []);
 
+  // Suppression
   const handleDelete = async (id: string) => {
-    const c = countries.find((x) => x._id === id);
-    const ok = window.confirm(
-      `Supprimer le pays "${
-        c?.nom ?? ""
-      }" ?\n\nToutes ses actualités (et antennes si branchées) seront supprimées.`
-    );
-    if (!ok) return;
-
     try {
       const res = await fetch(`${API_BASE}/api/pays/delete/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
-      if (!res.ok) throw new Error("Échec suppression");
+      if (!res.ok) throw new Error("Suppression impossible");
+
       setCountries((prev) => prev.filter((p) => p._id !== id));
-    } catch (e) {
-      console.error(e);
-      alert("Suppression impossible.");
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de supprimer le pays.");
     }
   };
 
+  // Création
   const handleCreate = async () => {
     if (!newCountry.nom.trim() || !newCountry.description.trim()) {
-      alert("Renseigne au moins le nom et la description.");
+      alert("Renseigne le nom et la description.");
       return;
     }
+
     try {
       setCreating(true);
       const fd = new FormData();
@@ -98,14 +101,12 @@ const PagesSite: React.FC = () => {
         credentials: "include",
         body: fd,
       });
-      if (!res.ok) throw new Error("Échec création du pays");
-      const created: Country = await res.json();
+
+      if (!res.ok) throw new Error("Erreur création pays");
 
       await loadCountries();
       setCreatingOpen(false);
       setNewCountry({ nom: "", description: "", image: null });
-      setEditingCountryId(created._id);
-      setMode("edit");
     } catch (e) {
       console.error(e);
       alert("Impossible de créer le pays.");
@@ -114,6 +115,7 @@ const PagesSite: React.FC = () => {
     }
   };
 
+  // EDIT MODE
   if (mode === "edit" && editingCountryId) {
     return (
       <div className="space-y-6">
@@ -151,156 +153,307 @@ const PagesSite: React.FC = () => {
     );
   }
 
+  // LIST MODE
   return (
-    <section>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-4xl font-extrabold ">Gestion Pays</h1>
+    <section className="space-y-8">
+
+      {/* HEADER */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-extrabold">Gestion Pays</h1>
+
+
         <button
           onClick={() => setCreatingOpen((v) => !v)}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-2 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
         >
           Nouveau pays
         </button>
       </div>
 
-      <CardFrame>
-        {/* Formulaire d'ajout compact */}
-        {creatingOpen && (
-          <div className="mb-8 p-4 rounded-lg border border-yellow-200 bg-yellow-50">
-            <div className="grid md:grid-cols-3 gap-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-yellow-500">Pays</h2>
+          <p className="text-gray-600">
+            Gérez les pays (actualités, etc.) disponibles sur le site.
+          </p>
+        </div>
+      </div>
+
+      {/* BARRE RECHERCHE */}
+      <div className="border-t border-gray-200 pt-4 flex flex-col sm:flex-row gap-4 mb-2">
+        <div className="flex-1 relative">
+          <svg
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+
+          <input
+            type="text"
+            placeholder="Rechercher un pays..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+          />
+        </div>
+      </div>
+
+      {/* AJOUT PAYS */}
+      {/* MODALE AJOUT PAYS */}
+      {creatingOpen && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
+          onClick={() => setCreatingOpen(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold mb-6 text-yellow-500">
+              Ajouter un pays
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+              {/* NOM */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Nom *
                 </label>
                 <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
-                  placeholder="Ex : France"
+                  type="text"
                   value={newCountry.nom}
                   onChange={(e) =>
                     setNewCountry((s) => ({ ...s, nom: e.target.value }))
                   }
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                       focus:border-yellow-500 focus:outline-none transition-colors"
                 />
               </div>
+
+              {/* IMAGE */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Image
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Image *
                 </label>
-                <div className="mt-1 flex items-center gap-3">
-                  <label className="inline-flex items-center px-3 py-2 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={(e) => {
-                        const f = e.target.files?.[0] || null;
-                        setNewCountry((s) => ({ ...s, image: f }));
-                      }}
-                    />
-                    Choisir une image
-                  </label>
-                  {newCountry.image && (
-                    <span className="text-xs text-gray-500 truncate max-w-[200px]">
-                      {newCountry.image.name}
-                    </span>
-                  )}
-                </div>
+
+                <label
+                  className="px-4 py-3 border-2 border-gray-200 rounded-xl cursor-pointer 
+                       hover:border-yellow-400 hover:bg-yellow-50 transition-colors block text-center"
+                >
+                  Choisir une image
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0] || null;
+                      setNewCountry((s) => ({ ...s, image: f }));
+                    }}
+                  />
+                </label>
+
+                {newCountry.image && (
+                  <p className="mt-1 text-xs text-gray-500">{newCountry.image.name}</p>
+                )}
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
+
+              {/* DESCRIPTION */}
+              <div className="sm:col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Description *
                 </label>
                 <textarea
-                  rows={3}
-                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
-                  placeholder="Présentation du pays…"
+                  rows={4}
                   value={newCountry.description}
                   onChange={(e) =>
-                    setNewCountry((s) => ({
-                      ...s,
-                      description: e.target.value,
-                    }))
+                    setNewCountry((s) => ({ ...s, description: e.target.value }))
                   }
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                       focus:border-yellow-500 focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
-            <div className="mt-3 flex items-center gap-2 justify-end">
+            {/* BOUTONS */}
+            <div className="flex gap-3 mt-8">
               <button
-                onClick={() => {
-                  setCreatingOpen(false);
-                  setNewCountry({ nom: "", description: "", image: null });
-                }}
-                className="px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200"
-                type="button"
+                onClick={() => setCreatingOpen(false)}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl 
+                     hover:bg-gray-300 transition-colors font-medium"
               >
                 Annuler
               </button>
+
               <button
                 onClick={handleCreate}
-                disabled={creating}
-                className="px-3 py-1.5 rounded-md text-white bg-yellow-500 hover:brightness-110 disabled:opacity-60"
-                type="button"
+                disabled={
+                  creating ||
+                  !newCountry.nom.trim() ||
+                  !newCountry.description.trim() ||
+                  !newCountry.image
+                }
+                className={`
+            flex-1 px-6 py-3 rounded-xl font-medium transition-all
+            ${!newCountry.nom.trim() ||
+                    !newCountry.description.trim() ||
+                    !newCountry.image
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
+                  }
+          `}
               >
                 {creating ? "Création…" : "Créer le pays"}
               </button>
             </div>
           </div>
-        )}
-
-        {/* Liste simple des pays (nom + actions) */}
-        <div className="divide-y">
-          {loading ? (
-            <div className="px-4 py-6 text-center text-gray-500">
-              Chargement…
-            </div>
-          ) : countries.length === 0 ? (
-            <div className="px-4 py-6 text-center text-gray-500">
-              Aucun pays pour le moment.
-            </div>
-          ) : (
-            <div className="grid gap-4">
-              {countries.map((c) => (
-                <div
-                  key={c._id}
-                  className="rounded-xl border border-gray-200 p-4 space-y-3 bg-white"
-                >
-                  <div className="grid md:grid-cols-[1fr_auto] gap-4 items-start">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-semibold text-gray-900">{c.nom}</h4>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingCountryId(c._id);
-                          setMode("edit");
-                        }}
-                        className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        onClick={() => handleDelete(c._id)}
-                        className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
-                      >
-                        Supprimer
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">ID: {c._id}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
-      </CardFrame>
+      )}
+
+
+      {/* ---------- TABLEAU STYLE UTILISATEUR ---------- */}
+      <section className="pt-6">
+        <div className="overflow-x-auto rounded-xl border border-gray-200">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gradient-to-r from-yellow-50 to-orange-50 border-b-2 border-yellow-200">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Image</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Nom</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Créé le</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Mis à jour</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
+              </tr>
+            </thead>
+
+
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-10 text-center text-gray-400">
+                    Chargement…
+                  </td>
+                </tr>
+              ) : (
+                countries
+                  .filter((c) =>
+                    (c.nom + " " + c.description)
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
+                  )
+                  .map((c) => (
+                    <tr
+                      key={c._id}
+                      className="border-b border-gray-100 hover:bg-yellow-50 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        {c.image ? (
+                          <img
+                            src={`${API_BASE}${c.image}`}
+                            className="w-16 h-12 object-cover rounded-md border border-gray-200 shadow-sm"
+                          />
+                        ) : (
+                          <div className="w-16 h-12 bg-gray-100 rounded-md border border-gray-300 flex items-center justify-center text-xs text-gray-400">
+                            —
+                          </div>
+                        )}
+                      </td>
+
+                      <td className="px-6 py-4 font-medium text-gray-800">{c.nom}</td>
+
+                      <td className="px-6 py-4 text-gray-700">
+                        {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : "—"}
+                      </td>
+
+                      <td className="px-6 py-4 text-gray-700">
+                        {c.updatedAt ? new Date(c.updatedAt).toLocaleDateString() : "—"}
+                      </td>
+                      {/* ACTIONS */}
+                      <td className="px-6 py-4">
+                        <div className="flex justify gap-2">
+                          <button
+                            onClick={() => {
+                              setEditingCountryId(c._id);
+                              setMode("edit");
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
+                          >
+                            Modifier
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setDeleteId(c._id);
+                              setShowDeleteModal(true);
+                            }}
+                            className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
+                          >
+                            Supprimer
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+              )}
+            </tbody>
+
+          </table>
+        </div>
+      </section>
+
+      {/* MODALE SUPPRESSION */}
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold mb-4 text-red-600">
+              Confirmer la suppression
+            </h2>
+
+            <p className="text-gray-700 mb-6">
+              Voulez-vous vraiment supprimer ce pays ?
+              <br />
+              <span className="font-semibold">
+                Toutes ses actualités seront supprimées.
+              </span>
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
+              >
+                Annuler
+              </button>
+
+              <button
+                onClick={async () => {
+                  await handleDelete(deleteId!);
+                  setShowDeleteModal(false);
+                }}
+                className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 hover:shadow-lg transition-all font-medium"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
+
 };
 
 export default PagesSite;
