@@ -65,6 +65,7 @@ const News: React.FC = () => {
       setTitle("");
       setLink("");
       setDescription("");
+      setSelectedRadio("");
       setShowForm(false);
     } catch (error) {
       console.error("Erreur fetch:", error);
@@ -75,7 +76,14 @@ const News: React.FC = () => {
     const selected = news.find((item) => item._id === id);
     if (!selected) return;
 
-    setSelectedRadio(selected.description ? "description" : "link");
+    if (selected.description && selected.description.trim() !== "") {
+      setSelectedRadio("description");
+    } else if (selected.link && selected.link.trim() !== "") {
+      setSelectedRadio("link");
+    } else {
+      setSelectedRadio("description");
+    }
+
     setEditNews(id);
     setImageEdit(selected.image);
     setDateEdit(selected.date);
@@ -147,44 +155,43 @@ const News: React.FC = () => {
   };
 
   const handleRadioChange = (value: string) => {
-  setSelectedRadio(value);
+    setSelectedRadio(value);
 
-  if (value === "description") {
-    setLink("");  
-  } else if (value === "link") {
-    setDescription(""); 
-  }
-};
+    if (value === "description") {
+      setLink("");
+    } else if (value === "link") {
+      setDescription("");
+    }
+  };
 
-  // ---------------------------
-  // UI STARTS HERE
-  // ---------------------------
+  const isCreateDisabled =
+    !NewsImage || !NewsDate.trim() || !NewsTitle.trim() || !selectedRadio;
 
   return (
-    <section className="">
-
+    <section className="space-y-8">
       {/* HEADER */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-2">
         <h1 className="text-4xl font-extrabold">Section Actualité</h1>
-
         <button
           onClick={() => setShowForm(true)}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl hover:scale-105"
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
         >
-          + Ajouter
+          Ajouter
         </button>
       </div>
 
       {/* SOUS-TITRE */}
       <div>
         <h2 className="text-2xl font-bold text-yellow-500">Actualités</h2>
-        <p className="text-gray-600 mb-4">Gérez les actualités publiées sur le site</p>
+        <p className="text-gray-600">
+          Gérez les actualités publiées sur le site
+        </p>
       </div>
 
-      {/* FORMULAIRE D'AJOUT */}
+      {/* MODALE AJOUT */}
       {showForm && (
         <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-[9999] p-4"
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
           onClick={() => setShowForm(false)}
         >
           <div
@@ -196,20 +203,20 @@ const News: React.FC = () => {
             </h3>
 
             <form onSubmit={onSubmit} className="space-y-6">
-
-              {/* IMAGE UPLOAD */}
+              {/* IMAGE */}
               <div>
-                <label className="block text-sm font-semibold mb-2">Image</label>
-
+                <label className="block text-sm font-semibold mb-2">Image *</label>
                 <label className="flex flex-col items-center justify-center w-full h-60 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100">
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     {NewsImage ? (
                       <>
                         <img
                           src={URL.createObjectURL(NewsImage)}
-                          className="w-40 h-40 object-cover rounded-xl mb-4"
+                          className="w-40 h-32 object-cover rounded-xl mb-4"
                         />
-                        <p className="text-sm text-gray-600">{NewsImage.name}</p>
+                        <p className="text-sm text-gray-600">
+                          {NewsImage.name}
+                        </p>
                       </>
                     ) : (
                       <>
@@ -219,9 +226,14 @@ const News: React.FC = () => {
                           stroke="currentColor"
                           viewBox="0 0 24 24"
                         >
-                          <path strokeWidth={2} d="M3 16l6-6 4 4 8-8" />
+                          <path
+                            strokeWidth={2}
+                            d="M3 16l6-6 4 4 8-8"
+                          />
                         </svg>
-                        <p className="text-gray-600 text-sm">Cliquez pour upload</p>
+                        <p className="text-gray-600 text-sm">
+                          Cliquez pour uploader une image
+                        </p>
                       </>
                     )}
                   </div>
@@ -240,58 +252,59 @@ const News: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Date
+                    Date *
                   </label>
                   <input
                     type="text"
-                    required
                     value={NewsDate}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Titre
+                    Titre *
                   </label>
                   <input
                     type="text"
                     value={NewsTitle}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* RADIO TYPE */}
-              <div className="flex gap-6">
+              <div className="flex gap-4">
                 <label
-                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${selectedRadio === "description"
-                    ? "border-yellow-500 bg-yellow-50"
-                    : "border-gray-200"
-                    }`}
+                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${
+                    selectedRadio === "description"
+                      ? "border-yellow-500 bg-yellow-50"
+                      : "border-gray-200 hover:border-yellow-400"
+                  }`}
                 >
                   <input
                     type="radio"
                     checked={selectedRadio === "description"}
                     onChange={() => handleRadioChange("description")}
                   />
-                  Description
+                  <span className="text-gray-700 font-medium">Description</span>
                 </label>
 
                 <label
-                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer ${selectedRadio === "link"
-                    ? "border-yellow-500 bg-yellow-50"
-                    : "border-gray-200"
-                    }`}
+                  className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${
+                    selectedRadio === "link"
+                      ? "border-yellow-500 bg-yellow-50"
+                      : "border-gray-200 hover:border-yellow-400"
+                  }`}
                 >
                   <input
                     type="radio"
                     checked={selectedRadio === "link"}
                     onChange={() => handleRadioChange("link")}
                   />
-                  Lien
+                  <span className="text-gray-700 font-medium">Lien</span>
                 </label>
               </div>
 
@@ -304,7 +317,7 @@ const News: React.FC = () => {
                   <textarea
                     value={NewsDescription}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none"
                   />
                 </div>
               )}
@@ -317,122 +330,153 @@ const News: React.FC = () => {
                     type="text"
                     value={NewsLink}
                     onChange={(e) => setLink(e.target.value)}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none"
                   />
                 </div>
               )}
 
-              {/* BUTTONS */}
-              <div className="flex gap-4 pt-4">
-                <button
-                  type="submit"
-                  className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
-                >
-                  Ajouter
-                </button>
-
+              {/* BOUTONS */}
+              <div className="flex gap-3 mt-4">
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all"
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
                 >
                   Annuler
                 </button>
+                <button
+                  type="submit"
+                  disabled={isCreateDisabled}
+                  className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${
+                    isCreateDisabled
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
+                  }`}
+                >
+                  Ajouter
+                </button>
               </div>
-
             </form>
           </div>
         </div>
       )}
 
-      {/* TABLEAU LISTE */}
-      <div className="border-t border-gray-200 pt-6"></div>
-      <div className="overflow-x-auto rounded-xl border border-gray-200 shadow">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-yellow-50 border-b-2 border-yellow-200">
-              <th className="px-6 py-4 text-left font-semibold text-gray-700">
-                Image
-              </th>
-              <th className="px-6 py-4 text-left font-semibold text-gray-700">
-                Date
-              </th>
-              <th className="px-6 py-4 text-left font-semibold text-gray-700">
-                Titre
-              </th>
-              <th className="px-6 py-4 text-left font-semibold text-gray-700">
-                Type
-              </th>
-              
-              <th className="px-10 py-4 text-right font-semibold text-gray-700">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {news.map((item) => (
-              <tr
-                key={item._id}
-                className="border-b border-gray-100 hover:bg-yellow-50 transition-colors"
-              >
-                <td className="px-6 py-4">
-                  <img
-                    src={`${API_BASE}${item.image}`}
-                    className="w-12 h-12 object-cover rounded-lg"
-                  />
-                </td>
-
-                <td className="px-6 py-4">{item.date}</td>
-
-                <td className="px-6 py-4">{item.title}</td>
-
-                <td className="px-6 py-4 font-medium">
-                  {item.description ? (
-                    <span className="text-blue-700">Description</span>
-                  ) : (
-                    <span className="text-green-700">Lien</span>
-                  )}
-                </td>
-
-                <td className="px-6 py-4">
-                  <div className="flex gap-2 justify-end">
-                    <button
-                      onClick={() => handleEditClick(item._id)}
-                      className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
-                    >
-                      Modifier
-                    </button>
-
-                    <button
-                      onClick={() => handleDeleteClick(item._id)}
-                      className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
-                </td>
+      {/* TABLEAU NEWS – style Utilisateurs */}
+      <section className="border-t border-gray-200 pt-4">
+        <div className="overflow-x-auto rounded-xl border border-gray-200">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gradient-to-r from-yellow-50 to-orange-50 border-b-2 border-yellow-200">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Image
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Titre
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Date
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Type
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+
+            <tbody>
+              {news.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="px-6 py-12 text-center text-gray-400"
+                  >
+                    Aucune actualité pour le moment
+                  </td>
+                </tr>
+              ) : (
+                news.map((item) => (
+                  <tr
+                    key={item._id}
+                    className="border-b border-gray-100 hover:bg-yellow-50 transition-colors"
+                  >
+                    {/* IMAGE */}
+                    <td className="px-6 py-4">
+                      <img
+                        src={`${API_BASE}${item.image}`}
+                        className="w-16 h-12 object-cover rounded-md border border-gray-200 shadow-sm"
+                      />
+                    </td>
+
+                    {/* TITRE */}
+                    <td className="px-6 py-4 font-medium text-gray-800">
+                      {item.title}
+                    </td>
+
+                    {/* DATE */}
+                    <td className="px-6 py-4 text-gray-700">{item.date}</td>
+
+                    {/* TYPE */}
+                    <td className="px-6 py-4 text-gray-700">
+                      {item.description && item.description.trim() !== "" ? (
+                        <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                          Description
+                        </span>
+                      ) : (
+                        <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-green-50 text-green-700 border border-green-200">
+                          Lien
+                        </span>
+                      )}
+                    </td>
+
+                    {/* ACTIONS */}
+                    <td className="px-6 py-4">
+                      <div className="flex gap-2 justify">
+                        <button
+                          onClick={() => handleEditClick(item._id)}
+                          className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
+                        >
+                          Modifier
+                        </button>
+                        <button
+                          onClick={() => handleDeleteClick(item._id)}
+                          className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       {/* MODALE EDIT */}
       {showEditForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
           <div className="w-full max-w-2xl max-h-[90vh] overflow-auto">
             <div className="relative bg-white rounded-xl shadow-2xl">
-
               {/* HEADER */}
               <div className="flex items-center justify-between p-5 border-b border-gray-200 rounded-t-xl">
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Modifier l'Actualité
+                  Modifier l'actualité
                 </h3>
                 <button
                   onClick={() => setEditForm(false)}
                   type="button"
                   className="text-gray-400 bg-transparent hover:bg-gray-100 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
                 >
-                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
                     <path
                       stroke="currentColor"
                       strokeLinecap="round"
@@ -447,7 +491,6 @@ const News: React.FC = () => {
               {/* FORM */}
               <form onSubmit={onEdit} className="p-5">
                 <div className="grid gap-4 mb-4 grid-cols-2">
-
                   {/* IMAGE */}
                   <div className="col-span-2">
                     <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -457,7 +500,7 @@ const News: React.FC = () => {
                       <img
                         src={`${API_BASE}${NewsImageEdit}`}
                         alt="Image actuelle"
-                        className="w-32 h-32 object-cover rounded-lg mb-3"
+                        className="w-32 h-24 object-cover rounded-lg mb-3"
                       />
                     )}
                     <input
@@ -481,9 +524,7 @@ const News: React.FC = () => {
                       value={NewsDateEdit}
                       onChange={(e) => setDateEdit(e.target.value)}
                       type="text"
-                      name="name"
-                      id="name"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-primary-600 focus:border-primary-600"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
                       required
                     />
                   </div>
@@ -497,14 +538,12 @@ const News: React.FC = () => {
                       value={NewsTitleEdit}
                       onChange={(e) => setTitleEdit(e.target.value)}
                       type="text"
-                      name="name"
-                      id="name"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-primary-600 focus:border-primary-600"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
                       required
                     />
                   </div>
 
-                  {/* LIEN – même logique que TON code */}
+                  {/* LIEN */}
                   {selectedRadio === "link" && (
                     <div className="col-span-2">
                       <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -514,12 +553,12 @@ const News: React.FC = () => {
                         value={NewsLinkEdit}
                         onChange={(e) => setLinkEdit(e.target.value)}
                         type="text"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
                       />
                     </div>
                   )}
 
-                  {/* DESCRIPTION – même logique que TON code */}
+                  {/* DESCRIPTION */}
                   {selectedRadio === "description" && (
                     <div className="col-span-2">
                       <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -528,7 +567,7 @@ const News: React.FC = () => {
                       <textarea
                         value={NewsDescriptionEdit}
                         onChange={(e) => setDescriptionEdit(e.target.value)}
-                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-yellow-500 focus:border-yellow-500"
                       />
                     </div>
                   )}
@@ -538,21 +577,6 @@ const News: React.FC = () => {
                   type="submit"
                   className="text-white inline-flex items-center bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mr-2"
-                  >
-                    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-                  </svg>
                   Modifier
                 </button>
               </form>
@@ -561,32 +585,28 @@ const News: React.FC = () => {
         </div>
       )}
 
-
-      {/* POPUP SUPPRESSION */}
+      {/* MODALE SUPPRESSION */}
       {isPopupDelete && (
         <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-red-600 text-center">
-              Supprimer l’actualité ?
+              Supprimer cette actualité ?
             </h2>
-
             <p className="mb-6 text-center text-gray-700">
               Cette action est irréversible.
             </p>
-
             <div className="flex gap-4">
               <button
-                onClick={onDelete}
-                className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700"
-              >
-                Supprimer
-              </button>
-
-              <button
                 onClick={() => setDeletePopup(false)}
-                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300"
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
               >
                 Annuler
+              </button>
+              <button
+                onClick={onDelete}
+                className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 hover:shadow-lg transition-all font-medium"
+              >
+                Supprimer
               </button>
             </div>
           </div>
