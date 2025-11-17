@@ -5,7 +5,7 @@ type UINewsItem = { id: string; img: string; title: string; text: string };
 type UIFeature = { img: string; title: string; text: string; url: string; cta: string };
 type UICountryContent = { name: string; heroImg: string; intro: string; news: UINewsItem[]; features: UIFeature[] };
 
-type ApiCountry = { _id: string; nom: string; description: string; image?: string | null };
+type ApiCountry = { _id: string; nom: string; description: string; image?: string | null ; nomSiege?: string | null; adresse?: string | null; horaire?: string | null; mail?: string | null; number?: string | null; };
 type ApiNews = { _id: string; titre: string; description: string; image?: string | null; pays: string | { _id: string } };
 type ApiAntenne = { _id: string; nom: string; description: string; pays: string | { _id: string } };
 
@@ -231,6 +231,32 @@ const Pays: React.FC = () => {
           ))}
         </section>
       )}
+
+       {/* CONTACT */}
+      <div className="max-w-6xl mx-auto my-16 px-6">
+        <h3 className={`text-[22px] font-extrabold ${goldTitle}`}>Information de contact</h3>
+        {selectedCountry && (
+        <div className="flex border border-gray-200 rounded-lg bg-white shadow-sm p-8">
+          <div className="flex-1 flex flex-col gap-2 p-6">
+              <div className="text-2xl font-bold text-gray-800 border-b pb-2">Adresse</div>
+              <p className="text-gray-700 font-medium">Siège - {selectedCountry.nomSiege}</p>
+              <p className="text-base font-medium text-gray-600">{selectedCountry.adresse}</p>
+          </div>
+          <div className="flex-1 flex flex-col gap-2 p-6">
+              <div className="text-2xl font-bold text-gray-800 border-b pb-2">Horaires</div>
+              <p className="text-gray-600">{selectedCountry.horaire}</p>
+          </div>
+          <div className="flex-1 flex flex-col gap-2 p-6">
+              <div className="text-2xl font-bold text-gray-800 border-b pb-2">Nous contacter</div>
+              <a href="mailto:assodreamsfr@gmail.com"
+                className="text-yellow-600 hover:underline">
+              {selectedCountry.mail}
+              </a>
+              <p className="font-medium text-gray-600">{selectedCountry.number}</p>
+          </div>
+        </div>
+        )}
+      </div>
     </main>
   );
 };
