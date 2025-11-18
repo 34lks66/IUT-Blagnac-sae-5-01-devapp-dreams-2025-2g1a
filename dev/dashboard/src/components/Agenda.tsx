@@ -1,0 +1,548 @@
+import React, { useEffect, useState } from "react";
+
+type EventItem = {
+  _id?: string;
+  title: string;
+  date: string;
+  starttime?: string;
+  endtime?: string;
+  location?: string;
+  description?: string;
+  antenna?: string | null;
+  isGeneral?: boolean;
+};
+
+type AntenneItem = {
+  _id: string;
+  nom: string;
+};
+
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+export default function AgendaAdmin() {
+  const [showForm, setShowForm] = useState(false);
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [antennes, setAntennes] = useState<AntenneItem[]>([]);
+  const [form, setForm] = useState<EventItem>({
+    title: "",
+    date: "",
+    isGeneral: false,
+    antenna: null,
+  });
+  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
+
+  const fetchAntennes = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/antenne/get`);
+      if (!res.ok) return setAntennes([]);
+      const data = await res.json();
+      setAntennes(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("fetchAntennes", err);
+      setAntennes([]);
+    }
+  };
+
+  const fetchEvents = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/event/get/`);
+      const data = await res.json();
+      setEvents(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAntennes();
+    fetchEvents();
+  }, []);
+
+  const isFormValid = () => {
+    const hasTimeError =
+      form.starttime && form.endtime && form.endtime < form.starttime;
+
+    return (
+      !!form.title &&
+      !!form.date &&
+      (!!form.isGeneral || !!form.antenna) &&
+      !hasTimeError
+    );
+  };
+
+  const resetForm = () => {
+    setForm({
+      title: "",
+      date: "",
+      isGeneral: false,
+      antenna: null,
+      starttime: "",
+      endtime: "",
+      location: "",
+      description: "",
+    });
+    setFormError(null);
+  };
+
+  const submit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    setFormError(null);
+
+    if (!isFormValid()) {
+      setFormError(
+        "Remplissez le titre, la date et choisissez une antenne ou cochez 'Agenda général'."
+      );
+      return;
+    }
+
+    try {
+      const method = form._id ? "PUT" : "POST";
+      const url = form._id
+        ? `${API_BASE}/api/event/update/${form._id}`
+        : `${API_BASE}/api/event/save`;
+
+      const payload = { ...form };
+
+      await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(payload),
+      });
+
+      resetForm();
+      setShowForm(false); // fermer la modale après succès
+      await fetchEvents();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const edit = (ev: EventItem) => {
+    const selectedAntenne = antennes.find((a) => a.nom === ev.antenna);
+    setForm({
+      ...ev,
+      antenna: selectedAntenne ? selectedAntenne._id : ev.antenna ?? null,
+    });
+    setFormError(null);
+  };
+
+  const remove = async (id?: string) => {
+  if (!id) return;
+  try {
+    await fetch(`${API_BASE}/api/event/delete/${id}`, {
+      method: 'DELETE',
+      credentials: "include"
+    });
+    fetchEvents();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+  const openModalForCreate = () => {
+    resetForm();
+    setShowForm(true);
+  };
+
+  const handleCloseModal = () => {
+    resetForm();
+    setShowForm(false);
+  };
+
+
+  return (
+    <div className="space-y-8">
+      {/* HEADER */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-4xl font-extrabold">Gestion Agenda</h1>
+
+        <button
+          onClick={openModalForCreate}
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-plus-icon lucide-plus mr-2"
+          >
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
+          Ajouter
+        </button>
+      </div>
+
+      {/* SOUS-TITRE */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-yellow-500">Agenda</h2>
+          <p className="text-gray-600">
+            Gérez les événements (agenda général et antennes)
+          </p>
+        </div>
+      </div>
+
+      {/* SECTION TABLEAU */}
+      <section className="border-t border-gray-200 pt-6">
+        <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gradient-to-r from-yellow-50 to-orange-50 border-b-2 border-yellow-200">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Titre
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Date
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Horaire
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Antenne / Type
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Lieu
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-6 py-12 text-center text-gray-400"
+                  >
+                    Chargement des événements...
+                  </td>
+                </tr>
+              ) : events.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-6 py-12 text-center text-gray-400"
+                  >
+                    Aucun événement trouvé
+                  </td>
+                </tr>
+              ) : (
+                events.map((ev) => (
+                  <tr
+                    key={ev._id}
+                    className="border-b border-gray-100 hover:bg-yellow-50 transition-colors"
+                  >
+                    <td className="px-6 py-4 font-medium text-gray-800">
+                      {ev.title}
+                    </td>
+                    <td className="px-6 py-4 text-gray-700">{ev.date}</td>
+                    <td className="px-6 py-4 text-gray-700">
+                      {ev.starttime
+                        ? `${ev.starttime}${ev.endtime ? " - " + ev.endtime : ""}`
+                        : "-"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-700">
+                      {ev.isGeneral
+                        ? "Agenda général"
+                        : ev.antenna || "—"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-700">
+                      {ev.location || "—"}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setShowForm(true);
+                            edit(ev);
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
+                        >
+                          Modifier
+                        </button>
+                        <button
+                          onClick={() => {
+                            setDeleteId(ev._id!);
+                            setShowDeleteModal(true);
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
+                        >
+                          Supprimer
+                        </button>
+
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* MODALE AGENDA (style Users) */}
+      {showForm && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
+          onClick={handleCloseModal}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold mb-6 text-yellow-500">
+              {form._id ? "Modifier un événement" : "Créer un événement"}
+            </h2>
+
+            <form onSubmit={submit} className="space-y-6">
+              {/* Titre + Date */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Titre
+                  </label>
+                  <input
+                    value={form.title}
+                    onChange={(e) => {
+                      setForm({ ...form, title: e.target.value });
+                      setFormError(null);
+                    }}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    value={form.date}
+                    onChange={(e) => {
+                      setForm({ ...form, date: e.target.value });
+                      setFormError(null);
+                    }}
+                    required
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              {/* Heures */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Heure de début
+                  </label>
+                  <input
+                    type="time"
+                    value={form.starttime ?? ""}
+                    onChange={(e) =>
+                      setForm({ ...form, starttime: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Heure de fin
+                  </label>
+                  <input
+                    type="time"
+                    value={form.endtime ?? ""}
+                    onChange={(e) =>
+                      setForm({ ...form, endtime: e.target.value })
+                    }
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${form.starttime &&
+                      form.endtime &&
+                      form.endtime < form.starttime
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-200 focus:border-yellow-500"
+                      }`}
+                  />
+                  {form.starttime &&
+                    form.endtime &&
+                    form.endtime < form.starttime && (
+                      <p className="text-red-500 text-sm mt-1">
+                        L&apos;heure de fin doit être supérieure à l&apos;heure
+                        de début.
+                      </p>
+                    )}
+                </div>
+              </div>
+
+              {/* Lieu */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Lieu
+                </label>
+                <input
+                  placeholder="Lieu"
+                  value={form.location ?? ""}
+                  onChange={(e) =>
+                    setForm({ ...form, location: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+              {/* Antenne + Agenda général */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Antenne
+                  </label>
+                  <select
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                    value={form.antenna ?? ""}
+                    onChange={(e) => {
+                      const val = e.target.value || null;
+                      setForm({
+                        ...form,
+                        antenna: val,
+                        isGeneral: val ? false : form.isGeneral,
+                      });
+                      setFormError(null);
+                    }}
+                    disabled={!!form.isGeneral}
+                  >
+                    <option value="">Sélectionner une antenne</option>
+                    {antennes.map((a) => (
+                      <option key={a._id} value={a._id}>
+                        {a.nom}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center mt-2 sm:mt-8">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={!!form.isGeneral}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        setForm({
+                          ...form,
+                          isGeneral: checked,
+                          antenna: checked ? null : form.antenna,
+                        });
+                        setFormError(null);
+                      }}
+                      disabled={!!form.antenna}
+                      className="w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                    />
+                    <span className="text-sm font-medium text-gray-700">
+                      Agenda général
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Description
+                </label>
+                <textarea
+                  placeholder="Description"
+                  value={form.description ?? ""}
+                  onChange={(e) =>
+                    setForm({ ...form, description: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors min-h-[100px]"
+                />
+              </div>
+
+              {/* Erreur globale */}
+              {formError && (
+                <div className="text-red-600 text-sm">{formError}</div>
+              )}
+
+              {/* Boutons */}
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={!isFormValid()}
+                  className={`flex-1 px-6 py-3 text-white rounded-xl font-medium ${isFormValid()
+                    ? "bg-yellow-500 hover:bg-yellow-600 hover:shadow-lg transition-all"
+                    : "bg-gray-300 cursor-not-allowed"
+                    }`}
+                >
+                  {form._id ? "Mettre à jour" : "Créer"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* MODALE SUPPRESSION */}
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold mb-4 text-red-600">
+              Confirmer la suppression
+            </h2>
+
+            <p className="text-gray-700 mb-6">
+              Voulez-vous vraiment supprimer cet événement ? <br />
+              Cette action est irréversible.
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
+              >
+                Annuler
+              </button>
+
+              <button
+                onClick={async () => {
+                  await remove(deleteId!);
+                  setShowDeleteModal(false);
+                }}
+                className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 hover:shadow-lg transition-all font-medium"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}

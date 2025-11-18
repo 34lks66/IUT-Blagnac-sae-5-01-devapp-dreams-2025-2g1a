@@ -14,6 +14,21 @@ const PaysSchema = new mongoose.Schema({
     image: {
         type: String, 
         required: true
+    },
+    nomSiege: {
+        type: String
+    },
+    adresse: {
+        type: String
+    },
+    horaire: {
+        type: String
+    },
+    mail: {
+        type: String
+    },
+    number: {
+        type: String
     }
 }, {
     timestamps: true 

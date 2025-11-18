@@ -1,11 +1,7 @@
 import { FileText, Hospital, HouseHeart, MapPinned, ShieldCheck, ShieldHalf } from "lucide-react";
-import hero from "../assets/hero_section/accueilpublicImg.png";
+import hero from "../assets/hero_section/accueil_public.png";
 import { useEffect, useState } from "react";
 import none from "../assets/none.jpg";
-
-
-
-
 
 function PageAccueilPublic() {
 
@@ -74,8 +70,8 @@ function PageAccueilPublic() {
             <div className=" text-gray-500 text-xs">
               Accueil / Accueil du public LGBTQ+
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 ">
-              Bienvenue en <span className="text-yellow-500">Europe</span>
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+              Bienvenue en Europe
             </h1>
             <p className="text-gray-700">
               Un espace sécurisé où chaque identité est respectée, protégée et

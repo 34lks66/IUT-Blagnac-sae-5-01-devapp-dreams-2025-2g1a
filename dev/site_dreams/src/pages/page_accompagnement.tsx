@@ -19,8 +19,8 @@ function Accompagnement() {
                         <div className=" text-gray-500 text-xs">
                             Accueil / Accompagnement administratif & juridique
                         </div>
-                        <h1 className="text-3xl md:text-4xl font-extrabold mb-2 ">
-                            Accompagnement <span className="text-yellow-500">administratif et juridique</span>
+                        <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+                            Accompagnement administratif et juridique
                         </h1>
                         <p className="text-gray-700">
                             Votre partenaire de confiance pour toutes vos démarches.

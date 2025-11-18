@@ -12,6 +12,11 @@ type Country = {
   nom: string;
   description: string;
   image?: string; // ex: "/uploads/xxx.jpg"
+  nomSiege: string;
+  adresse: string;
+  horaire: string;
+  mail: string;
+  number: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -25,8 +30,7 @@ type NewsItem = {
 };
 
 // ---------- Helpers ----------
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const API_ORIGIN = API_BASE.replace(/\/api$/, "");
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // UI helpers
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
@@ -41,7 +45,7 @@ const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
   <input
     {...p}
     className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" +
       (p.className ?? "")
     }
   />
@@ -52,7 +56,7 @@ const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
   <textarea
     {...p}
     className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" +
       (p.className ?? "")
     }
   />
@@ -66,6 +70,11 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   // Edition du pays
   const [description, setDescription] = useState<string>("");
   const [countryImageFile, setCountryImageFile] = useState<File | null>(null); // nouvelle image du pays
+  const [nomSiege, setNomSiege] = useState<string>("");
+  const [adresse, setAdresse] = useState<string>("");
+  const [horaire, setHoraire] = useState<string>("");
+  const [mail, setMail] = useState<string>("");
+  const [number, setNumber] = useState<string>("");
 
   // News
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -81,7 +90,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
     setLoading(true);
     try {
       // Charger tous les pays (ou remplace par /pays/:id si tu l'as)
-      const resPays = await fetch(`${API_BASE}/pays/get`, {
+      const resPays = await fetch(`${API_BASE}/api/pays/get`, {
         credentials: "include",
       });
       const all: Country[] = resPays.ok ? await resPays.json() : [];
@@ -89,11 +98,17 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       setCountry(current);
       setDescription(current?.description || "");
       setCountryImageFile(null);
+      setNomSiege(current?.nomSiege || "");
+      setAdresse(current?.adresse || "");
+      setHoraire(current?.horaire || "");
+      setMail(current?.mail || "");
+      setNumber(current?.number || "");
 
       // News
-      const resNews = await fetch(`${API_BASE}/newspays/get?pays=${id}`, {
+      const resNews = await fetch(`${API_BASE}/api/newspays/get?pays=${id}`, {
         credentials: "include",
       });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataNews: any[] = resNews.ok ? await resNews.json() : [];
       setNews(
         dataNews.map((n) => ({
@@ -147,7 +162,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
     if (typeof img === "string") {
       return (
         <img
-          src={`${API_ORIGIN}${img}`}
+          src={`${API_BASE}${img}`}
           className="w-28 h-20 object-cover rounded-md border border-gray-200"
         />
       );
@@ -187,18 +202,23 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         const fd = new FormData();
         fd.append("description", description);
         fd.append("image", countryImageFile);
-        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+        fd.append("nom_siege", nomSiege);
+        fd.append("adresse", adresse);
+        fd.append("horaire", horaire);
+        fd.append("mail", mail);
+        fd.append("number", number);
+        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
           method: "PUT",
           credentials: "include",
           body: fd,
         });
         if (!r.ok) throw new Error("Échec update pays");
       } else {
-        const r = await fetch(`${API_BASE}/pays/update/${country._id}`, {
+        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ description }),
+          body: JSON.stringify({ description, nomSiege, adresse, horaire, mail, number }),
         });
         if (!r.ok) throw new Error("Échec update pays");
       }
@@ -221,7 +241,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
             fd.append("description", n.description);
             fd.append("pays", country._id);
             if (n.image && n.image instanceof File) fd.append("image", n.image);
-            const r = await fetch(`${API_BASE}/newspays/save`, {
+            const r = await fetch(`${API_BASE}/api/newspays/save`, {
               method: "POST",
               credentials: "include",
               body: fd,
@@ -241,7 +261,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               fd.append("description", n.description);
               fd.append("pays", country._id);
               fd.append("image", n.image);
-              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
                 method: "PUT",
                 credentials: "include",
                 body: fd,
@@ -249,7 +269,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               if (!r.ok) throw new Error("Échec update news (file)");
               return r.json();
             } else {
-              const r = await fetch(`${API_BASE}/newspays/update/${n._id}`, {
+              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
                 method: "PUT",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -269,7 +289,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       if (toDelete.length) {
         await Promise.all(
           toDelete.map((id) =>
-            fetch(`${API_BASE}/newspays/delete/${id}`, {
+            fetch(`${API_BASE}/api/newspays/delete/${id}`, {
               method: "DELETE",
               credentials: "include",
             }).then((r) => {
@@ -300,7 +320,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
 
     try {
       setDeletingCountry(true);
-      const res = await fetch(`${API_BASE}/pays/delete/${country._id}`, {
+      const res = await fetch(`${API_BASE}/api/pays/delete/${country._id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -391,7 +411,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
                 />
               ) : country.image ? (
                 <img
-                  src={`${API_ORIGIN}${country.image}`}
+                  src={`${API_BASE}${country.image}`}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -527,6 +547,39 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
             ))}
           </div>
         )}
+      </section>
+
+      {/* Contact */}
+      <section className="border-t border-gray-200 pt-6">
+        <h3 className="text-lg font-semibold mb-6">Contact du pays</h3>
+        <div className="flex items-center justify-between mb-4">
+          <form className="space-y-8">
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label>Nom du siège</Label>
+                  <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+                <div className="flex-[2]">
+                  <Label>Adresse</Label>
+                  <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+                <div className="flex-[2]"> 
+                <Label>Horaire</Label>
+                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+              </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label>Adresse mail</Label>
+                  <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+                <div className="flex-1">
+                  <Label>Numéro de téléphone</Label>
+                  <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                </div>
+              </div>
+          </form>
+        </div>
       </section>
 
       {/* Actions */}

@@ -1,0 +1,213 @@
+[33m1e508a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmucahit[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/leo[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{0}: merge main: Fast-forward
+[33mb7c021c[m[33m ([m[1;31morigin/mucahit[m[33m)[m HEAD@{1}: checkout: moving from main to mucahit
+[33m1e508a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmucahit[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/leo[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{2}: checkout: moving from mucahit to main
+[33mb7c021c[m[33m ([m[1;31morigin/mucahit[m[33m)[m HEAD@{3}: checkout: moving from main to mucahit
+[33m1e508a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmucahit[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/leo[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{4}: checkout: moving from loic to main
+[33mda93024[m[33m ([m[1;31morigin/loic[m[33m, [m[1;32mloic[m[33m)[m HEAD@{5}: pull: Fast-forward
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{6}: checkout: moving from main to loic
+[33m1e508a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmucahit[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/leo[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{7}: checkout: moving from mucahit to main
+[33mb7c021c[m[33m ([m[1;31morigin/mucahit[m[33m)[m HEAD@{8}: checkout: moving from main to mucahit
+[33m1e508a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmucahit[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/leo[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{9}: checkout: moving from mucahit to main
+[33mb7c021c[m[33m ([m[1;31morigin/mucahit[m[33m)[m HEAD@{10}: checkout: moving from main to mucahit
+[33m1e508a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmucahit[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/leo[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{11}: pull: Fast-forward
+[33mda93024[m[33m ([m[1;31morigin/loic[m[33m, [m[1;32mloic[m[33m)[m HEAD@{12}: pull: Fast-forward
+[33m78d7069[m HEAD@{13}: commit: add devtunnel link in serverjs for public access via port
+[33m932b38f[m HEAD@{14}: pull: Fast-forward
+[33mb7c021c[m[33m ([m[1;31morigin/mucahit[m[33m)[m HEAD@{15}: merge mucahit: Fast-forward
+[33m324461b[m HEAD@{16}: checkout: moving from mucahit to main
+[33mb7c021c[m[33m ([m[1;31morigin/mucahit[m[33m)[m HEAD@{17}: checkout: moving from main to mucahit
+[33m324461b[m HEAD@{18}: checkout: moving from mucahit to main
+[33mb7c021c[m[33m ([m[1;31morigin/mucahit[m[33m)[m HEAD@{19}: commit: add contact section to Country Template + gestion contact section côté admin
+[33m324461b[m HEAD@{20}: checkout: moving from main to mucahit
+[33m324461b[m HEAD@{21}: merge mucahit: Fast-forward
+[33mf06908e[m HEAD@{22}: checkout: moving from mucahit to main
+[33m324461b[m HEAD@{23}: checkout: moving from main to mucahit
+[33mf06908e[m HEAD@{24}: checkout: moving from mucahit to main
+[33m324461b[m HEAD@{25}: reset: moving to 324461b
+[33m76d86f0[m HEAD@{26}: commit: commit
+[33m324461b[m HEAD@{27}: checkout: moving from main to mucahit
+[33mf06908e[m HEAD@{28}: checkout: moving from leo to main
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{29}: checkout: moving from main to leo
+[33mf06908e[m HEAD@{30}: checkout: moving from mucahit to main
+[33m324461b[m HEAD@{31}: commit: doc event route + recuperation nom pays & antenne pour le menu
+[33mf06908e[m HEAD@{32}: checkout: moving from main to mucahit
+[33mf06908e[m HEAD@{33}: merge mucahit: Fast-forward
+[33m5b684a4[m HEAD@{34}: checkout: moving from mucahit to main
+[33mf06908e[m HEAD@{35}: commit: refactoring backend route files
+[33m5b684a4[m HEAD@{36}: checkout: moving from main to mucahit
+[33m5b684a4[m HEAD@{37}: checkout: moving from mucahit to main
+[33m5b684a4[m HEAD@{38}: merge main: Fast-forward
+[33m61fbd6c[m HEAD@{39}: checkout: moving from main to mucahit
+[33m5b684a4[m HEAD@{40}: pull: Fast-forward
+[33m61fbd6c[m HEAD@{41}: merge mucahit: Fast-forward
+[33m77174a0[m HEAD@{42}: checkout: moving from mucahit to main
+[33m61fbd6c[m HEAD@{43}: commit (merge): Merge branch 'main' into mucahit
+[33m03d3fe5[m HEAD@{44}: checkout: moving from main to mucahit
+[33m77174a0[m HEAD@{45}: pull: Fast-forward
+[33md4cf63b[m HEAD@{46}: checkout: moving from mucahit to main
+[33m03d3fe5[m HEAD@{47}: commit: amelioration news section => gestion description + link attribut
+[33md4cf63b[m HEAD@{48}: checkout: moving from main to mucahit
+[33md4cf63b[m HEAD@{49}: merge mucahit: Fast-forward
+[33m4b415d8[m HEAD@{50}: checkout: moving from mucahit to main
+[33md4cf63b[m HEAD@{51}: checkout: moving from main to mucahit
+[33m4b415d8[m HEAD@{52}: checkout: moving from mucahit to main
+[33md4cf63b[m HEAD@{53}: commit: amelioration style site dreams + changement missions card home page
+[33m4b415d8[m HEAD@{54}: checkout: moving from main to mucahit
+[33m4b415d8[m HEAD@{55}: merge mucahit: Fast-forward
+[33mea9456b[m HEAD@{56}: checkout: moving from mucahit to main
+[33m4b415d8[m HEAD@{57}: checkout: moving from main to mucahit
+[33mea9456b[m HEAD@{58}: checkout: moving from mucahit to main
+[33m4b415d8[m HEAD@{59}: commit: correction bug + amelioration / uniformisation style dashboard
+[33mea9456b[m HEAD@{60}: merge main: Fast-forward
+[33m3799f35[m HEAD@{61}: checkout: moving from main to mucahit
+[33mea9456b[m HEAD@{62}: pull: Fast-forward
+[33mb24944c[m HEAD@{63}: pull: Fast-forward
+[33m3799f35[m HEAD@{64}: checkout: moving from mucahit to main
+[33m3799f35[m HEAD@{65}: merge main: Fast-forward
+[33m456186d[m HEAD@{66}: checkout: moving from main to mucahit
+[33m3799f35[m HEAD@{67}: pull: Fast-forward
+[33m23beb86[m HEAD@{68}: pull: Fast-forward
+[33m9ef3b50[m HEAD@{69}: pull: Fast-forward
+[33m456186d[m HEAD@{70}: merge mucahit: Fast-forward
+[33md2250be[m HEAD@{71}: checkout: moving from mucahit to main
+[33m456186d[m HEAD@{72}: checkout: moving from main to mucahit
+[33md2250be[m HEAD@{73}: checkout: moving from mucahit to main
+[33m456186d[m HEAD@{74}: commit: correction style dashboard
+[33md2250be[m HEAD@{75}: merge main: Fast-forward
+[33m18d6a2d[m HEAD@{76}: checkout: moving from main to mucahit
+[33md2250be[m HEAD@{77}: pull: Fast-forward
+[33m8cfb372[m HEAD@{78}: pull: Fast-forward
+[33mfc85f2a[m HEAD@{79}: checkout: moving from mucahit to main
+[33m18d6a2d[m HEAD@{80}: checkout: moving from main to mucahit
+[33mfc85f2a[m HEAD@{81}: pull: Fast-forward
+[33m315edc2[m HEAD@{82}: checkout: moving from mucahit to main
+[33m18d6a2d[m HEAD@{83}: checkout: moving from main to mucahit
+[33m315edc2[m HEAD@{84}: pull: Fast-forward
+[33m18d6a2d[m HEAD@{85}: checkout: moving from mucahit to main
+[33m18d6a2d[m HEAD@{86}: merge main: Fast-forward
+[33md513732[m HEAD@{87}: checkout: moving from main to mucahit
+[33m18d6a2d[m HEAD@{88}: commit: fix bug header
+[33md513732[m HEAD@{89}: checkout: moving from mucahit to main
+[33md513732[m HEAD@{90}: merge main: Fast-forward
+[33mb467876[m HEAD@{91}: checkout: moving from main to mucahit
+[33md513732[m HEAD@{92}: commit: refactoring routes file
+[33m3e3dfa4[m HEAD@{93}: pull: Fast-forward
+[33mb42b362[m HEAD@{94}: pull: Fast-forward
+[33mb467876[m HEAD@{95}: checkout: moving from mucahit to main
+[33mb467876[m HEAD@{96}: merge main: Fast-forward
+[33m2ceb571[m HEAD@{97}: checkout: moving from main to mucahit
+[33mb467876[m HEAD@{98}: commit: correction header
+[33m2ceb571[m HEAD@{99}: checkout: moving from mucahit to main
+[33m2ceb571[m HEAD@{100}: merge main: Fast-forward
+[33m298863c[m HEAD@{101}: checkout: moving from main to mucahit
+[33m2ceb571[m HEAD@{102}: commit: redirection pays header
+[33m298863c[m HEAD@{103}: checkout: moving from mucahit to main
+[33m298863c[m HEAD@{104}: merge main: Fast-forward
+[33m6f1e05c[m HEAD@{105}: checkout: moving from main to mucahit
+[33m298863c[m HEAD@{106}: commit: test news CRUD
+[33m6f1e05c[m HEAD@{107}: merge mucahit: Fast-forward
+[33m4dc024a[m HEAD@{108}: checkout: moving from mucahit to main
+[33m6f1e05c[m HEAD@{109}: commit: resolve conflit
+[33m800911c[m HEAD@{110}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{111}: checkout: moving from mucahit to main
+[33m800911c[m HEAD@{112}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{113}: checkout: moving from mucahit to main
+[33m800911c[m HEAD@{114}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{115}: checkout: moving from main to main
+[33m4dc024a[m HEAD@{116}: checkout: moving from mucahit to main
+[33m800911c[m HEAD@{117}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{118}: checkout: moving from mucahit to main
+[33m800911c[m HEAD@{119}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{120}: checkout: moving from mucahit to main
+[33m800911c[m HEAD@{121}: commit: fix bug
+[33m2afcafa[m HEAD@{122}: commit (merge): Merge branch 'main' into mucahit
+[33m6e6ac5e[m HEAD@{123}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{124}: checkout: moving from mucahit to main
+[33m6e6ac5e[m HEAD@{125}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{126}: checkout: moving from mucahit to main
+[33m6e6ac5e[m HEAD@{127}: checkout: moving from main to mucahit
+[33m4dc024a[m HEAD@{128}: commit: fix bug
+[33made66b2[m HEAD@{129}: checkout: moving from mucahit to main
+[33m6e6ac5e[m HEAD@{130}: commit: merge main
+[33mb69be25[m HEAD@{131}: commit (merge): Merge branch 'main' into mucahit
+[33m8eecfce[m HEAD@{132}: checkout: moving from main to mucahit
+[33made66b2[m HEAD@{133}: pull: Fast-forward
+[33mc47b9db[m HEAD@{134}: checkout: moving from mucahit to main
+[33m8eecfce[m HEAD@{135}: commit: complete CRUD news sections + add multer for image local storage
+[33m5f26389[m HEAD@{136}: checkout: moving from main to mucahit
+[33mc47b9db[m HEAD@{137}: checkout: moving from mucahit to main
+[33m5f26389[m HEAD@{138}: checkout: moving from main to mucahit
+[33mc47b9db[m HEAD@{139}: pull: Fast-forward
+[33m7ac9103[m HEAD@{140}: pull: Fast-forward
+[33m5f391e6[m HEAD@{141}: checkout: moving from mucahit to main
+[33m5f26389[m HEAD@{142}: merge main: Merge made by the 'ort' strategy.
+[33m3dcbee6[m HEAD@{143}: checkout: moving from main to mucahit
+[33m5f391e6[m HEAD@{144}: pull: Fast-forward
+[33md5fa7e3[m HEAD@{145}: checkout: moving from mucahit to main
+[33m3dcbee6[m HEAD@{146}: commit: creation model api for news section + creation CRUD dahsbord form for news section + connexion get/post/delete dashbord-front to backend
+[33md5fa7e3[m HEAD@{147}: merge main: Fast-forward
+[33mde5a080[m[33m ([m[1;32msidney[m[33m)[m HEAD@{148}: checkout: moving from main to mucahit
+[33md5fa7e3[m HEAD@{149}: pull: Fast-forward
+[33mde5a080[m[33m ([m[1;32msidney[m[33m)[m HEAD@{150}: checkout: moving from mucahit to main
+[33mde5a080[m[33m ([m[1;32msidney[m[33m)[m HEAD@{151}: merge main: Fast-forward
+[33m75170bd[m HEAD@{152}: checkout: moving from main to mucahit
+[33mde5a080[m[33m ([m[1;32msidney[m[33m)[m HEAD@{153}: merge sidney: Fast-forward
+[33m75170bd[m HEAD@{154}: checkout: moving from sidney to main
+[33mde5a080[m[33m ([m[1;32msidney[m[33m)[m HEAD@{155}: commit (merge): Merge branch 'main' into sidney
+[33me2b3715[m HEAD@{156}: checkout: moving from main to sidney
+[33m75170bd[m HEAD@{157}: checkout: moving from sidney to main
+[33me2b3715[m HEAD@{158}: checkout: moving from main to sidney
+[33m75170bd[m HEAD@{159}: checkout: moving from mucahit to main
+[33m75170bd[m HEAD@{160}: merge main: Fast-forward
+[33m149ff54[m HEAD@{161}: checkout: moving from main to mucahit
+[33m75170bd[m HEAD@{162}: checkout: moving from mucahit to main
+[33m149ff54[m HEAD@{163}: checkout: moving from main to mucahit
+[33m75170bd[m HEAD@{164}: pull: Fast-forward
+[33m149ff54[m HEAD@{165}: merge mucahit: Fast-forward
+[33mece9c46[m HEAD@{166}: checkout: moving from mucahit to main
+[33m149ff54[m HEAD@{167}: checkout: moving from main to mucahit
+[33mece9c46[m HEAD@{168}: checkout: moving from mucahit to main
+[33m149ff54[m HEAD@{169}: commit: add route for popup country map
+[33mece9c46[m HEAD@{170}: merge main: Fast-forward
+[33m848d459[m HEAD@{171}: checkout: moving from bastien to mucahit
+[33m9e18fcc[m[33m ([m[1;32mbastien[m[33m)[m HEAD@{172}: pull: Fast-forward
+[33m92d9b98[m HEAD@{173}: checkout: moving from kilian to bastien
+[33mb59158f[m[33m ([m[1;32mkilian[m[33m)[m HEAD@{174}: checkout: moving from sidney to kilian
+[33me2b3715[m HEAD@{175}: checkout: moving from loic to sidney
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{176}: pull: Fast-forward
+[33mc4f9821[m HEAD@{177}: checkout: moving from sidney to loic
+[33me2b3715[m HEAD@{178}: checkout: moving from main to sidney
+[33mece9c46[m HEAD@{179}: pull: Fast-forward
+[33m848d459[m HEAD@{180}: checkout: moving from sidney to main
+[33me2b3715[m HEAD@{181}: pull: Fast-forward
+[33mc81d0ec[m HEAD@{182}: checkout: moving from main to sidney
+[33m848d459[m HEAD@{183}: merge mucahit: Fast-forward
+[33m1de765b[m HEAD@{184}: checkout: moving from mucahit to main
+[33m848d459[m HEAD@{185}: commit (merge): Merge branch 'main' into mucahit
+[33m6d4083b[m HEAD@{186}: checkout: moving from kilian to mucahit
+[33mb59158f[m[33m ([m[1;32mkilian[m[33m)[m HEAD@{187}: checkout: moving from main to kilian
+[33m1de765b[m HEAD@{188}: pull: Fast-forward
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{189}: checkout: moving from mucahit to main
+[33m6d4083b[m HEAD@{190}: commit: creation api doc
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{191}: checkout: moving from main to mucahit
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{192}: checkout: moving from mucahit to main
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{193}: merge main: Fast-forward
+[33m6e9f8d4[m HEAD@{194}: checkout: moving from main to mucahit
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{195}: checkout: moving from mucahit to main
+[33m6e9f8d4[m HEAD@{196}: checkout: moving from main to mucahit
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{197}: checkout: moving from mucahit to main
+[33m6e9f8d4[m HEAD@{198}: checkout: moving from main to mucahit
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{199}: checkout: moving from leo to main
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{200}: checkout: moving from main to leo
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{201}: checkout: moving from mucahit to main
+[33m6e9f8d4[m HEAD@{202}: checkout: moving from main to mucahit
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{203}: checkout: moving from leo to main
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{204}: merge main: Fast-forward
+[33mcf29872[m HEAD@{205}: checkout: moving from main to leo
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{206}: checkout: moving from leo to main
+[33mcf29872[m HEAD@{207}: checkout: moving from main to leo
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{208}: checkout: moving from mucahit to main
+[33m6e9f8d4[m HEAD@{209}: checkout: moving from leo to mucahit
+[33mcf29872[m HEAD@{210}: checkout: moving from main to leo
+[33m6c2a2e4[m[33m ([m[1;33mtag: [m[1;33mv1.3.0-sprint3[m[33m, [m[1;32mleo[m[33m)[m HEAD@{211}: checkout: moving from mucahit to main
+[33m6e9f8d4[m HEAD@{212}: checkout: moving from main to mucahit

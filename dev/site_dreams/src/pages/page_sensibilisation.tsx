@@ -1,6 +1,7 @@
 import "../styles/sensibilisation.css"
 import none from "../assets/none.jpg";
 import hero from "../assets/hero_section/sensibilisation.png";
+import { useEffect, useRef, useState } from "react";
 
 const LGBTQ = [
     { letter: 'L', word: 'Lesbiennes', color: 'text-[#fb2c36]' },
@@ -10,7 +11,74 @@ const LGBTQ = [
     { letter: 'Q', word: 'Queers', color: 'text-[#2b7fff]' },
     { letter: '+', word: 'Autres', color: 'text-gray-500' },
 ]
+
+const targets = { pride: 4, soirees: 25, stands: 8, interventions: 12 };
+
 function Sensibilisation() {
+
+  {/* ============ ANIMATION CHIFFRE ============ */}
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [counts, setCounts] = useState({
+    pride: 0,
+    soirees: 0,
+    stands: 0,
+    interventions: 0,
+  });
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const duration = 750;
+    const frameRate = 16; // ~60fps
+    const steps = Math.max(1, Math.round(duration / frameRate));
+    let step = 0;
+    const interval = setInterval(() => {
+      step++;
+      setCounts({
+        pride: Math.floor((targets.pride * step) / steps),
+        soirees: Math.floor((targets.soirees * step) / steps),
+        stands: Math.floor((targets.stands * step) / steps),
+        interventions: Math.floor(
+          (targets.interventions * step) / steps
+        ),
+      });
+
+      if (step >= steps) {
+        setCounts({
+          pride: targets.pride,
+          soirees: targets.soirees,
+          stands: targets.stands,
+          interventions: targets.interventions,
+        });
+        clearInterval(interval);
+      }
+    }, frameRate);
+
+    return () => clearInterval(interval);
+  }, [isVisible]);
 
   return (
     <main className="bg-white text-gray-800 font-sans leading-relaxed">
@@ -61,22 +129,22 @@ function Sensibilisation() {
             </section>
 
             {/* ============ Impact et résultats ============ */}
-            <section className="max-w-6xl m-auto py-7 px-4">
+            <section ref={sectionRef} className="max-w-6xl m-auto py-7 px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
                   <div>
-                    <h2 className="font-black text-8xl leading-tight">4</h2>
+                    <h2 className="font-black text-8xl leading-tight">{counts.pride}</h2>
                     <p className="font-semibold text-yellow-500 uppercase">Participation à la Gay Pride</p>
                   </div>
                   <div>
-                    <h2 className="font-black text-8xl leading-tight">25</h2>
+                    <h2 className="font-black text-8xl leading-tight">{counts.soirees}</h2>
                     <p className="font-semibold text-yellow-500 uppercase">Soirées de convivialité</p>
                   </div>
                   <div>
-                    <h2 className="font-black text-8xl leading-tight">8</h2>
+                    <h2 className="font-black text-8xl leading-tight">{counts.stands}</h2>
                     <p className="font-semibold text-yellow-500 uppercase">Tenue de stands</p>
                   </div>
                   <div>
-                    <h2 className="font-black text-8xl leading-tight">12</h2>
+                    <h2 className="font-black text-8xl leading-tight">{counts.interventions}</h2>
                     <p className="font-semibold text-yellow-500 uppercase">Interventions en structures</p>
                   </div>
                 </div>

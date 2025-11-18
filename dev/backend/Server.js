@@ -7,12 +7,12 @@ const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
 const path = require('path');
 
-const memberRoutes = require('./routes/MemberRoute');
-const newsRoutes = require('./routes/NewsRoute');
+const Routes = require('./routes/Route');
 const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
-const eventRoutes = require('./routes/EventRoute');
 const cookieParser = require("cookie-parser"); 
+const authVerif = require("./middlewares/auth");
+const { events } = require("./models/MemberModel");
 
 require('dotenv').config();
 
@@ -25,6 +25,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
+    // origin: ["http://localhost:5173", "http://localhost:5174", "https://6qbmdkkp-5174.uks1.devtunnels.ms"],
     origin: ["http://localhost:5173", "http://localhost:5174"], 
     credentials: true, 
   })
@@ -47,6 +48,7 @@ app.get('/', (req, res) => {
           },
           news: {
             getNews: 'GET /api/news/get',
+            getNewsID: 'GET /api/news/get/:id',
             saveNews: 'POST /api/news/save',
             updateNews: 'PUT /api/news/update/:id',
             deleteNews: 'DELETE /api/news/delete/:id'
@@ -57,11 +59,24 @@ app.get('/', (req, res) => {
             updatePays: 'PUT /api/pays/update/:id',
             deletePays: 'DELETE /api/pays/delete/:id'
           },
+          NewsPays: {
+            getNewsPays: 'GET /api/newspays/get',
+            getNewsPaysID: 'GET /api/newspays/get/:id',
+            saveNewsPays: 'POST /api/newspays/save',
+            updateNewsPays: 'PUT /api/newspays/update/:id',
+            deleteNewsPays: 'DELETE /api/newspays/delete/:id'
+          },
           antennes: {
             getAntennes: 'GET /api/antenne/get',
             saveAntenne: 'POST /api/antenne/save',
             updateAntenne: 'PUT /api/antenne/update/:id',
             deleteAntenne: 'DELETE /api/antenne/delete/:id'
+          },
+          events: {
+            getEvent: 'GET /api/event/get',
+            saveEvent: 'POST /api/event/save',
+            updateEvent: 'PUT /api/event/update/:id',
+            deleteEvent: 'DELETE /api/event/delete/:id'
           }
         }
     });
@@ -124,11 +139,10 @@ app.get('/swagger.json', (req, res) => {
    `);
  });
 
-app.use('/api', memberRoutes);
-app.use('/api', newsRoutes);
+ 
+app.use('/api', Routes);
 app.use('/api', authRoutes);
-app.use('/api/accounts', accountRoutes);
-app.use('/api/events', eventRoutes);
+app.use('/api/accounts', authVerif, accountRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

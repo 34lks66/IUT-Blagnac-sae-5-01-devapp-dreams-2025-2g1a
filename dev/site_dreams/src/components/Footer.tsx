@@ -1,24 +1,58 @@
 import React from "react";
-import "../styles/footer.css";
 import { Instagram, Facebook } from "lucide-react";
-
 
 const FooterMain: React.FC = () => {
   const year = new Date().getFullYear();
 
+  const rainbow =
+    "bg-[linear-gradient(90deg,#ef4444_0%,#f59e0b_25%,#facc15_40%,#22c55e_60%,#3b82f6_80%,#8b5cf6_100%)]";
+  const goldText =
+    "bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent";
+
+  const LinkItem: React.FC<{ href: string; children: React.ReactNode }> = ({
+    href,
+    children,
+  }) => (
+    <li>
+      <a
+        href={href}
+        className="group relative inline-block leading-7 text-gray-800 hover:text-[#0b1220] transition-colors"
+      >
+        {children}
+        {/* soulignement arc-en-ciel animé */}
+        <span
+          className={`pointer-events-none absolute left-0 -bottom-[2px] h-[2px] w-full origin-left scale-x-0 opacity-25 transition-all duration-200 group-hover:opacity-100 group-hover:scale-x-100 ${rainbow}`}
+        />
+      </a>
+    </li>
+  );
+
+  const LegalLink: React.FC<{ href: string; children: React.ReactNode }> = ({
+    href,
+    children,
+  }) => (
+    <a
+      href={href}
+      className={`text-sm font-semibold ${goldText} hover:underline hover:bg-[linear-gradient(90deg,#ef4444,#f59e0b,#facc15,#22c55e,#3b82f6,#8b5cf6)]`}
+    >
+      {children}
+    </a>
+  );
+
   return (
-    <footer className="footer-main">
-      <div className="footer-main__wrapper">
-        {/* Ligne principale : Brand + Liens utiles + Contact */}
-        <div className="footer-main__row">
-          {/* Col 1 — Brand + description */}
-          <div className="footer-brand">
-            <div className="footer-brand__logo">
-              {/* Remplace par ton image si tu veux un logo */}
-              {/* <img src="/images/logo-dreams.png" alt="DREAMS" /> */}
-              <span className="footer-brand__name">DREAMS</span>
+    <footer className="bg-white text-gray-800 text-[13px]">
+      <div className="max-w-[1740px] mx-auto px-4 py-5">
+        {/* ROW */}
+        <div className="grid grid-cols-1 gap-6 items-start md:[grid-template-columns:1.2fr_1fr_1fr]">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2">
+              {/* <img src="/images/logo-dreams.png" alt="DREAMS" className="w-11 h-11 object-contain" /> */}
+              <span className={`text-[22px] font-extrabold tracking-wide ${goldText}`}>
+                DREAMS
+              </span>
             </div>
-            <p className="footer-brand__desc">
+            <p className="mt-2 leading-relaxed text-gray-800">
               DREAMS est une association à but non lucratif basée à Toulouse et active en
               France, en Europe et en Afrique. Nous accompagnons les personnes LGBTQ+ dans
               l’accueil, l’orientation, l’hébergement solidaire, l’accompagnement
@@ -26,69 +60,92 @@ const FooterMain: React.FC = () => {
             </p>
           </div>
 
-          {/* Col 2 — Liens utiles (gros titres seulement) */}
-          <nav className="footer-links" aria-label="Liens utiles">
-            <h3 className="footer-brand__name">Liens utiles</h3>
-            <ul className="footer-links__list">
-              <li><a href="/accueil" className="footer-link">Accueil</a></li>
-              <li><a href="/public-migrant" className="footer-link">Accueil du public migrant LGBTQ+</a></li>
-              <li><a href="/evaluation-orientation" className="footer-link">Évaluation & orientation</a></li>
-              <li><a href="/hebergement" className="footer-link">Hébergement solidaire & temporaire</a></li>
-              <li><a href="/accompagnement-admin-juridique" className="footer-link">Accompagnement administratif & juridique</a></li>
-              <li><a href="/sensibilisation" className="footer-link">Sensibilisation des minorités sexuelles</a></li>
+          {/* Liens utiles */}
+          <nav aria-label="Liens utiles">
+            <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText}`}>
+              Liens utiles
+            </h3>
+            <ul className="space-y-0.5">
+              <LinkItem href="/accueil">Accueil</LinkItem>
+              <LinkItem href="/public-migrant">
+                Accueil du public migrant LGBTQ+
+              </LinkItem>
+              <LinkItem href="/evaluation-orientation">Évaluation & orientation</LinkItem>
+              <LinkItem href="/hebergement">Hébergement solidaire & temporaire</LinkItem>
+              <LinkItem href="/accompagnement-admin-juridique">
+                Accompagnement administratif & juridique
+              </LinkItem>
+              <LinkItem href="/sensibilisation">
+                Sensibilisation des minorités sexuelles
+              </LinkItem>
             </ul>
           </nav>
 
-          {/* Col 3 — Contact + légaux + réseaux */}
-          <div className="footer-contact">
-            <h3 className="footer-brand__name">Contact</h3>
+          {/* Contact + légaux + réseaux */}
+          <div>
+            <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText}`}>
+              Contact
+            </h3>
 
-            <ul className="footer-contact__list">
+            <ul className="space-y-1 mb-2">
               <li>
-                <a className="footer-link" href="tel:+33758209226">+33 7 58 20 92 26</a>
+                <a className="hover:underline" href="tel:+33758209226">
+                  +33 7 58 20 92 26
+                </a>
               </li>
               <li>
-                <a className="footer-link" href="mailto:assodreamsfr@gmail.com">assodreamsfr@gmail.com</a>
+                <a className="hover:underline" href="mailto:assodreamsfr@gmail.com">
+                  assodreamsfr@gmail.com
+                </a>
               </li>
               <li>
-                <span className="footer-contact__address">
+                <span className="text-gray-500">
                   Siège social : 38 Rue d'Aubuisson, 31000 Toulouse, France
                 </span>
               </li>
             </ul>
 
-            <div className="footer-legal">
-              <a href="/mentions-legales#mentions" className="footer-legal__link">Mentions légales</a>
+            <div className="flex flex-wrap items-center gap-2 my-2">
+              <LegalLink href="/politiques-de-confidentialites#mentions-legales">Mentions légales</LegalLink>
               <span>·</span>
-              <a href="/mentions-legales#vie-privee" className="footer-legal__link">Vie privée</a>
+              <LegalLink href="/politiques-de-confidentialites#vie-privee">Vie privée</LegalLink>
               <span>·</span>
-              <a href="/mentions-legales#cookies" className="footer-legal__link">Cookies</a>
+              <LegalLink href="/politiques-de-confidentialites#cookies">Cookies</LegalLink>
               <span>·</span>
-              <a href="/mentions-legales#accessibilite" className="footer-legal__link">Accessibilité</a>
+              <LegalLink href="/politiques-de-confidentialites#droits">Accessibilité</LegalLink>
             </div>
 
-            <div className="footer-socials">
+            <div className="flex items-center gap-2">
               <a href="https://x.com/DREAMS_ASSO" aria-label="X / Twitter">
-                <img src="/images/X.jpg" alt="X / Twitter" />
+                <img src="/images/X.jpg" alt="X / Twitter" className="w-7 h-7 object-contain" />
               </a>
-              <a href="https://www.tiktok.com/@dreams_asso?_t=ZN-8tODtZI5CCd&_r=1" aria-label="TikTok">
-                <img src="/images/tiktok.png" alt="TikTok" />
+              <a
+                href="https://www.tiktok.com/@dreams_asso?_t=ZN-8tODtZI5CCd&_r=1"
+                aria-label="TikTok"
+              >
+                <img src="/images/tiktok.png" alt="TikTok" className="w-7 h-7 object-contain" />
               </a>
-              <a href="https://www.instagram.com/dreams_asso/" aria-label="Instagram">
-                <Instagram size={28} strokeWidth={2} className="footer-social-icon" />
+              <a
+                href="https://www.instagram.com/dreams_asso/"
+                aria-label="Instagram"
+                className="text-gray-800 hover:text-gray-900"
+              >
+                <Instagram size={28} strokeWidth={2} />
               </a>
-              <a href="https://www.facebook.com/people/DREAMSAsso/61571981955508/" aria-label="Facebook">
-                <Facebook size={28} strokeWidth={2} className="footer-social-icon" />
+              <a
+                href="https://www.facebook.com/people/DREAMSAsso/61571981955508/"
+                aria-label="Facebook"
+                className="text-gray-800 hover:text-gray-900"
+              >
+                <Facebook size={28} strokeWidth={2} />
               </a>
             </div>
           </div>
         </div>
 
-        {/* Bas du footer : petite ligne de séparation + © */}
-        <div className="footer-main__separator" />
-        <div className="footer-bottom">
-          © {year} / DREAMS
-        </div>
+        {/* Separator + bottom */}
+        <div className="border-b border-gray-200 my-4" />
+        <div className="text-center text-gray-500 pb-3">© {year} / DREAMS</div>
       </div>
     </footer>
   );

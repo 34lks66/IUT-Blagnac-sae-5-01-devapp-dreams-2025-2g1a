@@ -1,5 +1,7 @@
 import { useEffect,useState, useMemo } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 interface User {
   _id?: string;
   nom: string;
@@ -29,7 +31,9 @@ const Users = () => {
   useEffect(() => {
   const fetchAccounts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/accounts");
+      const res = await fetch(`${API_BASE}/api/accounts`, {
+        credentials: "include",
+      });
       if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
       const data = await res.json();
       setUsers(data);
@@ -54,7 +58,7 @@ const Users = () => {
     prenom,
     telephone,
     email: email,
-    password: "123456", // temporaire
+    password: "123456", // mdp temporaire
     statut,
     pays,
   };
@@ -62,15 +66,17 @@ const Users = () => {
   try {
     let res;
     if (editingUser) {
-      res = await fetch(`http://localhost:5000/api/accounts/${editingUser._id}`, {
+      res = await fetch(`${API_BASE}/api/accounts/${editingUser._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(userData),
       });
     } else {
-      res = await fetch("http://localhost:5000/api/accounts", {
+      res = await fetch(`${API_BASE}/api/accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(userData),
       });
     }
@@ -78,7 +84,10 @@ const Users = () => {
     if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
 
     // Recharge les comptes après création / modification
-    const newRes = await fetch("http://localhost:5000/api/accounts");
+    const newRes = await fetch(`${API_BASE}/api/accounts`, {
+      credentials: "include",
+    });
+    if (!newRes.ok) throw new Error("Erreur lors du rechargement des comptes");
     const newData = await newRes.json();
     setUsers(newData);
     closeModal();
@@ -91,8 +100,9 @@ const Users = () => {
   if (!window.confirm("Supprimer cet utilisateur ?")) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/accounts/${id}`, {
+    const res = await fetch(`${API_BASE}/api/accounts/${id}`, {
       method: "DELETE",
+      credentials: "include",
     });
     if (!res.ok) throw new Error("Erreur lors de la suppression");
     setUsers(users.filter((u) => u._id !== id));
@@ -100,8 +110,6 @@ const Users = () => {
     console.error(error);
   }
 };
-
-
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
@@ -155,9 +163,18 @@ const Users = () => {
     
 
     <div className="space-y-8">
+      <div className="flex items-center justify-between mb-6">
+          <h1 className="text-4xl font-extrabold ">Gestion Utilisateurs</h1>
+        <button
+          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          Ajouter
+        </button>
+      </div>
+
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold text-yellow-500 bg-clip-text text-transparent">
             Utilisateurs
           </h2>
           <p className="text-gray-600">
@@ -168,7 +185,7 @@ const Users = () => {
       </div>
       
 
-        {/* Barre de recherche + bouton */}
+        {/* Barre de recherche */}
 
         <section className="border-t border-gray-200 pt-6">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -186,7 +203,7 @@ const Users = () => {
           </div>
           <button
             onClick={() => openModal()}
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-br from-yellow-500 to-[#93720a] text-white rounded-xl hover:shadow-lg transition-all font-medium"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -231,13 +248,15 @@ const Users = () => {
                       <div className="flex gap-2">
                         <button
                           onClick={() => openModal(user)}
-                          className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm font-medium transition-colors"
+                          // className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm font-medium transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"
                         >
                           Modifier
                         </button>
                         <button
                           onClick={() => deleteUser(user._id!)}
-                          className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 text-sm font-medium transition-colors"
+                          // className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 text-sm font-medium transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
                         >
                           Supprimer
                         </button>
@@ -261,7 +280,7 @@ const Users = () => {
             className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold mb-6 text-yellow-500 bg-clip-text text-transparent">
               {editingUser ? 'Modifier un utilisateur' : 'Ajouter un utilisateur'}
             </h2>
 
@@ -368,7 +387,7 @@ const Users = () => {
               </button>
               <button
                 onClick={handleSubmit}
-                className="flex-1 px-6 py-3 bg-gradient-to-br from-yellow-500 to-[#93720a] text-white rounded-xl hover:shadow-lg transition-all font-medium"
+                className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
               >
                 Enregistrer
               </button>
