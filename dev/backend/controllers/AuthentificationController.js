@@ -18,9 +18,9 @@ exports.login = async (req, res) => {
     if (!same) {
       return res.status(401).json({ message: "Mot de passe incorrect" });
     }
-    if (account.statut === 'O' ) {
-      return res.status(403).json({ message: "Accès refusé" });
-    }
+    // if (account.statut === 'O' ) {
+    //   return res.status(403).json({ message: "Accès refusé" });
+    // }
 
     const token = jwt.sign(
       { email: account.email, role: account.statut },
