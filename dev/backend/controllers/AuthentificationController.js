@@ -23,7 +23,7 @@ exports.login = async (req, res) => {
     // }
 
     const token = jwt.sign(
-      { email: account.email, role: account.statut },
+      { _id: account._id, email: account.email, role: account.statut },
       SECRET,
       { expiresIn: "1h" }
     );
