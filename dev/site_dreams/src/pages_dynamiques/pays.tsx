@@ -7,7 +7,13 @@ type UICountryContent = { name: string; heroImg: string; intro: string; news: UI
 
 type ApiCountry = { _id: string; nom: string; description: string; image?: string | null };
 type ApiNews = { _id: string; titre: string; description: string; image?: string | null; pays: string | { _id: string } };
-type ApiAntenne = { _id: string; nom: string; description: string; pays: string | { _id: string } };
+type ApiAntenne = {
+  _id: string;
+  nom: string;
+  description: string;
+  image?: string | null;
+  pays: string | { _id: string };
+};
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const API_ORIGIN = API_BASE.replace(/\/api$/, "");
@@ -54,7 +60,7 @@ const Pays: React.FC = () => {
     [countries, countryId]
   );
 
-  // --- contenu ---
+  // --- contenu : news + antennes ---
   useEffect(() => {
     if (!selectedCountry?._id) return;
     (async () => {
@@ -62,7 +68,7 @@ const Pays: React.FC = () => {
         setLoadingContent(true);
         const [resNews, resAnt] = await Promise.all([
           fetch(`${API_BASE}/newspays/get?pays=${selectedCountry._id}`, { credentials: "include" }),
-          fetch(`${API_BASE}/antennes/get?pays=${selectedCountry._id}`, { credentials: "include" }),
+          fetch(`${API_BASE}/antenne/get?pays=${selectedCountry._id}`, { credentials: "include" }),
         ]);
 
         const dataNews: ApiNews[] = resNews.ok ? await resNews.json() : [];
@@ -76,12 +82,13 @@ const Pays: React.FC = () => {
             text: n.description,
           }))
         );
+
         setFeatures(
           dataAnt.map((a) => ({
-            img: ANTENNE_PLACEHOLDER,
+            img: a.image ? `${API_ORIGIN}${a.image}` : ANTENNE_PLACEHOLDER,
             title: `Antenne ${a.nom}`,
             text: a.description,
-            url: "#",
+            url: `/villes/${slugify(a.nom)}`,
             cta: "Voir l’antenne →",
           }))
         );
@@ -201,14 +208,23 @@ const Pays: React.FC = () => {
         </section>
       )}
 
-      {/* FEATURES */}
+      {/* FEATURES = ANTENNES */}
       {!loadingContent && country.features.length > 0 && (
-        <section className="max-w-[1100px] mx-auto px-4 py-10 grid gap-8">
+        <section className="max-w-[1100px] mx-auto px-4 py-10 grid gap-10">
+          <div>
+            <h3 className={`text-[22px] font-extrabold ${goldTitle}`}>Antennes locales</h3>
+            <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#22c55e,#3b82f6,#8b5cf6)]" />
+            <p className="text-gray-700 text-sm">
+              Retrouvez les antennes locales, leurs missions et les points d&apos;accueil dans ce pays.
+            </p>
+          </div>
+
           {country.features.map((f, i) => (
             <div
               key={i}
               className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
             >
+              {/* Image à gauche */}
               <div className="relative overflow-hidden rounded-2xl">
                 <img
                   src={f.img}
@@ -216,16 +232,19 @@ const Pays: React.FC = () => {
                   className="w-full h-full max-h-[360px] object-cover rounded-2xl shadow-[0_10px_24px_rgba(0,0,0,0.06)] transition-transform duration-300 hover:scale-[1.04]"
                 />
               </div>
+
+              {/* Texte + bouton à droite */}
               <div>
-                <h3 className={`text-[22px] font-extrabold ${goldTitle}`}>{f.title}</h3>
+                <h3 className={`text-[20px] md:text-[22px] font-extrabold ${goldTitle}`}>{f.title}</h3>
                 <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#22c55e,#3b82f6,#8b5cf6)]" />
                 <p className="text-gray-700 mb-3">{f.text}</p>
-                <a
-                  href={f.url}
+
+                <Link
+                  to={f.url}
                   className="inline-block px-4 py-2 rounded-xl font-bold bg-black text-white hover:bg-gray-800 transition"
                 >
                   {f.cta}
-                </a>
+                </Link>
               </div>
             </div>
           ))}
