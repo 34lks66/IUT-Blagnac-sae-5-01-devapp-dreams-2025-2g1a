@@ -1,4 +1,3 @@
-import React from 'react';
 import AgendaAdmin from './Agenda';
 import Accueil from '../components/News';
 import PagesSite from './PagePays';

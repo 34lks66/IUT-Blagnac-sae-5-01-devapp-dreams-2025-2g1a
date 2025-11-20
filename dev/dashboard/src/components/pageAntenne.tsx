@@ -308,12 +308,6 @@ function AntenneForm() {
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-extrabold">Gestion Antennes</h1>
-        <button
-          onClick={handleCreateClick}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          Nouvelle antenne
-        </button>
       </div>
 
       {/* SOUS-TITRE */}
@@ -324,6 +318,12 @@ function AntenneForm() {
             Gérez les antennes locales et leur rattachement aux pays.
           </p>
         </div>
+        <button
+          onClick={handleCreateClick}
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+        >
+          Nouvelle antenne
+        </button>
       </div>
 
       {/* BARRE DE RECHERCHE */}

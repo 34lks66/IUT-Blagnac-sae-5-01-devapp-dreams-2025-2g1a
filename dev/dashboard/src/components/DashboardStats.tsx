@@ -273,6 +273,11 @@ const DashboardStats = () => {
 
   return (
     <div className="space-y-6">
+      <div>
+        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl">Bienvenue dans le tableau de bord <span className="underline underline-offset-3 decoration-8 decoration-yellow-500">DREAMS</span></h1>
+        <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Vous pouvez gérer les différentes sections et pages du site DREAMS.</p>
+        <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Utilisez le menu latéral pour naviguer entre les différentes sections afin d'ajouter ou modifier du contenus pour les pages.</p>
+      </div>
       {/* Grille de statistiques principales */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (

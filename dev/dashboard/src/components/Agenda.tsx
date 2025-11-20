@@ -164,28 +164,6 @@ export default function AgendaAdmin() {
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-extrabold">Gestion Agenda</h1>
-
-        <button
-          onClick={openModalForCreate}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-plus-icon lucide-plus mr-2"
-          >
-            <path d="M5 12h14" />
-            <path d="M12 5v14" />
-          </svg>
-          Ajouter
-        </button>
       </div>
 
       {/* SOUS-TITRE */}
@@ -196,6 +174,12 @@ export default function AgendaAdmin() {
             Gérez les événements (agenda général et antennes)
           </p>
         </div>
+        <button
+          onClick={openModalForCreate}
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+        >
+          Ajouter
+        </button>
       </div>
 
       {/* SECTION TABLEAU */}
@@ -495,7 +479,7 @@ export default function AgendaAdmin() {
                     : "bg-gray-300 cursor-not-allowed"
                     }`}
                 >
-                  {form._id ? "Mettre à jour" : "Créer"}
+                  {form._id ? "Mettre à jour" : "Créer l'événement"}
                 </button>
               </div>
             </form>

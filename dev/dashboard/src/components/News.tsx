@@ -170,22 +170,24 @@ const News: React.FC = () => {
   return (
     <section className="space-y-8">
       {/* HEADER */}
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-extrabold">Section Actualité</h1>
-        <button
-          onClick={() => setShowForm(true)}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          Ajouter
-        </button>
       </div>
 
       {/* SOUS-TITRE */}
-      <div>
+      <div className="flex items-center justify-between">
+        <div>
         <h2 className="text-2xl font-bold text-yellow-500">Actualités</h2>
         <p className="text-gray-600">
           Gérez les actualités publiées sur le site
         </p>
+        </div>
+        <button
+          onClick={() => setShowForm(true)}
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+        >
+          Ajouter
+        </button>
       </div>
 
       {/* MODALE AJOUT */}
@@ -351,7 +353,7 @@ const News: React.FC = () => {
                     : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
                     }`}
                 >
-                  Ajouter
+                  Créer l'actualité
                 </button>
               </div>
             </form>
