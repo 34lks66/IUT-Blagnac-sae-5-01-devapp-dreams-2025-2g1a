@@ -16,7 +16,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
       </div>
       <div className="flex items-center gap-4">
         <a
-          href="http://localhost:5173"
+          href="http://localhost:5174"
           target="_blank"
           rel="noopener noreferrer"
           className="px-4 py-2 text-sm font-medium text-white bg-yellow-500 rounded-md shadow hover:opacity-90 transition"

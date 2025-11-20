@@ -160,11 +160,6 @@ const Users = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between mb-6">
           <h1 className="text-4xl font-extrabold ">Gestion Utilisateurs</h1>
-        <button
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          Ajouter
-        </button>
       </div>
 
       <div className="flex items-center justify-between">
@@ -176,9 +171,13 @@ const Users = () => {
             Gérez les comptes utilisateurs et leurs informations
           </p>
         </div>
-        
+        <button
+          onClick={() => openModal()}
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+        >
+          Ajouter
+        </button>  
       </div>
-      
 
         {/* Barre de recherche */}
 
@@ -196,7 +195,7 @@ const Users = () => {
               className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
             />
           </div>
-          <button
+          {/* <button
             onClick={() => openModal()}
             className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
           >
@@ -204,7 +203,7 @@ const Users = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
             Ajouter un utilisateur
-          </button>
+          </button> */}
         </div>
 
         {/* Tableau */}
@@ -384,7 +383,7 @@ const Users = () => {
                 onClick={handleSubmit}
                 className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
               >
-                Enregistrer
+                Créer l'utilisateur
               </button>
             </div>
           </div>

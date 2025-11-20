@@ -18,8 +18,11 @@ const Dashboard = () => {
           setIsMobileOpen={setIsMobileOpen}
         />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header onMenuClick={() => setIsMobileOpen(true)} />
-          <Content activeTab={activeTab} />
+          {/* <Header onMenuClick={() => setIsMobileOpen(true)} /> */}
+          {activeTab === "dashboard" && (
+            <Header onMenuClick={() => setIsMobileOpen(true)} />
+          )}
+          <Content activeTab={activeTab}/>
         </div>
       </div>
     </AuthProvider>
