@@ -1,6 +1,5 @@
 import { useEffect,useState, useMemo } from 'react';
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import { apiFetch } from "../services/api";
 
 interface User {
   _id?: string;
@@ -29,21 +28,20 @@ const Users = () => {
   });
 
   useEffect(() => {
-  const fetchAccounts = async () => {
-    try {
-      const res = await fetch(`${API_BASE}/api/accounts`, {
-        credentials: "include",
-      });
-      if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
-      const data = await res.json();
-      setUsers(data);
-    } catch (error) {   
-      console.error(error);
-    }
-  };
+    const fetchAccounts = async () => {
+      try {
+        const res = await apiFetch("/api/accounts", { method: "GET" });
+        if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  fetchAccounts();
+    fetchAccounts();
   }, []);
+
 
   const handleSubmit = async () => {
   const { nom, prenom, telephone, email, pays, statut } = formData;
@@ -66,28 +64,25 @@ const Users = () => {
   try {
     let res;
     if (editingUser) {
-      res = await fetch(`${API_BASE}/api/accounts/${editingUser._id}`, {
+      res = await apiFetch(`/api/accounts/${editingUser._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(userData),
       });
     } else {
-      res = await fetch(`${API_BASE}/api/accounts`, {
+      res = await apiFetch("/api/accounts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(userData),
       });
     }
 
     if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
 
-    // Recharge les comptes après création / modification
-    const newRes = await fetch(`${API_BASE}/api/accounts`, {
-      credentials: "include",
-    });
-    if (!newRes.ok) throw new Error("Erreur lors du rechargement des comptes");
+    // recharge les comptes
+    const newRes = await apiFetch("/api/accounts", { method: "GET" });
+    if (!newRes.ok)
+      throw new Error("Erreur lors du rechargement des comptes");
     const newData = await newRes.json();
     setUsers(newData);
     closeModal();
@@ -97,19 +92,19 @@ const Users = () => {
   };
 
   const deleteUser = async (id: string) => {
-  if (!window.confirm("Supprimer cet utilisateur ?")) return;
+    if (!window.confirm("Supprimer cet utilisateur ?")) return;
 
-  try {
-    const res = await fetch(`${API_BASE}/api/accounts/${id}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-    if (!res.ok) throw new Error("Erreur lors de la suppression");
-    setUsers(users.filter((u) => u._id !== id));
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      const res = await apiFetch(`/api/accounts/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Erreur lors de la suppression");
+      setUsers(users.filter((u) => u._id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>

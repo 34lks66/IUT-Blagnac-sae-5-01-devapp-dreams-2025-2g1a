@@ -11,8 +11,7 @@ const Routes = require('./routes/Route');
 const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
 const cookieParser = require("cookie-parser"); 
-const authVerif = require("./middlewares/auth");
-const authVerifRole = require("./middlewares/auth");
+const { authVerif, authVerifRole } = require("./middlewares/auth");
 const { events } = require("./models/MemberModel");
 
 require('dotenv').config();
@@ -143,7 +142,7 @@ app.get('/swagger.json', (req, res) => {
  
 app.use('/api', Routes);
 app.use('/api', authRoutes);
-app.use('/api/accounts', authVerif, authVerifRole, accountRoutes);
+app.use('/api/accounts', authVerif, authVerifRole(["X", "S"]), accountRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

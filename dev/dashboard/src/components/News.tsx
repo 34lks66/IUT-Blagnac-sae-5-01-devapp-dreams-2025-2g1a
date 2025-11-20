@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../services/api";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -26,7 +27,7 @@ const News: React.FC = () => {
   const [NewsDescriptionEdit, setDescriptionEdit] = useState("");
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/news/get`)
+    apiFetch("/api/news/get")
       .then((res) => res.json())
       .then((data) => setNews(data))
       .catch((err) => console.log(err));
@@ -48,9 +49,8 @@ const News: React.FC = () => {
     formData.append("description", NewsDescription);
 
     try {
-      const res = await fetch(`${API_BASE}/api/news/save`, {
+      const res = await apiFetch("/api/news/save", {
         method: "POST",
-        credentials: "include",
         body: formData,
       });
 
@@ -103,9 +103,8 @@ const News: React.FC = () => {
     formData.append("description", NewsDescriptionEdit);
 
     try {
-      const res = await fetch(`${API_BASE}/api/news/update/${editNews}`, {
+      const res = await apiFetch(`/api/news/update/${editNews}`, {
         method: "PUT",
-        credentials: "include",
         body: formData,
       });
 
@@ -139,9 +138,8 @@ const News: React.FC = () => {
   const onDelete = async () => {
     if (!deleteNews) return;
     try {
-      const res = await fetch(`${API_BASE}/api/news/delete/${deleteNews}`, {
+      const res = await apiFetch(`/api/news/delete/${deleteNews}`, {
         method: "DELETE",
-        credentials: "include",
       });
 
       if (res.ok) {

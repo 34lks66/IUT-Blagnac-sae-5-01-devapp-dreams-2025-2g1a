@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+import { apiFetch } from "../services/api";
+
+
 type EventItem = {
   _id?: string;
   title: string;
@@ -16,8 +19,6 @@ type AntenneItem = {
   _id: string;
   nom: string;
 };
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function AgendaAdmin() {
   const [showForm, setShowForm] = useState(false);
@@ -37,7 +38,7 @@ export default function AgendaAdmin() {
 
   const fetchAntennes = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/antenne/get`);
+      const res = await apiFetch("/api/antenne/get", { method: "GET" });
       if (!res.ok) return setAntennes([]);
       const data = await res.json();
       setAntennes(Array.isArray(data) ? data : []);
@@ -50,7 +51,7 @@ export default function AgendaAdmin() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/event/get/`);
+      const res = await apiFetch("/api/event/get/", { method: "GET" });
       const data = await res.json();
       setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -105,15 +106,14 @@ export default function AgendaAdmin() {
     try {
       const method = form._id ? "PUT" : "POST";
       const url = form._id
-        ? `${API_BASE}/api/event/update/${form._id}`
-        : `${API_BASE}/api/event/save`;
+        ? `/api/event/update/${form._id}`
+        : `/api/event/save`;
 
       const payload = { ...form };
 
-      await fetch(url, {
+      await apiFetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(payload),
       });
 
@@ -137,9 +137,8 @@ export default function AgendaAdmin() {
   const remove = async (id?: string) => {
   if (!id) return;
   try {
-    await fetch(`${API_BASE}/api/event/delete/${id}`, {
-      method: 'DELETE',
-      credentials: "include"
+    await apiFetch(`/api/event/delete/${id}`, {
+      method: "DELETE",
     });
     fetchEvents();
   } catch (err) {
