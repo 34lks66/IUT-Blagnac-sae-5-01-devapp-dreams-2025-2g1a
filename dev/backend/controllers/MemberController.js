@@ -14,7 +14,6 @@ module.exports.saveMember = async (req, res) => {
   try {
     const { nom, prenom, telephone, mail } = req.body;
 
-    // Validation des champs requis
     if (!nom || !prenom || !telephone || !mail) {
       return res.status(400).json({ 
         error: "Tous les champs sont requis: nom, prenom, telephone, mail" 

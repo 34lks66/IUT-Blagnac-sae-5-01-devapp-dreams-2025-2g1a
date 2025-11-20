@@ -44,10 +44,10 @@ module.exports.getEvent = async (req, res) => {
 
 module.exports.saveEvent = async (req, res) => {
   try {
-    const { title, date, time, location, description, antenna, isGeneral } = req.body;
+    const { title, date, starttime, endtime, location, description, antenna, isGeneral } = req.body;
     if (!title || !date) return res.status(400).json({ error: 'title and date required' });
 
-    const payload = { title, date, time, location, description, isGeneral: !!isGeneral };
+    const payload = { title, date, starttime, endtime, location, description, isGeneral: !!isGeneral };
 
     if (antenna) {
       if (isObjectId(antenna)) payload.antenna = antenna;

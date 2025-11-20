@@ -9,6 +9,10 @@ const AntenneSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    image: {
+        type: String,
+        required: true
+    },
     pays: {
             type: mongoose.Schema.Types.ObjectId, // référence vers la collection Pays
             ref: 'Pays',

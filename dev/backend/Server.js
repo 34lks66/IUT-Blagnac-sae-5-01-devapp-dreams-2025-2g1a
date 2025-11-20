@@ -12,6 +12,7 @@ const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
 const cookieParser = require("cookie-parser"); 
 const authVerif = require("./middlewares/auth");
+const authVerifRole = require("./middlewares/auth");
 const { events } = require("./models/MemberModel");
 
 require('dotenv').config();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
+    // origin: ["http://localhost:5173", "http://localhost:5174", "https://6qbmdkkp-5174.uks1.devtunnels.ms"],
     origin: ["http://localhost:5173", "http://localhost:5174"], 
     credentials: true, 
   })
@@ -47,6 +49,7 @@ app.get('/', (req, res) => {
           },
           news: {
             getNews: 'GET /api/news/get',
+            getNewsID: 'GET /api/news/get/:id',
             saveNews: 'POST /api/news/save',
             updateNews: 'PUT /api/news/update/:id',
             deleteNews: 'DELETE /api/news/delete/:id'
@@ -56,6 +59,13 @@ app.get('/', (req, res) => {
             savePays: 'POST /api/pays/save',
             updatePays: 'PUT /api/pays/update/:id',
             deletePays: 'DELETE /api/pays/delete/:id'
+          },
+          NewsPays: {
+            getNewsPays: 'GET /api/newspays/get',
+            getNewsPaysID: 'GET /api/newspays/get/:id',
+            saveNewsPays: 'POST /api/newspays/save',
+            updateNewsPays: 'PUT /api/newspays/update/:id',
+            deleteNewsPays: 'DELETE /api/newspays/delete/:id'
           },
           antennes: {
             getAntennes: 'GET /api/antenne/get',
@@ -130,9 +140,10 @@ app.get('/swagger.json', (req, res) => {
    `);
  });
 
+ 
 app.use('/api', Routes);
 app.use('/api', authRoutes);
-app.use('/api/accounts', authVerif, accountRoutes);
+app.use('/api/accounts', authVerif, authVerifRole, accountRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

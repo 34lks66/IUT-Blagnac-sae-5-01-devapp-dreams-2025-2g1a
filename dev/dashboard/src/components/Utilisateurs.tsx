@@ -58,10 +58,10 @@ const Users = () => {
     prenom,
     telephone,
     email: email,
-    password: "123456", // mdp temporaire
+    password: "123456",  // mdp temporaire
     statut,
     pays,
-  };
+  };  
 
   try {
     let res;

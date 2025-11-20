@@ -17,6 +17,7 @@ import PageAgenda from "./pages/page_agenda";
 import Contact from "./components/Contact";
 import Donations from "./pages/donations";
 import PagePolitique from "./pages/page_politique";
+import NewsDetails from "./components/Home/NewsDetails";
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/don" element={<Donations />} />
         <Route path="/politiques-de-confidentialites" element={<PagePolitique />} />
+        <Route path="/news/:id" element={<NewsDetails />} />
       </Routes>
     </Router>
     <FooterMain />

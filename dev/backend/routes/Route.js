@@ -1,13 +1,14 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
 const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
-const { getNewsPays, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
+const { getNewsPays, getNewsPaysID, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
 const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
-const { getNews, saveNews, updateNews, deleteNews } = require('../controllers/NewsController')
+const { getNews, getNewsID, saveNews, updateNews, deleteNews } = require('../controllers/NewsController')
 const { listEvents, getEvent, saveEvent, updateEvent, deleteEvent } = require('../controllers/EventController');
 
 const router = Router()
 const authVerif = require("../middlewares/auth");
+const authVerifRole = require("../middlewares/auth");
 
 const multer = require('multer')
 const path = require('path')
@@ -46,7 +47,7 @@ const upload = multer({ storage })
  *               items:
  *                 $ref: '#/components/schemas/Member'
  */
-router.get('/get',authVerif, getMembers)
+router.get('/get',authVerif,authVerifRole, getMembers)
 
 /**
  * @openapi
@@ -63,7 +64,7 @@ router.get('/get',authVerif, getMembers)
  *       201:
  *         description: Created
  */
-router.post('/save',authVerif, saveMember)
+router.post('/save',authVerif,authVerifRole, saveMember)
 
 /**
  * @openapi
@@ -85,7 +86,7 @@ router.post('/save',authVerif, saveMember)
  *       200:
  *         description: Updated
  */
-router.put('/update/:id',authVerif, updateMember)
+router.put('/update/:id',authVerif,authVerifRole, updateMember)
 
 /**
  * @openapi
@@ -102,16 +103,16 @@ router.put('/update/:id',authVerif, updateMember)
  *       204:
  *         description: No Content
  */
-router.delete('/delete/:id',authVerif, deleteMember)
+router.delete('/delete/:id',authVerif, authVerifRole, deleteMember)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 router.get('/pays/get', getPays);
-router.post('/pays/save',authVerif, upload.single('image'), savePays)
-router.put('/pays/update/:id',authVerif, upload.single('image'), updatePays)
-router.delete('/pays/delete/:id',authVerif, deletePays)
+router.post('/pays/save',authVerif,authVerifRole, upload.single('image'), savePays)
+router.put('/pays/update/:id',authVerif,authVerifRole, upload.single('image'), updatePays)
+router.delete('/pays/delete/:id',authVerif,authVerifRole, deletePays)
 
 
 //////////////////////////////////////////////////////////////////
@@ -119,18 +120,19 @@ router.delete('/pays/delete/:id',authVerif, deletePays)
 //////////////////////////////////////////////////////////////////
 
 router.get('/newspays/get', getNewsPays)
-router.post('/newspays/save',authVerif, upload.single('image'), saveNewsPays)
-router.put('/newspays/update/:id',authVerif, upload.single('image'), updateNewsPays)
-router.delete('/newspays/delete/:id',authVerif, deleteNewsPays)
+router.get('/newspays/get/:id', getNewsPaysID)
+router.post('/newspays/save',authVerif,authVerifRole, upload.single('image'), saveNewsPays)
+router.put('/newspays/update/:id',authVerif,authVerifRole, upload.single('image'), updateNewsPays)
+router.delete('/newspays/delete/:id',authVerif,authVerifRole, deleteNewsPays)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Antenne ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 router.get('/antenne/get', getAntennes)
-router.post('/antenne/save',authVerif, saveAntenne)
-router.put('/antenne/update/:id',authVerif, updateAntenne)
-router.delete('/antenne/delete/:id',authVerif, deleteAntenne)
+router.post('/antenne/save',authVerif,authVerifRole, upload.single('image'), saveAntenne)
+router.put('/antenne/update/:id',authVerif,authVerifRole, upload.single('image'), updateAntenne)
+router.delete('/antenne/delete/:id',authVerif,authVerifRole, deleteAntenne)
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////// News ////////////////////////////////
@@ -151,6 +153,7 @@ router.delete('/antenne/delete/:id',authVerif, deleteAntenne)
  *                 $ref: '#/components/schemas/News'
  */
 router.get('/news/get', getNews)
+router.get('/news/get/:id', getNewsID)
 
 /**
  * @openapi
@@ -167,7 +170,7 @@ router.get('/news/get', getNews)
  *       201:
  *         description: Created
  */
-router.post('/news/save', authVerif, upload.single('image'), saveNews)
+router.post('/news/save', authVerif,authVerifRole, upload.single('image'), saveNews)
 
 /**
  * @openapi
@@ -189,7 +192,7 @@ router.post('/news/save', authVerif, upload.single('image'), saveNews)
  *       200:
  *         description: Updated
  */
-router.put('/news/update/:id', authVerif, upload.single('image'), updateNews)
+router.put('/news/update/:id', authVerif,authVerifRole, upload.single('image'), updateNews)
 
 /**
  * @openapi
@@ -206,7 +209,7 @@ router.put('/news/update/:id', authVerif, upload.single('image'), updateNews)
  *       204:
  *         description: No Content
  */
-router.delete('/news/delete/:id', authVerif, deleteNews)
+router.delete('/news/delete/:id', authVerif,authVerifRole, deleteNews)
 
 //////////////////////////////////////////////////////////////////
 /////////////////////////// Event ////////////////////////////////
@@ -280,7 +283,7 @@ router.get('/event/get/:id', getEvent);
  *       400:
  *         description: Champs requis manquants
  */
-router.post('/event/save',authVerif, saveEvent);
+router.post('/event/save',authVerif,authVerifRole, saveEvent);
 
 /**
  * @openapi
@@ -304,7 +307,7 @@ router.post('/event/save',authVerif, saveEvent);
  *       404:
  *         description: Événement introuvable
  */
-router.put('/event/update/:id',authVerif, updateEvent);
+router.put('/event/update/:id',authVerif,authVerifRole, updateEvent);
 
 /**
  * @openapi
@@ -323,6 +326,6 @@ router.put('/event/update/:id',authVerif, updateEvent);
  *       404:
  *         description: Événement introuvable
  */
-router.delete('/event/delete/:id',authVerif, deleteEvent);
+router.delete('/event/delete/:id',authVerif,authVerifRole, deleteEvent);
 
 module.exports = router 
