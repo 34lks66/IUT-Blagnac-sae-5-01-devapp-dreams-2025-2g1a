@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../services/api";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -95,18 +96,19 @@ function AntenneForm() {
   };
 
   const loadAntennes = () => {
-    fetch(`${API_BASE}/api/antenne/get`, { credentials: "include" })
+    apiFetch("/api/antenne/get")
       .then((res) => res.json())
       .then((data) => setAntennes(data))
       .catch((err) => console.error("Erreur antennes:", err));
   };
 
   const loadPays = () => {
-    fetch(`${API_BASE}/api/pays/get`, { credentials: "include" })
+    apiFetch("/api/pays/get")
       .then((res) => res.json())
       .then((data) => setPays(data))
       .catch((err) => console.error("Erreur pays:", err));
   };
+
 
   useEffect(() => {
     loadAntennes();
@@ -197,11 +199,11 @@ function AntenneForm() {
     formDataToSend.append("image", imageFile);
 
     try {
-      const response = await fetch(`${API_BASE}/api/antenne/save`, {
+      const response = await apiFetch("/api/antenne/save", {
         method: "POST",
-        credentials: "include",
         body: formDataToSend,
       });
+
 
       if (response.ok) {
         setMessage("✅ Antenne créée avec succès !");
@@ -240,14 +242,14 @@ function AntenneForm() {
     }
 
     try {
-      const response = await fetch(
-        `${API_BASE}/api/antenne/update/${editingAntenne._id}`,
+      const response = await apiFetch(
+        `/api/antenne/update/${editingAntenne._id}`,
         {
           method: "PUT",
-          credentials: "include",
           body: formDataToSend,
         }
       );
+
       if (response.ok) {
         setMessage("✅ Antenne modifiée avec succès !");
         loadAntennes();
@@ -265,13 +267,13 @@ function AntenneForm() {
 
   async function handleDelete(id: string) {
     try {
-      const response = await fetch(
-        `${API_BASE}/api/antenne/delete/${id}`,
+      const response = await apiFetch(
+        `/api/antenne/delete/${id}`,
         {
           method: "DELETE",
-          credentials: "include",
         }
       );
+
       if (response.ok) {
         setMessage("✅ Antenne supprimée avec succès !");
         loadAntennes();

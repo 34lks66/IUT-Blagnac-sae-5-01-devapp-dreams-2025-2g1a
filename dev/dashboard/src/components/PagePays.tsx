@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PagePaysForm from "./PagePaysForm";
+import { apiFetch } from "../services/api";
 
 type Country = {
   _id: string;
@@ -48,9 +49,8 @@ const PagesSite: React.FC = () => {
   const loadCountries = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/api/pays/get`, {
-        credentials: "include",
-      });
+      const res = await apiFetch("/api/pays/get");
+
       if (!res.ok) throw new Error("Erreur");
       const data: Country[] = await res.json();
       setCountries(data);
@@ -69,10 +69,10 @@ const PagesSite: React.FC = () => {
   // Suppression
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`${API_BASE}/api/pays/delete/${id}`, {
+      const res = await apiFetch(`/api/pays/delete/${id}`, {
         method: "DELETE",
-        credentials: "include",
       });
+
       if (!res.ok) throw new Error("Suppression impossible");
 
       setCountries((prev) => prev.filter((p) => p._id !== id));
@@ -96,11 +96,11 @@ const PagesSite: React.FC = () => {
       fd.append("description", newCountry.description.trim());
       if (newCountry.image) fd.append("image", newCountry.image);
 
-      const res = await fetch(`${API_BASE}/api/pays/save`, {
+      const res = await apiFetch("/api/pays/save", {
         method: "POST",
-        credentials: "include",
         body: fd,
       });
+
 
       if (!res.ok) throw new Error("Erreur création pays");
 
