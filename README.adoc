@@ -187,7 +187,7 @@ Ci-dessous un récapitulatif des réunions équipe/client avec ordre du jour et 
 | 06/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2006.10_Semaine%2041.pdf[ODJ S41] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR_06.10_Semaine%2041.pdf[CR S41] | Client, Léo  
 | 17/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2017.10_Semaine%2042.pdf[ODJ S42] | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/CR/CR%2017.10_Semaine%2042.pdf[CR S42] | Client, Léo  
 | 24/10/2025 | [ODJ S43] | [CR S43] | Client, Léo, Mucahit
-| 24/10/2025 | [ODJ S46] | [CR S46] | Client, Léo, Mucahit
+| 24/10/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2014.11_Semaine%2046.pdf[ODJ S46] | [CR S46] | Client, Léo, Mucahit
 |===
 
 

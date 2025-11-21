@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { apiFetch } from "../../services/api";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -13,7 +14,7 @@ interface AuthContextType {
   role: string | null;
   isAuthenticated: boolean;
   loading: boolean;
-  setUser: (user: User | null) => void; 
+  setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,8 +26,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await fetch(`${API_BASE}/api/me`, {
-          credentials: "include",
+        const res = await apiFetch("/api/me", {
+          method: "GET",
         });
 
         if (res.ok) {
@@ -61,4 +62,3 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export { AuthContext };
-

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+import { apiFetch } from "../services/api";
+
+
 type EventItem = {
   _id?: string;
   title: string;
@@ -16,8 +19,6 @@ type AntenneItem = {
   _id: string;
   nom: string;
 };
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function AgendaAdmin() {
   const [showForm, setShowForm] = useState(false);
@@ -37,7 +38,7 @@ export default function AgendaAdmin() {
 
   const fetchAntennes = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/antenne/get`);
+      const res = await apiFetch("/api/antenne/get", { method: "GET" });
       if (!res.ok) return setAntennes([]);
       const data = await res.json();
       setAntennes(Array.isArray(data) ? data : []);
@@ -50,7 +51,7 @@ export default function AgendaAdmin() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/event/get/`);
+      const res = await apiFetch("/api/event/get/", { method: "GET" });
       const data = await res.json();
       setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -105,15 +106,14 @@ export default function AgendaAdmin() {
     try {
       const method = form._id ? "PUT" : "POST";
       const url = form._id
-        ? `${API_BASE}/api/event/update/${form._id}`
-        : `${API_BASE}/api/event/save`;
+        ? `/api/event/update/${form._id}`
+        : `/api/event/save`;
 
       const payload = { ...form };
 
-      await fetch(url, {
+      await apiFetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(payload),
       });
 
@@ -137,9 +137,8 @@ export default function AgendaAdmin() {
   const remove = async (id?: string) => {
   if (!id) return;
   try {
-    await fetch(`${API_BASE}/api/event/delete/${id}`, {
-      method: 'DELETE',
-      credentials: "include"
+    await apiFetch(`/api/event/delete/${id}`, {
+      method: "DELETE",
     });
     fetchEvents();
   } catch (err) {
@@ -164,28 +163,6 @@ export default function AgendaAdmin() {
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-extrabold">Gestion Agenda</h1>
-
-        <button
-          onClick={openModalForCreate}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-plus-icon lucide-plus mr-2"
-          >
-            <path d="M5 12h14" />
-            <path d="M12 5v14" />
-          </svg>
-          Ajouter
-        </button>
       </div>
 
       {/* SOUS-TITRE */}
@@ -196,6 +173,12 @@ export default function AgendaAdmin() {
             Gérez les événements (agenda général et antennes)
           </p>
         </div>
+        <button
+          onClick={openModalForCreate}
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+        >
+          Ajouter
+        </button>
       </div>
 
       {/* SECTION TABLEAU */}
@@ -495,7 +478,7 @@ export default function AgendaAdmin() {
                     : "bg-gray-300 cursor-not-allowed"
                     }`}
                 >
-                  {form._id ? "Mettre à jour" : "Créer"}
+                  {form._id ? "Mettre à jour" : "Créer l'événement"}
                 </button>
               </div>
             </form>

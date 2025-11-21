@@ -1,6 +1,5 @@
 import { useEffect,useState, useMemo } from 'react';
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import { apiFetch } from "../services/api";
 
 interface User {
   _id?: string;
@@ -29,21 +28,20 @@ const Users = () => {
   });
 
   useEffect(() => {
-  const fetchAccounts = async () => {
-    try {
-      const res = await fetch(`${API_BASE}/api/accounts`, {
-        credentials: "include",
-      });
-      if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
-      const data = await res.json();
-      setUsers(data);
-    } catch (error) {   
-      console.error(error);
-    }
-  };
+    const fetchAccounts = async () => {
+      try {
+        const res = await apiFetch("/api/accounts", { method: "GET" });
+        if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  fetchAccounts();
+    fetchAccounts();
   }, []);
+
 
   const handleSubmit = async () => {
   const { nom, prenom, telephone, email, pays, statut } = formData;
@@ -66,28 +64,25 @@ const Users = () => {
   try {
     let res;
     if (editingUser) {
-      res = await fetch(`${API_BASE}/api/accounts/${editingUser._id}`, {
+      res = await apiFetch(`/api/accounts/${editingUser._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(userData),
       });
     } else {
-      res = await fetch(`${API_BASE}/api/accounts`, {
+      res = await apiFetch("/api/accounts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(userData),
       });
     }
 
     if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
 
-    // Recharge les comptes après création / modification
-    const newRes = await fetch(`${API_BASE}/api/accounts`, {
-      credentials: "include",
-    });
-    if (!newRes.ok) throw new Error("Erreur lors du rechargement des comptes");
+    // recharge les comptes
+    const newRes = await apiFetch("/api/accounts", { method: "GET" });
+    if (!newRes.ok)
+      throw new Error("Erreur lors du rechargement des comptes");
     const newData = await newRes.json();
     setUsers(newData);
     closeModal();
@@ -97,19 +92,19 @@ const Users = () => {
   };
 
   const deleteUser = async (id: string) => {
-  if (!window.confirm("Supprimer cet utilisateur ?")) return;
+    if (!window.confirm("Supprimer cet utilisateur ?")) return;
 
-  try {
-    const res = await fetch(`${API_BASE}/api/accounts/${id}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-    if (!res.ok) throw new Error("Erreur lors de la suppression");
-    setUsers(users.filter((u) => u._id !== id));
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      const res = await apiFetch(`/api/accounts/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Erreur lors de la suppression");
+      setUsers(users.filter((u) => u._id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
@@ -165,11 +160,6 @@ const Users = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between mb-6">
           <h1 className="text-4xl font-extrabold ">Gestion Utilisateurs</h1>
-        <button
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          Ajouter
-        </button>
       </div>
 
       <div className="flex items-center justify-between">
@@ -181,9 +171,13 @@ const Users = () => {
             Gérez les comptes utilisateurs et leurs informations
           </p>
         </div>
-        
+        <button
+          onClick={() => openModal()}
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+        >
+          Ajouter
+        </button>  
       </div>
-      
 
         {/* Barre de recherche */}
 
@@ -201,7 +195,7 @@ const Users = () => {
               className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
             />
           </div>
-          <button
+          {/* <button
             onClick={() => openModal()}
             className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
           >
@@ -209,7 +203,7 @@ const Users = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
             Ajouter un utilisateur
-          </button>
+          </button> */}
         </div>
 
         {/* Tableau */}
@@ -389,7 +383,7 @@ const Users = () => {
                 onClick={handleSubmit}
                 className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
               >
-                Enregistrer
+                Créer l'utilisateur
               </button>
             </div>
           </div>

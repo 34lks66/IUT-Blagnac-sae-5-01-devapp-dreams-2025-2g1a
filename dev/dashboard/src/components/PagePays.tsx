@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PagePaysForm from "./PagePaysForm";
+import { apiFetch } from "../services/api";
 
 type Country = {
   _id: string;
@@ -48,9 +49,8 @@ const PagesSite: React.FC = () => {
   const loadCountries = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/api/pays/get`, {
-        credentials: "include",
-      });
+      const res = await apiFetch("/api/pays/get");
+
       if (!res.ok) throw new Error("Erreur");
       const data: Country[] = await res.json();
       setCountries(data);
@@ -69,10 +69,10 @@ const PagesSite: React.FC = () => {
   // Suppression
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`${API_BASE}/api/pays/delete/${id}`, {
+      const res = await apiFetch(`/api/pays/delete/${id}`, {
         method: "DELETE",
-        credentials: "include",
       });
+
       if (!res.ok) throw new Error("Suppression impossible");
 
       setCountries((prev) => prev.filter((p) => p._id !== id));
@@ -96,11 +96,11 @@ const PagesSite: React.FC = () => {
       fd.append("description", newCountry.description.trim());
       if (newCountry.image) fd.append("image", newCountry.image);
 
-      const res = await fetch(`${API_BASE}/api/pays/save`, {
+      const res = await apiFetch("/api/pays/save", {
         method: "POST",
-        credentials: "include",
         body: fd,
       });
+
 
       if (!res.ok) throw new Error("Erreur création pays");
 
@@ -158,16 +158,8 @@ const PagesSite: React.FC = () => {
     <section className="space-y-8">
 
       {/* HEADER */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-extrabold">Gestion Pays</h1>
-
-
-        <button
-          onClick={() => setCreatingOpen((v) => !v)}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-2 rounded-lg transition-all duration-200 font-semibold inline-flex items-center shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          Nouveau pays
-        </button>
       </div>
 
       <div className="flex items-center justify-between">
@@ -177,6 +169,12 @@ const PagesSite: React.FC = () => {
             Gérez les pays (actualités, etc.) disponibles sur le site.
           </p>
         </div>
+        <button
+          onClick={() => setCreatingOpen((v) => !v)}
+          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+        >
+          Nouveau pays
+        </button>
       </div>
 
       {/* BARRE RECHERCHE */}

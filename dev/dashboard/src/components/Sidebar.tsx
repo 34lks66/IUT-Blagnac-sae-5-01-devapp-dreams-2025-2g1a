@@ -1,7 +1,7 @@
 import logoDreams from "../../../site_dreams/src/assets/logo.png"
 import { useAuth } from "./utils/useAuth";
+import { apiFetch } from "../services/api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 interface SidebarProps {
   activeTab: string;
@@ -12,10 +12,10 @@ interface SidebarProps {
 
 async function logout() {
   try {
-    const response = await fetch(`${API_BASE}/api/logout`, {
+    const response = await apiFetch("/api/logout", {
       method: "POST",
-      credentials: "include",
     });
+
     if (response.ok) {
       window.location.href = "/login";
     }
@@ -23,6 +23,7 @@ async function logout() {
     console.error("Erreur lors de la déconnexion", error);
   }
 }
+
 
 const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: SidebarProps) => {
   const { role } = useAuth();
