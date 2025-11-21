@@ -41,14 +41,14 @@ const DashboardStats = () => {
   >("overview");
 
   const getAccounts = () => {
-    fetch(`${API_BASE}/api/accounts/`, { credentials: "include" })
+    apiFetch("/api/accounts/")
       .then((res) => res.json())
       .then((data) => setAccounts(data))
       .catch((err) => console.error("Erreur comptes:", err));
   };
 
   const getEvents = () => {
-    fetch(`${API_BASE}/api/event/get/`, { credentials: "include" })
+    apiFetch("/api/event/get/")
       .then((res) => res.json())
       .then((data) => setEvents(data))
       .catch((err) => console.error("Erreur comptes:", err));
