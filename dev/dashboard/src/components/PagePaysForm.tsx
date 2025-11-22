@@ -206,6 +206,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         fd.append("number", number);
         const r = await apiFetch(`/api/pays/update/${country._id}`, {
           method: "PUT",
+          headers: { "Content-Type": "application/json" },
           body: fd,
         });
 
@@ -213,6 +214,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       } else {
         const r = await apiFetch(`/api/pays/update/${country._id}`, {
           method: "PUT",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ description, nomSiege, adresse, horaire, mail, number }),
         });
 
@@ -258,6 +260,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               fd.append("image", n.image);
               const r = await apiFetch(`/api/newspays/update/${n._id}`, {
                 method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: fd,
               });
               if (!r.ok) throw new Error("Échec update news (file)");
@@ -265,6 +268,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
             } else {
               const r = await apiFetch(`/api/newspays/update/${n._id}`, {
                 method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   titre: n.titre,
                   description: n.description,
@@ -544,30 +548,30 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         <h3 className="text-lg font-semibold mb-6">Contact du pays</h3>
         <div className="flex items-center justify-between mb-4">
           <form className="space-y-8">
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label>Nom du siège</Label>
-                  <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-[2]">
-                  <Label>Adresse</Label>
-                  <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-[2]"> 
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Label>Nom du siège</Label>
+                <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
+              </div>
+              <div className="flex-[2]">
+                <Label>Adresse</Label>
+                <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
+              </div>
+              <div className="flex-[2]">
                 <Label>Horaire</Label>
-                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Label>Adresse mail</Label>
+                <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label>Adresse mail</Label>
-                  <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-1">
-                  <Label>Numéro de téléphone</Label>
-                  <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
+              <div className="flex-1">
+                <Label>Numéro de téléphone</Label>
+                <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
+            </div>
           </form>
         </div>
       </section>
