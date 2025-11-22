@@ -73,7 +73,6 @@ export default function AgendaAdmin() {
     return (
       !!form.title &&
       !!form.date &&
-      (!!form.isGeneral || !!form.antenna) &&
       !hasTimeError
     );
   };
@@ -98,7 +97,7 @@ export default function AgendaAdmin() {
 
     if (!isFormValid()) {
       setFormError(
-        "Remplissez le titre, la date et choisissez une antenne ou cochez 'Agenda général'."
+        "Remplissez le titre et la date. Vérifiez les horaires si renseignés."
       );
       return;
     }
@@ -126,10 +125,10 @@ export default function AgendaAdmin() {
   };
 
   const edit = (ev: EventItem) => {
-    const selectedAntenne = antennes.find((a) => a.nom === ev.antenna);
     setForm({
       ...ev,
-      antenna: selectedAntenne ? selectedAntenne._id : ev.antenna ?? null,
+      antenna: ev.antenna ?? null,
+      isGeneral: !!ev.isGeneral,
     });
     setFormError(null);
   };
@@ -197,7 +196,10 @@ export default function AgendaAdmin() {
                   Horaire
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
-                  Antenne / Type
+                  Antenne
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Type
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                   Lieu
@@ -211,7 +213,7 @@ export default function AgendaAdmin() {
               {loading ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-6 py-12 text-center text-gray-400"
                   >
                     Chargement des événements...
@@ -220,7 +222,7 @@ export default function AgendaAdmin() {
               ) : events.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-6 py-12 text-center text-gray-400"
                   >
                     Aucun événement trouvé
@@ -242,9 +244,10 @@ export default function AgendaAdmin() {
                         : "-"}
                     </td>
                     <td className="px-6 py-4 text-gray-700">
-                      {ev.isGeneral
-                        ? "Agenda général"
-                        : ev.antenna || "—"}
+                      {antennes.find(a => a.nom === ev.antenna)?.nom || "—"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-700">
+                      {ev.isGeneral ? "Agenda général" : "—"}
                     </td>
                     <td className="px-6 py-4 text-gray-700">
                       {ev.location || "—"}
@@ -402,11 +405,9 @@ export default function AgendaAdmin() {
                       setForm({
                         ...form,
                         antenna: val,
-                        isGeneral: val ? false : form.isGeneral,
                       });
                       setFormError(null);
                     }}
-                    disabled={!!form.isGeneral}
                   >
                     <option value="">Sélectionner une antenne</option>
                     {antennes.map((a) => (
@@ -427,11 +428,9 @@ export default function AgendaAdmin() {
                         setForm({
                           ...form,
                           isGeneral: checked,
-                          antenna: checked ? null : form.antenna,
                         });
                         setFormError(null);
                       }}
-                      disabled={!!form.antenna}
                       className="w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
                     />
                     <span className="text-sm font-medium text-gray-700">
