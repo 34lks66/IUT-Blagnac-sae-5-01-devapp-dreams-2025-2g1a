@@ -1,4 +1,7 @@
 const NewsPaysModel = require("../models/newsPays");
+const AccountModel = require("../models/AccountModel");
+const PaysModel = require("../models/pays");
+
 
 // 🔴 ajoutés pour gérer les fichiers comme dans ton NewsController
 const path = require("path");
@@ -47,6 +50,24 @@ module.exports.saveNewsPays = async (req, res) => {
       });
     }
 
+    const user = req.user;
+
+    const userAccount = await AccountModel.findById(user.sub);
+    const existingPays = await PaysModel.findById(pays);
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingPays.nom) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de créer une news pour ce pays."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
+
     const newNewsPays = await NewsPaysModel.create({
       titre,
       description,
@@ -65,6 +86,30 @@ module.exports.saveNewsPays = async (req, res) => {
 module.exports.updateNewsPays = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // on récupère l'existant pour savoir quoi remplacer/supprimer
+    const existing = await NewsPaysModel.findById(id);
+    if (!existing) {
+      return res.status(404).json({ error: "News pays not found" });
+    }
+
+    const user = req.user;
+
+    const userAccount = await AccountModel.findById(user.sub);
+    const existingPays = await PaysModel.findById(existing.pays);
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingPays.nom) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de modifier une news pour ce pays."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
     const { titre, description, pays } = req.body;
 
     // nouvelle image uploadée ?
@@ -76,11 +121,7 @@ module.exports.updateNewsPays = async (req, res) => {
       });
     }
 
-    // on récupère l'existant pour savoir quoi remplacer/supprimer
-    const existing = await NewsPaysModel.findById(id);
-    if (!existing) {
-      return res.status(404).json({ error: "News pays not found" });
-    }
+
 
     // si une nouvelle image arrive, on supprime l’ancienne du disque
     if (newImage && existing.image) {
@@ -127,6 +168,24 @@ module.exports.deleteNewsPays = async (req, res) => {
     const existing = await NewsPaysModel.findById(id);
     if (!existing) {
       return res.status(404).json({ error: "News pays not found" });
+    }
+
+    const user = req.user;
+
+    const userAccount = await AccountModel.findById(user.sub);
+    const existingPays = await PaysModel.findById(existing.pays);
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingPays.nom) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de supprimer une news pour ce pays."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
     }
 
     if (existing.image) {
