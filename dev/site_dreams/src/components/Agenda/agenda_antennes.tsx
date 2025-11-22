@@ -5,7 +5,7 @@ interface AgendaProps {
   antennaName?: string; // optionnel : peut venir de la query ou du parent
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function Agenda({ antennaName }: AgendaProps) {
   const [events, setEvents] = useState<Event[]>([]);
@@ -161,4 +161,3 @@ export default function Agenda({ antennaName }: AgendaProps) {
     </div>
   );
 }
-// ...existing code...
