@@ -1,4 +1,4 @@
-import { useEffect,useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { apiFetch } from "../services/api";
 
 interface User {
@@ -11,10 +11,15 @@ interface User {
   statut: string;
 }
 
+interface Country {
+  _id: string;
+  nom: string;
+}
+
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
-
+  const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
@@ -26,6 +31,9 @@ const Users = () => {
     pays: '',
     statut: 'O'
   });
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -42,58 +50,71 @@ const Users = () => {
     fetchAccounts();
   }, []);
 
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await apiFetch("/api/pays/get", { method: "GET" });
+        if (!res.ok) throw new Error("Erreur lors du chargement des pays");
+        const data = await res.json();
+        setCountries(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
 
   const handleSubmit = async () => {
-  const { nom, prenom, telephone, email, pays, statut } = formData;
+    const { nom, prenom, telephone, email, pays, statut } = formData;
 
-  if (!nom || !prenom || !telephone || !email || !statut || !pays) {
-    alert("Veuillez remplir tous les champs");
-    return;
-  }
-
-  const userData = {
-    nom,
-    prenom,
-    telephone,
-    email: email,
-    password: "123456",  // mdp temporaire
-    statut,
-    pays,
-  };  
-
-  try {
-    let res;
-    if (editingUser) {
-      res = await apiFetch(`/api/accounts/${editingUser._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-    } else {
-      res = await apiFetch("/api/accounts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
+    if (!nom || !prenom || !telephone || !email || !statut || !pays) {
+      alert("Veuillez remplir tous les champs");
+      return;
     }
 
-    if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
+    const userData = {
+      nom,
+      prenom,
+      telephone,
+      email: email,
+      password: "123456",  // mdp temporaire
+      statut,
+      pays,
+    };
 
-    // recharge les comptes
-    const newRes = await apiFetch("/api/accounts", { method: "GET" });
-    if (!newRes.ok)
-      throw new Error("Erreur lors du rechargement des comptes");
-    const newData = await newRes.json();
-    setUsers(newData);
-    closeModal();
-  } catch (error) {
-    console.error(error);
-  }
+    try {
+      let res;
+      if (editingUser) {
+        res = await apiFetch(`/api/accounts/${editingUser._id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        });
+      } else {
+        res = await apiFetch("/api/accounts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        });
+      }
+
+      if (!res.ok) throw new Error("Erreur lors de l'enregistrement du compte");
+
+      // recharge les comptes
+      const newRes = await apiFetch("/api/accounts", { method: "GET" });
+      if (!newRes.ok)
+        throw new Error("Erreur lors du rechargement des comptes");
+      const newData = await newRes.json();
+      setUsers(newData);
+      closeModal();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const deleteUser = async (id: string) => {
-    if (!window.confirm("Supprimer cet utilisateur ?")) return;
-
+  const handleDelete = async (id: string) => {
     try {
       const res = await apiFetch(`/api/accounts/${id}`, {
         method: "DELETE",
@@ -155,11 +176,11 @@ const Users = () => {
 
 
   return (
-    
+
 
     <div className="space-y-8">
       <div className="flex items-center justify-between mb-6">
-          <h1 className="text-4xl font-extrabold ">Gestion Utilisateurs</h1>
+        <h1 className="text-4xl font-extrabold ">Gestion Utilisateurs</h1>
       </div>
 
       <div className="flex items-center justify-between">
@@ -176,12 +197,12 @@ const Users = () => {
           className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
         >
           Ajouter
-        </button>  
+        </button>
       </div>
 
-        {/* Barre de recherche */}
+      {/* Barre de recherche */}
 
-        <section className="border-t border-gray-200 pt-6">
+      <section className="border-t border-gray-200 pt-6">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
             <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -236,7 +257,7 @@ const Users = () => {
                     <td className="px-6 py-4 text-gray-700">{user.telephone}</td>
                     <td className="px-6 py-4 text-gray-700">{user.pays}</td>
                     <td>
-                        {user.statut === 'O' ? 'Bénévole' : user.statut === 'X' ? 'Administrateur' : 'Super administrateur'}
+                      {user.statut === 'O' ? 'Bénévole' : user.statut === 'X' ? 'Administrateur' : 'Super administrateur'}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
@@ -248,7 +269,10 @@ const Users = () => {
                           Modifier
                         </button>
                         <button
-                          onClick={() => deleteUser(user._id!)}
+                          onClick={() => {
+                            setDeleteId(user._id || null);
+                            setShowDeleteModal(true);
+                          }}
                           // className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 text-sm font-medium transition-colors"
                           className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
                         >
@@ -262,7 +286,7 @@ const Users = () => {
             </tbody>
           </table>
         </div>
-        </section>
+      </section>
 
       {/* Modale */}
       {isModalOpen && (
@@ -321,55 +345,52 @@ const Users = () => {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Pays
+                  Pays
                 </label>
                 <select
-                    value={formData.pays}
-                    onChange={(e) => setFormData({ ...formData, pays: e.target.value })}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
-                    required
+                  value={formData.pays}
+                  onChange={(e) => setFormData({ ...formData, pays: e.target.value })}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                  required
                 >
-                    <option value="">-- Sélectionnez un pays --</option>
-                    <option value="France">France</option>
-                    <option value="Togo">Togo</option>
-                    <option value="Burkina Faso">Burkina Faso</option>
-                    <option value="Côte D'Ivoire">Côte D'Ivoire</option>
-                    <option value="Italie">Italie</option>
-                    <option value="Autre">Autre</option>
-                </select>
-                </div>
+                  <option value="">-- Sélectionnez un pays --</option>
 
-                </div>
-                <div className="mt-5">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Statut</label>
-                <div className="flex flex-col sm:flex-row gap-3">
-                    {[
-                    { label: "Bénévole", value: "O" },
-                    { label: "Administrateur", value: "X" },
-                    { label: "Super administrateur", value: "S" }
-                    ].map((role) => (
-                    <label
-                        key={role.value}
-                        className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${
-                        formData.statut === role.value
-                            ? "border-yellow-500 bg-yellow-50"
-                            : "border-gray-200 hover:border-yellow-400"
-                        }`}
-                    >
-                        <input
-                        type="radio"
-                        name="role"
-                        value={role.value}
-                        checked={formData.statut === role.value}
-                        onChange={(e) => setFormData({ ...formData, statut: e.target.value })}
-                        className="text-yellow-500 focus:ring-yellow-500"
-                        required
-                        />
-                        <span className="text-gray-700 font-medium">{role.label}</span>
-                    </label>
-                    ))}
-                </div>
-                
+                  {countries.map((country: Country) => (
+                    <option key={country._id} value={country.nom}>
+                      {country.nom}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="mt-5">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Statut</label>
+              <div className="flex flex-col sm:flex-row gap-3">
+                {[
+                  { label: "Bénévole", value: "O" },
+                  { label: "Administrateur", value: "X" },
+                  { label: "Super administrateur", value: "S" }
+                ].map((role) => (
+                  <label
+                    key={role.value}
+                    className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${formData.statut === role.value
+                      ? "border-yellow-500 bg-yellow-50"
+                      : "border-gray-200 hover:border-yellow-400"
+                      }`}
+                  >
+                    <input
+                      type="radio"
+                      name="role"
+                      value={role.value}
+                      checked={formData.statut === role.value}
+                      onChange={(e) => setFormData({ ...formData, statut: e.target.value })}
+                      className="text-yellow-500 focus:ring-yellow-500"
+                      required
+                    />
+                    <span className="text-gray-700 font-medium">{role.label}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
             <div className="flex gap-3 mt-8">
@@ -381,10 +402,57 @@ const Users = () => {
               </button>
               <button
                 onClick={handleSubmit}
-                className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+                disabled={!formData.nom || !formData.prenom || !formData.email || !formData.telephone || !formData.pays || !formData.statut}
+                className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${!formData.nom || !formData.prenom || !formData.email || !formData.telephone || !formData.pays || !formData.statut
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-yellow-500 text-white hover:shadow-lg"
+                  }`}
               >
-                Créer l'utilisateur
+                {editingUser ? 'Modifier l\'utilisateur' : 'Créer l\'utilisateur'}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODALE SUPPRESSION */}
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold mb-4 text-red-600 ">
+              Confirmer la suppression
+            </h2>
+            <p className="text-gray-700 mb-6">
+              Voulez-vous vraiment supprimer cet utilisateur ? <br />
+              Cette action est irréversible.
+            </p>
+
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={async () => {
+                  if (deleteId) {
+                    await handleDelete(deleteId);
+                  }
+                  setShowDeleteModal(false);
+                  setDeleteId(null);
+                }}
+                className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium"
+              >
+                Supprimer
+              </button>
+
             </div>
           </div>
         </div>
