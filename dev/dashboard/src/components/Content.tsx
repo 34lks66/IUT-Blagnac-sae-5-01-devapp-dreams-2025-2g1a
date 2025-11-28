@@ -5,6 +5,7 @@ import Utilisateurs from './Utilisateurs';
 import Beneficiaires from './Beneficiaires';
 import PageAntennes from './pageAntenne';
 import DashboardStats from './DashboardStats';
+import Parametre from './Parametre';
 
 interface ContentProps {
   activeTab: string;
@@ -46,10 +47,7 @@ const Content = ({ activeTab }: ContentProps) => {
     users: <Utilisateurs />,
     beneficiaires: <Beneficiaires />,
     pages_antennes: <PageAntennes />,
-    settings: renderPlaceholder(
-      'Paramètres',
-      'Configurez les paramètres généraux de l\'application'
-    ),
+    settings: <Parametre />,
   };
 
   return (
