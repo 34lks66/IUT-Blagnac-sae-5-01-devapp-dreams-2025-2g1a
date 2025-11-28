@@ -5,7 +5,7 @@ import Content from './components/Content';
 import { AuthProvider } from './components/context/AuthContext';
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('beneficiaires');
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
@@ -22,7 +22,7 @@ const Dashboard = () => {
           {activeTab === "dashboard" && (
             <Header onMenuClick={() => setIsMobileOpen(true)} />
           )}
-          <Content activeTab={activeTab}/>
+          <Content activeTab={activeTab} />
         </div>
       </div>
     </AuthProvider>
