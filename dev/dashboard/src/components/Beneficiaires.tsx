@@ -35,7 +35,7 @@ const Beneficiaires = () => {
     useEffect(() => {
         const fetchBeneficiaires = async () => {
             try {
-                const res = await apiFetch("/api/members/get", { method: "GET" });
+                const res = await apiFetch("/api/beneficiaire/get", { method: "GET" });
                 if (!res.ok) throw new Error("Erreur lors du chargement des bénéficiaires");
                 const data = await res.json();
                 setBeneficiaires(data);
@@ -81,13 +81,13 @@ const Beneficiaires = () => {
         try {
             let res;
             if (editingBeneficiaire) {
-                res = await apiFetch(`/api/members/update/${editingBeneficiaire._id}`, {
+                res = await apiFetch(`/api/beneficiaire/update/${editingBeneficiaire._id}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(beneficiaireData),
                 });
             } else {
-                res = await apiFetch("/api/members/save", {
+                res = await apiFetch("/api/beneficiaire/save", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(beneficiaireData),
@@ -97,7 +97,7 @@ const Beneficiaires = () => {
             if (!res.ok) throw new Error("Erreur lors de l'enregistrement du bénéficiaire");
 
             // recharge les bénéficiaires
-            const newRes = await apiFetch("/api/members/get", { method: "GET" });
+            const newRes = await apiFetch("/api/beneficiaire/get", { method: "GET" });
             if (!newRes.ok)
                 throw new Error("Erreur lors du rechargement des bénéficiaires");
             const newData = await newRes.json();
@@ -110,7 +110,7 @@ const Beneficiaires = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            const res = await apiFetch(`/api/members/delete/${id}`, {
+            const res = await apiFetch(`/api/beneficiaire/delete/${id}`, {
                 method: "DELETE",
             });
             if (!res.ok) throw new Error("Erreur lors de la suppression");
@@ -346,8 +346,8 @@ const Beneficiaires = () => {
                                 onClick={handleSubmit}
                                 disabled={!formData.nom || !formData.prenom || !formData.mail || !formData.telephone || !formData.pays}
                                 className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${!formData.nom || !formData.prenom || !formData.mail || !formData.telephone || !formData.pays
-                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                        : "bg-yellow-500 text-white hover:shadow-lg"
+                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    : "bg-yellow-500 text-white hover:shadow-lg"
                                     }`}
                             >
                                 {editingBeneficiaire ? 'Modifier le bénéficiaire' : 'Créer le bénéficiaire'}
