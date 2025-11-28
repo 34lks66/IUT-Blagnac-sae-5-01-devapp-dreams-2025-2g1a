@@ -195,7 +195,8 @@ link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blo
 link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/a81dba9369e1c176cabc5b4ee547d5d3738ed8c4/R%C3%A9unions/Client/ODJ/ODJ%2022.11_Semaine%2047.pdf[ODJ S47] 
 |link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/a81dba9369e1c176cabc5b4ee547d5d3738ed8c4/R%C3%A9unions/Client/CR/CR%2022.11_Semaine%2047.pdf[CR S47] 
 | Client, Léo
-| 28/11/2025 | [ODJ S48] |
+| 28/11/2025 | 
+link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/710571b8b96c573b825b340ff142c623b251b966/R%C3%A9unions/Client/ODJ/ODJ%2028.11_Semaine%2048.pdf[ODJ S48] |
 link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/234604ee0669a3e5754da850535137d654388c6c/R%C3%A9unions/Client/CR/CR%2028.11_Semaine%2048.pdf[CR S48] 
 | Client, Léo, Mucahit
 |===
