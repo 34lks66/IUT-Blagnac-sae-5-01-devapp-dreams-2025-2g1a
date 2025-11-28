@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
+const { getBeneficiaire, getBeneficiaireID, saveBeneficiaire, updateBeneficiaire, deleteBeneficiaire } = require('../controllers/BeneficiaireController')
 const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
 const { getNewsPays, getNewsPaysID, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
 const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
@@ -103,6 +104,16 @@ router.put('/update/:id', authVerif, authVerifRole(["X", "S"]), updateMember)
  *         description: No Content
  */
 router.delete('/delete/:id', authVerif, authVerifRole(["X", "S"]), deleteMember)
+
+//////////////////////////////////////////////////////////////////
+///////////////////////// Beneficiaires // ////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+router.get('/beneficiaire/get', getBeneficiaire)
+router.get('/beneficiaire/get/:id', getBeneficiaireID)
+router.post('/beneficiaire/save', authVerif, upload.single('image'), saveBeneficiaire)
+router.put('/beneficiaire/update/:id', authVerif, upload.single('image'), updateBeneficiaire)
+router.delete('/beneficiaire/delete/:id', authVerif, deleteBeneficiaire)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
