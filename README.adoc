@@ -190,6 +190,7 @@ Ci-dessous un récapitulatif des réunions équipe/client avec ordre du jour et 
 | 24/10/2025 | [ODJ S43] | [CR S43] | Client, Léo, Mucahit
 | 14/11/2025 | link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/R%C3%A9unions/Client/ODJ/ODJ%2014.11_Semaine%2046.pdf[ODJ S46] | [CR S46] | Client, Léo, Mucahit
 | 22/11/2025 | [ODJ S47] | [CR S47] | Client, Léo
+| 28/11/2025 | [ODJ S48] | [CR S48] | Client, Léo, Mucahit
 |===
 
 == Planning Télétravail 
