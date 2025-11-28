@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
           },
           beneficiaires: {
             getBeneficiare: 'GET /api/beneficiaire/get',
-            getBeneficiaireID: 'GET /api/beneficiaire/get',
+            getBeneficiaireID: 'GET /api/beneficiaire/get/:id',
             saveBeneficiaire: 'POST /api/beneficiaire/save',
             updateBeneficiaire: 'PUT /api/beneficiaire/update/:id',
             deleteBeneficiaire: 'DELETE /api/beneficiaire/delete/:id'
