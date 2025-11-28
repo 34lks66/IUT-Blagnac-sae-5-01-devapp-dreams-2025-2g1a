@@ -2,6 +2,7 @@ import AgendaAdmin from './Agenda';
 import Accueil from '../components/News';
 import PagesSite from './PagePays';
 import Utilisateurs from './Utilisateurs';
+import Beneficiaires from './Beneficiaires';
 import PageAntennes from './pageAntenne';
 import DashboardStats from './DashboardStats';
 
@@ -43,6 +44,7 @@ const Content = ({ activeTab }: ContentProps) => {
     accueil: <Accueil />,
     pages: <PagesSite />,
     users: <Utilisateurs />,
+    beneficiaires: <Beneficiaires />,
     pages_antennes: <PageAntennes />,
     settings: renderPlaceholder(
       'Paramètres',

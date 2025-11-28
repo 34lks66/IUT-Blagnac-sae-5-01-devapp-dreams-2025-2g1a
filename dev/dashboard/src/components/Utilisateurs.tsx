@@ -32,6 +32,9 @@ const Users = () => {
     statut: 'O'
   });
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
@@ -111,9 +114,7 @@ const Users = () => {
     }
   };
 
-  const deleteUser = async (id: string) => {
-    if (!window.confirm("Supprimer cet utilisateur ?")) return;
-
+  const handleDelete = async (id: string) => {
     try {
       const res = await apiFetch(`/api/accounts/${id}`, {
         method: "DELETE",
@@ -268,7 +269,10 @@ const Users = () => {
                           Modifier
                         </button>
                         <button
-                          onClick={() => deleteUser(user._id!)}
+                          onClick={() => {
+                            setDeleteId(user._id || null);
+                            setShowDeleteModal(true);
+                          }}
                           // className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 text-sm font-medium transition-colors"
                           className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
                         >
@@ -358,7 +362,6 @@ const Users = () => {
                   ))}
                 </select>
               </div>
-
             </div>
             <div className="mt-5">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Statut</label>
@@ -388,7 +391,6 @@ const Users = () => {
                   </label>
                 ))}
               </div>
-
             </div>
 
             <div className="flex gap-3 mt-8">
@@ -400,10 +402,57 @@ const Users = () => {
               </button>
               <button
                 onClick={handleSubmit}
-                className="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+                disabled={!formData.nom || !formData.prenom || !formData.email || !formData.telephone || !formData.pays || !formData.statut}
+                className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${!formData.nom || !formData.prenom || !formData.email || !formData.telephone || !formData.pays || !formData.statut
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-yellow-500 text-white hover:shadow-lg"
+                  }`}
               >
                 {editingUser ? 'Modifier l\'utilisateur' : 'Créer l\'utilisateur'}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODALE SUPPRESSION */}
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold mb-4 text-red-600 ">
+              Confirmer la suppression
+            </h2>
+            <p className="text-gray-700 mb-6">
+              Voulez-vous vraiment supprimer cet utilisateur ? <br />
+              Cette action est irréversible.
+            </p>
+
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={async () => {
+                  if (deleteId) {
+                    await handleDelete(deleteId);
+                  }
+                  setShowDeleteModal(false);
+                  setDeleteId(null);
+                }}
+                className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium"
+              >
+                Supprimer
+              </button>
+
             </div>
           </div>
         </div>
