@@ -36,6 +36,8 @@ export default function AgendaAdmin() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
 
+
+
   const fetchAntennes = async () => {
     try {
       const res = await apiFetch("/api/antenne/get", { method: "GET" });
@@ -125,25 +127,26 @@ export default function AgendaAdmin() {
   };
 
   const edit = (ev: EventItem) => {
+    const foundAntenne = antennes.find(a => a.nom === ev.antenna);
     setForm({
       ...ev,
-      antenna: ev.antenna ?? null,
+      antenna: foundAntenne ? foundAntenne._id : "",
       isGeneral: !!ev.isGeneral,
     });
     setFormError(null);
   };
 
   const remove = async (id?: string) => {
-  if (!id) return;
-  try {
-    await apiFetch(`/api/event/delete/${id}`, {
-      method: "DELETE",
-    });
-    fetchEvents();
-  } catch (err) {
-    console.error(err);
-  }
-};
+    if (!id) return;
+    try {
+      await apiFetch(`/api/event/delete/${id}`, {
+        method: "DELETE",
+      });
+      fetchEvents();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 
   const openModalForCreate = () => {
