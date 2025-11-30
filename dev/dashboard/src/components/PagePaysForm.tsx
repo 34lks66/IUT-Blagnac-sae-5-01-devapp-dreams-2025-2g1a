@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { apiFetch } from "../services/api";
 
 // ---------- Props ----------
 type Props = {
@@ -90,9 +91,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
     setLoading(true);
     try {
       // Charger tous les pays (ou remplace par /pays/:id si tu l'as)
-      const resPays = await fetch(`${API_BASE}/api/pays/get`, {
-        credentials: "include",
-      });
+      const resPays = await apiFetch("/api/pays/get");
       const all: Country[] = resPays.ok ? await resPays.json() : [];
       const current = all.find((c) => c._id === id) || null;
       setCountry(current);
@@ -105,9 +104,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       setNumber(current?.number || "");
 
       // News
-      const resNews = await fetch(`${API_BASE}/api/newspays/get?pays=${id}`, {
-        credentials: "include",
-      });
+      const resNews = await apiFetch(`/api/newspays/get?pays=${id}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataNews: any[] = resNews.ok ? await resNews.json() : [];
       setNews(
@@ -207,19 +204,20 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         fd.append("horaire", horaire);
         fd.append("mail", mail);
         fd.append("number", number);
-        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
+        const r = await apiFetch(`/api/pays/update/${country._id}`, {
           method: "PUT",
-          credentials: "include",
+          headers: { "Content-Type": "application/json" },
           body: fd,
         });
+
         if (!r.ok) throw new Error("Échec update pays");
       } else {
-        const r = await fetch(`${API_BASE}/api/pays/update/${country._id}`, {
+        const r = await apiFetch(`/api/pays/update/${country._id}`, {
           method: "PUT",
-          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ description, nomSiege, adresse, horaire, mail, number }),
         });
+
         if (!r.ok) throw new Error("Échec update pays");
       }
 
@@ -241,9 +239,8 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
             fd.append("description", n.description);
             fd.append("pays", country._id);
             if (n.image && n.image instanceof File) fd.append("image", n.image);
-            const r = await fetch(`${API_BASE}/api/newspays/save`, {
+            const r = await apiFetch("/api/newspays/save", {
               method: "POST",
-              credentials: "include",
               body: fd,
             });
             if (!r.ok) throw new Error("Échec create news");
@@ -261,17 +258,16 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               fd.append("description", n.description);
               fd.append("pays", country._id);
               fd.append("image", n.image);
-              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
+              const r = await apiFetch(`/api/newspays/update/${n._id}`, {
                 method: "PUT",
-                credentials: "include",
+                headers: { "Content-Type": "application/json" },
                 body: fd,
               });
               if (!r.ok) throw new Error("Échec update news (file)");
               return r.json();
             } else {
-              const r = await fetch(`${API_BASE}/api/newspays/update/${n._id}`, {
+              const r = await apiFetch(`/api/newspays/update/${n._id}`, {
                 method: "PUT",
-                credentials: "include",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   titre: n.titre,
@@ -289,9 +285,8 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       if (toDelete.length) {
         await Promise.all(
           toDelete.map((id) =>
-            fetch(`${API_BASE}/api/newspays/delete/${id}`, {
+            apiFetch(`/api/newspays/delete/${id}`, {
               method: "DELETE",
-              credentials: "include",
             }).then((r) => {
               if (!r.ok) throw new Error("Échec delete news");
               return r.json();
@@ -320,9 +315,8 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
 
     try {
       setDeletingCountry(true);
-      const res = await fetch(`${API_BASE}/api/pays/delete/${country._id}`, {
+      const res = await apiFetch(`/api/pays/delete/${country._id}`, {
         method: "DELETE",
-        credentials: "include",
       });
       if (!res.ok) throw new Error("Échec suppression du pays");
 
@@ -554,30 +548,30 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         <h3 className="text-lg font-semibold mb-6">Contact du pays</h3>
         <div className="flex items-center justify-between mb-4">
           <form className="space-y-8">
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label>Nom du siège</Label>
-                  <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-[2]">
-                  <Label>Adresse</Label>
-                  <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-[2]"> 
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Label>Nom du siège</Label>
+                <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
+              </div>
+              <div className="flex-[2]">
+                <Label>Adresse</Label>
+                <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
+              </div>
+              <div className="flex-[2]">
                 <Label>Horaire</Label>
-                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Label>Adresse mail</Label>
+                <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label>Adresse mail</Label>
-                  <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-1">
-                  <Label>Numéro de téléphone</Label>
-                  <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
+              <div className="flex-1">
+                <Label>Numéro de téléphone</Label>
+                <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
+            </div>
           </form>
         </div>
       </section>

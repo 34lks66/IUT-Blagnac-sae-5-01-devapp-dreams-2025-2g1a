@@ -1,6 +1,7 @@
 const PaysModel = require("../models/pays");
 const NewsPaysModel = require("../models/newsPays");
 const AntenneModel = require("../models/AntenneModel"); // 👈 NEW: pour supprimer les antennes liées
+const AccountModel = require("../models/AccountModel");
 
 //ajoutés pour gérer les fichiers comme dans ton NewsController
 const path = require("path");
@@ -52,7 +53,31 @@ module.exports.savePays = async (req, res) => {
 module.exports.updatePays = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nom, description, nomSiege, adresse, horaire, mail, number} = req.body;
+
+    // on récupère l'existant pour savoir quoi remplacer/supprimer
+    const existingPays = await PaysModel.findById(id);
+    if (!existingPays) {
+      return res.status(404).json({ error: "Pays not found" });
+    }
+
+    const user = req.user;
+
+    const userAccount = await AccountModel.findById(user.sub);
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingPays.nom) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de modifier ce pays."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
+
+    const { nom, description, nomSiege, adresse, horaire, mail, number } = req.body;
 
     // nouvelle image uploadée ?
     const newImage = req.file ? `/uploads/${req.file.filename}` : null;
@@ -63,11 +88,6 @@ module.exports.updatePays = async (req, res) => {
       });
     }
 
-    // on récupère l'existant pour savoir quoi remplacer/supprimer
-    const existingPays = await PaysModel.findById(id);
-    if (!existingPays) {
-      return res.status(404).json({ error: "Pays not found" });
-    }
 
     // si une nouvelle image arrive, on supprime l’ancienne du disque
     if (newImage && existingPays.image) {

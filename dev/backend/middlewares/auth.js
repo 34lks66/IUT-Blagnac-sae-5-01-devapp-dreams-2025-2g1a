@@ -1,17 +1,46 @@
+// middleware/auth.js
 const jwt = require("jsonwebtoken");
+const Account = require("../models/AccountModel");
 
-function authVerif(req, res, next) {
-  const token = req.cookies.token;
+const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET || process.env.JWT_SECRET;
 
-  if (!token) {
-    return res.status(401).json({ message: "Non autorisé" });
-  }
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Non autorisé" });
+async function authVerif(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    let token = null;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      token = authHeader.split(" ")[1];
+    } else if (req.cookies && req.cookies.token) {
+      token = req.cookies.token;
     }
+
+    if (!token) return res.status(401).json({ message: "Non autorisé" });
+
+    const decoded = jwt.verify(token, ACCESS_SECRET);
+    req.user = decoded; // ex : { sub, email, role, iat, exp }
+
+    // vérifier que l'utilisateur existe et n'est pas désactivé
+    const user = await Account.findById(decoded._id || decoded.sub);
+    if (!user) {
+      return res.status(403).json({ message: "Compte désactivé ou introuvable" });
+    }
+
     next();
-  });
+  } catch (err) {
+    return res.status(401).json({ message: "Token invalide ou expiré" });
+  }
 }
 
-module.exports = authVerif;
+// factory middleware pour exiger certains rôles (ex: ['S'] pour super-admin)
+function authVerifRole(requiredRoles = ["S"]) {
+  return (req, res, next) => {
+    if (!req.user) return res.status(401).json({ message: "Non autorisé" });
+    const role = req.user.role || req.user.statut || req.user.role;
+    if (!requiredRoles.includes(role)) {
+      return res.status(403).json({ message: "Accès refusé : rôle insuffisant" });
+    }
+    next();
+  };
+}
+
+module.exports = { authVerif, authVerifRole };

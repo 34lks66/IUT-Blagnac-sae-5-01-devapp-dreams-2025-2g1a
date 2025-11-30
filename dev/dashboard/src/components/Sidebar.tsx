@@ -1,6 +1,7 @@
 import logoDreams from "../../../site_dreams/src/assets/logo.png"
+import { useAuth } from "./utils/useAuth";
+import { apiFetch } from "../services/api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 interface SidebarProps {
   activeTab: string;
@@ -11,10 +12,10 @@ interface SidebarProps {
 
 async function logout() {
   try {
-    const response = await fetch(`${API_BASE}/api/logout`, {
+    const response = await apiFetch("/api/logout", {
       method: "POST",
-      credentials: "include",
     });
+
     if (response.ok) {
       window.location.href = "/login";
     }
@@ -23,60 +24,16 @@ async function logout() {
   }
 }
 
+
 const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: SidebarProps) => {
+  const { role } = useAuth();
   const menuItems = [
     {
-      id: 'dashboard',
-      label: 'Tableau de bord',
+      id: 'beneficiaires',
+      label: 'Bénéficiaires',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      )
-    },
-    { 
-      id: 'accueil', 
-      label: 'Page d\'accueil',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-newspaper-icon lucide-newspaper">
-          <path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/>
-        </svg>
-      )
-    },
-   {
-      id: 'agenda',
-      label: 'Agenda',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2}/>
-          <path d="M16 2v4M8 2v4" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      )
-    },
-    {
-      id: 'pages',
-      label: 'Pages Pays',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      )
-    },
-    {
-      id: 'pages_antennes',
-      label: 'Pages Antennes',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      )
-    },
-    {
-      id: 'users',
-      label: 'Utilisateurs',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       )
     },
@@ -89,8 +46,69 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       )
-    },
-  ];
+
+    }];
+
+  if (role !== "O") {
+    menuItems.splice(1, 0,
+      {
+        id: 'dashboard',
+        label: 'Tableau de bord',
+        icon: (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+        )
+      },
+      {
+        id: 'accueil',
+        label: 'Page d\'accueil',
+        icon: (
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-newspaper-icon lucide-newspaper">
+            <path d="M15 18h-5" /><path d="M18 14h-8" /><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /><rect width="8" height="4" x="10" y="6" rx="1" />
+          </svg>
+        )
+      },
+      {
+        id: 'agenda',
+        label: 'Agenda',
+        icon: (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth={2} />
+            <path d="M16 2v4M8 2v4" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        )
+      },
+      {
+        id: 'pages',
+        label: 'Pages Pays',
+        icon: (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        )
+      },
+      {
+        id: 'pages_antennes',
+        label: 'Pages Antennes',
+        icon: (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        )
+      },
+      {
+        id: 'users',
+        label: 'Utilisateurs',
+        icon: (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        )
+      },
+
+    );
+  }
 
   return (
     <>
@@ -117,7 +135,7 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
                   <h2 className="text-2xl font-bold">DREAMS</h2>
                   <p className="text-xs text-black/80 mt-1">Admin Dashboard</p>
                 </div>
-                <img src={logoDreams} alt="logo DREAMS" className="h-20 w-auto"/>
+                <img src={logoDreams} alt="logo DREAMS" className="h-20 w-auto" />
               </div>
               <button
                 className="md:hidden text-black hover:text-yellow-100 transition-colors"
@@ -158,7 +176,7 @@ const Sidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen }: Sid
 
           {/* Footer */}
           <div className="p-4 border-t border-white/20">
-            <button className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3 font-medium text-sm" onClick={logout}> 
+            <button className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors flex items-center gap-3 font-medium text-sm" onClick={logout}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>

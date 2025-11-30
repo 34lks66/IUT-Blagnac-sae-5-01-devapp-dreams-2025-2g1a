@@ -3,6 +3,20 @@ const bcrypt = require("bcrypt");
 
 module.exports.getAccounts = async (req, res) => {
   try {
+
+    // const userAccount = await AccountModel.findById(req.user.sub);
+    // if (!userAccount) {
+    //   return res.status(404).json({ error: "Compte introuvable" });
+    // }
+    // if (userAccount.statut === "S") {
+    // const accounts = await AccountModel.find();
+    // res.json(accounts);
+    // }
+    // else {
+    //   const accounts = await AccountModel.find({ pays: userAccount.pays, statut: "O" });
+    //   res.json(accounts);
+    // }
+
     const accounts = await AccountModel.find();
     res.json(accounts);
   } catch (error) {
@@ -26,7 +40,31 @@ module.exports.saveAccount = async (req, res) => {
       return res.status(400).json({ error: "Un compte avec cet email existe déjà." });
     }
 
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de créer un compte pour ce pays."
+          });
+        }
+        if (statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de créer un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
 
     const newAccount = await AccountModel.create({
       nom,
@@ -51,7 +89,34 @@ module.exports.updateAccount = async (req, res) => {
     const { id } = req.params;
     const { nom, prenom, telephone, email, password, pays, statut } = req.body;
 
-    
+    const existingAccount = await AccountModel.findById(id);
+    if (!existingAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingAccount.pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de mettre à jour un compte pour ce pays."
+          });
+        }
+        if (existingAccount.statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de mettre à jour un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
+
     const updateData = {};
     if (nom) updateData.nom = nom;
     if (prenom) updateData.prenom = prenom;
@@ -62,6 +127,25 @@ module.exports.updateAccount = async (req, res) => {
 
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);
+    }
+
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de modifier un compte pour ce pays."
+          });
+        }
+        if (updateData.statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de modifier un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
     }
 
     const updatedAccount = await AccountModel.findByIdAndUpdate(id, updateData, { new: true });
@@ -81,6 +165,33 @@ module.exports.deleteAccount = async (req, res) => {
   try {
     const { id } = req.params;
 
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    const existingAccount = await AccountModel.findById(id);
+    if (!existingAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingAccount.pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de supprimer un compte pour ce pays."
+          });
+        }
+        if (existingAccount.statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de supprimer un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
     const deletedAccount = await AccountModel.findByIdAndDelete(id);
 
     if (!deletedAccount) {

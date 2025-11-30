@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { send } from '@emailjs/browser';
 
 function DevenirBenevole() {
   const [formData, setFormData] = useState({
@@ -25,71 +26,85 @@ function DevenirBenevole() {
   }
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Vérifier que toutes les cases sont cochées
-    const allChecked = Object.values(legalChecks).every(check => check);
-    if (!allChecked) {
-      alert('Veuillez accepter toutes les conditions légales pour continuer.');
-      return;
-    }
-
-    console.log("=== DONNÉES DU FORMULAIRE ===");
-    console.log("Informations personnelles:", formData);
-    console.log("Conditions acceptées:", legalChecks);
-    console.log("=============================");
-
-    // Afficher le popup de confirmation
-    setShowConfirmation(true);
-    
-    // Réinitialiser le formulaire
-    setFormData({
-      nom: '',
-      prenom: '',
-      email: '',
-      telephone: ''
-    });
-    setLegalChecks({
-      mentionsLegales: false,
-      reglementInterieur: false,
-      droitImage: false
-    });
+  const allChecked = Object.values(legalChecks).every(check => check);
+  if (!allChecked) {
+    alert('Veuillez accepter toutes les conditions légales pour continuer.');
+    return;
   }
+
+  const serviceID = 'service_twqtdqm';
+  const templateID = 'template_nvuphny';
+  const publicKey = 'Fac57P5iYc4eKU3uf';
+
+  // Envoi de l'email via EmailJS
+  send(serviceID, templateID, {
+    prenom: formData.prenom,
+    nom: formData.nom,
+    email: formData.email,
+    telephone: formData.telephone,
+    mentionsLegales: legalChecks.mentionsLegales ? 'Oui' : 'Non',
+    reglementInterieur: legalChecks.reglementInterieur ? 'Oui' : 'Non',
+    droitImage: legalChecks.droitImage ? 'Oui' : 'Non',
+  }, publicKey)
+    .then((response) => {
+      console.log('Email envoyé avec succès!', response.status, response.text);
+      setShowConfirmation(true);
+      
+      // Réinitialisation du formulaire
+      setFormData({
+        nom: '',
+        prenom: '',
+        email: '',
+        telephone: ''
+      });
+      setLegalChecks({
+        mentionsLegales: false,
+        reglementInterieur: false,
+        droitImage: false
+      });
+    })
+    .catch((error) => {
+      console.error('Erreur lors de l\'envoi de l\'email:', error);
+      alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer.');
+    });
+}
 
   function closeConfirmation() {
     setShowConfirmation(false);
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         
         {/* Popup de confirmation */}
         {showConfirmation && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full transform animate-scale-in">
+            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full animate-scale-in">
               {/* Header avec icône */}
-              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-t-2xl p-6 text-center">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <div className="bg-gray-900 rounded-t-xl p-6 text-center">
+                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-white">Candidature envoyée !</h3>
+                <h3 className="text-xl font-semibold text-white">Candidature envoyée !</h3>
               </div>
 
               {/* Contenu */}
               <div className="p-6 text-center">
-                <p className="text-gray-700 mb-2">
-                  Merci <span className="font-semibold text-amber-600">{formData.prenom} {formData.nom}</span> pour votre candidature !
+                <p className="text-gray-700 mb-3">
+                  Merci <span className="font-semibold text-gray-900">{formData.prenom} {formData.nom}</span> pour votre candidature.
                 </p>
                 <p className="text-gray-600 text-sm mb-4">
                   Nous avons bien reçu votre demande et nous vous contacterons dans les <span className="font-semibold">48 heures</span>.
                 </p>
                 
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                  <p className="text-green-700 text-sm font-medium">
-                    Prochaine étape : Un responsable bénévoles vous appellera au 
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+                  <p className="text-green-700 text-sm">
+                    Un responsable bénévoles vous appellera au 
                     <span className="font-semibold"> {formData.telephone}</span>
                   </p>
                 </div>
@@ -106,83 +121,112 @@ function DevenirBenevole() {
               <div className="border-t border-gray-200 p-4 flex justify-center">
                 <button
                   onClick={closeConfirmation}
-                  className="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+                  className="bg-gray-900 hover:bg-gray-800 text-white font-medium py-2.5 px-6 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                 >
-                  Parfait, j'ai compris !
+                  Fermer
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* Section horizontale : Formulaire à droite, Texte à gauche */}
+        {/* En-tête */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Devenir Bénévole</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Rejoignez notre communauté engagée et contribuez à faire la différence
+          </p>
+        </div>
+
+        {/* Section horizontale */}
         <div className="flex flex-col lg:flex-row gap-8 mb-12">
           {/* Colonne de gauche - Texte informatif */}
           <div className="lg:w-1/2 space-y-6">
-            <div className="text-center lg:text-left">
-              <h2 className="text-3xl font-bold text-gray-900">Devenir Bénévole</h2>
-              <p className="mt-2 text-sm text-gray-600">
-                Rejoignez notre équipe de bénévoles et faites la différence
-              </p>
-            </div>
-
-            <div className="p-6 bg-amber-50 rounded-lg border border-amber-200">
-              <h3 className="font-semibold text-amber-800 mb-3 text-lg">Comment ça marche ?</h3>
-              <p className="text-amber-700">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h3 className="font-semibold text-gray-900 mb-4 text-xl">Processus de recrutement</h3>
+              <p className="text-gray-700 mb-4">
                 Après avoir soumis votre candidature, notre équipe prendra contact avec vous sous 48 heures 
-                pour discuter des missions disponibles et de vos disponibilités. Vous devrez participer à 
-                une session d'information avant de commencer votre bénévolat.
+                pour discuter des missions disponibles et de vos disponibilités.
               </p>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <h4 className="font-medium text-blue-900 text-sm mb-2">Session d'information obligatoire</h4>
+                <p className="text-blue-800 text-sm">
+                  Vous devrez participer à une session d'information avant de commencer votre bénévolat.
+                </p>
+              </div>
             </div>
 
-            <div className="p-6 bg-blue-50 rounded-lg border border-blue-200">
-              <h4 className="font-medium text-blue-800 text-lg mb-3">Prochaines étapes après votre inscription :</h4>
-              <ul className="text-blue-700 space-y-3">
-                <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">•</span>
-                  <span>Vous recevrez un email de confirmation sous 24 heures</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">•</span>
-                  <span>Un responsable bénévoles vous appellera pour un entretien téléphonique</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">•</span>
-                  <span>Vous participerez à une formation d'accueil en ligne</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">•</span>
-                  <span>Vous choisirez vos premières missions selon vos disponibilités</span>
-                </li>
-              </ul>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h4 className="font-semibold text-gray-900 text-lg mb-4">Déroulement de l'inscription</h4>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mt-0.5">
+                    <span className="text-xs font-medium text-gray-600">1</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">Email de confirmation</p>
+                    <p className="text-gray-600 text-sm">Sous 24 heures</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mt-0.5">
+                    <span className="text-xs font-medium text-gray-600">2</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">Entretien téléphonique</p>
+                    <p className="text-gray-600 text-sm">Avec un responsable bénévoles</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mt-0.5">
+                    <span className="text-xs font-medium text-gray-600">3</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">Formation d'accueil</p>
+                    <p className="text-gray-600 text-sm">Session en ligne</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mt-0.5">
+                    <span className="text-xs font-medium text-gray-600">4</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900 text-sm">Choix des missions</p>
+                    <p className="text-gray-600 text-sm">Selon vos disponibilités</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="p-6 bg-green-50 rounded-lg border border-green-200">
-              <h4 className="font-medium text-green-800 text-lg mb-3">Pourquoi nous rejoindre ?</h4>
-              <p className="text-green-700 mb-3">
-                🌟 En devenant bénévole, vous rejoignez une communauté engagée de plus de 500 personnes 
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h4 className="font-semibold text-gray-900 text-lg mb-3">Impact de votre engagement</h4>
+              <p className="text-gray-700 mb-3">
+                En devenant bénévole, vous rejoignez une communauté engagée de plus de 500 personnes 
                 qui contribuent chaque jour à faire avancer notre cause.
               </p>
-              <p className="text-green-700">
-                Votre temps et vos compétences sont précieux pour nous et permettent de réaliser 
-                des projets concrets qui ont un impact direct sur notre mission.
+              <p className="text-gray-700">
+                Votre temps et vos compétences sont précieux et permettent de réaliser 
+                des projets concrets ayant un impact direct sur notre mission.
               </p>
             </div>
           </div>
 
           {/* Colonne de droite - Formulaire */}
           <div className="lg:w-1/2">
-            <div className="bg-white rounded-xl shadow-lg border-2 border-amber-100 p-8 lg:mt-21.75"> 
-              <div className="mb-6 text-center">
-                <h3 className="text-2xl font-bold text-gray-900">Formulaire d'inscription</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  Remplissez vos informations pour postuler
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Formulaire d'inscription</h3>
+                <p className="text-gray-600">
+                  Renseignez vos informations pour postuler en tant que bénévole
                 </p>
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
+                    <label htmlFor="prenom" className="block text-sm font-medium text-gray-700 mb-2">
+                      Prénom
+                    </label>
                     <input
                       type="text"
                       id="prenom"
@@ -190,12 +234,15 @@ function DevenirBenevole() {
                       value={formData.prenom}
                       onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
                       required
-                      className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-300 transition duration-200"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
                       placeholder="Votre prénom"
                     />
                   </div>
 
                   <div>
+                    <label htmlFor="nom" className="block text-sm font-medium text-gray-700 mb-2">
+                      Nom
+                    </label>
                     <input
                       type="text"
                       id="nom"
@@ -203,18 +250,21 @@ function DevenirBenevole() {
                       value={formData.nom}
                       required
                       onChange={(e) => setFormData({...formData, nom: e.target.value })}
-                      className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-300 transition duration-200"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
                       placeholder="Votre nom"
                     />
                   </div>
                 </div>
 
-                <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
-                  <p className="text-xs text-amber-700 mb-3">
-                    💡 Votre adresse email nous permettra de vous envoyer les informations importantes 
-                    concernant votre candidature et les prochaines étapes du processus.
-                  </p>
-                  <div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    Adresse email
+                  </label>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <p className="text-xs text-gray-600 mb-3">
+                      Votre adresse email nous permettra de vous envoyer les informations importantes 
+                      concernant votre candidature.
+                    </p>
                     <input
                       type="email"
                       id="email"
@@ -222,18 +272,21 @@ function DevenirBenevole() {
                       value={formData.email}
                       required
                       onChange={(e) => setFormData({...formData, email: e.target.value })}
-                      className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-300 transition duration-200"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
                       placeholder="votre@email.com"
                     />
                   </div>
                 </div>
 
-                <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
-                  <p className="text-xs text-amber-700 mb-3">
-                    📞 Votre numéro de téléphone sera utilisé uniquement pour vous contacter rapidement 
-                    en cas de besoin urgent ou pour confirmer vos disponibilités pour une mission.
-                  </p>
-                  <div>
+                <div>
+                  <label htmlFor="telephone" className="block text-sm font-medium text-gray-700 mb-2">
+                    Téléphone
+                  </label>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <p className="text-xs text-gray-600 mb-3">
+                      Votre numéro de téléphone sera utilisé uniquement pour vous contacter rapidement 
+                      concernant vos disponibilités.
+                    </p>
                     <input
                       type="tel"
                       id="telephone"
@@ -241,26 +294,26 @@ function DevenirBenevole() {
                       value={formData.telephone}
                       required
                       onChange={(e) =>setFormData({...formData, telephone: e.target.value })}
-                      className="mt-1 block w-full px-3 py-2 border-2 border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-300 transition duration-200"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
                       placeholder="01 23 45 67 89"
                     />
                   </div>
                 </div>
 
                 {/* Cases à cocher légales */}
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                  <h4 className="font-medium text-gray-800 text-lg mb-3">Acceptation des conditions</h4>
-                  <div className="space-y-3">
+                <div className="border-t border-gray-200 pt-6">
+                  <h4 className="font-semibold text-gray-900 text-lg mb-4">Conditions d'engagement</h4>
+                  <div className="space-y-4">
                     <label className="flex items-start space-x-3">
                       <input
                         type="checkbox"
                         name="mentionsLegales"
                         checked={legalChecks.mentionsLegales}
                         onChange={handleLegalCheckChange}
-                        className="mt-1 text-amber-600 focus:ring-amber-500 rounded"
+                        className="mt-1 text-gray-700 focus:ring-gray-500 rounded border-gray-300"
                       />
                       <span className="text-sm text-gray-700">
-                        J'accepte les <a href="/mentions-legales" className="text-amber-600 hover:text-amber-700 underline">mentions légales</a> et la politique de confidentialité
+                        J'accepte les <a href="/politiques-de-confidentialites" className="text-gray-900 hover:text-gray-700 underline font-medium">mentions légales</a> et la politique de confidentialité
                       </span>
                     </label>
                     
@@ -270,10 +323,10 @@ function DevenirBenevole() {
                         name="reglementInterieur"
                         checked={legalChecks.reglementInterieur}
                         onChange={handleLegalCheckChange}
-                        className="mt-1 text-amber-600 focus:ring-amber-500 rounded"
+                        className="mt-1 text-gray-700 focus:ring-gray-500 rounded border-gray-300"
                       />
                       <span className="text-sm text-gray-700">
-                        Je m'engage à respecter le <a href="/reglement-interieur" className="text-amber-600 hover:text-amber-700 underline">règlement intérieur</a> de l'association
+                        Je m'engage à respecter le <a href="/reglement-interieur" className="text-gray-900 hover:text-gray-700 underline font-medium">règlement intérieur</a> de l'association
                       </span>
                     </label>
                     
@@ -283,7 +336,7 @@ function DevenirBenevole() {
                         name="droitImage"
                         checked={legalChecks.droitImage}
                         onChange={handleLegalCheckChange}
-                        className="mt-1 text-amber-600 focus:ring-amber-500 rounded"
+                        className="mt-1 text-gray-700 focus:ring-gray-500 rounded border-gray-300"
                       />
                       <span className="text-sm text-gray-700">
                         J'accepte l'utilisation de mon image dans le cadre des activités de l'association
@@ -292,12 +345,12 @@ function DevenirBenevole() {
                   </div>
                 </div>
 
-                <div>
+                <div className="pt-4">
                   <button
                     type="submit"
-                    className="w-full flex justify-center py-3 px-4 border-2 border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-200 transform hover:scale-105"
+                    className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3.5 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                   >
-                    Postuler comme bénévole
+                    Soumettre ma candidature
                   </button>
                 </div>
               </form>

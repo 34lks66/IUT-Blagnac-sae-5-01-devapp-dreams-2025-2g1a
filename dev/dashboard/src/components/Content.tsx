@@ -1,10 +1,11 @@
-import React from 'react';
 import AgendaAdmin from './Agenda';
 import Accueil from '../components/News';
 import PagesSite from './PagePays';
 import Utilisateurs from './Utilisateurs';
+import Beneficiaires from './Beneficiaires';
 import PageAntennes from './pageAntenne';
-import DashboardStats from './DashBoardStats';
+import DashboardStats from './DashboardStats';
+import Parametre from './Parametre';
 
 interface ContentProps {
   activeTab: string;
@@ -13,18 +14,6 @@ interface ContentProps {
 const Content = ({ activeTab }: ContentProps) => {
   const renderDashboard = () => (
     <div className="space-y-6">
-      {/* Header de bienvenue */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl">
-          Bienvenue dans le tableau de bord <span className="underline underline-offset-3 decoration-8 decoration-yellow-500">DREAMS</span>
-        </h1>
-        <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-          Vous pouvez gérer les différentes sections et pages du site DREAMS.
-        </p>
-        <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-          Utilisez le menu latéral pour naviguer entre les différentes sections afin d'ajouter ou modifier du contenu pour les pages.
-        </p>
-      </div>
 
       {/* Dashboard de statistiques */}
       <DashboardStats />
@@ -56,11 +45,9 @@ const Content = ({ activeTab }: ContentProps) => {
     accueil: <Accueil />,
     pages: <PagesSite />,
     users: <Utilisateurs />,
+    beneficiaires: <Beneficiaires />,
     pages_antennes: <PageAntennes />,
-    settings: renderPlaceholder(
-      'Paramètres',
-      'Configurez les paramètres généraux de l\'application'
-    ),
+    settings: <Parametre />,
   };
 
   return (

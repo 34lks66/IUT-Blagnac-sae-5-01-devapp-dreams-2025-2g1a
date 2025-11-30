@@ -4,8 +4,8 @@
   "scripts": {
     "start": "concurrently \"npm run backend\" \"npm run frontend\" \"npm run dashboard\"",
     "backend": "cd backend && npm start",
-    "frontend": "cd site_dreams && npm run dev",
-    "dashboard": "cd dashboard && npm run dev",
+    "frontend": "cd site_dreams && npm run dev -- --port 5174",
+    "dashboard": "cd dashboard && npm run dev -- --port 5173",
     "install-all": "npm --prefix backend install && npm --prefix site_dreams install && npm --prefix dashboard install"
   },
   "devDependencies": {
