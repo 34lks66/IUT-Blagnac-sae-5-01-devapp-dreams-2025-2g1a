@@ -18,7 +18,6 @@ import Contact from "./components/Contact";
 import Donations from "./pages/donations";
 import PagePolitique from "./pages/page_politique";
 import NewsDetails from "./components/Home/NewsDetails";
-import Cookies from "./components/Cookies";
 
 function App() {
 
@@ -46,7 +45,6 @@ function App() {
         <Route path="/news/:id" element={<NewsDetails />} />
       </Routes>
       </Router>
-      <Cookies />
       <FooterMain />
     </>
     
