@@ -24,36 +24,36 @@ type Pays = {
   image: string;
 };
 
-const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
-  htmlFor,
-  children,
-}) => (
-  <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">
-    {children}
-  </label>
-);
+// const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
+//   htmlFor,
+//   children,
+// }) => (
+//   <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">
+//     {children}
+//   </label>
+// );
 
-const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
-  <input
-    {...p}
-    className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
-      (p.className ?? "")
-    }
-  />
-);
+// const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
+//   <input
+//     {...p}
+//     className={
+//       "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+//       (p.className ?? "")
+//     }
+//   />
+// );
 
-const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
-  p
-) => (
-  <textarea
-    {...p}
-    className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
-      (p.className ?? "")
-    }
-  />
-);
+// const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
+//   p
+// ) => (
+//   <textarea
+//     {...p}
+//     className={
+//       "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+//       (p.className ?? "")
+//     }
+//   />
+// );
 
 function AntenneForm() {
   const navigate = useNavigate();
@@ -495,7 +495,7 @@ function AntenneForm() {
               className="space-y-6"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
+                {/* <div>
                   <Label>Nom de l'antenne *</Label>
                   <Input
                     type="text"
@@ -504,11 +504,25 @@ function AntenneForm() {
                     onChange={(e) =>
                       setFormData({ ...formData, nom: e.target.value })
                     }
-                    placeholder="Paris, Lyon, Part-Dieu..."
                   />
-                </div>
+                </div> */}
 
                 <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Nom *
+                </label>
+                <input
+                  type="text"
+                  value={formData.nom}
+                  onChange={(e) =>
+                      setFormData({ ...formData, nom: e.target.value })
+                    }
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                       focus:border-yellow-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+                {/* <div>
                   <Label>Pays *</Label>
                   <select
                     value={formData.pays}
@@ -525,9 +539,30 @@ function AntenneForm() {
                       </option>
                     ))}
                   </select>
+                </div> */}
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Pays *
+                  </label>
+                  <select
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                    value={formData.pays}
+                    required
+                    onChange={(e) =>
+                      setFormData({ ...formData, pays: e.target.value })
+                    }
+                  >
+                    <option value="">Sélectionner une antenne</option>
+                    {pays.map((p) => (
+                      <option key={p._id} value={p._id}>
+                        {p.nom}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <Label>Description *</Label>
                   <TextArea
                     rows={4}
@@ -541,14 +576,31 @@ function AntenneForm() {
                     }
                     placeholder="Décrivez les activités, le rôle et les objectifs de cette antenne..."
                   />
-                </div>
+                </div> */}
 
                 <div className="sm:col-span-2">
-                  <Label>
-                    {formUpdate
-                      ? "Image de l'antenne"
-                      : "Image de l'antenne *"}
-                  </Label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Description *
+                </label>
+                <textarea
+                  rows={4}
+                  value={formData.description}
+                  required
+                  onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        description: e.target.value,
+                      })
+                    }
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                       focus:border-yellow-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Image de l'antenne *
+                  </label>
                   <input
                     type="file"
                     accept="image/*"
