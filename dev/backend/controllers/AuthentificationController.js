@@ -6,25 +6,33 @@ const RefreshToken = require("../models/RefreshTokenModel");
 const bcrypt = require("bcrypt");
 
 const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET || process.env.JWT_SECRET;
-const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET || (process.env.JWT_SECRET ? process.env.JWT_SECRET + "_refresh" : "refresh_secret_fallback");
+const REFRESH_SECRET =
+  process.env.REFRESH_TOKEN_SECRET ||
+  (process.env.JWT_SECRET
+    ? process.env.JWT_SECRET + "_refresh"
+    : "refresh_secret_fallback");
 
 const ACCESS_EXPIRES = process.env.ACCESS_TOKEN_EXPIRES || "1h";
-const REFRESH_EXPIRES_DAYS = parseInt(process.env.REFRESH_TOKEN_EXPIRES_DAYS, 10) || 30;
+const REFRESH_EXPIRES_DAYS =
+  parseInt(process.env.REFRESH_TOKEN_EXPIRES_DAYS, 10) || 30;
 
 function signAccessToken(user) {
   return jwt.sign(
-    { sub: user._id.toString(), email: user.email, role: user.statut, pays: user.pays },
+    {
+      sub: user._id.toString(),
+      email: user.email,
+      role: user.statut,
+      pays: user.pays,
+    },
     ACCESS_SECRET,
     { expiresIn: ACCESS_EXPIRES }
   );
 }
 
 function signRefreshToken(userId, jti) {
-  return jwt.sign(
-    { sub: userId.toString(), jti },
-    REFRESH_SECRET,
-    { expiresIn: `${REFRESH_EXPIRES_DAYS}d` }
-  );
+  return jwt.sign({ sub: userId.toString(), jti }, REFRESH_SECRET, {
+    expiresIn: `${REFRESH_EXPIRES_DAYS}d`,
+  });
 }
 
 exports.login = async (req, res) => {
@@ -35,30 +43,29 @@ exports.login = async (req, res) => {
     if (!account) return res.status(401).json({ message: "Email introuvable" });
 
     const same = await bcrypt.compare(password, account.password);
-    if (!same) return res.status(401).json({ message: "Mot de passe incorrect" });
+    if (!same)
+      return res.status(401).json({ message: "Mot de passe incorrect" });
 
-    // Access token (ce que tu avais)
-    const token = jwt.sign(
-      { _id: account._id, email: account.email, role: account.statut },
-      ACCESS_SECRET,
-      { expiresIn: ACCESS_EXPIRES }
-    );
+
+    const token = signAccessToken(account);
 
     // Nouveau : création du refresh token (jti + stockage DB)
     const jti = crypto.randomUUID();
     const refreshToken = signRefreshToken(account._id, jti);
-    const expiresAt = new Date(Date.now() + REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000);
+    const expiresAt = new Date(
+      Date.now() + REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000
+    );
 
     await RefreshToken.create({ jti, user: account._id, expiresAt });
 
     // XSRF token (pour double-submit CSRF protection) - accessible par JS
-    const xsrfToken = crypto.randomBytes(16).toString('hex');
+    const xsrfToken = crypto.randomBytes(16).toString("hex");
 
     // Cookie access (ton code original mettait token en cookie) — on garde pour retro-compatibilité
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "strict",
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 1000,
     });
 
@@ -66,16 +73,16 @@ exports.login = async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000
+      secure: process.env.NODE_ENV === "production",
+      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
     });
 
     // Cookie XSRF (non-httpOnly) pour que le client puisse lire et envoyer en header
     res.cookie("XSRF-TOKEN", xsrfToken, {
       httpOnly: false,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000
+      secure: process.env.NODE_ENV === "production",
+      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
     });
 
     res.json({
@@ -86,8 +93,8 @@ exports.login = async (req, res) => {
         nom: account.nom,
         prenom: account.prenom,
         email: account.email,
-        statut: account.statut
-      }
+        statut: account.statut,
+      },
     });
   } catch (err) {
     console.error("login error", err);
@@ -97,14 +104,15 @@ exports.login = async (req, res) => {
 
 exports.refresh = async (req, res) => {
   // CSRF check (double-submit)
-  const xsrfCookie = req.cookies['XSRF-TOKEN'];
-  const xsrfHeader = req.headers['x-xsrf-token'];
+  const xsrfCookie = req.cookies["XSRF-TOKEN"];
+  const xsrfHeader = req.headers["x-xsrf-token"];
   if (!xsrfCookie || !xsrfHeader || xsrfCookie !== xsrfHeader) {
     return res.status(403).json({ message: "CSRF token missing or invalid" });
   }
 
   const token = req.cookies.refreshToken;
-  if (!token) return res.status(401).json({ message: "Refresh token manquant" });
+  if (!token)
+    return res.status(401).json({ message: "Refresh token manquant" });
 
   try {
     const payload = jwt.verify(token, REFRESH_SECRET);
@@ -120,7 +128,9 @@ exports.refresh = async (req, res) => {
       // revoke the token if anything odd
       dbToken.revoked = true;
       await dbToken.save();
-      return res.status(403).json({ message: "Compte désactivé ou introuvable" });
+      return res
+        .status(403)
+        .json({ message: "Compte désactivé ou introuvable" });
     }
 
     // rotate: revoke old token and create a new one
@@ -129,40 +139,47 @@ exports.refresh = async (req, res) => {
 
     const newJti = crypto.randomUUID();
     const newRefreshToken = signRefreshToken(userId, newJti);
-    const newExpiresAt = new Date(Date.now() + REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000);
-    await RefreshToken.create({ jti: newJti, user: userId, expiresAt: newExpiresAt });
+    const newExpiresAt = new Date(
+      Date.now() + REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000
+    );
+    await RefreshToken.create({
+      jti: newJti,
+      user: userId,
+      expiresAt: newExpiresAt,
+    });
 
-    // 👉 NOUVEAU ACCESS TOKEN
     const newAccessToken = signAccessToken(user);
 
-    // 🔐 IMPORTANT : on met à jour aussi le cookie "token"
+
     res.cookie("token", newAccessToken, {
       httpOnly: true,
       sameSite: "strict",
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 1000, // durée de ton access token en cookie (ici 1h)
     });
 
     // set new cookies (refresh + new xsrf)
-    const newXsrf = crypto.randomBytes(16).toString('hex');
+    const newXsrf = crypto.randomBytes(16).toString("hex");
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000
+      secure: process.env.NODE_ENV === "production",
+      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
     });
     res.cookie("XSRF-TOKEN", newXsrf, {
       httpOnly: false,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000
+      secure: process.env.NODE_ENV === "production",
+      maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
     });
 
     // on renvoie aussi le nouveau accessToken (au cas où tu en aies besoin côté front plus tard)
     res.json({ accessToken: newAccessToken });
   } catch (err) {
     console.error("refresh error", err);
-    return res.status(401).json({ message: "Refresh token invalide ou expiré" });
+    return res
+      .status(401)
+      .json({ message: "Refresh token invalide ou expiré" });
   }
 };
 
@@ -182,7 +199,10 @@ exports.logout = async (req, res) => {
   if (token) {
     try {
       const payload = jwt.verify(token, REFRESH_SECRET);
-      await RefreshToken.findOneAndUpdate({ jti: payload.jti }, { revoked: true });
+      await RefreshToken.findOneAndUpdate(
+        { jti: payload.jti },
+        { revoked: true }
+      );
     } catch (e) {
       // ignore parse errors
     }
@@ -192,4 +212,51 @@ exports.logout = async (req, res) => {
   res.clearCookie("XSRF-TOKEN");
   res.clearCookie("token"); // si tu mets encore token cookie
   res.json({ message: "Déconnexion réussie" });
+};
+
+exports.changePassword = async (req, res) => {
+  console.log("changePassword called");
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        message:
+          "Champs manquants : currentPassword et newPassword obligatoires",
+      });
+    }
+
+    // Récup user dans le token
+    const userId = req.user._id || req.user.sub || req.user.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Utilisateur non authentifié" });
+    }
+
+    // Récup compte
+    const account = await Account.findById(userId);
+    if (!account) {
+      return res.status(404).json({ message: "Compte introuvable" });
+    }
+
+    // Vérification de l'ancien mot de passe
+    const same = await bcrypt.compare(currentPassword, account.password);
+    if (!same) {
+      return res.status(410).json({ message: "Mot de passe actuel incorrect" });
+    }
+
+    // Hash du nouveau mot de passe
+    const hashed = await bcrypt.hash(newPassword, 10);
+    account.password = hashed;
+
+    await account.save();
+
+    return res.json({ message: "Mot de passe mis à jour avec succès" });
+  } catch (err) {
+    console.error("changePassword error", err);
+    return res.status(500).json({
+      message: "Erreur serveur",
+      error: err.message,
+    });
+  }
 };

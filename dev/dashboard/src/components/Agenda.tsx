@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 
 type EventItem = {
@@ -18,9 +19,16 @@ type EventItem = {
 type AntenneItem = {
   _id: string;
   nom: string;
+  pays: PaysItem;
+};
+
+type PaysItem = {
+  _id: string;
+  nom: string;
 };
 
 export default function AgendaAdmin() {
+  const { role, pays, loading: authLoading } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [events, setEvents] = useState<EventItem[]>([]);
   const [antennes, setAntennes] = useState<AntenneItem[]>([]);
@@ -39,11 +47,23 @@ export default function AgendaAdmin() {
 
 
   const fetchAntennes = async () => {
+    if (authLoading) return;
+
     try {
-      const res = await apiFetch("/api/antenne/get", { method: "GET" });
+      let endpoint = "/api/antenne/get";
+      const res = await apiFetch(endpoint, { method: "GET" });
       if (!res.ok) return setAntennes([]);
       const data = await res.json();
-      setAntennes(Array.isArray(data) ? data : []);
+
+
+      const filteredData = data.filter((antenne: AntenneItem) => antenne.pays.nom === pays);
+
+      if (role === "X") {
+        setAntennes(Array.isArray(filteredData) ? filteredData : []);
+      } else {
+        setAntennes(Array.isArray(data) ? data : []);
+      }
+
     } catch (err) {
       console.error("fetchAntennes", err);
       setAntennes([]);
@@ -53,29 +73,50 @@ export default function AgendaAdmin() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await apiFetch("/api/event/get/", { method: "GET" });
+      const res = await apiFetch(`/api/event/get/`, { method: "GET" });
       const data = await res.json();
-      setEvents(Array.isArray(data) ? data : []);
+
+      const antenneNames = antennes.map(a => a.nom);
+
+      const filteredData = data.filter((event: EventItem) =>
+        antenneNames.includes(event.antenna || "")
+      );
+
+      if (role === "X") {
+        setEvents(Array.isArray(filteredData) ? filteredData : []);
+      } else {
+        setEvents(Array.isArray(data) ? data : []);
+      }
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
+
     }
   };
 
   useEffect(() => {
     fetchAntennes();
+  }, [authLoading, pays, role]);
+
+  useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [antennes])
+
+
 
   const isFormValid = () => {
     const hasTimeError =
       form.starttime && form.endtime && form.endtime < form.starttime;
 
+    const isRoleX = role === "X";
+    const isAntennaMissing = isRoleX && !form.antenna;
+
     return (
       !!form.title &&
       !!form.date &&
-      !hasTimeError
+      !hasTimeError &&
+      !isAntennaMissing
     );
   };
 

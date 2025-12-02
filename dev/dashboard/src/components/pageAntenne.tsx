@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -59,6 +60,7 @@ type Pays = {
 
 function AntenneForm() {
   const navigate = useNavigate();
+  const { role, pays: userPays } = useAuth();
   const [pays, setPays] = useState<Pays[]>([]);
   const [antennes, setAntennes] = useState<Antenne[]>([]);
 
@@ -268,10 +270,10 @@ function AntenneForm() {
 
       if (response.ok) {
         setMessage("✅ Antenne créée avec succès !");
-        if(window.location.href.includes('localhost:5174')){
-          navigate('http://localhost:5173/villes/'+nomTrim);
-        }else{
-          navigate('http://localhost:5174/villes/'+nomTrim);
+        if (window.location.href.includes('localhost:5174')) {
+          navigate('http://localhost:5173/villes/' + nomTrim);
+        } else {
+          navigate('http://localhost:5174/villes/' + nomTrim);
         }
         loadAntennes();
         closeFormModal();
@@ -289,7 +291,7 @@ function AntenneForm() {
   async function handleUpdate(e: React.FormEvent) {
     e.preventDefault();
     if (!editingAntenne) return;
-    
+
     setIsLoading(true);
     setMessage("");
     const nomTrim = formData.nom.trim();
@@ -353,11 +355,16 @@ function AntenneForm() {
     }
   }
 
-  const filteredAntennes = antennes.filter((a) =>
-    (a.nom + " " + a.description + " " + getPaysNom(a.pays))
+  const filteredAntennes = antennes.filter((a) => {
+    const matchesSearch = (a.nom + " " + a.description + " " + getPaysNom(a.pays))
       .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+      .includes(search.toLowerCase());
+
+    if (role === "X") {
+      return matchesSearch && getPaysNom(a.pays) === userPays;
+    }
+    return matchesSearch;
+  });
 
   const isCreateDisabled =
     isLoading ||
@@ -547,10 +554,10 @@ function AntenneForm() {
             {message && (
               <div
                 className={`mb-6 p-4 rounded-lg border text-sm ${message.includes("✅")
-                    ? "bg-green-50 border-green-200 text-green-700"
-                    : message.includes("❌")
-                      ? "bg-red-50 border-red-200 text-red-700"
-                      : "bg-gray-50 border-gray-200 text-gray-700"
+                  ? "bg-green-50 border-green-200 text-green-700"
+                  : message.includes("❌")
+                    ? "bg-red-50 border-red-200 text-red-700"
+                    : "bg-gray-50 border-gray-200 text-gray-700"
                   }`}
               >
                 {message.replace("✅", "").replace("❌", "")}
@@ -575,19 +582,19 @@ function AntenneForm() {
                 </div> */}
 
                 <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Nom *
-                </label>
-                <input
-                  type="text"
-                  value={formData.nom}
-                  onChange={(e) =>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Nom *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.nom}
+                    onChange={(e) =>
                       setFormData({ ...formData, nom: e.target.value })
                     }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
                        focus:border-yellow-500 focus:outline-none transition-colors"
-                />
-              </div>
+                  />
+                </div>
 
                 {/* <div>
                   <Label>Pays *</Label>
@@ -620,12 +627,14 @@ function AntenneForm() {
                       setFormData({ ...formData, pays: e.target.value })
                     }
                   >
-                    <option value="">Sélectionner une antenne</option>
-                    {pays.map((p) => (
-                      <option key={p._id} value={p._id}>
-                        {p.nom}
-                      </option>
-                    ))}
+                    <option value="">Sélectionner un pays</option>
+                    {pays
+                      .filter((p) => role !== "X" || p.nom === userPays)
+                      .map((p) => (
+                        <option key={p._id} value={p._id}>
+                          {p.nom}
+                        </option>
+                      ))}
                   </select>
                 </div>
 
@@ -646,23 +655,23 @@ function AntenneForm() {
                 </div> */}
 
                 <div className="sm:col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Description *
-                </label>
-                <textarea
-                  rows={4}
-                  value={formData.description}
-                  required
-                  onChange={(e) =>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Description *
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={formData.description}
+                    required
+                    onChange={(e) =>
                       setFormData({
                         ...formData,
                         description: e.target.value,
                       })
                     }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
                        focus:border-yellow-500 focus:outline-none transition-colors"
-                />
-              </div>
+                  />
+                </div>
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -784,12 +793,12 @@ function AntenneForm() {
                   type="submit"
                   disabled={formUpdate ? isUpdateDisabled : isCreateDisabled}
                   className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${formUpdate
-                      ? isUpdateDisabled
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
-                      : isCreateDisabled
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
+                    ? isUpdateDisabled
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
+                    : isCreateDisabled
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
                     }`}
                 >
                   {isLoading

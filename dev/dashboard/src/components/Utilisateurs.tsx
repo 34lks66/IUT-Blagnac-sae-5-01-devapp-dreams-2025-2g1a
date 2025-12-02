@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 interface User {
   _id?: string;
@@ -18,6 +19,7 @@ interface Country {
 
 
 const Users = () => {
+  const { role, pays: userPays } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -154,7 +156,7 @@ const Users = () => {
         prenom: '',
         email: '',
         telephone: '',
-        pays: '',
+        pays: role === 'X' ? (userPays ?? '') : '',
         statut: 'O'
       });
     }
@@ -355,11 +357,13 @@ const Users = () => {
                 >
                   <option value="">-- Sélectionnez un pays --</option>
 
-                  {countries.map((country: Country) => (
-                    <option key={country._id} value={country.nom}>
-                      {country.nom}
-                    </option>
-                  ))}
+                  {countries
+                    .filter((country: Country) => role !== "X" || country.nom === userPays)
+                    .map((country: Country) => (
+                      <option key={country._id} value={country.nom}>
+                        {country.nom}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -370,26 +374,30 @@ const Users = () => {
                   { label: "Bénévole", value: "O" },
                   { label: "Administrateur", value: "X" },
                   { label: "Super administrateur", value: "S" }
-                ].map((role) => (
-                  <label
-                    key={role.value}
-                    className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${formData.statut === role.value
-                      ? "border-yellow-500 bg-yellow-50"
-                      : "border-gray-200 hover:border-yellow-400"
-                      }`}
-                  >
-                    <input
-                      type="radio"
-                      name="role"
-                      value={role.value}
-                      checked={formData.statut === role.value}
-                      onChange={(e) => setFormData({ ...formData, statut: e.target.value })}
-                      className="text-yellow-500 focus:ring-yellow-500"
-                      required
-                    />
-                    <span className="text-gray-700 font-medium">{role.label}</span>
-                  </label>
-                ))}
+                ].map((roleOption) => {
+                  const isDisabled = role === "X" && (roleOption.value === "X" || roleOption.value === "S");
+                  return (
+                    <label
+                      key={roleOption.value}
+                      className={`flex items-center gap-2 px-4 py-3 border-2 rounded-xl cursor-pointer transition-colors ${formData.statut === roleOption.value
+                        ? "border-yellow-500 bg-yellow-50"
+                        : "border-gray-200 hover:border-yellow-400"
+                        } ${isDisabled ? "opacity-50 cursor-not-allowed bg-gray-100" : ""}`}
+                    >
+                      <input
+                        type="radio"
+                        name="role"
+                        value={roleOption.value}
+                        checked={formData.statut === roleOption.value}
+                        onChange={(e) => setFormData({ ...formData, statut: e.target.value })}
+                        className="text-yellow-500 focus:ring-yellow-500"
+                        required
+                        disabled={isDisabled}
+                      />
+                      <span className="text-gray-700 font-medium">{roleOption.label}</span>
+                    </label>
+                  );
+                })}
               </div>
             </div>
 
@@ -404,8 +412,8 @@ const Users = () => {
                 onClick={handleSubmit}
                 disabled={!formData.nom || !formData.prenom || !formData.email || !formData.telephone || !formData.pays || !formData.statut}
                 className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${!formData.nom || !formData.prenom || !formData.email || !formData.telephone || !formData.pays || !formData.statut
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-yellow-500 text-white hover:shadow-lg"
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-yellow-500 text-white hover:shadow-lg"
                   }`}
               >
                 {editingUser ? 'Modifier l\'utilisateur' : 'Créer l\'utilisateur'}
