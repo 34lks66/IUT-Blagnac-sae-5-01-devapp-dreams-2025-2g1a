@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 // ---------- Props ----------
 type Props = {
@@ -65,6 +66,7 @@ const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
 
 // ---------- Composant principal ----------
 const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
+  const { role } = useAuth();
   // Pays
   const [country, setCountry] = useState<Country | null>(null);
 
@@ -85,6 +87,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingCountry, setDeletingCountry] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // ----- Load pays + news -----
   const loadCountryAndNews = async (id: string) => {
@@ -183,6 +186,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
 
     try {
       setSaving(true);
+      setSuccessMessage(null);
 
       // images obligatoires pour nouvelles actus
       const toCreatePreview = news.filter((n) => !n._id);
@@ -296,7 +300,8 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       }
 
       await loadCountryAndNews(country._id);
-      alert("Enregistré !");
+      setSuccessMessage("Enregistré avec succès !");
+      setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
       console.error(err);
       alert("Erreur pendant l'enregistrement.");
@@ -375,15 +380,17 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               ← Retour
             </button>
           )}
-          <button
-            type="button"
-            onClick={handleDeleteCountry}
-            disabled={deletingCountry}
-            className="text-sm px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 disabled:opacity-60"
-            title="Supprimer ce pays et toutes ses actualités"
-          >
-            {deletingCountry ? "Suppression…" : "Supprimer le pays"}
-          </button>
+          {role !== "X" && (
+            <button
+              type="button"
+              onClick={handleDeleteCountry}
+              disabled={deletingCountry}
+              className="text-sm px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 disabled:opacity-60"
+              title="Supprimer ce pays et toutes ses actualités"
+            >
+              {deletingCountry ? "Suppression…" : "Supprimer le pays"}
+            </button>
+          )}
         </div>
       </div>
 
@@ -578,6 +585,11 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
 
       {/* Actions */}
       <div className="pt-2 flex items-center justify-end gap-3">
+        {successMessage && (
+          <span className="text-green-600 font-medium animate-pulse">
+            {successMessage}
+          </span>
+        )}
         <button
           type="button"
           onClick={() => {

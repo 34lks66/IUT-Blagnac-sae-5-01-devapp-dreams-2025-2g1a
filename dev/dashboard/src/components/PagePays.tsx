@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PagePaysForm from "./PagePaysForm";
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 type Country = {
   _id: string;
@@ -20,6 +21,7 @@ const CardFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 );
 
 const PagesSite: React.FC = () => {
+  const { role, pays } = useAuth();
   const [mode, setMode] = useState<"list" | "edit">("list");
   const [editingCountryId, setEditingCountryId] = useState<string | null>(null);
 
@@ -169,12 +171,14 @@ const PagesSite: React.FC = () => {
             Gérez les pays (actualités, etc.) disponibles sur le site.
           </p>
         </div>
-        <button
-          onClick={() => setCreatingOpen((v) => !v)}
-          className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
-        >
-          Nouveau pays
-        </button>
+        {role !== "X" && (
+          <button
+            onClick={() => setCreatingOpen((v) => !v)}
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 text-white rounded-xl hover:shadow-lg transition-all font-medium"
+          >
+            Nouveau pays
+          </button>
+        )}
       </div>
 
       {/* BARRE RECHERCHE */}
@@ -341,11 +345,19 @@ const PagesSite: React.FC = () => {
                 </tr>
               ) : (
                 countries
-                  .filter((c) =>
-                    (c.nom + " " + c.description)
+                  .filter((c) => {
+                    // Filtre recherche
+                    const matchesSearch = (c.nom + " " + c.description)
                       .toLowerCase()
-                      .includes(search.toLowerCase())
-                  )
+                      .includes(search.toLowerCase());
+
+                    // Filtre role X : ne voit que son pays
+                    if (role === "X") {
+                      return matchesSearch && c.nom === pays;
+                    }
+
+                    return matchesSearch;
+                  })
                   .map((c) => (
                     <tr
                       key={c._id}
@@ -386,15 +398,17 @@ const PagesSite: React.FC = () => {
                             Modifier
                           </button>
 
-                          <button
-                            onClick={() => {
-                              setDeleteId(c._id);
-                              setShowDeleteModal(true);
-                            }}
-                            className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
-                          >
-                            Supprimer
-                          </button>
+                          {role !== "X" && (
+                            <button
+                              onClick={() => {
+                                setDeleteId(c._id);
+                                setShowDeleteModal(true);
+                              }}
+                              className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium"
+                            >
+                              Supprimer
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
