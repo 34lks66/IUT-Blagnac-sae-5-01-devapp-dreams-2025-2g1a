@@ -28,7 +28,7 @@ type PaysItem = {
 };
 
 export default function AgendaAdmin() {
-  const { role, pays } = useAuth();
+  const { role, pays, loading: authLoading } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [events, setEvents] = useState<EventItem[]>([]);
   const [antennes, setAntennes] = useState<AntenneItem[]>([]);
@@ -47,6 +47,8 @@ export default function AgendaAdmin() {
 
 
   const fetchAntennes = async () => {
+    if (authLoading) return;
+
     try {
       let endpoint = "/api/antenne/get";
       const res = await apiFetch(endpoint, { method: "GET" });
@@ -95,7 +97,7 @@ export default function AgendaAdmin() {
 
   useEffect(() => {
     fetchAntennes();
-  }, []);
+  }, [authLoading, pays, role]);
 
   useEffect(() => {
     fetchEvents();
@@ -107,10 +109,14 @@ export default function AgendaAdmin() {
     const hasTimeError =
       form.starttime && form.endtime && form.endtime < form.starttime;
 
+    const isRoleX = role === "X";
+    const isAntennaMissing = isRoleX && !form.antenna;
+
     return (
       !!form.title &&
       !!form.date &&
-      !hasTimeError
+      !hasTimeError &&
+      !isAntennaMissing
     );
   };
 

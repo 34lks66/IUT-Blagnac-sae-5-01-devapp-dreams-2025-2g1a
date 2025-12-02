@@ -37,12 +37,8 @@ exports.login = async (req, res) => {
     const same = await bcrypt.compare(password, account.password);
     if (!same) return res.status(401).json({ message: "Mot de passe incorrect" });
 
-    // Access token (ce que tu avais)
-    const token = jwt.sign(
-      { _id: account._id, email: account.email, role: account.statut },
-      ACCESS_SECRET,
-      { expiresIn: ACCESS_EXPIRES }
-    );
+
+    const token = signAccessToken(account);
 
     // Nouveau : création du refresh token (jti + stockage DB)
     const jti = crypto.randomUUID();
@@ -132,10 +128,9 @@ exports.refresh = async (req, res) => {
     const newExpiresAt = new Date(Date.now() + REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000);
     await RefreshToken.create({ jti: newJti, user: userId, expiresAt: newExpiresAt });
 
-    // 👉 NOUVEAU ACCESS TOKEN
     const newAccessToken = signAccessToken(user);
 
-    // 🔐 IMPORTANT : on met à jour aussi le cookie "token"
+
     res.cookie("token", newAccessToken, {
       httpOnly: true,
       sameSite: "strict",
