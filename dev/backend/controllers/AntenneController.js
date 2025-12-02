@@ -35,8 +35,12 @@ module.exports.getAntennes = async (req, res) => {
 module.exports.saveAntenne = async (req, res) => {
   try {
     const { nom, description, pays } = req.body;
+  
+    // const image = req.file ? `/uploads/${req.file.filename}` : null;
 
-    const image = req.file ? `/uploads/${req.file.filename}` : null;
+    const image = req.files?.image?.[0] ? `/uploads/${req.files.image[0].filename}` : null;
+    const galerie1 = req.files?.galerie1?.[0] ? `/uploads/${req.files.galerie1[0].filename}` : null;
+    const galerie2 = req.files?.galerie2?.[0] ? `/uploads/${req.files.galerie2[0].filename}` : null;
 
     if (!nom || !description || !pays) {
       return res.status(400).json({
@@ -63,6 +67,8 @@ module.exports.saveAntenne = async (req, res) => {
       nom,
       description,
       image,
+      galerie1,
+      galerie2,
       pays
     });
 
@@ -78,12 +84,14 @@ module.exports.updateAntenne = async (req, res) => {
   try {
     const { id } = req.params;
     const { nom, description, pays } = req.body;
+    
+    const newImage = req.files?.image?.[0] ? `/uploads/${req.files.image[0].filename}` : null;
+    const newGalerie1 = req.files?.galerie1?.[0] ? `/uploads/${req.files.galerie1[0].filename}` : null;
+    const newGalerie2 = req.files?.galerie2?.[0] ? `/uploads/${req.files.galerie2[0].filename}` : null;
 
-    const newImage = req.file ? `/uploads/${req.file.filename}` : null;
-
-    if (!nom && !description && !newImage && !pays) {
+    if (!nom && !description && !newImage && !newGalerie1 && !newGalerie2 && !pays) {
       return res.status(400).json({
-        error: "Au moins un champ doit être fourni: nom, description, pays"
+        error: "Au moins un champ doit être fourni: nom, description, image, galerie1, galerie2, pays"
       });
     }
     const existingAntenne = await AntenneModel.findById(id);
@@ -111,26 +119,32 @@ module.exports.updateAntenne = async (req, res) => {
     if (description) updateData.description = description;
     if (pays) updateData.pays = pays;
 
-    if (newImage && existingAntenne.image) {
+    const deleteIfExists = async (filePath) => {
+      if (!filePath) return;
+      const fullPath = path.join(__dirname, "..", filePath.replace(/^\/+/, ""));
       try {
-        const imageName = existingAntenne.image.replace(/^\/+/, "");
-        const absImagePath = path.join(__dirname, "..", imageName);
-
-        try {
-          await fs.access(absImagePath);
-          await fs.unlink(absImagePath);
-          console.log("Ancienne image supprimée:", absImagePath);
-        } catch (accessError) {
-          if (accessError.code === 'ENOENT') {
-            console.log("Ancienne image non trouvée, poursuite du traitement");
-          } else {
-            throw accessError;
-          }
+        await fs.unlink(fullPath);
+        console.log("Fichier supprimé :", fullPath);
+      } catch (err) {
+        if (err.code === "ENOENT") {
+          console.log("Fichier non trouvé :", fullPath);
+        } else {
+          console.warn("Erreur suppression fichier :", err.message);
         }
-      } catch (errFile) {
-        console.warn("Erreur gestion ancienne image:", errFile.message);
       }
+    };
+
+    if (newImage) {
+      await deleteIfExists(existingAntenne.image);
       updateData.image = newImage;
+    }
+    if (newGalerie1) {
+      await deleteIfExists(existingAntenne.galerie1);
+      updateData.galerie1 = newGalerie1;
+    }
+    if (newGalerie2) {
+      await deleteIfExists(existingAntenne.galerie2);
+      updateData.galerie2 = newGalerie2;
     }
 
     const updatePays = await PaysModel.findById(updateData.pays);
@@ -194,26 +208,24 @@ module.exports.deleteAntenne = async (req, res) => {
       return res.status(404).json({ error: "Antenne not found" });
     }
 
-    if (deletedAntenne.image) {
+    const deleteFile = async (filePath) => {
+      if (!filePath) return;
+      const fullPath = path.join(__dirname, "..", filePath.replace(/^\/+/, ""));
       try {
-        const imageName = deletedAntenne.image.replace('/uploads/', '');
-        const absImagePath = path.join(__dirname, '../uploads', imageName);
-
-        try {
-          await fs.access(absImagePath);
-          await fs.unlink(absImagePath);
-          console.log("Image supprimée:", absImagePath);
-        } catch (accessError) {
-          if (accessError.code === 'ENOENT') {
-            console.log("Image non trouvée lors de la suppression");
-          } else {
-            throw accessError;
-          }
+        await fs.unlink(fullPath);
+        console.log("Fichier supprimé :", fullPath);
+      } catch (err) {
+        if (err.code === "ENOENT") {
+          console.log("Fichier non trouvé :", fullPath);
+        } else {
+          console.warn("Erreur suppression fichier :", err.message);
         }
-      } catch (errFile) {
-        console.warn("Erreur lors de la suppression du fichier image:", errFile.message);
       }
-    }
+    };
+
+    await deleteFile(deletedAntenne.image);
+    await deleteFile(deletedAntenne.galerie1);
+    await deleteFile(deletedAntenne.galerie2);
 
     res.json({ message: "Deleted successfully", antenne: deletedAntenne });
   } catch (error) {

@@ -9,6 +9,8 @@ type Antenne = {
   nom: string;
   description: string;
   image: string;
+  galerie1: string;
+  galerie2: string;
   pays:
   | string
   | {
@@ -73,7 +75,12 @@ function AntenneForm() {
     pays: "",
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [galerie1File, setGalerie1File] = useState<File | null>(null);
+  const [galerie2File, setGalerie2File] = useState<File | null>(null);
+
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [galerie1Preview, setGalerie1Preview] = useState<string>("");
+  const [galerie2Preview, setGalerie2Preview] = useState<string>("");
 
   // Suppression
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -122,7 +129,11 @@ function AntenneForm() {
       pays: "",
     });
     setImageFile(null);
+    setGalerie1File(null);
+    setGalerie2File(null);
     setImagePreview("");
+    setGalerie1Preview("");
+    setGalerie2Preview("");
     setMessage("");
   };
 
@@ -133,6 +144,30 @@ function AntenneForm() {
       const reader = new FileReader();
       reader.onload = (ev) => {
         setImagePreview(ev.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleGalerie1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setGalerie1File(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setGalerie1Preview(ev.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleGalerie2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setGalerie2File(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setGalerie2Preview(ev.target?.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -166,8 +201,20 @@ function AntenneForm() {
       setImagePreview(`${API_BASE}${antenne.image}`);
     } else {
       setImagePreview("");
+    } 
+    if (antenne.galerie1) {
+      setGalerie1Preview(`${API_BASE}${antenne.galerie1}`);
+    } else {
+      setGalerie1Preview("");
+    }
+    if (antenne.galerie2) {
+      setGalerie2Preview(`${API_BASE}${antenne.galerie2}`);
+    } else {
+      setGalerie2Preview("");
     }
     setImageFile(null);
+    setGalerie1File(null);
+    setGalerie2File(null);
     setShowFormModal(true);
     setMessage("");
   };
@@ -192,11 +239,25 @@ function AntenneForm() {
       return;
     }
 
+    if (!galerie1File) {
+      setMessage("❌ Veuillez sélectionner une image");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!galerie2File) {
+      setMessage("❌ Veuillez sélectionner une image");
+      setIsLoading(false);
+      return;
+    }
+
     const formDataToSend = new FormData();
     formDataToSend.append("nom", nomTrim);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("pays", formData.pays);
     formDataToSend.append("image", imageFile);
+    formDataToSend.append("galerie1", galerie1File);
+    formDataToSend.append("galerie2", galerie2File);
 
     try {
       const response = await apiFetch("/api/antenne/save", {
@@ -239,6 +300,12 @@ function AntenneForm() {
     formDataToSend.append("pays", formData.pays);
     if (imageFile) {
       formDataToSend.append("image", imageFile);
+    }
+    if (galerie1File) {
+      formDataToSend.append("galerie1", galerie1File);
+    }
+    if (galerie2File) {
+      formDataToSend.append("galerie2", galerie2File);
     }
 
     try {
@@ -635,6 +702,74 @@ function AntenneForm() {
                       </div>
                     )}
                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+               <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Galerie Image 1
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleGalerie1Change}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
+                  />
+                  {(galerie1Preview ||
+                    (formUpdate &&
+                      editingAntenne &&
+                      editingAntenne.image &&
+                      !galerie1Preview)) && (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">
+                          Aperçu :
+                        </p>
+                        <div className="w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                          <img
+                            src={
+                              galerie1Preview ||
+                              `${API_BASE}${editingAntenne?.galerie1 ?? ""}`
+                            }
+                            alt="Aperçu"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    )}
+               </div>
+
+               <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Galerie Image 2 
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleGalerie2Change}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
+                  />
+                  {(galerie2Preview ||
+                    (formUpdate &&
+                      editingAntenne &&
+                      editingAntenne.image &&
+                      !galerie2Preview)) && (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">
+                          Aperçu :
+                        </p>
+                        <div className="w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                          <img
+                            src={
+                              galerie2Preview ||
+                              `${API_BASE}${editingAntenne?.galerie2 ?? ""}`
+                            }
+                            alt="Aperçu"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    )}
+               </div>
               </div>
 
               <div className="flex gap-3 mt-4">

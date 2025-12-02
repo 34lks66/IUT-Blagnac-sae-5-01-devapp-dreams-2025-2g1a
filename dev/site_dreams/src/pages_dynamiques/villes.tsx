@@ -8,6 +8,8 @@ type Antenne = {
   nom: string;
   description: string;
   image: string;
+  galerie1: string;
+  galerie2: string;
   pays:
     | string
     | {
@@ -66,6 +68,8 @@ function Villes() {
   }
 
   const imageUrl = `${API_BASE}${ville.image}`;
+  const galerie1Url = `${API_BASE}${ville.galerie1}`;
+  const galerie2Url = `${API_BASE}${ville.galerie2}`;
 
   return (
     <main className="w-full min-h-screen bg-white">
@@ -133,7 +137,7 @@ function Villes() {
             <div className="bg-white rounded-2xl p-8 border-2 border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300">
               <div className="w-full aspect-video bg-gray-100 rounded-xl overflow-hidden">
                 <img
-                  src={imageUrl}
+                  src={galerie1Url}
                   alt={`Vue de ${ville.nom}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
@@ -147,7 +151,7 @@ function Villes() {
             <div className="bg-white rounded-2xl p-8 border-2 border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300">
               <div className="w-full aspect-video bg-gray-100 rounded-xl overflow-hidden">
                 <img
-                  src={imageUrl}
+                  src={galerie2Url}
                   alt={`Activités à ${ville.nom}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
