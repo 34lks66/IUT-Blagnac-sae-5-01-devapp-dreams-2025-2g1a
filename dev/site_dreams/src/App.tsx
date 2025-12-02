@@ -44,8 +44,8 @@ function App() {
         <Route path="/politiques-de-confidentialites" element={<PagePolitique />} />
         <Route path="/news/:id" element={<NewsDetails />} />
       </Routes>
-    </Router>
-    <FooterMain />
+      </Router>
+      <FooterMain />
     </>
     
   )

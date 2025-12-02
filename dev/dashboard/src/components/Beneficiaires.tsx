@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { apiFetch } from "../services/api";
+import { Link } from 'react-router-dom';
 
 interface Beneficiaire {
     _id?: string;
@@ -234,6 +235,11 @@ const Beneficiaires = () => {
                                         <td className="px-6 py-4 text-gray-700">{beneficiaire.pays}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex gap-2">
+                                                <Link to={`/beneficiaire/${beneficiaire._id}`}
+                                                    className="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 text-sm font-medium"
+                                                >
+                                                    Voir
+                                                </Link>
                                                 <button
                                                     onClick={() => openModal(beneficiaire)}
                                                     className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium"

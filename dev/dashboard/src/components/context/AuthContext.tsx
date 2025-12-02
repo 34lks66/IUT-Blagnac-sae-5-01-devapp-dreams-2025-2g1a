@@ -6,12 +6,14 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 interface User {
   _id: string;
   email: string;
+  pays: string;
   role: "S" | "X" | "O";
 }
 
 interface AuthContextType {
   user: User | null;
   role: string | null;
+  pays: string | null;
   isAuthenticated: boolean;
   loading: boolean;
   setUser: (user: User | null) => void;
@@ -51,6 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         role: user?.role ?? null,
+        pays: user?.pays ?? null,
         isAuthenticated: !!user,
         loading,
         setUser,
