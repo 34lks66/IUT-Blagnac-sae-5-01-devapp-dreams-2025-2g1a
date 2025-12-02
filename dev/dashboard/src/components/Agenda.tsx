@@ -269,7 +269,7 @@ export default function AgendaAdmin() {
                     colSpan={7}
                     className="px-6 py-12 text-center text-gray-400"
                   >
-                    Aucun événement trouvé
+                    Aucun événement pour le moment
                   </td>
                 </tr>
               ) : (
