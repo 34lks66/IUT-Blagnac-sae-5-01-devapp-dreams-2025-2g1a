@@ -3,22 +3,23 @@ const bcrypt = require("bcrypt");
 
 module.exports.getAccounts = async (req, res) => {
   try {
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
 
-    // const userAccount = await AccountModel.findById(req.user.sub);
-    // if (!userAccount) {
-    //   return res.status(404).json({ error: "Compte introuvable" });
-    // }
-    // if (userAccount.statut === "S") {
-    // const accounts = await AccountModel.find();
-    // res.json(accounts);
-    // }
-    // else {
-    //   const accounts = await AccountModel.find({ pays: userAccount.pays, statut: "O" });
-    //   res.json(accounts);
-    // }
-
-    const accounts = await AccountModel.find();
-    res.json(accounts);
+    if (userAccount.statut === "S") {
+      const accounts = await AccountModel.find();
+      res.json(accounts);
+    } else if (userAccount.statut === "X") {
+      const accounts = await AccountModel.find({
+        pays: userAccount.pays,
+        statut: "O",
+      });
+      res.json(accounts);
+    } else {
+      res.json([]);
+    }
   } catch (error) {
     console.error("Erreur lors de la récupération des comptes :", error);
     res.status(500).json({ error: "Erreur interne du serveur" });
