@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
@@ -33,9 +34,9 @@ function Parametre() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -52,18 +53,18 @@ function Parametre() {
     }
 
     if (formData.newPassword.length < 6) {
-      setMessage("❌ Le nouveau mot de passe doit contenir au moins 6 caractères");
+      setMessage(
+        "❌ Le nouveau mot de passe doit contenir au moins 6 caractères"
+      );
       setIsLoading(false);
       return;
     }
 
     try {
-      // Simulation d'appel API - à remplacer par votre vraie requête
-      const response = await fetch("/api/user/change-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      // Appel à l'API pour changer le mot de passe
+      const response = await apiFetch(`/api/change-password`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           currentPassword: formData.currentPassword,
           newPassword: formData.newPassword,
@@ -72,19 +73,18 @@ function Parametre() {
 
       if (response.ok) {
         setMessage("✅ Mot de passe modifié avec succès !");
-        
+        setFormData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+
         // Déconnexion après un délai
-        setTimeout(() => {
-          // Suppression du cookie (adaptez le nom selon votre implémentation)
-          document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          
-          // Redirection vers la page de login
-          navigate("/login");
-        }, 2000);
       } else {
         const error = await response.json();
-        setMessage(`❌ ${error.message || "Erreur lors du changement de mot de passe"}`);
+        setMessage(
+          `❌ ${error.message || "Erreur lors du changement de mot de passe"}`
+        );
       }
     } catch (error) {
       console.error(error);
@@ -94,25 +94,23 @@ function Parametre() {
     }
   };
 
-  const isFormValid = 
-    formData.currentPassword && 
-    formData.newPassword && 
-    formData.confirmPassword && 
+  const isFormValid =
+    formData.currentPassword &&
+    formData.newPassword &&
+    formData.confirmPassword &&
     formData.newPassword === formData.confirmPassword;
 
   return (
     <div className="space-y-8">
-      {/* HEADER */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-4xl font-extrabold">Paramètres</h1>
-      </div>
-
       {/* SECTION CHANGEMENT DE MOT DE PASSE */}
       <section className="border border-gray-200 rounded-xl p-6 bg-white">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-yellow-500">Changer le mot de passe</h2>
+          <h2 className="text-2xl font-bold text-yellow-500">
+            Changer le mot de passe
+          </h2>
           <p className="text-gray-600 mt-2">
-            Modifiez votre mot de passe. Vous serez déconnecté après cette opération.
+            Modifiez votre mot de passe. Vous serez déconnecté après cette
+            opération.
           </p>
         </div>
 
@@ -167,7 +165,9 @@ function Parametre() {
 
               {/* CONFIRMATION MOT DE PASSE */}
               <div>
-                <Label htmlFor="confirmPassword">Confirmer le nouveau mot de passe *</Label>
+                <Label htmlFor="confirmPassword">
+                  Confirmer le nouveau mot de passe *
+                </Label>
                 <Input
                   type="password"
                   id="confirmPassword"
@@ -197,7 +197,9 @@ function Parametre() {
                     : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
                 }`}
               >
-                {isLoading ? "Changement en cours..." : "Changer le mot de passe"}
+                {isLoading
+                  ? "Changement en cours..."
+                  : "Changer le mot de passe"}
               </button>
             </div>
           </form>
@@ -212,23 +214,27 @@ function Parametre() {
             Gérez vos préférences et paramètres de compte.
           </p>
         </div>
-        
+
         <div className="max-w-2xl">
           <div className="space-y-4">
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <div>
                 <h3 className="font-medium text-gray-800">Notifications</h3>
-                <p className="text-sm text-gray-600">Gérer les notifications par email</p>
+                <p className="text-sm text-gray-600">
+                  Gérer les notifications par email
+                </p>
               </div>
               <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium">
                 Configurer
               </button>
             </div>
-            
+
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <div>
                 <h3 className="font-medium text-gray-800">Confidentialité</h3>
-                <p className="text-sm text-gray-600">Paramètres de confidentialité</p>
+                <p className="text-sm text-gray-600">
+                  Paramètres de confidentialité
+                </p>
               </div>
               <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium">
                 Modifier
