@@ -85,6 +85,15 @@ exports.login = async (req, res) => {
       maxAge: REFRESH_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
     });
 
+    // Update connexion ONLY on initial login (not on refresh)
+    // Do this synchronously (non-blocking) BEFORE sending response
+    if (account && account._id) {
+      console.log("login: updating connexion for user", account._id.toString());
+      Account.updateOne({ _id: account._id }, { $set: { connexion: new Date() } }).catch((err) =>
+        console.error("update connexion error:", err)
+      );
+    }
+
     res.json({
       message: "Connexion réussie",
       token,
@@ -226,8 +235,8 @@ exports.changePassword = async (req, res) => {
       });
     }
 
-    // Récup user dans le token
-    const userId = req.user._id || req.user.sub || req.user.id;
+    // Récup user dans le token (supporte sub/_id/id)
+    const userId = (req.user && (req.user._id || req.user.sub || req.user.id)) || null;
 
     if (!userId) {
       return res.status(401).json({ message: "Utilisateur non authentifié" });
@@ -239,10 +248,14 @@ exports.changePassword = async (req, res) => {
       return res.status(404).json({ message: "Compte introuvable" });
     }
 
+    if (!account.password) {
+      return res.status(500).json({ message: "Compte sans mot de passe configuré" });
+    }
+
     // Vérification de l'ancien mot de passe
     const same = await bcrypt.compare(currentPassword, account.password);
     if (!same) {
-      return res.status(410).json({ message: "Mot de passe actuel incorrect" });
+      return res.status(401).json({ message: "Mot de passe actuel incorrect" });
     }
 
     // Hash du nouveau mot de passe
@@ -250,6 +263,18 @@ exports.changePassword = async (req, res) => {
     account.password = hashed;
 
     await account.save();
+
+    // Révoquer tous les refresh tokens existants pour cet utilisateur
+    try {
+      await RefreshToken.updateMany({ user: account._id }, { revoked: true });
+    } catch (e) {
+      console.error("error revoking refresh tokens:", e);
+    }
+
+    // Nettoyer les cookies d'authentification pour forcer reconnexion
+    res.clearCookie("refreshToken");
+    res.clearCookie("XSRF-TOKEN");
+    res.clearCookie("token");
 
     return res.json({ message: "Mot de passe mis à jour avec succès" });
   } catch (err) {

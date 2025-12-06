@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 import { apiFetch } from "../services/api";
 
-
 type Antenne = {
   _id: string;
   nom: string;
@@ -14,6 +13,7 @@ type Antenne = {
 type Account = {
   _id: string;
   nom: string;
+  connexion: Date;
 };
 
 type Event = {
@@ -24,12 +24,7 @@ type Event = {
   endtime: string;
   location: string;
   description: string;
-  antenne:
-    | string
-    | {
-        _id: string;
-        nom: string;
-      };
+  antenna: string;
 };
 
 const DashboardStats = () => {
@@ -67,24 +62,21 @@ const DashboardStats = () => {
     getEvents();
   }, []);
 
-// Helper pour récupérer proprement le nom d'une antenne (string ou objet)
-const getAntenneName = (a: Event["antenne"]): string => {
-  if (!a) return "Non assigné";
-  
-  if (typeof a === "string") {
-    // Si c'est une string, chercher le nom dans la liste des antennes
-    const antenneObj = antennes.find(ant => ant._id === a);
-    return antenneObj ? antenneObj.nom : "Antenne inconnue";
-  }
-  
-  // Si c'est un objet, retourner directement le nom
-  return a.nom || "Antenne inconnue";
-};
+  const getAntenneName = (
+    antenneData: string | { _id: string; nom: string } | null | undefined
+  ): string => {
+    if (!antenneData) return "Antenne inconnue";
+    if (typeof antenneData === "object" && antenneData !== null) {
+      return antenneData.nom;
+    }
+    const antenneTrouve = antennes.find((p) => p._id === antenneData);
+    return antenneTrouve ? antenneTrouve.nom : "Antenne inconnue";
+  };
 
   // Statistiques principales avec données réelles
   const mainStats = [
     {
-      title: "Utilisateurs actifs",
+      title: "Utilisateurs",
       value: accounts.length.toString(),
       isPositive: true,
       icon: (
@@ -215,20 +207,8 @@ const getAntenneName = (a: Event["antenne"]): string => {
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            <div className="text-center p-2 bg-blue-50 rounded-lg">
-              <div className="text-sm font-bold text-blue-600">24</div>
-              <div className="text-xs text-gray-600">Membres</div>
-            </div>
-            <div className="text-center p-2 bg-green-50 rounded-lg">
-              <div className="text-sm font-bold text-green-600">5</div>
-              <div className="text-xs text-gray-600">Événements</div>
-            </div>
-            <div className="text-center p-2 bg-purple-50 rounded-lg">
-              <div className="text-sm font-bold text-purple-600">Test</div>
-              <div className="text-xs text-gray-600">Pays</div>
-            </div>
+          <div className="mt-4">
+            {/* Bouton Voir Détails */}
           </div>
         </div>
       ))}
@@ -342,9 +322,9 @@ const getAntenneName = (a: Event["antenne"]): string => {
                         strokeLinejoin="round"
                         strokeWidth={2}
                         d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-                       />
+                      />
                     </svg>
-                    ANTENNE : {getAntenneName(event.antenne)}
+                    Antenne : {event.antenna}
                   </span>
                 </div>
               </div>
@@ -396,37 +376,22 @@ const getAntenneName = (a: Event["antenne"]): string => {
         </h2>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
           <div className="p-6 space-y-4">
-            {[
-              {
-                user: "Marie Dubois",
-                action: "a rejoint l'antenne Paris",
-                time: "5 min",
-              },
-              {
-                user: "Jean Martin",
-                action: "a créé un nouvel événement",
-                time: "12 min",
-              },
-              {
-                user: "Sophie Lambert",
-                action: "a commenté une publication",
-                time: "25 min",
-              },
-              {
-                user: "Pierre Moreau",
-                action: "a mis à jour son profil",
-                time: "1h",
-              },
-            ].map((activity, index) => (
-              <div key={index} className="flex items-start space-x-3">
+            {accounts.filter((account) => account.connexion !== null && account.connexion !== undefined).slice(0, 5).map((account) => (
+              <div key={account._id} className="flex items-start space-x-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
-                    {activity.user}
+                    {account.nom} s'est connecté
                   </p>
-                  <p className="text-sm text-gray-600">{activity.action}</p>
                   <span className="text-xs text-gray-500">
-                    Il y a {activity.time}
+                    à {new Date(account.connexion).toLocaleTimeString(
+                          "fr-FR",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )
+                      }
                   </span>
                 </div>
               </div>

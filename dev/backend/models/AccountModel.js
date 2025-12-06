@@ -37,6 +37,9 @@ const AccountSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    connexion:{
+        type: Date,
     }
     
 });
