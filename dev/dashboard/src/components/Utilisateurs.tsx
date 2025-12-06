@@ -420,7 +420,8 @@ const Users = () => {
                 <select
                   value={formData.pays}
                   onChange={(e) => setFormData({ ...formData, pays: e.target.value })}
-                  className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${errors.pays ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-yellow-500"}`}
+                  disabled={role === "X"}
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed ${errors.pays ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-yellow-500"}`}
                 >
                   <option value="">-- Sélectionnez un pays --</option>
 
