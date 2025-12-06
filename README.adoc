@@ -139,7 +139,8 @@ Vous trouverez ci-dessous les travaux et livrables réalisés par l'équipe clas
 | | | Cahier des charges | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Cahier%20des%20charges%20-%20DREAMS.pdf
 | 39/40 | 2 | Release Sprint 2 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.2.0-sprint2
 | 41/42 | 3 | Release Sprint 3 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.3.0-sprint3
-| 43-47| 4 | Release Sprint 4 | 
+| 43-47 | 4 | Release Sprint 4 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.4.0-sprint4
+| 48-51 | 5 | Release Sprint 5 | 
 | | | Guide administrateur | 
 
 |===
@@ -200,6 +201,7 @@ link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blo
 link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/710571b8b96c573b825b340ff142c623b251b966/R%C3%A9unions/Client/ODJ/ODJ%2028.11_Semaine%2048.pdf[ODJ S48] |
 link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/234604ee0669a3e5754da850535137d654388c6c/R%C3%A9unions/Client/CR/CR%2028.11_Semaine%2048.pdf[CR S48] 
 | Client, Léo, Mucahit
+| 06/12/2025 | [ODJ S49] | [CR S49]  | Client, Léo, Mucahit
 |===
 
 == Planning Télétravail 
