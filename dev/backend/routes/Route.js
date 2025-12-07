@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
-const { getBeneficiaire, getBeneficiaireID, saveBeneficiaire, updateBeneficiaire, deleteBeneficiaire, addPDF } = require('../controllers/BeneficiaireController')
+const { getBeneficiaire, getBeneficiaireID, saveBeneficiaire, updateBeneficiaire, deleteBeneficiaire, addPDF, deletePDF } = require('../controllers/BeneficiaireController')
 const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
 const { getNewsPays, getNewsPaysID, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
 const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
@@ -137,6 +137,7 @@ router.put('/beneficiaire/update/:id', authVerif, upload.single('image'), update
 router.delete('/beneficiaire/delete/:id', authVerif, deleteBeneficiaire)
 // Upload PDF pour un bénéficiaire (enregistre l'URL dans le modèle)
 router.post('/beneficiaire/:id/pdf', authVerif, pdfUpload.single('pdf'), addPDF)
+router.delete('/beneficiaire/:id/pdf', authVerif, deletePDF)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
