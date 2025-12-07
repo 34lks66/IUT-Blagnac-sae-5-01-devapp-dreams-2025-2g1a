@@ -96,3 +96,28 @@ module.exports.deleteBeneficiaire = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+module.exports.addPDF = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'Aucun fichier PDF fourni.' });
+    }
+
+    const pdfUrl = `/pdf/${req.file.filename}`;
+
+    const existingBenef = await BeneficiaireModel.findById(id);
+    if (!existingBenef) {
+      return res.status(404).json({ error: 'Bénéficiaire introuvable' });
+    }
+
+    existingBenef.pdf.push(pdfUrl);
+    await existingBenef.save();
+
+    res.json({ message: 'PDF ajouté avec succès', beneficiaire: existingBenef, pdfUrl });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du PDF :", error);
+    res.status(500).json({ error: 'Erreur interne du serveur' });
+  }
+};

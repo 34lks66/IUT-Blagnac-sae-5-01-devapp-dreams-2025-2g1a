@@ -205,3 +205,32 @@ module.exports.deleteAccount = async (req, res) => {
     res.status(500).json({ error: "Erreur interne du serveur" });
   }
 };
+
+  // Ajoute un PDF au compte (upload via multer)
+  module.exports.addPDF = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      if (!req.file) {
+        return res.status(400).json({ error: 'Aucun fichier PDF fourni.' });
+      }
+
+      const pdfUrl = `/pdf/${req.file.filename}`;
+
+      const existingAccount = await AccountModel.findById(id);
+      if (!existingAccount) {
+        return res.status(404).json({ error: 'Compte introuvable' });
+      }
+
+      existingAccount.pdf = existingAccount.pdf || [];
+      existingAccount.pdf.push(pdfUrl);
+      await existingAccount.save();
+
+      res.json({ message: 'PDF ajouté avec succès', account: existingAccount, pdfUrl });
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du PDF :', error);
+      res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
+  };
+
+

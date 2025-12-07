@@ -17,6 +17,10 @@ const BeneficiaireSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    pdf: {
+    type: [String],
+    default: [],
+  },
     
 });
 

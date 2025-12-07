@@ -12,13 +12,6 @@ interface ContentProps {
 }
 
 const Content = ({ activeTab }: ContentProps) => {
-  const renderDashboard = () => (
-    <div className="space-y-6">
-
-      {/* Dashboard de statistiques */}
-      <DashboardStats />
-    </div>
-  );
 
   const renderPlaceholder = (title: string, description: string) => (
     <div className="bg-white rounded-xl p-12 shadow-md text-center">
@@ -40,7 +33,7 @@ const Content = ({ activeTab }: ContentProps) => {
   );
 
   const contentMap: Record<string, React.ReactElement> = {
-    dashboard: renderDashboard(),
+    dashboard: <DashboardStats/>,
     agenda: <AgendaAdmin />,
     accueil: <Accueil />,
     pages: <PagesSite />,

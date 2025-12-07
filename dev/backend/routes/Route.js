@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
-const { getBeneficiaire, getBeneficiaireID, saveBeneficiaire, updateBeneficiaire, deleteBeneficiaire } = require('../controllers/BeneficiaireController')
+const { getBeneficiaire, getBeneficiaireID, saveBeneficiaire, updateBeneficiaire, deleteBeneficiaire, addPDF } = require('../controllers/BeneficiaireController')
 const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
 const { getNewsPays, getNewsPaysID, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
 const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
@@ -25,6 +25,27 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage })
+
+// Configuration dédiée pour les PDFs (répertoire /pdf)
+const pdfDir = path.join(__dirname, '../pdf');
+const pdfStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, pdfDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, 'pdf_' + Date.now() + path.extname(file.originalname));
+    }
+});
+const pdfUpload = multer({
+    storage: pdfStorage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'application/pdf' || file.originalname.endsWith('.pdf')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Seuls les fichiers PDF sont acceptés'));
+        }
+    }
+});
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// MEMBERS ////////////////////////////////
@@ -114,6 +135,8 @@ router.get('/beneficiaire/get/:id', getBeneficiaireID)
 router.post('/beneficiaire/save', authVerif, upload.single('image'), saveBeneficiaire)
 router.put('/beneficiaire/update/:id', authVerif, upload.single('image'), updateBeneficiaire)
 router.delete('/beneficiaire/delete/:id', authVerif, deleteBeneficiaire)
+// Upload PDF pour un bénéficiaire (enregistre l'URL dans le modèle)
+router.post('/beneficiaire/:id/pdf', authVerif, pdfUpload.single('pdf'), addPDF)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
