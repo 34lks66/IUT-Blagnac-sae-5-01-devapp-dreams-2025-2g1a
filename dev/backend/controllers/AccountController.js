@@ -3,8 +3,23 @@ const bcrypt = require("bcrypt");
 
 module.exports.getAccounts = async (req, res) => {
   try {
-    const accounts = await AccountModel.find();
-    res.json(accounts);
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    if (userAccount.statut === "S") {
+      const accounts = await AccountModel.find();
+      res.json(accounts);
+    } else if (userAccount.statut === "X") {
+      const accounts = await AccountModel.find({
+        pays: userAccount.pays,
+        statut: "O",
+      });
+      res.json(accounts);
+    } else {
+      res.json([]);
+    }
   } catch (error) {
     console.error("Erreur lors de la récupération des comptes :", error);
     res.status(500).json({ error: "Erreur interne du serveur" });
@@ -26,7 +41,31 @@ module.exports.saveAccount = async (req, res) => {
       return res.status(400).json({ error: "Un compte avec cet email existe déjà." });
     }
 
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de créer un compte pour ce pays."
+          });
+        }
+        if (statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de créer un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
 
     const newAccount = await AccountModel.create({
       nom,
@@ -51,7 +90,34 @@ module.exports.updateAccount = async (req, res) => {
     const { id } = req.params;
     const { nom, prenom, telephone, email, password, pays, statut } = req.body;
 
-    
+    const existingAccount = await AccountModel.findById(id);
+    if (!existingAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingAccount.pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de mettre à jour un compte pour ce pays."
+          });
+        }
+        if (existingAccount.statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de mettre à jour un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
+
     const updateData = {};
     if (nom) updateData.nom = nom;
     if (prenom) updateData.prenom = prenom;
@@ -62,6 +128,25 @@ module.exports.updateAccount = async (req, res) => {
 
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);
+    }
+
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de modifier un compte pour ce pays."
+          });
+        }
+        if (updateData.statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de modifier un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
     }
 
     const updatedAccount = await AccountModel.findByIdAndUpdate(id, updateData, { new: true });
@@ -81,6 +166,33 @@ module.exports.deleteAccount = async (req, res) => {
   try {
     const { id } = req.params;
 
+    const userAccount = await AccountModel.findById(req.user.sub);
+    if (!userAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    const existingAccount = await AccountModel.findById(id);
+    if (!existingAccount) {
+      return res.status(404).json({ error: "Compte introuvable" });
+    }
+
+    if (userAccount.statut !== "S") {
+      if (userAccount.statut === "X") {
+        if (String(userAccount.pays) !== existingAccount.pays) {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de supprimer un compte pour ce pays."
+          });
+        }
+        if (existingAccount.statut !== "O") {
+          return res.status(403).json({
+            error: "Vous n'avez pas la permission de supprimer un compte avec ce statut."
+          });
+        }
+      } else {
+
+        return res.status(403).json({ error: "Accès refusé." });
+      }
+    }
     const deletedAccount = await AccountModel.findByIdAndDelete(id);
 
     if (!deletedAccount) {
@@ -93,3 +205,32 @@ module.exports.deleteAccount = async (req, res) => {
     res.status(500).json({ error: "Erreur interne du serveur" });
   }
 };
+
+  // Ajoute un PDF au compte (upload via multer)
+  module.exports.addPDF = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      if (!req.file) {
+        return res.status(400).json({ error: 'Aucun fichier PDF fourni.' });
+      }
+
+      const pdfUrl = `/pdf/${req.file.filename}`;
+
+      const existingAccount = await AccountModel.findById(id);
+      if (!existingAccount) {
+        return res.status(404).json({ error: 'Compte introuvable' });
+      }
+
+      existingAccount.pdf = existingAccount.pdf || [];
+      existingAccount.pdf.push(pdfUrl);
+      await existingAccount.save();
+
+      res.json({ message: 'PDF ajouté avec succès', account: existingAccount, pdfUrl });
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du PDF :', error);
+      res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
+  };
+
+

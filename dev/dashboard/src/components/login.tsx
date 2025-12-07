@@ -10,8 +10,6 @@ function Login() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
- 
-    
     useEffect(() => {
         const checkLogin = async () => {
             try {
@@ -24,6 +22,7 @@ function Login() {
             } catch {
                 //ignore
             }
+            
         };
         checkLogin();
     }, []);

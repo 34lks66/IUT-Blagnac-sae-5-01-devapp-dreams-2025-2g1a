@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 // ---------- Props ----------
 type Props = {
@@ -65,6 +66,7 @@ const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
 
 // ---------- Composant principal ----------
 const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
+  const { role } = useAuth();
   // Pays
   const [country, setCountry] = useState<Country | null>(null);
 
@@ -85,6 +87,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingCountry, setDeletingCountry] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // ----- Load pays + news -----
   const loadCountryAndNews = async (id: string) => {
@@ -183,6 +186,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
 
     try {
       setSaving(true);
+      setSuccessMessage(null);
 
       // images obligatoires pour nouvelles actus
       const toCreatePreview = news.filter((n) => !n._id);
@@ -206,6 +210,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         fd.append("number", number);
         const r = await apiFetch(`/api/pays/update/${country._id}`, {
           method: "PUT",
+          headers: { "Content-Type": "application/json" },
           body: fd,
         });
 
@@ -213,6 +218,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       } else {
         const r = await apiFetch(`/api/pays/update/${country._id}`, {
           method: "PUT",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ description, nomSiege, adresse, horaire, mail, number }),
         });
 
@@ -258,6 +264,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               fd.append("image", n.image);
               const r = await apiFetch(`/api/newspays/update/${n._id}`, {
                 method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: fd,
               });
               if (!r.ok) throw new Error("Échec update news (file)");
@@ -265,6 +272,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
             } else {
               const r = await apiFetch(`/api/newspays/update/${n._id}`, {
                 method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   titre: n.titre,
                   description: n.description,
@@ -292,7 +300,8 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       }
 
       await loadCountryAndNews(country._id);
-      alert("Enregistré !");
+      setSuccessMessage("Enregistré avec succès !");
+      setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
       console.error(err);
       alert("Erreur pendant l'enregistrement.");
@@ -371,15 +380,17 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               ← Retour
             </button>
           )}
-          <button
-            type="button"
-            onClick={handleDeleteCountry}
-            disabled={deletingCountry}
-            className="text-sm px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 disabled:opacity-60"
-            title="Supprimer ce pays et toutes ses actualités"
-          >
-            {deletingCountry ? "Suppression…" : "Supprimer le pays"}
-          </button>
+          {role !== "X" && (
+            <button
+              type="button"
+              onClick={handleDeleteCountry}
+              disabled={deletingCountry}
+              className="text-sm px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 disabled:opacity-60"
+              title="Supprimer ce pays et toutes ses actualités"
+            >
+              {deletingCountry ? "Suppression…" : "Supprimer le pays"}
+            </button>
+          )}
         </div>
       </div>
 
@@ -544,36 +555,41 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         <h3 className="text-lg font-semibold mb-6">Contact du pays</h3>
         <div className="flex items-center justify-between mb-4">
           <form className="space-y-8">
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label>Nom du siège</Label>
-                  <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-[2]">
-                  <Label>Adresse</Label>
-                  <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-[2]"> 
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Label>Nom du siège</Label>
+                <input type="text" value={nomSiege} onChange={(e) => setNomSiege(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
+              </div>
+              <div className="flex-[2]">
+                <Label>Adresse</Label>
+                <input type="text" value={adresse} onChange={(e) => setAdresse(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
+              </div>
+              <div className="flex-[2]">
                 <Label>Horaire</Label>
-                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
+                <input type="text" value={horaire} onChange={(e) => setHoraire(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Label>Adresse mail</Label>
+                <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label>Adresse mail</Label>
-                  <input type="text" value={mail} onChange={(e) => setMail(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
-                <div className="flex-1">
-                  <Label>Numéro de téléphone</Label>
-                  <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"/>
-                </div>
+              <div className="flex-1">
+                <Label>Numéro de téléphone</Label>
+                <input type="text" value={number} onChange={(e) => setNumber(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
               </div>
+            </div>
           </form>
         </div>
       </section>
 
       {/* Actions */}
       <div className="pt-2 flex items-center justify-end gap-3">
+        {successMessage && (
+          <span className="text-green-600 font-medium animate-pulse">
+            {successMessage}
+          </span>
+        )}
         <button
           type="button"
           onClick={() => {

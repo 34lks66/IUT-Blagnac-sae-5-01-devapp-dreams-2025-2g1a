@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const News: React.FC = () => {
+  const { role, pays: userPays } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setEditForm] = useState(false);
   const [isPopupDelete, setDeletePopup] = useState(false);
@@ -175,10 +177,10 @@ const News: React.FC = () => {
       {/* SOUS-TITRE */}
       <div className="flex items-center justify-between">
         <div>
-        <h2 className="text-2xl font-bold text-yellow-500">Actualités</h2>
-        <p className="text-gray-600">
-          Gérez les actualités publiées sur le site
-        </p>
+          <h2 className="text-2xl font-bold text-yellow-500">Actualités</h2>
+          <p className="text-gray-600">
+            Gérez les actualités publiées sur le site
+          </p>
         </div>
         <button
           onClick={() => setShowForm(true)}
@@ -201,6 +203,16 @@ const News: React.FC = () => {
             <h3 className="text-2xl font-bold mb-6 text-yellow-500">
               Ajouter une actualité
             </h3>
+
+            {role === "X" && (
+              <div className="mb-6 p-4 rounded-lg bg-orange-50 border border-orange-200 text-orange-800 text-sm">
+                <p className="font-bold mb-1">Attention</p>
+                Vous êtes connecté en tant que Admin {userPays}, vous
+                êtes sur le point de créer une actualité affichée dans la page
+                d'accueil. Pour créer une actualité dédiée à votre pays,
+                rendez-vous dans la section "Pays".
+              </div>
+            )}
 
             <form onSubmit={onSubmit} className="space-y-6">
               {/* IMAGE */}

@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const { getMembers, saveMember, updateMember, deleteMember } = require('../controllers/MemberController')
+const { getBeneficiaire, getBeneficiaireID, saveBeneficiaire, updateBeneficiaire, deleteBeneficiaire, addPDF } = require('../controllers/BeneficiaireController')
 const { getPays, savePays, updatePays, deletePays } = require('../controllers/PaysController')
 const { getNewsPays, getNewsPaysID, saveNewsPays, updateNewsPays, deleteNewsPays } = require('../controllers/NewsPaysController')
 const { getAntennes, saveAntenne, updateAntenne, deleteAntenne } = require('../controllers/AntenneController')
@@ -25,6 +26,27 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
+// Configuration dédiée pour les PDFs (répertoire /pdf)
+const pdfDir = path.join(__dirname, '../pdf');
+const pdfStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, pdfDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, 'pdf_' + Date.now() + path.extname(file.originalname));
+    }
+});
+const pdfUpload = multer({
+    storage: pdfStorage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'application/pdf' || file.originalname.endsWith('.pdf')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Seuls les fichiers PDF sont acceptés'));
+        }
+    }
+});
+
 //////////////////////////////////////////////////////////////////
 ///////////////////////// MEMBERS ////////////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -46,7 +68,7 @@ const upload = multer({ storage })
  *               items:
  *                 $ref: '#/components/schemas/Member'
  */
-router.get('/get',authVerif,authVerifRole(["X", "S"]), getMembers)
+router.get('/get', authVerif, authVerifRole(["X", "S"]), getMembers)
 
 /**
  * @openapi
@@ -63,7 +85,7 @@ router.get('/get',authVerif,authVerifRole(["X", "S"]), getMembers)
  *       201:
  *         description: Created
  */
-router.post('/save',authVerif,authVerifRole(["X", "S"]), saveMember)
+router.post('/save', authVerif, authVerifRole(["X", "S"]), saveMember)
 
 /**
  * @openapi
@@ -85,7 +107,7 @@ router.post('/save',authVerif,authVerifRole(["X", "S"]), saveMember)
  *       200:
  *         description: Updated
  */
-router.put('/update/:id',authVerif,authVerifRole(["X", "S"]), updateMember)
+router.put('/update/:id', authVerif, authVerifRole(["X", "S"]), updateMember)
 
 /**
  * @openapi
@@ -102,16 +124,28 @@ router.put('/update/:id',authVerif,authVerifRole(["X", "S"]), updateMember)
  *       204:
  *         description: No Content
  */
-router.delete('/delete/:id',authVerif, authVerifRole(["X", "S"]), deleteMember)
+router.delete('/delete/:id', authVerif, authVerifRole(["X", "S"]), deleteMember)
+
+//////////////////////////////////////////////////////////////////
+///////////////////////// Beneficiaires // ////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+router.get('/beneficiaire/get', getBeneficiaire)
+router.get('/beneficiaire/get/:id', getBeneficiaireID)
+router.post('/beneficiaire/save', authVerif, upload.single('image'), saveBeneficiaire)
+router.put('/beneficiaire/update/:id', authVerif, upload.single('image'), updateBeneficiaire)
+router.delete('/beneficiaire/delete/:id', authVerif, deleteBeneficiaire)
+// Upload PDF pour un bénéficiaire (enregistre l'URL dans le modèle)
+router.post('/beneficiaire/:id/pdf', authVerif, pdfUpload.single('pdf'), addPDF)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 router.get('/pays/get', getPays);
-router.post('/pays/save',authVerif,authVerifRole(["X", "S"]), upload.single('image'), savePays)
-router.put('/pays/update/:id',authVerif,authVerifRole(["X", "S"]), upload.single('image'), updatePays)
-router.delete('/pays/delete/:id',authVerif,authVerifRole(["X", "S"]), deletePays)
+router.post('/pays/save', authVerif, authVerifRole(["S"]), upload.single('image'), savePays)
+router.put('/pays/update/:id', authVerif, authVerifRole(["X", "S"]), upload.single('image'), updatePays)
+router.delete('/pays/delete/:id', authVerif, authVerifRole(["S"]), deletePays)
 
 
 //////////////////////////////////////////////////////////////////
@@ -120,18 +154,18 @@ router.delete('/pays/delete/:id',authVerif,authVerifRole(["X", "S"]), deletePays
 
 router.get('/newspays/get', getNewsPays)
 router.get('/newspays/get/:id', getNewsPaysID)
-router.post('/newspays/save',authVerif,authVerifRole(["X", "S"]), upload.single('image'), saveNewsPays)
-router.put('/newspays/update/:id',authVerif,authVerifRole(["X", "S"]), upload.single('image'), updateNewsPays)
-router.delete('/newspays/delete/:id',authVerif,authVerifRole(["X", "S"]), deleteNewsPays)
+router.post('/newspays/save', authVerif, authVerifRole(["X", "S"]), upload.single('image'), saveNewsPays)
+router.put('/newspays/update/:id', authVerif, authVerifRole(["X", "S"]), upload.single('image'), updateNewsPays)
+router.delete('/newspays/delete/:id', authVerif, authVerifRole(["X", "S"]), deleteNewsPays)
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Antenne ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
 router.get('/antenne/get', getAntennes)
-router.post('/antenne/save',authVerif,authVerifRole(["X", "S"]), upload.single('image'), saveAntenne)
-router.put('/antenne/update/:id',authVerif,authVerifRole(["X", "S"]), upload.single('image'), updateAntenne)
-router.delete('/antenne/delete/:id',authVerif,authVerifRole(["X", "S"]), deleteAntenne)
+router.post('/antenne/save', authVerif, authVerifRole(["X", "S"]), upload.fields([{ name: "image", maxCount: 1 },{ name: "galerie1", maxCount: 1 },{ name: "galerie2", maxCount: 1 }]), saveAntenne)
+router.put('/antenne/update/:id', authVerif, authVerifRole(["X", "S"]), upload.fields([{ name: "image", maxCount: 1 },{ name: "galerie1", maxCount: 1 },{ name: "galerie2", maxCount: 1 }]), updateAntenne)
+router.delete('/antenne/delete/:id', authVerif, authVerifRole(["X", "S"]), deleteAntenne)
 
 //////////////////////////////////////////////////////////////////
 //////////////////////////// News ////////////////////////////////
@@ -169,7 +203,7 @@ router.get('/news/get/:id', getNewsID)
  *       201:
  *         description: Created
  */
-router.post('/news/save', authVerif,authVerifRole(["X", "S"]), upload.single('image'), saveNews)
+router.post('/news/save', authVerif, authVerifRole(["X", "S"]), upload.single('image'), saveNews)
 
 /**
  * @openapi
@@ -191,7 +225,7 @@ router.post('/news/save', authVerif,authVerifRole(["X", "S"]), upload.single('im
  *       200:
  *         description: Updated
  */
-router.put('/news/update/:id', authVerif,authVerifRole(["X", "S"]), upload.single('image'), updateNews)
+router.put('/news/update/:id', authVerif, authVerifRole(["X", "S"]), upload.single('image'), updateNews)
 
 /**
  * @openapi
@@ -208,7 +242,7 @@ router.put('/news/update/:id', authVerif,authVerifRole(["X", "S"]), upload.singl
  *       204:
  *         description: No Content
  */
-router.delete('/news/delete/:id', authVerif,authVerifRole(["X", "S"]), deleteNews)
+router.delete('/news/delete/:id', authVerif, authVerifRole(["X", "S"]), deleteNews)
 
 //////////////////////////////////////////////////////////////////
 /////////////////////////// Event ////////////////////////////////
@@ -282,7 +316,7 @@ router.get('/event/get/:id', getEvent);
  *       400:
  *         description: Champs requis manquants
  */
-router.post('/event/save',authVerif,authVerifRole(["X", "S"]), saveEvent);
+router.post('/event/save', authVerif, authVerifRole(["X", "S"]), saveEvent);
 
 /**
  * @openapi
@@ -306,7 +340,7 @@ router.post('/event/save',authVerif,authVerifRole(["X", "S"]), saveEvent);
  *       404:
  *         description: Événement introuvable
  */
-router.put('/event/update/:id',authVerif,authVerifRole(["X", "S"]), updateEvent);
+router.put('/event/update/:id', authVerif, authVerifRole(["X", "S"]), updateEvent);
 
 /**
  * @openapi
@@ -325,6 +359,6 @@ router.put('/event/update/:id',authVerif,authVerifRole(["X", "S"]), updateEvent)
  *       404:
  *         description: Événement introuvable
  */
-router.delete('/event/delete/:id',authVerif,authVerifRole(["X", "S"]), deleteEvent);
+router.delete('/event/delete/:id', authVerif, authVerifRole(["X", "S"]), deleteEvent);
 
 module.exports = router 

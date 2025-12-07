@@ -2,21 +2,16 @@ import AgendaAdmin from './Agenda';
 import Accueil from '../components/News';
 import PagesSite from './PagePays';
 import Utilisateurs from './Utilisateurs';
+import Beneficiaires from './Beneficiaires';
 import PageAntennes from './pageAntenne';
 import DashboardStats from './DashboardStats';
+import Parametre from './Parametre';
 
 interface ContentProps {
   activeTab: string;
 }
 
 const Content = ({ activeTab }: ContentProps) => {
-  const renderDashboard = () => (
-    <div className="space-y-6">
-
-      {/* Dashboard de statistiques */}
-      <DashboardStats />
-    </div>
-  );
 
   const renderPlaceholder = (title: string, description: string) => (
     <div className="bg-white rounded-xl p-12 shadow-md text-center">
@@ -38,16 +33,14 @@ const Content = ({ activeTab }: ContentProps) => {
   );
 
   const contentMap: Record<string, React.ReactElement> = {
-    dashboard: renderDashboard(),
+    dashboard: <DashboardStats/>,
     agenda: <AgendaAdmin />,
     accueil: <Accueil />,
     pages: <PagesSite />,
     users: <Utilisateurs />,
+    beneficiaires: <Beneficiaires />,
     pages_antennes: <PageAntennes />,
-    settings: renderPlaceholder(
-      'Paramètres',
-      'Configurez les paramètres généraux de l\'application'
-    ),
+    settings: <Parametre />,
   };
 
   return (

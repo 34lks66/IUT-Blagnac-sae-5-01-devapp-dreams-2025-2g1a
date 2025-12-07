@@ -51,7 +51,7 @@ export default function Home() {
           </div>
 
           {/* Carte agrandie */}
-          <div className="bg-white rounded-3xl border-2 border-gray-200 shadow-lg p-6">
+          <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden hover:shadow-[0_30px_60px_-12px_rgba(0,0,0,0.15)] transition-all duration-500">
             <Map paysDreams={["FR", "BF", "TG", "CI", "IT"]} />
           </div>
         </div>

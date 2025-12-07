@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 
 type EventItem = {
@@ -18,9 +19,16 @@ type EventItem = {
 type AntenneItem = {
   _id: string;
   nom: string;
+  pays: PaysItem;
+};
+
+type PaysItem = {
+  _id: string;
+  nom: string;
 };
 
 export default function AgendaAdmin() {
+  const { role, pays, loading: authLoading } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [events, setEvents] = useState<EventItem[]>([]);
   const [antennes, setAntennes] = useState<AntenneItem[]>([]);
@@ -36,12 +44,26 @@ export default function AgendaAdmin() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
 
+
+
   const fetchAntennes = async () => {
+    if (authLoading) return;
+
     try {
-      const res = await apiFetch("/api/antenne/get", { method: "GET" });
+      let endpoint = "/api/antenne/get";
+      const res = await apiFetch(endpoint, { method: "GET" });
       if (!res.ok) return setAntennes([]);
       const data = await res.json();
-      setAntennes(Array.isArray(data) ? data : []);
+
+
+      const filteredData = data.filter((antenne: AntenneItem) => antenne.pays.nom === pays);
+
+      if (role === "X") {
+        setAntennes(Array.isArray(filteredData) ? filteredData : []);
+      } else {
+        setAntennes(Array.isArray(data) ? data : []);
+      }
+
     } catch (err) {
       console.error("fetchAntennes", err);
       setAntennes([]);
@@ -51,30 +73,50 @@ export default function AgendaAdmin() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await apiFetch("/api/event/get/", { method: "GET" });
+      const res = await apiFetch(`/api/event/get/`, { method: "GET" });
       const data = await res.json();
-      setEvents(Array.isArray(data) ? data : []);
+
+      const antenneNames = antennes.map(a => a.nom);
+
+      const filteredData = data.filter((event: EventItem) =>
+        antenneNames.includes(event.antenna || "")
+      );
+
+      if (role === "X") {
+        setEvents(Array.isArray(filteredData) ? filteredData : []);
+      } else {
+        setEvents(Array.isArray(data) ? data : []);
+      }
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
+
     }
   };
 
   useEffect(() => {
     fetchAntennes();
+  }, [authLoading, pays, role]);
+
+  useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [antennes])
+
+
 
   const isFormValid = () => {
     const hasTimeError =
       form.starttime && form.endtime && form.endtime < form.starttime;
 
+    const isRoleX = role === "X";
+    const isAntennaMissing = isRoleX && !form.antenna;
+
     return (
       !!form.title &&
       !!form.date &&
-      (!!form.isGeneral || !!form.antenna) &&
-      !hasTimeError
+      !hasTimeError &&
+      !isAntennaMissing
     );
   };
 
@@ -98,7 +140,7 @@ export default function AgendaAdmin() {
 
     if (!isFormValid()) {
       setFormError(
-        "Remplissez le titre, la date et choisissez une antenne ou cochez 'Agenda général'."
+        "Remplissez le titre et la date. Vérifiez les horaires si renseignés."
       );
       return;
     }
@@ -126,25 +168,26 @@ export default function AgendaAdmin() {
   };
 
   const edit = (ev: EventItem) => {
-    const selectedAntenne = antennes.find((a) => a.nom === ev.antenna);
+    const foundAntenne = antennes.find(a => a.nom === ev.antenna);
     setForm({
       ...ev,
-      antenna: selectedAntenne ? selectedAntenne._id : ev.antenna ?? null,
+      antenna: foundAntenne ? foundAntenne._id : "",
+      isGeneral: !!ev.isGeneral,
     });
     setFormError(null);
   };
 
   const remove = async (id?: string) => {
-  if (!id) return;
-  try {
-    await apiFetch(`/api/event/delete/${id}`, {
-      method: "DELETE",
-    });
-    fetchEvents();
-  } catch (err) {
-    console.error(err);
-  }
-};
+    if (!id) return;
+    try {
+      await apiFetch(`/api/event/delete/${id}`, {
+        method: "DELETE",
+      });
+      fetchEvents();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 
   const openModalForCreate = () => {
@@ -197,7 +240,10 @@ export default function AgendaAdmin() {
                   Horaire
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
-                  Antenne / Type
+                  Antenne
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                  Type
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                   Lieu
@@ -211,7 +257,7 @@ export default function AgendaAdmin() {
               {loading ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-6 py-12 text-center text-gray-400"
                   >
                     Chargement des événements...
@@ -220,10 +266,10 @@ export default function AgendaAdmin() {
               ) : events.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-6 py-12 text-center text-gray-400"
                   >
-                    Aucun événement trouvé
+                    Aucun événement pour le moment
                   </td>
                 </tr>
               ) : (
@@ -242,9 +288,10 @@ export default function AgendaAdmin() {
                         : "-"}
                     </td>
                     <td className="px-6 py-4 text-gray-700">
-                      {ev.isGeneral
-                        ? "Agenda général"
-                        : ev.antenna || "—"}
+                      {antennes.find(a => a.nom === ev.antenna)?.nom || "—"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-700">
+                      {ev.isGeneral ? "Agenda général" : "—"}
                     </td>
                     <td className="px-6 py-4 text-gray-700">
                       {ev.location || "—"}
@@ -402,11 +449,9 @@ export default function AgendaAdmin() {
                       setForm({
                         ...form,
                         antenna: val,
-                        isGeneral: val ? false : form.isGeneral,
                       });
                       setFormError(null);
                     }}
-                    disabled={!!form.isGeneral}
                   >
                     <option value="">Sélectionner une antenne</option>
                     {antennes.map((a) => (
@@ -417,27 +462,33 @@ export default function AgendaAdmin() {
                   </select>
                 </div>
 
-                <div className="flex items-center mt-2 sm:mt-8">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={!!form.isGeneral}
-                      onChange={(e) => {
-                        const checked = e.target.checked;
-                        setForm({
-                          ...form,
-                          isGeneral: checked,
-                          antenna: checked ? null : form.antenna,
-                        });
-                        setFormError(null);
-                      }}
-                      disabled={!!form.antenna}
-                      className="w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
-                    />
-                    <span className="text-sm font-medium text-gray-700">
-                      Agenda général
-                    </span>
-                  </label>
+                <div className="flex flex-col">
+                  <div className="flex items-center mt-2 sm:mt-8">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={!!form.isGeneral}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setForm({
+                            ...form,
+                            isGeneral: checked,
+                          });
+                          setFormError(null);
+                        }}
+                        className="w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                      />
+                      <span className="text-sm font-medium text-gray-700">
+                        Agenda général
+                      </span>
+                    </label>
+                  </div>
+                  {role === "X" && (
+                    <div className="mt-3 p-3 bg-orange-50 border border-orange-200 text-orange-800 rounded-lg text-sm">
+                      <p className="font-bold mb-1">Attention</p>
+                      Vous êtes connecté en tant que Admin {pays}, en cochant agenda général vous êtes sur le point de créer un événement affiché dans la page agenda général. Pour créer un événement dédié à votre pays, ne cochez pas "Agenda général".
+                    </div>
+                  )}
                 </div>
               </div>
 

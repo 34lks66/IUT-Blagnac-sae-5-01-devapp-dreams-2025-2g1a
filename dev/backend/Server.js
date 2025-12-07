@@ -7,6 +7,20 @@ const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
 const path = require('path');
 
+// Créer les répertoires s'ils n'existent pas
+const uploadsDir = path.join(__dirname, 'uploads');
+const pdfDir = path.join(__dirname, 'pdf');
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log('Répertoire uploads créé');
+}
+
+if (!fs.existsSync(pdfDir)) {
+  fs.mkdirSync(pdfDir, { recursive: true });
+  console.log('Répertoire pdf créé');
+}
+
 const Routes = require('./routes/Route');
 const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
@@ -45,6 +59,13 @@ app.get('/', (req, res) => {
             saveMember: 'POST /api/save',
             updateMember: 'PUT /api/update/:id',
             deleteMember: 'DELETE /api/delete/:id'
+          },
+          beneficiaires: {
+            getBeneficiare: 'GET /api/beneficiaire/get',
+            getBeneficiaireID: 'GET /api/beneficiaire/get/:id',
+            saveBeneficiaire: 'POST /api/beneficiaire/save',
+            updateBeneficiaire: 'PUT /api/beneficiaire/update/:id',
+            deleteBeneficiaire: 'DELETE /api/beneficiaire/delete/:id'
           },
           news: {
             getNews: 'GET /api/news/get',
@@ -145,5 +166,6 @@ app.use('/api', authRoutes);
 app.use('/api/accounts', authVerif, authVerifRole(["X", "S"]), accountRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/pdf', express.static(path.join(__dirname, 'pdf')));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

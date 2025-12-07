@@ -15,7 +15,7 @@ type ApiAntenne = {
   pays: string | { _id: string };
 };
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const API_ORIGIN = API_BASE.replace(/\/api$/, "");
 const HERO_DEFAULT = "/images/pays/hero-default.jpg";
 const ANTENNE_PLACEHOLDER = "/images/pays/antenne-placeholder.jpg";
@@ -42,7 +42,7 @@ const Pays: React.FC = () => {
     (async () => {
       try {
         setLoadingCountry(true);
-        const res = await fetch(`${API_BASE}/pays/get`, { credentials: "include" });
+        const res = await fetch(`${API_BASE}/api/pays/get`, { credentials: "include" });
         const data: ApiCountry[] = res.ok ? await res.json() : [];
         setCountries(data);
         const match = data.find((p) => slugify(p.nom) === slug.toLowerCase());
@@ -67,8 +67,8 @@ const Pays: React.FC = () => {
       try {
         setLoadingContent(true);
         const [resNews, resAnt] = await Promise.all([
-          fetch(`${API_BASE}/newspays/get?pays=${selectedCountry._id}`, { credentials: "include" }),
-          fetch(`${API_BASE}/antenne/get?pays=${selectedCountry._id}`, { credentials: "include" }),
+          fetch(`${API_BASE}/api/newspays/get?pays=${selectedCountry._id}`, { credentials: "include" }),
+          fetch(`${API_BASE}/api/antenne/get?pays=${selectedCountry._id}`, { credentials: "include" }),
         ]);
 
         const dataNews: ApiNews[] = resNews.ok ? await resNews.json() : [];

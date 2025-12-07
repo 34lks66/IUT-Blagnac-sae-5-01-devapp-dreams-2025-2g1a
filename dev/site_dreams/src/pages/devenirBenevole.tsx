@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { send } from '@emailjs/browser';
 
 function DevenirBenevole() {
   const [formData, setFormData] = useState({
@@ -25,40 +26,57 @@ function DevenirBenevole() {
   }
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const allChecked = Object.values(legalChecks).every(check => check);
-    if (!allChecked) {
-      alert('Veuillez accepter toutes les conditions légales pour continuer.');
-      return;
-    }
-
-    console.log("=== DONNÉES DU FORMULAIRE ===");
-    console.log("Informations personnelles:", formData);
-    console.log("Conditions acceptées:", legalChecks);
-    console.log("=============================");
-
-    setShowConfirmation(true);
-    
-    setFormData({
-      nom: '',
-      prenom: '',
-      email: '',
-      telephone: ''
-    });
-    setLegalChecks({
-      mentionsLegales: false,
-      reglementInterieur: false,
-      droitImage: false
-    });
+  const allChecked = Object.values(legalChecks).every(check => check);
+  if (!allChecked) {
+    alert('Veuillez accepter toutes les conditions légales pour continuer.');
+    return;
   }
+
+  const serviceID = 'service_twqtdqm';
+  const templateID = 'template_nvuphny';
+  const publicKey = 'Fac57P5iYc4eKU3uf';
+
+  // Envoi de l'email via EmailJS
+  send(serviceID, templateID, {
+    prenom: formData.prenom,
+    nom: formData.nom,
+    email: formData.email,
+    telephone: formData.telephone,
+    mentionsLegales: legalChecks.mentionsLegales ? 'Oui' : 'Non',
+    reglementInterieur: legalChecks.reglementInterieur ? 'Oui' : 'Non',
+    droitImage: legalChecks.droitImage ? 'Oui' : 'Non',
+  }, publicKey)
+    .then((response) => {
+      console.log('Email envoyé avec succès!', response.status, response.text);
+      setShowConfirmation(true);
+      
+      // Réinitialisation du formulaire
+      setFormData({
+        nom: '',
+        prenom: '',
+        email: '',
+        telephone: ''
+      });
+      setLegalChecks({
+        mentionsLegales: false,
+        reglementInterieur: false,
+        droitImage: false
+      });
+    })
+    .catch((error) => {
+      console.error('Erreur lors de l\'envoi de l\'email:', error);
+      alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer.');
+    });
+}
 
   function closeConfirmation() {
     setShowConfirmation(false);
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         
         {/* Popup de confirmation */}

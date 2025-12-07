@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -9,6 +10,8 @@ type Antenne = {
   nom: string;
   description: string;
   image: string;
+  galerie1: string;
+  galerie2: string;
   pays:
   | string
   | {
@@ -24,39 +27,40 @@ type Pays = {
   image: string;
 };
 
-const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
-  htmlFor,
-  children,
-}) => (
-  <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">
-    {children}
-  </label>
-);
+// const Label: React.FC<{ htmlFor?: string; children: React.ReactNode }> = ({
+//   htmlFor,
+//   children,
+// }) => (
+//   <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700">
+//     {children}
+//   </label>
+// );
 
-const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
-  <input
-    {...p}
-    className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
-      (p.className ?? "")
-    }
-  />
-);
+// const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (p) => (
+//   <input
+//     {...p}
+//     className={
+//       "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+//       (p.className ?? "")
+//     }
+//   />
+// );
 
-const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
-  p
-) => (
-  <textarea
-    {...p}
-    className={
-      "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
-      (p.className ?? "")
-    }
-  />
-);
+// const TextArea: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElement>> = (
+//   p
+// ) => (
+//   <textarea
+//     {...p}
+//     className={
+//       "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 " +
+//       (p.className ?? "")
+//     }
+//   />
+// );
 
 function AntenneForm() {
   const navigate = useNavigate();
+  const { role, pays: userPays } = useAuth();
   const [pays, setPays] = useState<Pays[]>([]);
   const [antennes, setAntennes] = useState<Antenne[]>([]);
 
@@ -73,7 +77,12 @@ function AntenneForm() {
     pays: "",
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [galerie1File, setGalerie1File] = useState<File | null>(null);
+  const [galerie2File, setGalerie2File] = useState<File | null>(null);
+
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [galerie1Preview, setGalerie1Preview] = useState<string>("");
+  const [galerie2Preview, setGalerie2Preview] = useState<string>("");
 
   // Suppression
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -122,7 +131,11 @@ function AntenneForm() {
       pays: "",
     });
     setImageFile(null);
+    setGalerie1File(null);
+    setGalerie2File(null);
     setImagePreview("");
+    setGalerie1Preview("");
+    setGalerie2Preview("");
     setMessage("");
   };
 
@@ -133,6 +146,30 @@ function AntenneForm() {
       const reader = new FileReader();
       reader.onload = (ev) => {
         setImagePreview(ev.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleGalerie1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setGalerie1File(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setGalerie1Preview(ev.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleGalerie2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setGalerie2File(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setGalerie2Preview(ev.target?.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -166,8 +203,20 @@ function AntenneForm() {
       setImagePreview(`${API_BASE}${antenne.image}`);
     } else {
       setImagePreview("");
+    } 
+    if (antenne.galerie1) {
+      setGalerie1Preview(`${API_BASE}${antenne.galerie1}`);
+    } else {
+      setGalerie1Preview("");
+    }
+    if (antenne.galerie2) {
+      setGalerie2Preview(`${API_BASE}${antenne.galerie2}`);
+    } else {
+      setGalerie2Preview("");
     }
     setImageFile(null);
+    setGalerie1File(null);
+    setGalerie2File(null);
     setShowFormModal(true);
     setMessage("");
   };
@@ -192,11 +241,25 @@ function AntenneForm() {
       return;
     }
 
+    if (!galerie1File) {
+      setMessage("❌ Veuillez sélectionner une image");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!galerie2File) {
+      setMessage("❌ Veuillez sélectionner une image");
+      setIsLoading(false);
+      return;
+    }
+
     const formDataToSend = new FormData();
     formDataToSend.append("nom", nomTrim);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("pays", formData.pays);
     formDataToSend.append("image", imageFile);
+    formDataToSend.append("galerie1", galerie1File);
+    formDataToSend.append("galerie2", galerie2File);
 
     try {
       const response = await apiFetch("/api/antenne/save", {
@@ -207,10 +270,10 @@ function AntenneForm() {
 
       if (response.ok) {
         setMessage("✅ Antenne créée avec succès !");
-        if(window.location.href.includes('localhost:5174')){
-          navigate('http://localhost:5173/villes/'+nomTrim);
-        }else{
-          navigate('http://localhost:5174/villes/'+nomTrim);
+        if (window.location.href.includes('localhost:5174')) {
+          navigate('http://localhost:5173/villes/' + nomTrim);
+        } else {
+          navigate('http://localhost:5174/villes/' + nomTrim);
         }
         loadAntennes();
         closeFormModal();
@@ -228,7 +291,7 @@ function AntenneForm() {
   async function handleUpdate(e: React.FormEvent) {
     e.preventDefault();
     if (!editingAntenne) return;
-    
+
     setIsLoading(true);
     setMessage("");
     const nomTrim = formData.nom.trim();
@@ -239,6 +302,12 @@ function AntenneForm() {
     formDataToSend.append("pays", formData.pays);
     if (imageFile) {
       formDataToSend.append("image", imageFile);
+    }
+    if (galerie1File) {
+      formDataToSend.append("galerie1", galerie1File);
+    }
+    if (galerie2File) {
+      formDataToSend.append("galerie2", galerie2File);
     }
 
     try {
@@ -286,11 +355,16 @@ function AntenneForm() {
     }
   }
 
-  const filteredAntennes = antennes.filter((a) =>
-    (a.nom + " " + a.description + " " + getPaysNom(a.pays))
+  const filteredAntennes = antennes.filter((a) => {
+    const matchesSearch = (a.nom + " " + a.description + " " + getPaysNom(a.pays))
       .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+      .includes(search.toLowerCase());
+
+    if (role === "X") {
+      return matchesSearch && getPaysNom(a.pays) === userPays;
+    }
+    return matchesSearch;
+  });
 
   const isCreateDisabled =
     isLoading ||
@@ -480,10 +554,10 @@ function AntenneForm() {
             {message && (
               <div
                 className={`mb-6 p-4 rounded-lg border text-sm ${message.includes("✅")
-                    ? "bg-green-50 border-green-200 text-green-700"
-                    : message.includes("❌")
-                      ? "bg-red-50 border-red-200 text-red-700"
-                      : "bg-gray-50 border-gray-200 text-gray-700"
+                  ? "bg-green-50 border-green-200 text-green-700"
+                  : message.includes("❌")
+                    ? "bg-red-50 border-red-200 text-red-700"
+                    : "bg-gray-50 border-gray-200 text-gray-700"
                   }`}
               >
                 {message.replace("✅", "").replace("❌", "")}
@@ -495,7 +569,7 @@ function AntenneForm() {
               className="space-y-6"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
+                {/* <div>
                   <Label>Nom de l'antenne *</Label>
                   <Input
                     type="text"
@@ -504,11 +578,25 @@ function AntenneForm() {
                     onChange={(e) =>
                       setFormData({ ...formData, nom: e.target.value })
                     }
-                    placeholder="Paris, Lyon, Part-Dieu..."
+                  />
+                </div> */}
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Nom *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.nom}
+                    onChange={(e) =>
+                      setFormData({ ...formData, nom: e.target.value })
+                    }
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                       focus:border-yellow-500 focus:outline-none transition-colors"
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <Label>Pays *</Label>
                   <select
                     value={formData.pays}
@@ -525,9 +613,32 @@ function AntenneForm() {
                       </option>
                     ))}
                   </select>
+                </div> */}
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Pays *
+                  </label>
+                  <select
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-yellow-500 focus:outline-none transition-colors"
+                    value={formData.pays}
+                    required
+                    onChange={(e) =>
+                      setFormData({ ...formData, pays: e.target.value })
+                    }
+                  >
+                    <option value="">Sélectionner un pays</option>
+                    {pays
+                      .filter((p) => role !== "X" || p.nom === userPays)
+                      .map((p) => (
+                        <option key={p._id} value={p._id}>
+                          {p.nom}
+                        </option>
+                      ))}
+                  </select>
                 </div>
 
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <Label>Description *</Label>
                   <TextArea
                     rows={4}
@@ -541,14 +652,31 @@ function AntenneForm() {
                     }
                     placeholder="Décrivez les activités, le rôle et les objectifs de cette antenne..."
                   />
+                </div> */}
+
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Description *
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={formData.description}
+                    required
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        description: e.target.value,
+                      })
+                    }
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl 
+                       focus:border-yellow-500 focus:outline-none transition-colors"
+                  />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <Label>
-                    {formUpdate
-                      ? "Image de l'antenne"
-                      : "Image de l'antenne *"}
-                  </Label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Image de l'antenne *
+                  </label>
                   <input
                     type="file"
                     accept="image/*"
@@ -585,6 +713,74 @@ function AntenneForm() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+               <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Galerie Image 1
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleGalerie1Change}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
+                  />
+                  {(galerie1Preview ||
+                    (formUpdate &&
+                      editingAntenne &&
+                      editingAntenne.image &&
+                      !galerie1Preview)) && (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">
+                          Aperçu :
+                        </p>
+                        <div className="w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                          <img
+                            src={
+                              galerie1Preview ||
+                              `${API_BASE}${editingAntenne?.galerie1 ?? ""}`
+                            }
+                            alt="Aperçu"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    )}
+               </div>
+
+               <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Galerie Image 2 
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleGalerie2Change}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
+                  />
+                  {(galerie2Preview ||
+                    (formUpdate &&
+                      editingAntenne &&
+                      editingAntenne.image &&
+                      !galerie2Preview)) && (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">
+                          Aperçu :
+                        </p>
+                        <div className="w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                          <img
+                            src={
+                              galerie2Preview ||
+                              `${API_BASE}${editingAntenne?.galerie2 ?? ""}`
+                            }
+                            alt="Aperçu"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    )}
+               </div>
+              </div>
+
               <div className="flex gap-3 mt-4">
                 <button
                   type="button"
@@ -597,12 +793,12 @@ function AntenneForm() {
                   type="submit"
                   disabled={formUpdate ? isUpdateDisabled : isCreateDisabled}
                   className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${formUpdate
-                      ? isUpdateDisabled
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
-                      : isCreateDisabled
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
+                    ? isUpdateDisabled
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
+                    : isCreateDisabled
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
                     }`}
                 >
                   {isLoading

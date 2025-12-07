@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Login from "./components/login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import BeneficiaireDetail from "./components/BeneficiaireDetail";
+import { AuthProvider } from "./components/context/AuthContext";
 
 function App() {
 
@@ -13,13 +15,15 @@ function App() {
                     path="/"
                     element={
                         <ProtectedRoute>
-                            <Dashboard />
+                            <AuthProvider>
+                                <Dashboard />
+                            </AuthProvider>
                         </ProtectedRoute>
                     }
-                />
+                />,
+                <Route path="beneficiaire/:id" element={<BeneficiaireDetail />} />
             </Routes>
         </Router>
-
     )
 }
 
