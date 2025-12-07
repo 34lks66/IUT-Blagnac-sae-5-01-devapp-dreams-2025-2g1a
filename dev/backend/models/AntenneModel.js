@@ -13,6 +13,14 @@ const AntenneSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    galerie1: {
+        type: String,
+        required: true
+    },
+    galerie2: {
+        type: String,
+        required: true
+    },
     pays: {
             type: mongoose.Schema.Types.ObjectId, // référence vers la collection Pays
             ref: 'Pays',

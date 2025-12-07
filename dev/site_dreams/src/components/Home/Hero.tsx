@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import Dreams from "../../assets/accueil_image/dreams_hero.png";
-import BackgroundImg from "../../assets/accueil_image/background_image_2.png";
+import BackgroundImg from "../../assets/accueil_image/hero.png";
 
 export default function Hero() {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative py-20 overflow-hidden bg-cover bg-center bg-no-repeat"
+      className="relative py-40 overflow-hidden bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${BackgroundImg})` }}
     >
       {/* Overlay */}
@@ -25,10 +24,17 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Texte */}
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+            {/* <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
               L'autonomie,
               <span className="text-white/90 font-light"> l'indépendance</span>
               <span className="block font-bold bg-gradient-to-r from-yellow-500 to-amber-700 bg-clip-text text-transparent">et la liberté</span>
+            </h1> */}
+            <h1 className="fade-slide-up text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+              L'autonomie,
+              <span className="text-white/90 font-light"> l'indépendance</span>
+              <span className="block font-bold bg-gradient-to-r from-yellow-500 to-amber-700 bg-clip-text text-transparent">
+                et la liberté
+              </span>
             </h1>
 
             <p className="text-lg md:text-xl text-gray-200/90 mb-8 max-w-xl mx-auto lg:mx-0">
@@ -55,7 +61,7 @@ export default function Hero() {
           </div>
 
           {/* Visuel */}
-          <div className="w-full flex justify-center lg:justify-end">
+          {/* <div className="w-full flex justify-center lg:justify-end">
             <div className="bg-white/10 backdrop-blur-md rounded-3xl p-4 shadow-2xl border border-white/10 max-w-md">
               <img
                 src={Dreams}
@@ -65,7 +71,7 @@ export default function Hero() {
                 Save <span className="font-bold bg-gradient-to-r from-yellow-500 to-amber-700 bg-clip-text text-transparent">Change</span>
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

@@ -140,8 +140,8 @@ router.delete('/newspays/delete/:id', authVerif, authVerifRole(["X", "S"]), dele
 //////////////////////////////////////////////////////////////////
 
 router.get('/antenne/get', getAntennes)
-router.post('/antenne/save', authVerif, authVerifRole(["X", "S"]), upload.single('image'), saveAntenne)
-router.put('/antenne/update/:id', authVerif, authVerifRole(["X", "S"]), upload.single('image'), updateAntenne)
+router.post('/antenne/save', authVerif, authVerifRole(["X", "S"]), upload.fields([{ name: "image", maxCount: 1 },{ name: "galerie1", maxCount: 1 },{ name: "galerie2", maxCount: 1 }]), saveAntenne)
+router.put('/antenne/update/:id', authVerif, authVerifRole(["X", "S"]), upload.fields([{ name: "image", maxCount: 1 },{ name: "galerie1", maxCount: 1 },{ name: "galerie2", maxCount: 1 }]), updateAntenne)
 router.delete('/antenne/delete/:id', authVerif, authVerifRole(["X", "S"]), deleteAntenne)
 
 //////////////////////////////////////////////////////////////////

@@ -462,25 +462,33 @@ export default function AgendaAdmin() {
                   </select>
                 </div>
 
-                <div className="flex items-center mt-2 sm:mt-8">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={!!form.isGeneral}
-                      onChange={(e) => {
-                        const checked = e.target.checked;
-                        setForm({
-                          ...form,
-                          isGeneral: checked,
-                        });
-                        setFormError(null);
-                      }}
-                      className="w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
-                    />
-                    <span className="text-sm font-medium text-gray-700">
-                      Agenda général
-                    </span>
-                  </label>
+                <div className="flex flex-col">
+                  <div className="flex items-center mt-2 sm:mt-8">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={!!form.isGeneral}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setForm({
+                            ...form,
+                            isGeneral: checked,
+                          });
+                          setFormError(null);
+                        }}
+                        className="w-4 h-4 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                      />
+                      <span className="text-sm font-medium text-gray-700">
+                        Agenda général
+                      </span>
+                    </label>
+                  </div>
+                  {role === "X" && (
+                    <div className="mt-3 p-3 bg-orange-50 border border-orange-200 text-orange-800 rounded-lg text-sm">
+                      <p className="font-bold mb-1">Attention</p>
+                      Vous êtes connecté en tant que Admin {pays}, en cochant agenda général vous êtes sur le point de créer un événement affiché dans la page agenda général. Pour créer un événement dédié à votre pays, ne cochez pas "Agenda général".
+                    </div>
+                  )}
                 </div>
               </div>
 

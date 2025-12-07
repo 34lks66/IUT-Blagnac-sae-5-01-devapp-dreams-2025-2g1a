@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import alda from "../../assets/partenaire/alda.png";
 import actup from "../../assets/partenaire/act-up.jpeg";
 import enipse from "../../assets/partenaire/enipse.jpg";
@@ -27,20 +28,33 @@ const Partner: React.FC = () => {
           </p>
         </div>
 
-        {/* Grille des logos agrandie */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 md:gap-12">
-          {partners.map((partner, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg hover:shadow-2xl hover:border-gray-300 transition-all duration-300 p-10 flex justify-center items-center group"
-            >
-              <img
-                src={partner.logo}
-                alt={`Logo ${partner.name}`}
-                className="h-24 w-auto object-contain opacity-80 group-hover:opacity-100 transition duration-300 filter grayscale group-hover:grayscale-0"
-              />
-            </div>
-          ))}
+        {/* Infinite Scroll Container */}
+        <div className="relative w-full overflow-hidden mask-gradient-x">
+          <div className="absolute top-0 left-0 w-24 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
+          <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+
+          <motion.div
+            className="flex gap-16 w-max"
+            animate={{ x: "-50%" }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 20
+            }}
+          >
+            {[...partners, ...partners].map((partner, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl border border-gray-100 shadow-md p-8 flex justify-center items-center group min-w-[200px] h-[160px] hover:shadow-xl transition-shadow duration-300"
+              >
+                <img
+                  src={partner.logo}
+                  alt={`Logo ${partner.name}`}
+                  className="h-20 w-auto object-contain opacity-70 group-hover:opacity-100 transition duration-300 filter grayscale group-hover:grayscale-0"
+                />
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>
