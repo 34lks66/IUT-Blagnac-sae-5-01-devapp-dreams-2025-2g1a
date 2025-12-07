@@ -1,8 +1,15 @@
+import { motion } from "framer-motion";
 import doclogo from "../assets/documentlogo.svg";
 import suivilogo from "../assets/suivilogo.svg";
 import justicelogo from "../assets/justicelogo.svg";
 import hero from "../assets/hero_section/accompagnement.png";
 import { BriefcaseBusiness, GraduationCap, House } from "lucide-react";
+import cafLogo from "../assets/logo/CAF.png";
+import ftLogo from "../assets/logo/FranceTravail.png";
+import ofiiLogo from "../assets/logo/OFII.png";
+import ofpraLogo from "../assets/logo/OFPRA.png";
+import cndaLogo from "../assets/logo/CNDA.png";
+import solidarioLogo from "../assets/logo/Solidario.png";
 
 function Accompagnement() {
     return (
@@ -65,7 +72,7 @@ function Accompagnement() {
                 <div className="group relative bg-white p-6  shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-red-500 overflow-hidden flex flex-col md:flex-row items-center mb-8 cursor-pointer mr-32">
                     <div className="absolute inset-0 bg-red-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
-                    <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
+                    <div className="relative z-10 flex-1 transition-all duration-500 group-hover:text-white md:group-hover:translate-x-1/2 md:group-hover:text-center">
                         <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
                             Orientation dans les démarches
                         </h3>
@@ -96,7 +103,7 @@ function Accompagnement() {
                         />
                     </div>
 
-                    <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
+                    <div className="relative z-10 flex-1 transition-all duration-500 group-hover:text-white md:group-hover:-translate-x-1/2 md:group-hover:text-center">
                         <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
                             Suivi personnalisé
                         </h3>
@@ -111,7 +118,7 @@ function Accompagnement() {
                 <div className="group relative bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-l-4 border-b-4 border-purple-500 overflow-hidden flex flex-col md:flex-row items-center cursor-pointer mr-32">
                     <div className="absolute inset-0 bg-purple-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
 
-                    <div className="relative z-10 flex-1 transition-all duration-300 group-hover:text-white">
+                    <div className="relative z-10 flex-1 transition-all duration-500 group-hover:text-white md:group-hover:translate-x-1/2 md:group-hover:text-center">
                         <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-white transition-colors duration-300">
                             Accompagnement juridique
                         </h3>
@@ -132,82 +139,56 @@ function Accompagnement() {
             </section>
 
             {/* ============ DOMAINES D'INTERVENTION ============ */}
-            <section className="max-w-6xl mx-auto py-7 px-4">
-                <div className="text-center mb-8">
-                    <h2 className="text-2xl md:text-3xl font-extrabold mb-4 ">
+            <section className="max-w-6xl mx-auto py-16 px-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-16"
+                >
+                    <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-gray-900">
                         Nos domaines <span className="text-yellow-500">d'intervention</span>
                     </h2>
-
-
-                    <p className="text-gray-700 max-w-3xl mx-auto">
-                        Nous vous accompagnons dans toutes vos démarches auprès des principales institutions
+                    <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                        Un accompagnement complet à chaque étape de votre parcours d'intégration, en collaboration avec les institutions clés.
                     </p>
-                </div>
+                </motion.div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {/* OFII */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <span className="text-yellow-500 font-bold text-sm">OFII</span>
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">Office Français de l'Immigration et de l'Intégration</h4>
-                    </div>
-
-                    {/* OFPRA */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <span className="text-yellow-500 font-bold text-sm">OFPRA</span>
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">Office Français de Protection des Réfugiés et Apatrides</h4>
-                    </div>
-
-                    {/* CNDA */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <span className="text-yellow-500 font-bold text-sm">CNDA</span>
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">Cour Nationale du Droit d'Asile</h4>
-                    </div>
-
-                    {/* CAF */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <span className="text-yellow-500 font-bold text-sm">CAF</span>
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">Caisse d'Allocations Familiales</h4>
-                    </div>
-
-                    {/* SOLIDARIO */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <span className="text-yellow-500 font-bold text-sm">SOLIDARIO</span>
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">Partenariat Solidarité</h4>
-                    </div>
-
-                    {/* Recherche logement */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <House className="text-yellow-500" />
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">Recherche de logement</h4>
-                    </div>
-
-                    {/* France Travail */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <BriefcaseBusiness className="text-yellow-500" />
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">France Travail</h4>
-                    </div>
-
-                    {/* Université */}
-                    <div className="border border-gray-200 rounded-xl p-4 bg-white text-center hover:shadow-lg transition-shadow duration-300">
-                        <div className="w-12 h-12 mx-auto mb-3 bg-yellow-100 rounded-full flex items-center justify-center">
-                            <GraduationCap className="text-yellow-500" />
-                        </div>
-                        <h4 className="font-bold text-gray-800 text-sm">Université & Formation</h4>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {[
+                        { code: "OFII", label: "Office Français de l'Immigration et de l'Intégration", logo: ofiiLogo },
+                        { code: "OFPRA", label: "Office Français de Protection des Réfugiés et Apatrides", logo: ofpraLogo },
+                        { code: "CNDA", label: "Cour Nationale du Droit d'Asile", logo: cndaLogo },
+                        { code: "CAF", label: "Caisse d'Allocations Familiales", logo: cafLogo },
+                        { code: "FT", label: "France Travail", logo: ftLogo },
+                        { code: "Solidario", label: "Solidario", logo: solidarioLogo },
+                        { code: "LOG", label: "Recherche de logement", icon: <House size={28} /> },
+                        { code: "UNIV", label: "Université & Formation", icon: <GraduationCap size={28} /> },
+                    ].map((item, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                            whileHover={{ y: -5 }}
+                            className="bg-white rounded-2xl p-8 border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col items-center text-center group"
+                        >
+                            <div className="w-24 h-24 mb-6 bg-white rounded-2xl flex items-center justify-center border border-gray-100 group-hover:border-yellow-300 transition-all duration-300 shadow-sm group-hover:shadow-md overflow-hidden p-4">
+                                {/* @ts-ignore */}
+                                {item.logo ? (
+                                    <img src={item.logo} alt={item.label} className="w-full h-full object-contain" />
+                                ) : item.icon ? (
+                                    <span className="text-yellow-600">{item.icon}</span>
+                                ) : (
+                                    <span className="text-xl font-bold text-yellow-700 font-serif tracking-wider">{item.code}</span>
+                                )}
+                            </div>
+                            <h4 className="font-bold text-gray-900 text-lg leading-snug">
+                                {item.label}
+                            </h4>
+                        </motion.div>
+                    ))}
                 </div>
             </section>
 
