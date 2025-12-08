@@ -18,6 +18,14 @@ type Antenne = {
       };
 };
 
+const slugify = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function Villes() {
@@ -43,7 +51,7 @@ function Villes() {
   }, []);
 
   const { nom } = useParams();
-  const ville = antennes.find((v) => v.nom === nom);
+  const ville = antennes.find((v) => slugify(v.nom) === nom);
 
   if (loading) {
     return (
