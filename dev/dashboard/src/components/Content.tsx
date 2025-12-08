@@ -5,6 +5,7 @@ import PagesSite from './PagePays';
 import Utilisateurs from './Utilisateurs';
 import PageAntennes from './pageAntenne';
 import DashboardStats from './DashBoardStats';
+import Settings from './Settings';
 
 interface ContentProps {
   activeTab: string;
@@ -57,10 +58,7 @@ const Content = ({ activeTab }: ContentProps) => {
     pages: <PagesSite />,
     users: <Utilisateurs />,
     pages_antennes: <PageAntennes />,
-    settings: renderPlaceholder(
-      'Paramètres',
-      'Configurez les paramètres généraux de l\'application'
-    ),
+    settings: <Settings />
   };
 
   return (
