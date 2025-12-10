@@ -133,7 +133,7 @@ Vous trouverez ci-dessous les travaux et livrables réalisés par l'équipe clas
 | *SEMAINE* | *SPRINT* | *SOLUTION*  | *LIEN*
 | 36 | 0 | Document d'installation | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/HACKING.md
 | | | Document utilisateur | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docUtilisateur.adoc
-| | | Document technique | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docTechnique.adoc
+| | | Document technique | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/DOCUMENTATION_TECHNIQUE.md
 | | | Chiffrage du projet | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Chiffrage.adoc
 | 37/38 | 1 | Release Sprint 1| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/releases/tag/v1.0.0-sprint1
 | | | Cahier des charges | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/Cahier%20des%20charges%20-%20DREAMS.pdf
@@ -154,7 +154,7 @@ Cette section regroupe les principales documentations du projet (de la conceptio
 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/HACKING.md[Document d'installation]
 | [Document de conception]
 | https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docUtilisateur.adoc[Document Utilisateur]
-| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/docTechnique.adoc[Document Technique]
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Documentation/DOCUMENTATION_TECHNIQUE.md[Document Technique]
 | [Cahier de Recette]
 |===
 
