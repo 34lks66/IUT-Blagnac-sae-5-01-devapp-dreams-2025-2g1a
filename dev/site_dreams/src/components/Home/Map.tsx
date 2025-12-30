@@ -4,7 +4,6 @@ import { paths } from "../../data/paths";
 import FR from "../../assets/map_image/FR.png";
 import BF from "../../assets/map_image/BF.png";
 import CI from "../../assets/map_image/CI.png";
-import IT from "../../assets/map_image/IT.png";
 import TG from "../../assets/map_image/TG.png";
 
 type WorldMapProps = {
@@ -16,7 +15,6 @@ const detailCountry = [
   { country_code: "BF", pays: "Burkina Faso", description: "Découvrez nos actions au Burkina Faso", href: '/pays/burkina-faso', img: BF },
   { country_code: "TG", pays: "Togo", description: "Découvrez nos actions au Togo", href: '/pays/togo', img: TG },
   { country_code: "CI", pays: "Côte d'Ivoire", description: "Découvrez nos actions en Côte d'Ivoire", href: '/pays/cote-ivoire', img: CI },
-  { country_code: "IT", pays: "Italie", description: "Découvrez nos actions en Italie", href: '/pays/italie', img: IT },
 ];
 
 type Country = typeof detailCountry[number];
