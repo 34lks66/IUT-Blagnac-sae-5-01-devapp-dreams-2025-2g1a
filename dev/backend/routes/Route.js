@@ -12,6 +12,7 @@ const {
   updateBeneficiaire,
   deleteBeneficiaire,
   addPDF,
+  deletePDF,
 } = require("../controllers/BeneficiaireController");
 const {
   getPays,
@@ -60,7 +61,7 @@ const storage = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
@@ -73,7 +74,7 @@ const pdfStorage = multer.diskStorage({
     cb(null, pdfDir);
   },
   filename: (req, file, cb) => {
-    cb(null, "pdf_" + Date.now() + path.extname(file.originalname));
+    cb(null, file.originalname);
   },
 });
 const pdfUpload = multer({
@@ -200,6 +201,7 @@ router.post(
   pdfUpload.single("pdf"),
   addPDF
 );
+router.delete("/beneficiaire/:id/pdf", authVerif, deletePDF);
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
