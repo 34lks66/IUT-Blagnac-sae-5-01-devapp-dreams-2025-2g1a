@@ -14,13 +14,13 @@ const Mission: React.FC = () => {
     {
       image: accueil,
       title: 'Accueil',
-      description: 'DREAMS vous accueille dans son espace sécurisé afin de vous accompagner.',
+      description: <><span className="notranslate" translate="no">DREAMS</span> vous accueille dans son espace sécurisé afin de vous accompagner.</>,
       href: '/accueil_public',
     },
     {
       image: orientation,
       title: 'Orientation',
-      description: 'DREAMS vous propose un accompagnement personnalisé pour chaque personne.',
+      description: <><span className="notranslate" translate="no">DREAMS</span> vous propose un accompagnement personnalisé pour chaque personne.</>,
       href: '/orientation',
     },
     {
@@ -38,7 +38,7 @@ const Mission: React.FC = () => {
     {
       image: sensibilisation,
       title: 'Sensibilisation',
-      description: 'Découvrez nos actions de sensibilisations menés par DREAMS',
+      description: <>Découvrez nos actions de sensibilisations menés par <span className="notranslate" translate="no">DREAMS</span></>,
       href: '/sensibilisation',
     }
   ];

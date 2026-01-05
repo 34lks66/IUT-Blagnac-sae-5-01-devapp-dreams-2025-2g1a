@@ -66,7 +66,7 @@ const EvaluationOrientation: React.FC = () => {
             </h2>
             <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#ef4444_0%,#f59e0b_25%,#facc15_40%,#22c55e_60%,#3b82f6_80%,#8b5cf6_100%)]" />
             <p className="text-gray-700">
-              Nous recevons chaque personne avec écoute et bienveillance pour
+              Notre équipe <span className="notranslate" translate="no">DREAMS</span> est disponible pour vous écouter et vous orienter.illance pour
               comprendre sa situation, ses besoins et ses objectifs. À partir de
               ce premier échange, nous définissons ensemble un parcours
               d’accompagnement adapté.

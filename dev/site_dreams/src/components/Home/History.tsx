@@ -27,8 +27,8 @@ const Histoire: React.FC = () => {
     },
     {
       year: '2024',
-      title: 'DREAMS',
-      description: 'Officialisation sous le nom DREAMS pour affirmer notre vision : autonomie, indépendance et liberté.',
+      title: <span className="notranslate" translate="no">DREAMS</span>,
+      description: <>Officialisation sous le nom <span className="notranslate" translate="no">DREAMS</span> pour affirmer notre vision : autonomie, indépendance et liberté.</>,
     },
   ];
 
@@ -132,7 +132,7 @@ const Histoire: React.FC = () => {
           </h3>
 
           <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-light">
-            Chez DREAMS, nous croyons en la <span className="font-semibold text-gray-900">autonomie</span>,
+            Chez <span className="font-semibold text-gray-900 notranslate" translate="no">DREAMS</span>, nous croyons en la <span className="font-semibold text-gray-900">autonomie</span>,
             l'<span className="font-semibold text-gray-900">indépendance</span> et
             l'<span className="font-semibold text-gray-900">liberté</span>.
             <br className="hidden md:block" />
@@ -142,7 +142,7 @@ const Histoire: React.FC = () => {
           </p>
 
           <div className="mt-16 text-gray-400 text-sm font-bold tracking-[0.2em] uppercase">
-            — L'Équipe DREAMS
+            — L'Équipe <span className="notranslate" translate="no">DREAMS</span>
           </div>
         </motion.div>
 
