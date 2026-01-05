@@ -84,7 +84,7 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = [] }) => {
                             <path
                                 key={country.code}
                                 d={country.d}
-                                fill={isPaysDREAMS ? "#1e40af" : "#e5e7eb"}
+                                fill={isPaysDREAMS ? "#FBC02D" : "#e5e7eb"}
                                 fillOpacity={isHovered ? "0.9" : "1"}
                                 stroke={isHovered ? "#374151" : "#9ca3af"}
                                 strokeWidth={isHovered ? "0.15" : "0.05"}
@@ -148,7 +148,7 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = [] }) => {
             <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-gray-200 shadow-sm">
                 <div className="flex items-center space-x-4 text-sm">
                     <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 bg-blue-800 rounded-sm"></div>
+                        <div className="w-4 h-4 bg-yellow-500 rounded-sm"></div>
                         <span className="text-gray-700">Pays d'action</span>
                     </div>
                     <div className="flex items-center space-x-2">
