@@ -1,7 +1,12 @@
 import A from "../assets/contact_image/A.png";
 import B from "../assets/contact_image/B.png";
+import L1 from "../assets/contact_image/L1.png";
 import L8 from "../assets/contact_image/L8.png";
-import L37 from "../assets/contact_image/37.png";
+import L9 from "../assets/contact_image/L9.png";
+import L14 from "../assets/contact_image/L14.png";
+import L27 from "../assets/contact_image/27.png";
+import L15 from "../assets/contact_image/15.png";
+import L23 from "../assets/contact_image/23.png";
 import none from "../assets/none.jpg";
 
 function Contact() {
@@ -16,21 +21,23 @@ function Contact() {
         <div className="flex flex-col gap-3">
             <div className="text-2xl font-bold text-gray-800 border-b pb-2">Adresse</div>
             <p className="text-gray-700 font-medium">Siège social - Toulouse</p>
-            <p className="text-base font-medium text-gray-600">13 RUE D'HYERES 31500 Toulouse</p>
+            <p className="text-base font-medium text-gray-600">38 Rue d'Aubuisson, 31000 Toulouse</p>
             <div className="flex flex-col border border-gray-200 bg-gray-50 p-4 rounded-md gap-2">
-                <p className="font-medium text-gray-700">à quelques minutes de la Côte Pavée et du centre ville</p>
+                <p className="font-medium text-gray-700">à proximité du centre-ville et de Jean Jaurès</p>
                 <div className="flex items-center gap-2">
                     <img src={A} alt="ligne A" className="w-7 h-6"/>
-                    <span>Ligne A : Jolimont - à environ 15 min à pied</span>
-                </div>
-                <div className="flex items-center gap-2">
                     <img src={B} alt="ligne B" className="w-7 h-6"/>
-                    <span>Ligne B : François Verdier - à environ 20 min à pied</span>
+                    <span>Ligne A ou B : Jean Jaurès - à environ 3 min à pied</span>
                 </div>
                 <div className="flex items-center gap-2">
+                    <img src={L1} alt="linéo L1" className="w-7 h-6"/>
                     <img src={L8} alt="linéo L8" className="w-7 h-6"/>
-                    <img src={L37} alt="linéo L8" className="w-7 h-6"/>
-                    <span>Ligne L8 et 37 desservent le quartier</span>
+                    <img src={L9} alt="linéo L8" className="w-7 h-6"/>
+                    <img src={L14} alt="linéo L8" className="w-7 h-6"/>
+                    <img src={L27} alt="linéo L8" className="w-7 h-6"/>
+                    <img src={L15} alt="linéo L8" className="w-7 h-6"/>
+                    <img src={L23} alt="linéo L8" className="w-7 h-6"/>
+                    <span>desservent aussi DREAMS</span>
                 </div>
             </div>
         </div>
@@ -89,7 +96,7 @@ function Contact() {
         <div className="border border-gray-200 rounded-lg overflow-hidden shadow-sm h-[350px]">
             <iframe 
               title="Localisation"
-              src="https://www.google.com/maps?q=13+RUE+D'HYERES+31500+Toulouse&output=embed"
+              src="https://www.google.com/maps?q=38+Rue+d'Aubuisson+31000+Toulouse&output=embed"
               className="w-full h-full border-0"
             //   allowFullScreen=""
               loading="lazy"
