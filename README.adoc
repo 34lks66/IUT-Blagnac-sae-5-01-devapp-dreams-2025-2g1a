@@ -202,6 +202,8 @@ link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blo
 link:https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/234604ee0669a3e5754da850535137d654388c6c/R%C3%A9unions/Client/CR/CR%2028.11_Semaine%2048.pdf[CR S48] 
 | Client, Léo, Mucahit
 | 06/12/2025 | [ODJ S49] | [CR S49]  | Client, Léo, Mucahit
+| 29/12/2025 | [ODJ S01](1) | [CR S01](1)  | Client, Léo
+| 01/01/2026 | [ODJ S01](2) | [CR S01](2)  | Client, Léo
 |===
 
 == Planning Télétravail 
