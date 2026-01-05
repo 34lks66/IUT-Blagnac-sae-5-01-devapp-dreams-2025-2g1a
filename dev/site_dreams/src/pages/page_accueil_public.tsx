@@ -71,7 +71,7 @@ function PageAccueilPublic() {
               Accueil / Accueil du public LGBTQ+
             </div>
             <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-              Bienvenue en Europe
+              Bienvenue chez DREAMS
             </h1>
             <p className="text-gray-700">
               Un espace sécurisé où chaque identité est respectée, protégée et
