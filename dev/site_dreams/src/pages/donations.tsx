@@ -82,7 +82,8 @@ const Donations: React.FC = () => {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <img
-          className="w-full h-[42vh] md:h-[54vh] object-cover object-center"
+          className="w-full h-[42vh] md:h-[54vh] object-cover object-center notranslate"
+          translate="no"
           src="/images/donate.png"
           alt="Faire un don - DREAMS"
         />
@@ -366,7 +367,7 @@ const Donations: React.FC = () => {
                     onChange={(e) => setNewsOptin(e.target.checked)}
                     className="mt-1"
                   />
-                  <span className="text-sm">Je souhaite recevoir des nouvelles de DREAMS.</span>
+                  <span className="text-sm">Je souhaite recevoir des nouvelles de <span className="notranslate" translate="no">DREAMS</span>.</span>
                 </label>
               </div>
             </div>

@@ -44,7 +44,7 @@ export default function Home() {
             </h2>
             <div className="w-32 h-1 bg-gray-300 mx-auto mb-8"></div>
             <p className="text-2xl text-gray-600 max-w-5xl mx-auto leading-relaxed">
-              DREAMS déploie son expertise à travers l'Europe et l'Afrique.
+              <span className="notranslate" translate="no">DREAMS</span> déploie son expertise à travers l'Europe et l'Afrique.
               Explorez notre carte interactive pour découvrir l'étendue de nos
               actions et engagements.
             </p>

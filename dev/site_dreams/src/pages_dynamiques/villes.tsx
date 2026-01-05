@@ -11,11 +11,11 @@ type Antenne = {
   galerie1: string;
   galerie2: string;
   pays:
-    | string
-    | {
-        _id: string;
-        nom: string;
-      };
+  | string
+  | {
+    _id: string;
+    nom: string;
+  };
 };
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -24,7 +24,7 @@ function Villes() {
   console.log("LE TesT:", window.location.href);
   const [antennes, setAntennes] = useState<Antenne[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   const fetchAntennes = () => {
     fetch(`${API_BASE}/api/antenne/get`)
       .then((res) => res.json())
@@ -95,7 +95,7 @@ function Villes() {
                 Antenne de {ville.nom}
               </h1>
               <p className="text-xl text-gray-700 leading-relaxed">
-                Découvrez l'antenne DREAMS de <span className="font-semibold text-gray-900">{ville.nom}</span>,
+                Découvrez l'antenne <span className="notranslate" translate="no">DREAMS</span> de <span className="font-semibold text-gray-900">{ville.nom}</span>,
                 un espace <span className="font-semibold text-gray-900">sécurisé et inclusif</span> pour la communauté
                 <span className="font-semibold text-gray-900"> LGBTQIA+</span>.
               </p>

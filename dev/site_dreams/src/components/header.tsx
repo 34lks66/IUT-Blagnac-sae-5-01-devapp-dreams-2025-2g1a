@@ -18,7 +18,7 @@ interface CountryGroup {
 }
 
 const Logo = () => (
-  <a href="/" 
+  <a href="/"
   // className="min-w-[128px] min-h-[128px]"
   >
     <img src={logo} alt="Logo" className="h-32 w-auto" />
@@ -156,7 +156,7 @@ const Header = () => {
           <div className="flex items-center justify-center space-x-3">
             <a href="/" className="flex items-center space-x-3">
               <Logo />
-              <span className="text-4xl font-bold bg-gradient-to-r from-yellow-500 to-amber-700 bg-clip-text text-transparent">
+              <span className="text-4xl font-bold bg-gradient-to-r from-yellow-500 to-amber-700 bg-clip-text text-transparent notranslate" translate="no">
                 DREAMS
               </span>
             </a>
@@ -391,8 +391,8 @@ const Header = () => {
                               <ChevronUp
                                 size={14}
                                 className={`transform transition-transform duration-300 ${openCountry === pays.name
-                                    ? "rotate-180 text-amber-600"
-                                    : ""
+                                  ? "rotate-180 text-amber-600"
+                                  : ""
                                   }`}
                               />
                             )}

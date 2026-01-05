@@ -8,7 +8,7 @@ function PagePolitique() {
             Politique de confidentialité
           </h1>
           <p className="mt-4 text-gray-600">
-            L’association <span className="font-semibold">DREAMS</span> attache une grande importance à la protection des données
+            L’association <span className="font-semibold notranslate" translate="no">DREAMS</span> attache une grande importance à la protection des données
             personnelles des personnes qu’elle accompagne, de ses bénévoles et des visiteurs de son site internet.
             La présente politique a pour objectif d’expliquer de manière claire et transparente comment vos données sont
             collectées, utilisées et protégées conformément au RGPD.
@@ -18,7 +18,7 @@ function PagePolitique() {
         <section className="mb-8" id="responsable">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">1. Responsable du traitement</h2>
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-gray-800">
-            <p className="font-semibold">Association DREAMS</p>
+            <p className="font-semibold"><span className="notranslate" translate="no">Association DREAMS</span></p>
             <p>38 rue d’Aubuisson</p>
             <p>31000 Toulouse – France</p>
             <p className="mt-2">
@@ -62,7 +62,7 @@ function PagePolitique() {
           <ul className="list-disc list-inside space-y-1 text-gray-700 mb-3">
             <li>Répondre aux demandes de contact et de bénévolat </li>
             <li>Organiser les activités de l’association </li>
-            <li>Assurer la communication interne et externe de DREAMS.</li>
+            <li>Assurer la communication interne et externe de <span className="notranslate" translate="no">DREAMS</span>.</li>
           </ul>
           <p className="text-gray-700">
             Les données sont conservées :
@@ -103,7 +103,7 @@ function PagePolitique() {
         <section className="mb-8" id="cookies">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">5. Cookies</h2>
           <p className="text-gray-700 mb-3">
-            Le site de l’association DREAMS peut utiliser des cookies techniques et statistiques anonymes.
+            Le site de l’association <span className="notranslate" translate="no">DREAMS</span> peut utiliser des cookies techniques et statistiques anonymes.
             Aucun cookie publicitaire n’est installé sans votre consentement.
           </p>
           <p className="text-gray-700">
@@ -117,7 +117,7 @@ function PagePolitique() {
             Mentions légales
           </h1>
           <p className="text-gray-700 mb-2">
-            Le présent site est édité par l’association <strong>DREAMS</strong>,
+            Le présent site est édité par l’association <strong className="notranslate" translate="no">DREAMS</strong>,
             association à but non lucratif régie par la loi du 1er juillet 1901, dont le siège social est situé au :
           </p>
           <p className="text-gray-700 mb-2">
@@ -140,7 +140,7 @@ function PagePolitique() {
             Hébergeur : <strong>[Nom de l’hébergeur]</strong> — [Adresse complète, pays]
           </p>
           <p className="text-gray-700">
-            Le site www.dreams-asso.org a pour objet de présenter les actions, missions et valeurs de l’association DREAMS.
+            Le site www.dreams-asso.org a pour objet de présenter les actions, missions et valeurs de l’association <span className="notranslate" translate="no">DREAMS</span>.
             Toute reproduction, utilisation ou diffusion du contenu sans autorisation est interdite.
           </p>
         </section>

@@ -58,7 +58,7 @@ const About: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-6 text-xl text-gray-700 leading-relaxed"
           >
-            <p><span className="font-semibold text-gray-900">DREAMS</span> accompagne les personnes en situation d'exil ou de rupture sociale vers l'autonomie.</p>
+            <p><span className="font-semibold text-gray-900 notranslate" translate="no">DREAMS</span> accompagne les personnes en situation d'exil ou de rupture sociale vers l'autonomie.</p>
             <p>Fondée en <span className="font-medium text-gray-900">2024</span>, notre association répond aux besoins des personnes LGBTQIA+.</p>
             <p>Notre nom incarne l'autonomie, l'indépendance et la liberté.</p>
           </motion.div>
@@ -69,7 +69,7 @@ const About: React.FC = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <img src={people} alt="Équipe DREAMS" className="rounded-2xl shadow-md border border-gray-200" />
+            <img src={people} alt="Équipe DREAMS" className="rounded-2xl shadow-md border border-gray-200 notranslate" translate="no" />
           </motion.div>
         </div>
 
