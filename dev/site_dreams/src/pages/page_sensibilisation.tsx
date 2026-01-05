@@ -256,7 +256,7 @@ function Sensibilisation() {
                 <p>Une statistique de fou choquante</p>
             </section> */}
 
-            <section className="difficultes">
+            {/* <section className="difficultes">
                 <div className="texte">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 text-center">
                             D'importantes{" "}
@@ -288,7 +288,7 @@ function Sensibilisation() {
                     Les personnes LGBT sont plus fréquemment en proie aux problèmes mentaux que la population dans son ensemble.
                   </p>
               </div>
-            </section>
+            </section> */}
     </main>
   )
 }
