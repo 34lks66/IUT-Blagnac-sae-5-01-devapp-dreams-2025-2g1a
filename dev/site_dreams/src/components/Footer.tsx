@@ -43,7 +43,7 @@ const FooterMain: React.FC = () => {
     <footer className="bg-white text-gray-800 text-[13px]">
       <div className="max-w-[1740px] mx-auto px-4 py-5">
         {/* ROW */}
-        <div className="grid grid-cols-1 gap-6 items-start md:[grid-template-columns:1.2fr_1fr_1fr]">
+        <div className="grid grid-cols-1 gap-6 items-start md:grid-cols-3">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2">
@@ -61,11 +61,11 @@ const FooterMain: React.FC = () => {
           </div>
 
           {/* Liens utiles */}
-          <nav aria-label="Liens utiles">
-            <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText}`}>
+          <nav aria-label="Liens utiles" className="mx-auto text-center md:text-left">
+            <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText} text-center`}>
               Liens utiles
             </h3>
-            <ul className="space-y-0.5">
+            <ul className="space-y-0 text-center">
               <LinkItem href="/accueil">Accueil</LinkItem>
               <LinkItem href="/public-migrant">
                 Accueil du public migrant LGBTQ+
@@ -82,7 +82,7 @@ const FooterMain: React.FC = () => {
           </nav>
 
           {/* Contact + légaux + réseaux */}
-          <div>
+          <div className="md:justify-self-end">
             <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText}`}>
               Contact
             </h3>
