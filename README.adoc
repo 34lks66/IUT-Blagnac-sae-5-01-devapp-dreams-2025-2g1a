@@ -121,7 +121,7 @@ Cette partie est résérvée seulement au membres de l'association qui ont l'acc
     - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%201.adoc[Backlog sprint 1] +
     - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%202.adoc[Backlog sprint 2] +
     - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%203.adoc[Backlog sprint 3] +
-    - https://github.com/users/34lks66/projects/2/views/9[Backlog sprint 4] +
+    - https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/blob/main/Sprint%20Backlogs/Sprint%204.adoc[Backlog sprint 4] +
     - [Backlog sprint 5]
 
 === Livrables
