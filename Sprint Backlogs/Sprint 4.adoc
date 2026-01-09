@@ -1,0 +1,107 @@
+= Sprint 4 - Projet DREAMS
+
+Sprint 4 réalisé dans le cadre du projet DREAMS, terminé le 22 novembre 2025.
+
+== Objectifs du Sprint 4
+
+- Finaliser le **formulaire d’adhésion** (report du Sprint 3).
+- Développer le cœur de l’**Interface Administrateur** (Back-office).
+- Implémenter la sécurité : **Authentification** admin, gestion des rôles et **protection des routes API**.
+- Mettre en place la gestion dynamique des contenus pour les pages Pays, Antennes, Agendas et Actualités via le dashboard.
+- Assurer la conformité **RGPD** (Mentions légales, Politique de confidentialité).
+- Réaliser des **améliorations globales** sur le front-end (Accueil, Actualités) et l'expérience administrateur (redirections auto).
+- Mener une réflexion d'équipe sur l'outil de gestion futur.
+
+== Liste des tâches réalisées
+
+|===
+| ID | Tâche | Lien vers la tâche | État
+
+| 57
+| *[TASK] Créer le formulaire d’adhésion*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/57 | Fini
+
+| 61
+| *[US] Développement de l'Interface Admin*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/61 | Fini
+
+| 62
+| *[TASK] Implémenter l'authentification pour l'interface admin*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/62 | Fini
+
+| 63
+| *[TASK] Gérer les rôles utilisateur*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/63 | Fini
+
+| 64
+| *[TASK] Gérer les contenus des pages Pays*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/64 | Fini
+
+| 65
+| *[TASK] Gérer les contenus des pages Antennes*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/65 | Fini
+
+| 66
+| *[TASK] Gérer l'agenda général et les agendas antennes*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/66 | Fini
+
+| 67
+| *[TASK] Gérer la section Actualités*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/67 | Fini
+
+| 68
+| *[US] RGPD*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/68 | Fini
+
+| 69
+| *[TASK] Créer la page Mentions légales*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/69 | Fini
+
+| 70
+| *[TASK] Créer la page Politique de confidentialité*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/70 | Fini
+
+| 71
+| *[US] Amélioration globale*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/71 | Fini
+
+| 72
+| *[TASK] Amélioration de la page d’accueil*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/72 | Fini
+
+| 73
+| *[TASK] Amélioration de la section Actualités*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/73 | Fini
+
+| 74
+| *[US] Amélioration du dashboard admin*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/74 | Fini
+
+| 75
+| *[TASK] Création automatique de redirection pour les pages Pays et Antenne*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/75 | Fini
+
+| 76
+| *[US] Protection des routes API*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/76 | Fini
+
+| 77
+| *[US] Réflexion en équipe sur l’outil de gestion*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/77 | Fini
+
+| 68
+| *[TASK] Créer un guide administrateur*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/68 | Déplacé → Sprint 5
+
+| 98
+| *[US]: Gestion des paramètres du compte utilisateur*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/98 | Déplacé → Sprint 5
+	
+|===
+
+== Remarques
+
+Ce sprint a été décisif pour la partie **administration** et **sécurité** du projet.
+La protection des données a été renforcée grâce à la mise en place de l'authentification, des rôles utilisateurs et de la sécurisation des routes API, ainsi que l'intégration des pages légales (**RGPD**).
+Le **tableau de bord administrateur** est désormais fonctionnel pour la gestion complète des contenus (Pays, Antennes, Agendas, Actus).
+Des améliorations ergonomiques ont été apportées au site public pour peaufiner l'expérience utilisateur avant la livraison finale.
