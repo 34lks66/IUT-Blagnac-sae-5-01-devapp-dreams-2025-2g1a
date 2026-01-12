@@ -98,6 +98,13 @@ app.get('/', (req, res) => {
             saveEvent: 'POST /api/event/save',
             updateEvent: 'PUT /api/event/update/:id',
             deleteEvent: 'DELETE /api/event/delete/:id'
+          },
+          projects: {
+            getProjects: 'GET /api/project/get',
+            getProject: 'GET /api/project/get/:id',
+            saveProject: 'POST /api/project/save',
+            updateProject: 'PUT /api/project/update/:id',
+            deleteProject: 'DELETE /api/project/delete/:id'
           }
         }
     });

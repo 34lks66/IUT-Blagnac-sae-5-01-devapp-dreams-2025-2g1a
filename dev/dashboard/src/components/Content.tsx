@@ -6,6 +6,7 @@ import Beneficiaires from './Beneficiaires';
 import PageAntennes from './pageAntenne';
 import DashboardStats from './DashboardStats';
 import Parametre from './Parametre';
+import Projects from './Projects';
 
 interface ContentProps {
   activeTab: string;
@@ -35,6 +36,7 @@ const Content = ({ activeTab }: ContentProps) => {
   const contentMap: Record<string, React.ReactElement> = {
     dashboard: <DashboardStats/>,
     agenda: <AgendaAdmin />,
+    projects: <Projects />,
     accueil: <Accueil />,
     pages: <PagesSite />,
     users: <Utilisateurs />,
