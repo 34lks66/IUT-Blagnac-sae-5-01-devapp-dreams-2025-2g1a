@@ -43,17 +43,17 @@ const FooterMain: React.FC = () => {
     <footer className="bg-white text-gray-800 text-[13px]">
       <div className="max-w-[1740px] mx-auto px-4 py-5">
         {/* ROW */}
-        <div className="grid grid-cols-1 gap-6 items-start md:[grid-template-columns:1.2fr_1fr_1fr]">
+        <div className="grid grid-cols-1 gap-6 items-start md:grid-cols-3">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2">
               {/* <img src="/images/logo-dreams.png" alt="DREAMS" className="w-11 h-11 object-contain" /> */}
-              <span className={`text-[22px] font-extrabold tracking-wide ${goldText}`}>
+              <span className={`text-[22px] font-extrabold tracking-wide ${goldText} notranslate`} translate="no">
                 DREAMS
               </span>
             </div>
             <p className="mt-2 leading-relaxed text-gray-800">
-              DREAMS est une association à but non lucratif basée à Toulouse et active en
+              <span className="notranslate" translate="no">DREAMS</span> est une association à but non lucratif basée à Toulouse et active en
               France, en Europe et en Afrique. Nous accompagnons les personnes LGBTQ+ dans
               l’accueil, l’orientation, l’hébergement solidaire, l’accompagnement
               administratif et la sensibilisation.
@@ -61,18 +61,18 @@ const FooterMain: React.FC = () => {
           </div>
 
           {/* Liens utiles */}
-          <nav aria-label="Liens utiles">
-            <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText}`}>
+          <nav aria-label="Liens utiles" className="mx-auto text-center md:text-left">
+            <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText} text-center`}>
               Liens utiles
             </h3>
-            <ul className="space-y-0.5">
-              <LinkItem href="/accueil">Accueil</LinkItem>
-              <LinkItem href="/public-migrant">
+            <ul className="space-y-0 text-center">
+              <LinkItem href="/">Accueil</LinkItem>
+              <LinkItem href="/accueil_public">
                 Accueil du public migrant LGBTQ+
               </LinkItem>
-              <LinkItem href="/evaluation-orientation">Évaluation & orientation</LinkItem>
+              <LinkItem href="/evaluation">Évaluation & orientation</LinkItem>
               <LinkItem href="/hebergement">Hébergement solidaire & temporaire</LinkItem>
-              <LinkItem href="/accompagnement-admin-juridique">
+              <LinkItem href="/accompagnement">
                 Accompagnement administratif & juridique
               </LinkItem>
               <LinkItem href="/sensibilisation">
@@ -82,7 +82,7 @@ const FooterMain: React.FC = () => {
           </nav>
 
           {/* Contact + légaux + réseaux */}
-          <div>
+          <div className="md:justify-self-end">
             <h3 className={`mb-2 text-[15px] font-bold text-slate-900 ${goldText}`}>
               Contact
             </h3>
@@ -97,6 +97,11 @@ const FooterMain: React.FC = () => {
                 <a className="hover:underline" href="mailto:assodreamsfr@gmail.com">
                   assodreamsfr@gmail.com
                 </a>
+              </li>
+              <li>
+                <p className="text-gray-700 mt-1">
+                  Notre équipe <span className="notranslate" translate="no">DREAMS</span> est disponible pour vous écouter et vous orienter.
+                </p>
               </li>
               <li>
                 <span className="text-gray-500">
@@ -145,7 +150,7 @@ const FooterMain: React.FC = () => {
 
         {/* Separator + bottom */}
         <div className="border-b border-gray-200 my-4" />
-        <div className="text-center text-gray-500 pb-3">© {year} / DREAMS</div>
+        <div className="text-center text-gray-500 pb-3">© {year} / <span className="notranslate" translate="no">DREAMS</span></div>
       </div>
     </footer>
   );

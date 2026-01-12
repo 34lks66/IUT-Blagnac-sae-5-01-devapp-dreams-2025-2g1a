@@ -4,7 +4,6 @@ import { paths } from "../../data/paths";
 import FR from "../../assets/map_image/FR.png";
 import BF from "../../assets/map_image/BF.png";
 import CI from "../../assets/map_image/CI.png";
-import IT from "../../assets/map_image/IT.png";
 import TG from "../../assets/map_image/TG.png";
 
 type WorldMapProps = {
@@ -16,7 +15,6 @@ const detailCountry = [
   { country_code: "BF", pays: "Burkina Faso", description: "Découvrez nos actions au Burkina Faso", href: '/pays/burkina-faso', img: BF },
   { country_code: "TG", pays: "Togo", description: "Découvrez nos actions au Togo", href: '/pays/togo', img: TG },
   { country_code: "CI", pays: "Côte d'Ivoire", description: "Découvrez nos actions en Côte d'Ivoire", href: '/pays/cote-ivoire', img: CI },
-  { country_code: "IT", pays: "Italie", description: "Découvrez nos actions en Italie", href: '/pays/italie', img: IT },
 ];
 
 type Country = typeof detailCountry[number];
@@ -86,7 +84,7 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = [] }) => {
                             <path
                                 key={country.code}
                                 d={country.d}
-                                fill={isPaysDREAMS ? "#1e40af" : "#e5e7eb"}
+                                fill={isPaysDREAMS ? "#FBC02D" : "#e5e7eb"}
                                 fillOpacity={isHovered ? "0.9" : "1"}
                                 stroke={isHovered ? "#374151" : "#9ca3af"}
                                 strokeWidth={isHovered ? "0.15" : "0.05"}
@@ -150,7 +148,7 @@ const Map: React.FC<WorldMapProps> = ({ paysDreams = [] }) => {
             <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-gray-200 shadow-sm">
                 <div className="flex items-center space-x-4 text-sm">
                     <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 bg-blue-800 rounded-sm"></div>
+                        <div className="w-4 h-4 bg-yellow-500 rounded-sm"></div>
                         <span className="text-gray-700">Pays d'action</span>
                     </div>
                     <div className="flex items-center space-x-2">

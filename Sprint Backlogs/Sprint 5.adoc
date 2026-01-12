@@ -1,0 +1,53 @@
+= Sprint 5 - Projet DREAMS
+
+Sprint 5 réalisé dans le cadre du projet DREAMS, terminé le 21 décembre 2025.
+
+== Objectifs du Sprint 5
+
+- Affiner le **système de rôles & permissions** pour garantir une hiérarchie d'accès stricte.
+- Renforcer la **sécurité** globale de l'application.
+- Implémenter le workflow de **suivi des dossiers bénévoles**.
+- Continuer l'**amélioration de l’expérience utilisateur** sur le site web.
+- Préparer la présentation finale et les supports de communication (**PITCH**).
+
+== Liste des tâches réalisées
+
+|===
+| ID | Tâche | Lien vers la tâche | État
+
+| 78
+| *[US] Système de rôles & permissions*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/78 | Fini
+
+| 79
+| *[US] Sécurité*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/79 | Fini
+
+| 80
+| *[US] Suivi des dossiers bénévoles*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/80 | Fini
+
+| 81
+| *[US] Amélioration de l’expérience utilisateur sur le site web*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/81 | Fini
+
+| 82
+| *[US] PITCH*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/82 | Fini
+
+| 83
+| *[TASK] Créer un guide administrateur*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/83 | Déplacé -> Sprint 6
+
+| 84
+| *[US] Gestion des paramètres du compte utilisateur*
+| https://github.com/34lks66/IUT-Blagnac-sae-5-01-devapp-dreams-2025-2g1a/issues/84 | Déplacé -> Sprint 6
+|===
+
+== Remarques
+
+Ce sprint s'est concentré sur la consolidation de l'application avant la phase finale.
+L'accent a été mis sur la **sécurité** et la gestion fine des droits utilisateurs (**Rôles & Permissions**), essentiels pour le déploiement.
+La fonctionnalité de **suivi des bénévoles** a été ajoutée pour répondre aux besoins métiers de l'association.
+En parallèle, l'équipe a travaillé sur la préparation du **Pitch** final.
+La rédaction du guide administrateur et la gestion avancée des paramètres de compte ont été reportées au Sprint 6 pour prioriser la stabilité du cœur de l'application.

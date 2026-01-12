@@ -38,7 +38,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-lg md:text-xl text-gray-200/90 mb-8 max-w-xl mx-auto lg:mx-0">
-              Chez <span className="font-semibold text-white">DREAMS</span>, nous construisons un avenir plus juste pour les personnes en situation d'exil ou en rupture sociale.
+              Chez <span className="font-semibold text-white notranslate" translate="no">DREAMS</span>, nous construisons un avenir plus juste pour les personnes en situation d'exil ou en rupture sociale.
             </p>
 
             {/* CTA */}

@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import alda from "../../assets/partenaire/alda.png";
 import actup from "../../assets/partenaire/act-up.jpeg";
 import enipse from "../../assets/partenaire/enipse.jpg";
 import jeko from "../../assets/partenaire/jeko.jpg";
 import rester from "../../assets/partenaire/rester.jpg";
 
 const partners = [
-  { name: "Alda", logo: alda },
+  { name: "Alda", logo: "/images/alda.jpg" },
   { name: "Act-up", logo: actup },
   { name: "Enipse", logo: enipse },
   { name: "Jeko", logo: jeko },

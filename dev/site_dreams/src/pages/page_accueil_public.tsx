@@ -71,7 +71,7 @@ function PageAccueilPublic() {
               Accueil / Accueil du public LGBTQ+
             </div>
             <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-              Bienvenue en Europe
+              Bienvenue chez DREAMS
             </h1>
             <p className="text-gray-700">
               Un espace sécurisé où chaque identité est respectée, protégée et
@@ -381,7 +381,7 @@ function PageAccueilPublic() {
         <button
           className="group relative item card rounded-xl text-center border-t-4 border-t-yellow-500 bg-white shadow-md px-5 py-3 mb-2 overflow-hidden transition-all duration-400 hover:shadow-lg"
           onClick={() => {
-            window.location.href = "/formulaire-aide";
+            window.location.href = "/contact";
           }}
         >
           <div className="absolute inset-0 bg-yellow-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>

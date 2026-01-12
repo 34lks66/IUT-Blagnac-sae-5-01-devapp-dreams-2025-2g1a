@@ -66,7 +66,7 @@ const EvaluationOrientation: React.FC = () => {
             </h2>
             <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#ef4444_0%,#f59e0b_25%,#facc15_40%,#22c55e_60%,#3b82f6_80%,#8b5cf6_100%)]" />
             <p className="text-gray-700">
-              Nous recevons chaque personne avec écoute et bienveillance pour
+              Notre équipe <span className="notranslate" translate="no">DREAMS</span> est disponible pour vous écouter et vous orienter.illance pour
               comprendre sa situation, ses besoins et ses objectifs. À partir de
               ce premier échange, nous définissons ensemble un parcours
               d’accompagnement adapté.
@@ -197,21 +197,27 @@ const EvaluationOrientation: React.FC = () => {
       </section>
 
       {/* CTA */}
-      <section className="max-w-[1100px] mx-auto px-4 pb-10 pt-4">
-        <div className="border border-yellow-200 bg-yellow-50 rounded-2xl p-5">
-          <h3 className="text-lg font-extrabold">Besoin d’un accompagnement ?</h3>
-          <p className="text-gray-700 mt-1">
-            Notre équipe DREAMS est disponible pour vous écouter et vous orienter.
-          </p>
-          <div className="flex flex-wrap gap-2 mt-3">
-            <a
-              href="mailto:assodreamsfr@gmail.com"
-              className="inline-block px-4 py-2 rounded-xl font-bold border border-black text-black hover:bg-black hover:text-white transition"
-            >
-              Nous écrire
-            </a>
+      <section className="text-center max-w-3xl mx-auto py-7 px-4">
+        <button
+          className="group relative item card rounded-xl text-center border-t-4 border-t-yellow-500 bg-white shadow-md px-5 py-3 mb-2 mt-7 overflow-hidden transition-all duration-400 hover:shadow-lg w-full"
+          onClick={() => {
+            window.location.href = "/contact";
+          }}
+        >
+          <div className="absolute inset-0 bg-yellow-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
+          <div className="relative z-10">
+            <div className="title-content flex justify-center">
+              <span className="font-bold title font-title text-gray-800 group-hover:text-white transition-colors duration-300">
+                Besoin d’aide ?
+              </span>
+            </div>
+            <div className="btn-content flex justify-center mb-3 mt-3">
+              <span className="btn my-3 text-gray-600 group-hover:text-white transition-colors duration-300">
+                Contactez-nous pour un accompagnement personnalisé.
+              </span>
+            </div>
           </div>
-        </div>
+        </button>
       </section>
     </main>
   );

@@ -45,7 +45,7 @@ function Accompagnement() {
                     <p className="text-gray-700 max-w-4xl mx-auto mb-6">
                         Arriver dans un nouveau pays peut être un vrai parcours du combattant :
                         papiers, droits, démarches… autant de sources de stress. Avec{" "}
-                        <span className="font-bold">DREAMS</span>, personne n'est seul : nous
+                        <span className="font-bold notranslate" translate="no">DREAMS</span>, personne n'est seul : nous
                         accompagnons chacun pas à pas pour faciliter ses démarches et retrouver
                         confiance et sécurité.
                     </p>
@@ -198,7 +198,7 @@ function Accompagnement() {
                 <button
                     className="group relative item card rounded-xl text-center border-t-4 border-t-yellow-500 bg-white shadow-md px-5 py-3 mb-2 overflow-hidden transition-all duration-400 hover:shadow-lg"
                     onClick={() => {
-                        window.location.href = "/formulaire-aide";
+                        window.location.href = "/contact";
                     }}
                 >
                     <div className="absolute inset-0 bg-yellow-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] z-0"></div>
@@ -210,7 +210,7 @@ function Accompagnement() {
                         </div>
                         <div className="btn-content flex justify-center mb-3 mt-3">
                             <span className="btn my-3 text-gray-600 group-hover:text-white transition-colors duration-300">
-                                Remplissez notre formulaire d’accompagnement et un bénévole <span className="font-bold">DREAMS </span>
+                                Remplissez notre formulaire d’accompagnement et un bénévole <span className="font-bold notranslate" translate="no">DREAMS </span>
                                 prendra contact avec vous rapidement.
                             </span>
                         </div>

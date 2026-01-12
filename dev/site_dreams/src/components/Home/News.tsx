@@ -31,7 +31,7 @@ const News: React.FC = () => {
           {/* En-tête grande et sobre */}
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Nos Actualités
+              Actualités
             </h2>
             <div className="w-32 h-1 bg-gray-300 mx-auto mb-8"></div>
             <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">

@@ -87,6 +87,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingCountry, setDeletingCountry] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // ----- Load pays + news -----
@@ -210,7 +211,6 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
         fd.append("number", number);
         const r = await apiFetch(`/api/pays/update/${country._id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
           body: fd,
         });
 
@@ -264,7 +264,6 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
               fd.append("image", n.image);
               const r = await apiFetch(`/api/newspays/update/${n._id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
                 body: fd,
               });
               if (!r.ok) throw new Error("Échec update news (file)");
@@ -313,10 +312,6 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
   // Delete pays (optionnel dans le form)
   const handleDeleteCountry = async () => {
     if (!country?._id) return;
-    const ok = window.confirm(
-      `Supprimer le pays "${country.nom}" ?\n\nToutes ses actualités liées seront supprimées.`
-    );
-    if (!ok) return;
 
     try {
       setDeletingCountry(true);
@@ -325,7 +320,6 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
       });
       if (!res.ok) throw new Error("Échec suppression du pays");
 
-      alert("Pays supprimé !");
       if (onBack) onBack();
     } catch (e) {
       console.error(e);
@@ -383,7 +377,7 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
           {role !== "X" && (
             <button
               type="button"
-              onClick={handleDeleteCountry}
+              onClick={() => setShowDeleteModal(true)}
               disabled={deletingCountry}
               className="text-sm px-3 py-1.5 rounded-md bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 disabled:opacity-60"
               title="Supprimer ce pays et toutes ses actualités"
@@ -610,6 +604,48 @@ const PagePaysForm: React.FC<Props> = ({ countryId, onBack }) => {
           {saving ? "Enregistrement…" : "Enregistrer"}
         </button>
       </div>
+
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div
+          className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowDeleteModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold mb-4 text-red-600">
+              Confirmer la suppression
+            </h2>
+            <p className="text-gray-700 mb-6">
+              Voulez-vous vraiment supprimer le pays "<strong>{country.nom}</strong>" ?<br />
+              Toutes ses actualités seront également supprimées.<br />
+              Cette action est irréversible.
+            </p>
+
+            <div className="flex gap-4">
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  setShowDeleteModal(false);
+                  await handleDeleteCountry();
+                }}
+                className="flex-1 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-medium"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 };
