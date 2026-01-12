@@ -59,13 +59,24 @@ function Parametre() {
     }));
   };
 
+  // Regex de validation (same as Utilisateurs.tsx)
+  const phoneRegex = /^[+]?[\d\s.-]{6,20}$/;
+
   const [profileMessage, setProfileMessage] = useState("");
+  const [profileErrors, setProfileErrors] = useState<{ [key: string]: string }>({});
   const [isProfileLoading, setIsProfileLoading] = useState(false);
 
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProfileLoading(true);
     setProfileMessage("");
+    setProfileErrors({});
+
+    if (!phoneRegex.test(profileData.telephone)) {
+      setProfileErrors({ telephone: "Format de téléphone invalide (chiffres, espaces, +, - autorisés)" });
+      setIsProfileLoading(false);
+      return;
+    }
 
     try {
       const response = await apiFetch("/api/update-profile", {
@@ -160,7 +171,7 @@ function Parametre() {
       {/* SECTION INFORMATIONS PERSONNELLES */}
       <section className="border border-gray-200 rounded-xl p-6 bg-white">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold text-blue-600">
+          <h2 className="text-2xl font-bold text-yellow-500">
             Informations personnelles
           </h2>
           <p className="text-gray-600 mt-2">
@@ -214,6 +225,11 @@ function Parametre() {
                   onChange={handleProfileChange}
                   required
                 />
+                {profileErrors.telephone && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {profileErrors.telephone}
+                  </p>
+                )}
               </div>
               <div>
                 <Label htmlFor="email">Email</Label>
@@ -243,7 +259,7 @@ function Parametre() {
                 disabled={isProfileLoading}
                 className={`px-6 py-3 rounded-xl font-medium transition-all ${isProfileLoading
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
+                  : "bg-yellow-500 text-white hover:bg-yellow-600 hover:shadow-lg"
                   }`}
               >
                 {isProfileLoading ? "Enregistrement..." : "Enregistrer les modifications"}
@@ -352,43 +368,7 @@ function Parametre() {
         </div>
       </section>
 
-      {/* AUTRES SECTIONS PARAMÈTRES (POUR EXTENSIONS FUTURES) */}
-      <section className="border border-gray-200 rounded-xl p-6 bg-white">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Préférences</h2>
-          <p className="text-gray-600 mt-2">
-            Gérez vos préférences et paramètres de compte.
-          </p>
-        </div>
 
-        <div className="max-w-2xl">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
-              <div>
-                <h3 className="font-medium text-gray-800">Notifications</h3>
-                <p className="text-sm text-gray-600">
-                  Gérer les notifications par email
-                </p>
-              </div>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium">
-                Configurer
-              </button>
-            </div>
-
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
-              <div>
-                <h3 className="font-medium text-gray-800">Confidentialité</h3>
-                <p className="text-sm text-gray-600">
-                  Paramètres de confidentialité
-                </p>
-              </div>
-              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium">
-                Modifier
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
