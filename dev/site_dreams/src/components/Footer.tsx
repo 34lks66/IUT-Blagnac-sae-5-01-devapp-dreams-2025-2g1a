@@ -66,13 +66,13 @@ const FooterMain: React.FC = () => {
               Liens utiles
             </h3>
             <ul className="space-y-0 text-center">
-              <LinkItem href="/accueil">Accueil</LinkItem>
-              <LinkItem href="/public-migrant">
+              <LinkItem href="/">Accueil</LinkItem>
+              <LinkItem href="/accueil_public">
                 Accueil du public migrant LGBTQ+
               </LinkItem>
-              <LinkItem href="/evaluation-orientation">Évaluation & orientation</LinkItem>
+              <LinkItem href="/evaluation">Évaluation & orientation</LinkItem>
               <LinkItem href="/hebergement">Hébergement solidaire & temporaire</LinkItem>
-              <LinkItem href="/accompagnement-admin-juridique">
+              <LinkItem href="/accompagnement">
                 Accompagnement administratif & juridique
               </LinkItem>
               <LinkItem href="/sensibilisation">
