@@ -192,14 +192,62 @@ exports.refresh = async (req, res) => {
   }
 };
 
-exports.me = (req, res) => {
+exports.me = async (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: "Non autorisé" });
   try {
     const decoded = jwt.verify(token, ACCESS_SECRET);
-    res.json({ user: decoded });
-  } catch {
+    const user = await Account.findById(decoded.sub).select("-password");
+    if (!user) return res.status(404).json({ message: "Utilisateur introuvable" });
+
+    const userObj = user.toObject();
+    userObj.role = user.statut;
+
+    res.json({ user: userObj });
+  } catch (err) {
+    console.error(err);
     res.status(403).json({ message: "Token invalide ou expiré" });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { nom, prenom, telephone } = req.body;
+
+    // Get user ID from token/request (auth middleware populates req.user)
+    const userId = (req.user && (req.user._id || req.user.sub)) || null;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Utilisateur non authentifié" });
+    }
+
+    const account = await Account.findById(userId);
+    if (!account) {
+      return res.status(404).json({ message: "Compte introuvable" });
+    }
+
+    if (nom) account.nom = nom;
+    if (prenom) account.prenom = prenom;
+    if (telephone) account.telephone = telephone;
+
+    await account.save();
+
+    res.json({
+      message: "Profil mis à jour avec succès",
+      user: {
+        _id: account._id,
+        nom: account.nom,
+        prenom: account.prenom,
+        telephone: account.telephone,
+        email: account.email,
+        pays: account.pays,
+        role: account.statut
+      }
+    });
+
+  } catch (error) {
+    console.error("updateProfile error", error);
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 };
 
