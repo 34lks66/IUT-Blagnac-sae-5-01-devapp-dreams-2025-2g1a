@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "../services/api";
+import { useAuth } from "./utils/useAuth";
 
 const Projects: React.FC = () => {
+  const { role, pays, loading: authLoading } = useAuth();
   const [projects, setProjects] = useState<any[]>([]);
   const [paysList, setPaysList] = useState<any[]>([]);
   const [showForm, setShowForm] = useState(false);
@@ -13,28 +15,57 @@ const Projects: React.FC = () => {
   const [paysId, setPaysId] = useState("");
 
   useEffect(() => {
-    fetchProjects();
     fetchPays();
-  }, []);
+  }, [authLoading, role, pays]);
 
-  const fetchProjects = () => {
-    apiFetch("/api/project/get")
-      .then((res) => res.json())
-      .then((data) => setProjects(data))
-      .catch((err) => console.error(err));
+  useEffect(() => {
+    fetchProjects();
+  }, [paysList]);
+
+  const fetchProjects = async () => {
+    if (authLoading) return;
+    try {
+      const res = await apiFetch("/api/project/get");
+      const data = await res.json();
+      
+      if (role === "X") {
+        const filtered = data.filter((p: any) => p.pays?.nom === pays);
+        setProjects(filtered);
+      } else {
+        setProjects(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const fetchPays = () => {
-    apiFetch("/api/pays/get")
-      .then((res) => res.json())
-      .then((data) => setPaysList(data))
-      .catch((err) => console.error(err));
+  const fetchPays = async () => {
+    if (authLoading) return;
+    try {
+      const res = await apiFetch("/api/pays/get");
+      const data = await res.json();
+      
+      if (role === "X") {
+        const filtered = data.filter((p: any) => p.nom === pays);
+        setPaysList(filtered);
+      } else {
+        setPaysList(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const resetForm = () => {
     setTitle("");
     setDescription("");
-    setPaysId("");
+  
+    if (role === "X" && paysList.length > 0) {
+      setPaysId(paysList[0]._id);
+    } else {
+      setPaysId("");
+    }
+
     setEditingId(null);
     setShowForm(false);
   };
@@ -98,9 +129,19 @@ const Projects: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Projets</h2>
-        <button
+
+        <div className="flex items-center justify-between mb-6">
+            <h1 className="text-4xl font-extrabold">Gestion Projets</h1>
+        </div>       
+              <div className="flex justify-between items-center">
+
+        <div>
+          <h2 className="text-2xl font-bold text-yellow-500">Pays</h2>
+          <p className="text-gray-600">
+            Gérer les différents projets.
+          </p>
+        </div>
+       <button
           onClick={() => { resetForm(); setShowForm(true); }}
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors"
         >
