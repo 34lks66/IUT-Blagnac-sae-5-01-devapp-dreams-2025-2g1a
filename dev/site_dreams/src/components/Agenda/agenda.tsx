@@ -127,7 +127,7 @@ export default function Agenda() {
                   >
                     <div className="flex flex-col md:flex-row">
                       {/* Date Box */}
-                      <div className="bg-gradient-to-br from-[#d4af37] to-[#a87700] text-white p-5 md:w-28 flex md:flex-col items-center justify-center text-center">
+                      <div className="bg-blue-500 text-white p-5 md:w-28 flex md:flex-col items-center justify-center text-center">
                         <div>
                           <p className="text-4xl font-bold leading-none">{day}</p>
                           <p className="text-sm font-semibold mt-1">{month}</p>

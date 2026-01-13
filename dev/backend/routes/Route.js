@@ -451,7 +451,7 @@ router.get("/event/get/:id", getEvent);
  *       400:
  *         description: Champs requis manquants
  */
-router.post("/event/save", authVerif, authVerifRole(["X", "S"]), saveEvent);
+router.post("/event/save", authVerif, authVerifRole(["X", "S"]), upload.single("image"), saveEvent);
 
 /**
  * @openapi
@@ -479,6 +479,7 @@ router.put(
   "/event/update/:id",
   authVerif,
   authVerifRole(["X", "S"]),
+  upload.single("image"),
   updateEvent
 );
 
