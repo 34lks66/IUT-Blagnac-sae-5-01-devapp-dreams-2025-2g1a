@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Content from "./components/Content";
-import { AuthProvider } from "./components/context/AuthContext";
+
 import { useAuth } from "./components/utils/useAuth";
 
 const DashboardContent = () => {
-  const [activeTab, setActiveTab] = useState("beneficiaires");
+  const [activeTab, setActiveTab] = useState("");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const { loading } = useAuth();
+  const { loading, role } = useAuth();
+
+  useEffect(() => {
+    if (!loading) {
+      if (role === "O") {
+        setActiveTab("settings");
+      } else if (!activeTab) {
+        setActiveTab("beneficiaires");
+      }
+    }
+  }, [loading, role, activeTab]);
 
   if (loading) {
     return (
@@ -31,7 +41,7 @@ const DashboardContent = () => {
         {activeTab === "dashboard" && (
           <Header onMenuClick={() => setIsMobileOpen(true)} />
         )}
-        {!loading && <Content activeTab={activeTab} />}
+        {!loading && activeTab && <Content activeTab={activeTab} />}
       </div>
     </div>
   );
