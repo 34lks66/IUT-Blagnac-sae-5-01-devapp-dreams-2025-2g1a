@@ -9,6 +9,7 @@ const EventSchema = new mongoose.Schema({
   description: { type: String },
   antenna: { type: mongoose.Schema.Types.ObjectId, ref: 'Antenne', default: null },
   antennaName: { type: String, default: null },
+  image: { type: String, required: true},
   isGeneral: { type: Boolean, default: false },
 }, { timestamps: true });
 

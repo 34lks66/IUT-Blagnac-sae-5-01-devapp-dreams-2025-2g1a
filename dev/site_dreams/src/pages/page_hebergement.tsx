@@ -3,21 +3,20 @@ import hero from "../assets/hero_section/hebergement.jpg";
 const Hebergement = () => {
   return (
     <main className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <section className="eval-hero relative overflow-hidden">
+      {/* HERO */}
+      <section className="relative overflow-hidden">
         <img
+          className="w-full h-[46vh] md:h-[58vh] object-cover"
           src={hero}
           alt="Hébergement solidaire et temporaire"
-          className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
         />
-        <div className="eval-hero__content absolute inset-0 flex items-end">
-          <div className="eval-hero__card w-full max-w-6xl mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-lg">
-            <div className="text-gray-500 text-xs">
-              Accueil / Hébergement solidaire et temporaire
-            </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+        <div className="absolute inset-0 flex items-end">
+          <div className="w-full max-w-[960px] mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+            <p className="text-gray-500 text-xs">Accueil / Hébergement solidaire et temporairee</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent">
               Hébergement solidaire et temporaire
             </h1>
-            <p className="text-gray-700">
+            <p className="text-gray-700 mt-1">
               Parce qu’être <span className="font-semibold text-yellow-500">LGBTQIA+</span> et en demande d’asile,
               c’est souvent fuir la haine pour en retrouver ici.
               <br />
@@ -32,8 +31,7 @@ const Hebergement = () => {
       {/* Section Message d'espoir */}
       <section className="px-6 md:px-20 py-16 bg-white">
         <div className="max-w-4xl mx-auto text-center">
-          {/* <div className="bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500 h-1 w-32 mx-auto mb-8 rounded-full"></div> */}
-          <p className="text-2xl md:text-3xl text-gray-800 leading-relaxed font-medium mb-6">
+          <p className="text-2xl md:text-2xl font-medium mb-6">
             L'hébergement solidaire et temporaire permet à chaque personne de se reconstruire,
             retrouver sa dignité et reprendre espoir.
           </p>
@@ -51,7 +49,7 @@ const Hebergement = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
           Nos <span className="text-yellow-500">Objectifs</span>
         </h2>
-        <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-16 rounded-full"></div>
+        <div className="mx-auto mb-16"></div>
 
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
           {/* Objectif 1 */}
@@ -118,7 +116,7 @@ const Hebergement = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
           Que <span className="text-yellow-500">proposons-nous ?</span> 
         </h2>
-        <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-16 rounded-full"></div>
+        <div className="mx-auto mb-16"></div>
         {/* ====== SYSTÈME D’HÉBERGEMENT ROTATIF ====== */}
         <div className="max-w-6xl mx-auto mb-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -264,7 +262,7 @@ const Hebergement = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
           <span className="text-yellow-500">Témoignages</span>
         </h2>
-        <div className="h-1 w-24 bg-gradient-to-r from-yellow-500 to-[#93720a] mx-auto mb-12 rounded-full"></div>
+        <div className="mx-auto mb-12"></div>
 
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl p-8 md:p-10 shadow-xl border-t-4 border-yellow-500">

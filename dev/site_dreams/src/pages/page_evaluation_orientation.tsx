@@ -64,7 +64,6 @@ const EvaluationOrientation: React.FC = () => {
             <h2 className="text-[22px] font-extrabold bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent">
               Démarche d’évaluation personnalisée
             </h2>
-            <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#ef4444_0%,#f59e0b_25%,#facc15_40%,#22c55e_60%,#3b82f6_80%,#8b5cf6_100%)]" />
             <p className="text-gray-700">
               Notre équipe <span className="notranslate" translate="no">DREAMS</span> est disponible pour vous écouter et vous orienter.illance pour
               comprendre sa situation, ses besoins et ses objectifs. À partir de
@@ -94,7 +93,6 @@ const EvaluationOrientation: React.FC = () => {
             <h2 className="text-[22px] font-extrabold bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent">
               Orientation vers services juridiques, administratifs et sociaux
             </h2>
-            <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#22c55e,#3b82f6,#8b5cf6)]" />
             <p className="text-gray-700">
               En fonction des besoins, nous vous orientons vers les dispositifs
               adaptés (asile, régularisation, accès aux droits, santé, soutien
@@ -105,7 +103,7 @@ const EvaluationOrientation: React.FC = () => {
             <div className="grid grid-cols-1 gap-3 mt-3 sm:grid-cols-3">
               <article className="border border-gray-200 rounded-xl p-3 bg-white">
                 <span className="inline-block border border-black/10 bg-white px-2.5 py-1 rounded-full text-xs font-bold">
-                  ⚖️ Juridique
+                  Juridique
                 </span>
                 <p className="mt-2 text-sm text-gray-700">
                   Droit d’asile, titres de séjour, recours.
@@ -113,7 +111,7 @@ const EvaluationOrientation: React.FC = () => {
               </article>
               <article className="border border-gray-200 rounded-xl p-3 bg-white">
                 <span className="inline-block border border-black/10 bg-white px-2.5 py-1 rounded-full text-xs font-bold">
-                  🏛️ Administratif
+                  Administratif
                 </span>
                 <p className="mt-2 text-sm text-gray-700">
                   Démarches, documents, sécurisation des droits.
@@ -121,7 +119,7 @@ const EvaluationOrientation: React.FC = () => {
               </article>
               <article className="border border-gray-200 rounded-xl p-3 bg-white">
                 <span className="inline-block border border-black/10 bg-white px-2.5 py-1 rounded-full text-xs font-bold">
-                  🤝 Social / Santé
+                  Social / Santé
                 </span>
                 <p className="mt-2 text-sm text-gray-700">
                   Accès aux soins, soutien psychologique, aide sociale.
@@ -139,7 +137,6 @@ const EvaluationOrientation: React.FC = () => {
             <h2 className="text-[22px] font-extrabold bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent">
               Suivi en lien avec autres structures partenaires
             </h2>
-            <div className="h-1 w-18 rounded-full my-2 bg-[linear-gradient(90deg,#f43f5e,#fb923c,#facc15)]" />
           </div>
           <div className="flex gap-2">
             <button

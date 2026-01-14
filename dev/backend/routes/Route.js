@@ -47,6 +47,13 @@ const {
   updateEvent,
   deleteEvent,
 } = require("../controllers/EventController");
+const {
+  getProjects,
+  getProject,
+  saveProject,
+  updateProject,
+  deleteProject,
+} = require("../controllers/ProjectController");
 
 const router = Router();
 const { authVerif, authVerifRole } = require("../middlewares/auth");
@@ -451,7 +458,7 @@ router.get("/event/get/:id", getEvent);
  *       400:
  *         description: Champs requis manquants
  */
-router.post("/event/save", authVerif, authVerifRole(["X", "S"]), saveEvent);
+router.post("/event/save", authVerif, authVerifRole(["X", "S"]), upload.single("image"), saveEvent);
 
 /**
  * @openapi
@@ -479,6 +486,7 @@ router.put(
   "/event/update/:id",
   authVerif,
   authVerifRole(["X", "S"]),
+  upload.single("image"),
   updateEvent
 );
 
@@ -505,5 +513,15 @@ router.delete(
   authVerifRole(["X", "S"]),
   deleteEvent
 );
+
+//////////////////////////////////////////////////////////////////
+///////////////////////// PROJECTS ///////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+router.get("/project/get", getProjects);
+router.get("/project/get/:id", getProject);
+router.post("/project/save", authVerif, authVerifRole(["X", "S"]), saveProject);
+router.put("/project/update/:id", authVerif, authVerifRole(["X", "S"]), updateProject);
+router.delete("/project/delete/:id", authVerif, authVerifRole(["X", "S"]), deleteProject);
 
 module.exports = router;

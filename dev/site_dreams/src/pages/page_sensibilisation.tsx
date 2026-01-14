@@ -83,22 +83,20 @@ function Sensibilisation() {
   return (
     <main className="bg-white text-gray-800 font-sans leading-relaxed">
       {/* ============ HERO SECTION ============ */}
-      <section className="eval-hero relative overflow-hidden">
+      <section className="relative overflow-hidden">
         <img
+          className="w-full h-[46vh] md:h-[58vh] object-cover"
           src={hero}
-          alt="Accompagnement administratif"
-          className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
+          alt="Sensibilisations des minorités sexuelles"
         />
-        <div className="eval-hero__content absolute inset-0 flex items-end">
-          <div className="eval-hero__card w-full max-w-6xl mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-lg">
-            <div className=" text-gray-500 text-xs">
-              Accueil / Sensibilisations des minorités sexuelles
-            </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+        <div className="absolute inset-0 flex items-end">
+          <div className="w-full max-w-[960px] mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+            <p className="text-gray-500 text-xs">Accueil / Sensibilisations des minorités sexuelles</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent">
               Sensibilisations des minorités sexuelles
             </h1>
-            <p className="text-gray-700">
-              ABABABA
+            <p className="text-gray-700 mt-1">
+              hmmm
             </p>
           </div>
         </div>

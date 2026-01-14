@@ -43,6 +43,7 @@ const PagesSite: React.FC = () => {
     description: "",
     image: null,
   });
+  const [imagePreview, setImagePreview] = useState<string>("");
 
   // Modale suppression
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -108,7 +109,9 @@ const PagesSite: React.FC = () => {
 
       await loadCountries();
       setCreatingOpen(false);
+      setCreatingOpen(false);
       setNewCountry({ nom: "", description: "", image: null });
+      setImagePreview("");
     } catch (e) {
       console.error(e);
       alert("Impossible de créer le pays.");
@@ -259,12 +262,36 @@ const PagesSite: React.FC = () => {
                     onChange={(e) => {
                       const f = e.target.files?.[0] || null;
                       setNewCountry((s) => ({ ...s, image: f }));
+                      if (f) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                          setImagePreview(ev.target?.result as string);
+                        };
+                        reader.readAsDataURL(f);
+                      } else {
+                        setImagePreview("");
+                      }
                     }}
                   />
                 </label>
 
                 {newCountry.image && (
                   <p className="mt-1 text-xs text-gray-500">{newCountry.image.name}</p>
+                )}
+
+                {imagePreview && (
+                  <div className="mt-4">
+                    <p className="text-sm font-medium text-gray-700 mb-2">
+                      Aperçu :
+                    </p>
+                    <div className="w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                      <img
+                        src={imagePreview}
+                        alt="Aperçu"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
 

@@ -5,6 +5,7 @@ import News from "./News";
 import History from "./History";
 import Map from "./Map";
 import Partner from "./Partner";
+import ProjectsSection from "./ProjectsSection";
 
 export default function Home() {
   return (
@@ -22,6 +23,11 @@ export default function Home() {
       {/* Section Mission */}
       <section className="mb-24">
         <Mission />
+      </section>
+
+      {/* Section Projects */}
+      <section className="mb-24">
+        <ProjectsSection />
       </section>
 
       {/* Section News */}

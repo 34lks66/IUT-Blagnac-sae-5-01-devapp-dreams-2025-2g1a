@@ -2,7 +2,9 @@ const Event = require('../models/EventModel');
 const Antenne = require('../models/AntenneModel');
 const AccountModel = require('../models/AccountModel');
 const PaysModel = require('../models/pays');
-
+const path = require("path");
+const EventModel = require('../models/EventModel');
+const fs = require("fs").promises;
 
 function isObjectId(str) {
   return /^[0-9a-fA-F]{24}$/.test(String(str));
@@ -48,8 +50,9 @@ module.exports.getEvent = async (req, res) => {
 module.exports.saveEvent = async (req, res) => {
   try {
     const { title, date, starttime, endtime, location, description, antenna, isGeneral } = req.body;
-    if (!title || !date)
-      return res.status(400).json({ error: "title and date required" });
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+    if (!title || !date || !image)
+      return res.status(400).json({ error: "Tous les champs sont requis: image, date, title" });
 
     const payload = {
       title,
@@ -58,6 +61,7 @@ module.exports.saveEvent = async (req, res) => {
       endtime,
       location,
       description,
+      image,
       isGeneral: !!isGeneral,
     };
 
@@ -108,22 +112,25 @@ module.exports.saveEvent = async (req, res) => {
   }
 };
 
-
 module.exports.updateEvent = async (req, res) => {
   try {
     const update = { ...req.body };
     const { antenna } = req.body;
 
+    const newImage = req.file ? `/uploads/${req.file.filename}` : null;
+
     const existingEvent = await Event.findById(req.body._id);
-    if (!existingEvent)
+
+    if (newImage && !existingEvent)
       return res.status(404).json({ error: "Event not found" });
+
+    if (newImage) {
+      update.image = newImage;
+    }
 
     const user = await AccountModel.findById(req.user.sub);
 
-
-
     if (user.statut !== "S") {
-
 
       if (!existingEvent.antenna) {
         return res.status(403).json({
@@ -145,6 +152,17 @@ module.exports.updateEvent = async (req, res) => {
       }
     }
 
+    if(newImage && existingEvent.image) {
+      try {
+        const relPath = existingEvent.image.replace(/^\/+/, "");
+        const absImagePath = path.join(__dirname, "..", relPath);
+        await fs.access(absImagePath);
+        await fs.unlink(absImagePath)
+        console.log("Ancienne image supprimée :", absImagePath);
+      } catch (errFile) {
+        console.warn("Erreur lors de la suppression de l'ancienne image :", errFile);
+      }
+    }
 
     if (antenna !== undefined) {
 
@@ -155,11 +173,9 @@ module.exports.updateEvent = async (req, res) => {
         });
       }
 
-
       if (antenna && !isObjectId(antenna)) {
         return res.status(400).json({ error: "Antenne invalide." });
       }
-
 
       if (antenna) {
         const newAntenne = await Antenne.findById(antenna);
@@ -168,7 +184,6 @@ module.exports.updateEvent = async (req, res) => {
         }
 
         const newPays = await PaysModel.findById(newAntenne.pays);
-
 
         if (user.statut === "X") {
           if (String(user.pays) !== newPays.nom) {
@@ -181,12 +196,10 @@ module.exports.updateEvent = async (req, res) => {
         update.antenna = antenna;
       }
 
-
       if (antenna === null || antenna === "") {
         update.antenna = null;
       }
     }
-
 
     const updatedEvent = await Event.findByIdAndUpdate(
       existingEvent._id,
@@ -201,8 +214,6 @@ module.exports.updateEvent = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-
 
 module.exports.deleteEvent = async (req, res) => {
   try {
@@ -230,6 +241,20 @@ module.exports.deleteEvent = async (req, res) => {
         return res.status(403).json({
           error: "Impossible de supprimer cet événement car il n'est rattaché à aucune antenne."
         });
+      }
+    } 
+
+    if (existingEvent.image) {
+      try {
+        let imagePath = existingEvent.image;
+        const relPath = imagePath.replace(/^\/+/, "");
+        const absImagePath = path.join(__dirname, "..", relPath);
+        console.log("Chemin absolut de l'image à supprimer :", absImagePath);
+        await fs.access(absImagePath);
+        await fs.unlink(absImagePath);
+        console.log("Image supprimée :", absImagePath);
+      } catch(errFile) {
+        console.log("Erreur lors de la suppression du fichier image :", errFile);
       }
     }
 

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import logoDreams from "../../../site_dreams/src/assets/logo.png";
 import { useAuth } from "./utils/useAuth";
 import { apiFetch } from "../services/api";
@@ -30,26 +31,22 @@ const Sidebar = ({
   setIsMobileOpen,
 }: SidebarProps) => {
   const { role } = useAuth();
-  const menuItems = [
-    {
-      id: "beneficiaires",
-      label: "Bénéficiaires",
-      icon: (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-      ),
-    },
+  const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+
+  const toggleMenu = (id: string) => {
+    setExpandedMenus((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  interface MenuItem {
+    id: string;
+    label: string;
+    icon: React.ReactNode;
+    subItems?: MenuItem[];
+  }
+
+  const menuItems: MenuItem[] = [
     {
       id: "settings",
       label: "Paramètres",
@@ -79,8 +76,27 @@ const Sidebar = ({
 
   if (role !== "O") {
     menuItems.splice(
-      1,
       0,
+      0,
+      {
+        id: "beneficiaires",
+        label: "Bénéficiaires",
+        icon: (
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+        ),
+      },
       {
         id: "dashboard",
         label: "Tableau de bord",
@@ -101,7 +117,7 @@ const Sidebar = ({
         ),
       },
       {
-        id: "accueil",
+        id: "home_group",
         label: "Page d'accueil",
         icon: (
           <svg
@@ -111,17 +127,59 @@ const Sidebar = ({
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="lucide lucide-newspaper-icon lucide-newspaper"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-5 h-5"
           >
-            <path d="M15 18h-5" />
-            <path d="M18 14h-8" />
-            <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" />
-            <rect width="8" height="4" x="10" y="6" rx="1" />
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
         ),
+        subItems: [
+          {
+            id: "accueil",
+            label: "Actualités",
+            icon: (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-5 h-5"
+              >
+                <path d="M15 18h-5" />
+                <path d="M18 14h-8" />
+                <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" />
+                <rect width="8" height="4" x="10" y="6" rx="1" />
+              </svg>
+            ),
+          },
+          {
+            id: "projects",
+            label: "Projets",
+            icon: (
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                />
+              </svg>
+            ),
+          },
+        ]
       },
       {
         id: "agenda",
@@ -269,24 +327,75 @@ const Sidebar = ({
             <ul className="space-y-1">
               {menuItems.map((item) => (
                 <li key={item.id}>
-                  <button
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setIsMobileOpen(false);
-                    }}
-                    className={`
-                      w-full text-left px-4 py-3 rounded-lg transition-all duration-200
-                      flex items-center gap-3 font-medium text-sm
-                      ${
-                        activeTab === item.id
+                  {item.subItems ? (
+                    <div>
+                      <button
+                        onClick={() => toggleMenu(item.id)}
+                        className={`
+                          w-full text-left px-4 py-3 rounded-lg transition-all duration-200
+                          flex items-center justify-between font-medium text-sm
+                          hover:bg-white/10 text-black/90
+                        `}
+                      >
+                        <div className="flex items-center gap-3">
+                          {item.icon}
+                          <span>{item.label}</span>
+                        </div>
+                        <svg
+                          className={`w-4 h-4 transition-transform ${expandedMenus.includes(item.id) ? "rotate-180" : ""
+                            }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                      {expandedMenus.includes(item.id) && (
+                        <ul className="pl-6 mt-1 space-y-1 bg-white/5 rounded-lg">
+                          {item.subItems.map((subItem) => (
+                            <li key={subItem.id}>
+                              <button
+                                onClick={() => {
+                                  setActiveTab(subItem.id);
+                                  setIsMobileOpen(false);
+                                }}
+                                className={`
+                                   w-full text-left px-4 py-2 rounded-lg transition-all duration-200
+                                   flex items-center gap-3 font-medium text-sm
+                                   ${activeTab === subItem.id
+                                    ? "bg-white text-[#93720a] shadow-lg"
+                                    : "hover:bg-white/10 text-black/80"
+                                  }
+                                 `}
+                              >
+                                {subItem.icon}
+                                <span>{subItem.label}</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setActiveTab(item.id);
+                        setIsMobileOpen(false);
+                      }}
+                      className={`
+                        w-full text-left px-4 py-3 rounded-lg transition-all duration-200
+                        flex items-center gap-3 font-medium text-sm
+                        ${activeTab === item.id
                           ? "bg-white text-[#93720a] shadow-lg"
                           : "hover:bg-white/10 text-black/90"
-                      }
-                    `}
-                  >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </button>
+                        }
+                      `}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

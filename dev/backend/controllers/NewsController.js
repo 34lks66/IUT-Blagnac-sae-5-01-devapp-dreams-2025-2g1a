@@ -129,7 +129,7 @@ module.exports.deleteNews = async (req, res) => {
         const absImagePath = path.join(__dirname, "..", relPath);
         console.log("Chemin absolut de l'image à supprimer :", absImagePath);
         await fs.access(absImagePath);
-        await fs.unlink(absImagePath)
+        await fs.unlink(absImagePath);
         console.log("Image supprimée :", absImagePath);
       } catch(errFile) {
         console.log("Erreur lors de la suppression du fichier image :", errFile);

@@ -12,6 +12,7 @@ type EventItem = {
   endtime?: string;
   location?: string;
   description?: string;
+  image?: string;
   antenna?: string | null;
   isGeneral?: boolean;
 };
@@ -42,9 +43,20 @@ export default function AgendaAdmin() {
   const [formError, setFormError] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const API_BASE = "http://localhost:5000"; 
 
+  useEffect(() => {
+    if (!imageFile) {
+      setImagePreview("");
+      return;
+    }
+    const url = URL.createObjectURL(imageFile);
+    setImagePreview(url);
 
-
+    return () => URL.revokeObjectURL(url);
+  }, [imageFile]);
 
   const fetchAntennes = async () => {
     if (authLoading) return;
@@ -54,7 +66,6 @@ export default function AgendaAdmin() {
       const res = await apiFetch(endpoint, { method: "GET" });
       if (!res.ok) return setAntennes([]);
       const data = await res.json();
-
 
       const filteredData = data.filter((antenne: AntenneItem) => antenne.pays.nom === pays);
 
@@ -103,8 +114,6 @@ export default function AgendaAdmin() {
     fetchEvents();
   }, [antennes])
 
-
-
   const isFormValid = () => {
     const hasTimeError =
       form.starttime && form.endtime && form.endtime < form.starttime;
@@ -132,6 +141,8 @@ export default function AgendaAdmin() {
       description: "",
     });
     setFormError(null);
+    setImageFile(null);
+    setImagePreview("");
   };
 
   const submit = async (e?: React.FormEvent) => {
@@ -144,6 +155,17 @@ export default function AgendaAdmin() {
       );
       return;
     }
+    const formData = new FormData();
+
+    Object.entries(form).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, String(value));
+      }
+    });
+
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
 
     try {
       const method = form._id ? "PUT" : "POST";
@@ -155,8 +177,9 @@ export default function AgendaAdmin() {
 
       await apiFetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        // headers: { "Content-Type": "application/json" },
+        // body: JSON.stringify(payload),
+        body: formData,
       });
 
       resetForm();
@@ -174,8 +197,12 @@ export default function AgendaAdmin() {
       antenna: foundAntenne ? foundAntenne._id : "",
       isGeneral: !!ev.isGeneral,
     });
+
+    setImagePreview(`${API_BASE}${ev.image}`);
+
+    setImageFile(null); 
     setFormError(null);
-  };
+    };
 
   const remove = async (id?: string) => {
     if (!id) return;
@@ -189,7 +216,6 @@ export default function AgendaAdmin() {
     }
   };
 
-
   const openModalForCreate = () => {
     resetForm();
     setShowForm(true);
@@ -199,7 +225,6 @@ export default function AgendaAdmin() {
     resetForm();
     setShowForm(false);
   };
-
 
   return (
     <div className="space-y-8">
@@ -490,6 +515,47 @@ export default function AgendaAdmin() {
                     </div>
                   )}
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Image
+                </label>
+
+                <label
+                  className="px-4 py-3 border-2 border-gray-200 rounded-xl cursor-pointer 
+                       hover:border-yellow-400 hover:bg-yellow-50 transition-colors block text-center"
+                >
+                  Choisir une image
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      setImageFile(file);
+                    }}
+                  />
+                </label>
+
+                {imageFile && (
+                  <p className="mt-1 text-xs text-gray-500">{imageFile.name}</p>
+                )}
+
+                {imagePreview && (
+                  <div className="mt-4">
+                    <p className="text-sm font-medium text-gray-700 mb-2">
+                      Aperçu :
+                    </p>
+                    <div className="w-48 h-32 border border-gray-300 rounded-lg overflow-hidden">
+                      <img
+                        src={imagePreview}
+                        alt="Aperçu"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Description */}

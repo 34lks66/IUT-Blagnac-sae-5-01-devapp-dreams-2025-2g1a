@@ -231,17 +231,24 @@ const Header = () => {
                         )}
                       </a>
 
-                      {pays.villes && (
+                     {pays.villes && (
                         <div className="absolute top-0 left-full mt-0 hidden group-hover/item:block bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[180px]">
-                          {pays.villes.map((ville) => (
-                            <a
-                              key={ville.name}
-                              href={`/villes/${ville.name}`}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
-                            >
-                              {ville.name}
-                            </a>
-                          ))}
+                          {pays.villes.map((ville) => {
+                            const villeSlug = ville.name
+                              .normalize("NFD")
+                              .replace(/[\u0300-\u036f]/g, "")
+                              .toLowerCase()
+                              .replace(/\s+/g, "-");
+                            return (
+                              <a
+                                key={ville.name}
+                                href={`/villes/${villeSlug}`}
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600 whitespace-nowrap"
+                              >
+                                {ville.name}
+                              </a>
+                            );
+                          })}
                         </div>
                       )}
                     </div>

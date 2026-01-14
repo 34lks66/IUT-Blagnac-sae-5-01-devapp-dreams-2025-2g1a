@@ -6,6 +6,9 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 interface User {
   _id: string;
   email: string;
+  nom: string;
+  prenom: string;
+  telephone: string;
   pays: string;
   role: "S" | "X" | "O";
 }
