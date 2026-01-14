@@ -10,6 +10,7 @@ interface User {
   telephone: string;
   pays: string;
   statut: string;
+  pole: string;
 }
 
 interface Country {
@@ -41,6 +42,7 @@ const Users = () => {
     email: '',
     telephone: '',
     pays: '',
+    pole: '',
     statut: 'O',
     password: ''
   });
@@ -101,7 +103,7 @@ const Users = () => {
 
 
   const handleSubmit = async () => {
-    const { nom, prenom, telephone, email, pays, statut, password } = formData;
+    const { nom, prenom, telephone, email, pays, statut, password, pole } = formData;
     const newErrors: { [key: string]: string } = {};
 
     if (!nom) newErrors.nom = "Le nom est requis";
@@ -144,6 +146,7 @@ const Users = () => {
       email: email,
       statut,
       pays,
+      pole,
     };
 
     // Gestion du mot de passe
@@ -153,6 +156,18 @@ const Users = () => {
       }
     } else {
       userData.password = password;
+    }
+
+    // Debug: log payload in browser and send to backend debug endpoint
+    try {
+      console.log('DEBUG userData before send:', userData);
+      apiFetch('/api/debug/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      });
+    } catch (e) {
+      // ignore
     }
 
     try {
@@ -199,7 +214,7 @@ const Users = () => {
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
-      [user.nom, user.prenom, user.email, user.statut, user.telephone, user.pays]
+      [user.nom, user.prenom, user.email, user.statut, user.telephone, user.pays, user.pole]
         .join(' ')
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
@@ -217,6 +232,7 @@ const Users = () => {
         email: user.email,
         telephone: user.telephone,
         pays: user.pays,
+        pole: user.pole || '',
         statut: user.statut,
         password: ''
       });
@@ -229,6 +245,7 @@ const Users = () => {
         email: '',
         telephone: '',
         pays: role === 'X' ? (userPays ?? '') : '',
+        pole: '',
         statut: 'O',
         password: generatePassword()
       });
@@ -246,6 +263,7 @@ const Users = () => {
       email: '',
       telephone: '',
       pays: '',
+      pole: '',
       statut: '',
       password: ''
     });
@@ -305,6 +323,7 @@ const Users = () => {
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Email</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Téléphone</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Pays</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Pôle</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Statut</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
               </tr>
@@ -312,7 +331,7 @@ const Users = () => {
             <tbody>
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-gray-400">
+                  <td colSpan={8} className="px-6 py-12 text-center text-gray-400">
                     Aucun utilisateur trouvé
                   </td>
                 </tr>
@@ -324,6 +343,7 @@ const Users = () => {
                     <td className="px-6 py-4 text-gray-700">{user.email}</td>
                     <td className="px-6 py-4 text-gray-700">{user.telephone}</td>
                     <td className="px-6 py-4 text-gray-700">{user.pays}</td>
+                    <td className="px-6 py-4 text-gray-700">{user.pole}</td>
                     <td>
                       {user.statut === 'O' ? 'Bénévole' : user.statut === 'X' ? 'Administrateur' : 'Super administrateur'}
                     </td>
@@ -434,6 +454,16 @@ const Users = () => {
                     ))}
                 </select>
                 {errors.pays && <p className="text-red-500 text-xs mt-1">{errors.pays}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Pôle</label>
+                <input
+                  type="text"
+                  value={formData.pole}
+                  onChange={(e) => setFormData({ ...formData, pole: e.target.value })}
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${errors.pole ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-yellow-500"}`}
+                />
               </div>
 
               {/* Gestion du mot de passe */}

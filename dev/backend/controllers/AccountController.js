@@ -28,11 +28,11 @@ module.exports.getAccounts = async (req, res) => {
 
 module.exports.saveAccount = async (req, res) => {
   try {
-    const { nom, prenom, telephone, email, password, pays, statut } = req.body;
+    const { nom, prenom, telephone, email, password, pays, statut, pole } = req.body;
 
-    if (!nom || !prenom || !telephone || !email || !password || !pays) {
+    if (!nom || !prenom || !telephone || !email || !password || !pays || !pole) {
       return res.status(400).json({
-        error: "Tous les champs sont requis : nom, prenom, telephone, email, password, pays"
+        error: "Tous les champs sont requis : nom, prenom, telephone, email, password, pays, pole"
       });
     }
 
@@ -74,7 +74,8 @@ module.exports.saveAccount = async (req, res) => {
       email,
       password: hashedPassword,
       pays,
-      statut: statut || "O"
+      statut: statut || "O",
+      pole,
     });
 
     console.log("Compte créé avec succès !");
@@ -88,7 +89,7 @@ module.exports.saveAccount = async (req, res) => {
 module.exports.updateAccount = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nom, prenom, telephone, email, password, pays, statut } = req.body;
+    const { nom, prenom, telephone, email, password, pays, statut, pole } = req.body;
 
     const existingAccount = await AccountModel.findById(id);
     if (!existingAccount) {
@@ -125,6 +126,7 @@ module.exports.updateAccount = async (req, res) => {
     if (email) updateData.email = email;
     if (pays) updateData.pays = pays;
     if (statut) updateData.statut = statut;
+    if (pole) updateData.pole = pole;
 
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);
