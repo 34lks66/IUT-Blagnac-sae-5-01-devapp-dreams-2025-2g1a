@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { apiFetch } from "../services/api";
-import { useParams } from "react-router-dom";
+import Beneficiaires from "./Beneficiaires";
 
 function OutilGestion() {
 
@@ -44,9 +44,7 @@ function OutilGestion() {
         fetchCurrentUser();
     }, [])
 
-    const { pole } = useParams();
-    console.log("Paramètre pole :", slugify(pole));
-
+    const pole = currentUser?.pole;
 
 
     return (
@@ -55,16 +53,21 @@ function OutilGestion() {
             {loading ? (
                 <p>Chargement...</p>
             ) : currentUser ? (
-                <div>
-                    <h2>Informations de l'utilisateur connecté</h2>
-                    <p><strong>Nom:</strong> {currentUser.nom}</p>
-                    <p><strong>Prénom:</strong> {currentUser.prenom}</p>
-                    <p><strong>Email:</strong> {currentUser.email}</p>
-                    <p><strong>Téléphone:</strong> {currentUser.telephone}</p>
-                    <p><strong>Pays:</strong> {currentUser.pays}</p>
-                    <p><strong>Statut:</strong> {currentUser.statut}</p>
-                    <p><strong>Pôle:</strong> {currentUser.pole}</p>
-                </div>
+                <>
+                    <div>
+                        <h2>Informations de l'utilisateur connecté</h2>
+                        <p><strong>Nom:</strong> {currentUser.nom}</p>
+                        <p><strong>Prénom:</strong> {currentUser.prenom}</p>
+                        <p><strong>Email:</strong> {currentUser.email}</p>
+                        <p><strong>Téléphone:</strong> {currentUser.telephone}</p>
+                        <p><strong>Pays:</strong> {currentUser.pays}</p>
+                        <p><strong>Statut:</strong> {currentUser.statut}</p>
+                        <p><strong>Pôle:</strong> {currentUser.pole}</p>
+                    </div>
+                    {pole === "permanence" && (
+                        <Beneficiaires />
+                    )}
+                </>
             ) : (
                 <p>Utilisateur non trouvé</p>
             )}
