@@ -3,7 +3,7 @@ import doclogo from "../assets/documentlogo.svg";
 import suivilogo from "../assets/suivilogo.svg";
 import justicelogo from "../assets/justicelogo.svg";
 import hero from "../assets/hero_section/accompagnement.png";
-import { BriefcaseBusiness, GraduationCap, House } from "lucide-react";
+import { GraduationCap, House } from "lucide-react";
 import cafLogo from "../assets/logo/CAF.png";
 import ftLogo from "../assets/logo/FranceTravail.png";
 import ofiiLogo from "../assets/logo/OFII.png";
@@ -15,24 +15,22 @@ function Accompagnement() {
     return (
         <main className="bg-white text-gray-800 font-sans leading-relaxed">
             {/* ============ HERO SECTION ============ */}
-            <section className="eval-hero relative overflow-hidden">
+            <section className="relative overflow-hidden">
                 <img
-                    src={hero}
-                    alt="Accompagnement administratif"
-                    className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
+                className="w-full h-[46vh] md:h-[58vh] object-cover"
+                src={hero}
+                alt="Accompagnement administratif"
                 />
-                <div className="eval-hero__content absolute inset-0 flex items-end">
-                    <div className="eval-hero__card w-full max-w-6xl mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-lg">
-                        <div className=" text-gray-500 text-xs">
-                            Accueil / Accompagnement administratif & juridique
-                        </div>
-                        <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
-                            Accompagnement administratif et juridique
-                        </h1>
-                        <p className="text-gray-700">
-                            Votre partenaire de confiance pour toutes vos démarches.
-                        </p>
-                    </div>
+                <div className="absolute inset-0 flex items-end">
+                <div className="w-full max-w-[960px] mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+                    <p className="text-gray-500 text-xs">Accueil / Accompagnement administratif & juridique</p>
+                    <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent">
+                    Accompagnement administratif
+                    </h1>
+                    <p className="text-gray-700 mt-1">
+                        Votre partenaire de confiance pour toutes vos démarches.
+                    </p>
+                </div>
                 </div>
             </section>
 
@@ -175,7 +173,6 @@ function Accompagnement() {
                             className="bg-white rounded-2xl p-8 border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 flex flex-col items-center text-center group"
                         >
                             <div className="w-24 h-24 mb-6 bg-white rounded-2xl flex items-center justify-center border border-gray-100 group-hover:border-yellow-300 transition-all duration-300 shadow-sm group-hover:shadow-md overflow-hidden p-4">
-                                {/* @ts-ignore */}
                                 {item.logo ? (
                                     <img src={item.logo} alt={item.label} className="w-full h-full object-contain" />
                                 ) : item.icon ? (

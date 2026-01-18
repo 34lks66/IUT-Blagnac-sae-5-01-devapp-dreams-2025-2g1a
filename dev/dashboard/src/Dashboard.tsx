@@ -12,14 +12,14 @@ const DashboardContent = () => {
   const { loading, role } = useAuth();
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !activeTab) {
       if (role === "O") {
-        setActiveTab("settings");
-      } else if (!activeTab) {
+        setActiveTab("outilgestion");
+      } else {
         setActiveTab("beneficiaires");
       }
     }
-  }, [loading, role, activeTab]);
+  }, [loading, role]);
 
   if (loading) {
     return (

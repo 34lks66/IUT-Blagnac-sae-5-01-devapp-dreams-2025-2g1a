@@ -8,7 +8,6 @@ function PageAccueilPublic() {
   const slides = [
     {
       id: 1,
-      icon: <span className="text-blue-600 text-lg">👤</span>,
       bg: "bg-blue-100",
       name: "Ancien bénéficiaire",
       subtitle: "Accueilli en 2023",
@@ -17,7 +16,6 @@ function PageAccueilPublic() {
     },
     {
       id: 2,
-      icon: <span className="text-purple-600 text-lg">🌈</span>,
       bg: "bg-purple-100",
       name: "Bénéficiaire actuel",
       subtitle: "En accompagnement",
@@ -26,7 +24,6 @@ function PageAccueilPublic() {
     },
     {
       id: 3,
-      icon: <span className="text-green-600 text-lg">💪</span>,
       bg: "bg-green-100",
       name: "Témoignage",
       subtitle: "Parcours accompli",
@@ -35,7 +32,6 @@ function PageAccueilPublic() {
     },
     {
       id: 4,
-      icon: <span className="text-pink-600 text-lg">❤️</span>,
       bg: "bg-pink-100",
       name: "Témoignage",
       subtitle: "Reconstruction",
@@ -59,24 +55,20 @@ function PageAccueilPublic() {
   return (
     <main className="bg-white text-gray-800 font-sans leading-relaxed">
       {/* ============ HERO SECTION ============ */}
-      <section className="eval-hero relative overflow-hidden">
+      <section className="relative overflow-hidden">
         <img
+          className="w-full h-[46vh] md:h-[58vh] object-cover"
           src={hero}
           alt="Accueil du public LGBTQ+"
-          className="eval-hero__img w-full h-64 md:h-72 object-cover object-center"
         />
-        <div className="eval-hero__content absolute inset-0 flex items-end">
-          <div className="eval-hero__card w-full max-w-6xl mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-lg">
-            <div className=" text-gray-500 text-xs">
-              Accueil / Accueil du public LGBTQ+
-            </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-yellow-500 to-[#93720a] bg-clip-text text-transparent">
+        <div className="absolute inset-0 flex items-end">
+          <div className="w-full max-w-[960px] mx-auto mb-4 bg-white/95 rounded-2xl p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+            <p className="text-gray-500 text-xs">Accueil / Accueil du public LGBTQ+</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent">
               Bienvenue chez DREAMS
             </h1>
-            <p className="text-gray-700">
-              Un espace sécurisé où chaque identité est respectée, protégée et
-              célébrée. Vous êtes en sécurité ici et nous sommes là pour vous
-              accompagner.
+            <p className="text-gray-700 mt-1">
+              Un espace sécurisé où chaque identité est respectée, protégée et célébrée. Vous êtes en sécurité ici et nous sommes là pour vous accompagner.
             </p>
           </div>
         </div>
@@ -192,13 +184,13 @@ function PageAccueilPublic() {
             <blockquote className="text-xl italic text-gray-700 leading-relaxed">
               « L'amour commence par l'acceptation de soi, et s'épanouit dans
               l'acceptation des autres. »
-              <footer className="mt-4 text-lg font-semibold text-blue-600">
+              <footer className="mt-4 text-lg font-semibold text-yellow-500">
                 —{" "}
                 <a
                   href="https://en.wikipedia.org/wiki/Harvey_Milk"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-blue-800 hover:underline transition-colors duration-200"
+                  className="hover:text-yellow-800 hover:underline transition-colors duration-200"
                 >
                   Harvey Milk
                 </a>
@@ -350,7 +342,6 @@ function PageAccueilPublic() {
               >
                 <div className="flex items-start mb-6">
                   <div className={`w-12 h-12 ${slide.bg} rounded-full flex items-center justify-center mr-4 ring-1 ring-yellow-200`}>
-                    {slide.icon}
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800">{slide.name}</h4>

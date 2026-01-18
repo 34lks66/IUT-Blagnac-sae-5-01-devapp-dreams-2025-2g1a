@@ -18,6 +18,7 @@ import Contact from "./components/Contact";
 import Donations from "./pages/donations";
 import PagePolitique from "./pages/page_politique";
 import NewsDetails from "./components/Home/NewsDetails";
+import Organigramme from "./pages/organigramme";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/don" element={<Donations />} />
         <Route path="/politiques-de-confidentialites" element={<PagePolitique />} />
         <Route path="/news/:id" element={<NewsDetails />} />
+        <Route path="/organigramme" element={<Organigramme />} />
       </Routes>
       </Router>
       <FooterMain />
