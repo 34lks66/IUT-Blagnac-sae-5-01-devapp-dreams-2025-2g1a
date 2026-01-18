@@ -54,7 +54,7 @@ const FeaturedCard = ({ event, index }: { event: Event; index: number }) => {
           <span className="text-2xl font-black text-gray-900">{day}</span>
         </div>
         {event.antenna && (
-          <span className="bg-white border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide shadow-sm">
+          <span className="inline-flex items-center px-3 py-1 bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold rounded-full shadow-sm">
             {event.antenna}
           </span>
         )}

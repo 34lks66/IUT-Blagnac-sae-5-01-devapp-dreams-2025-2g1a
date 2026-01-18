@@ -45,8 +45,8 @@ const About: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-semibold text-gray-900 mb-4">Notre Mission</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">Accompagner vers l'autonomie et la liberté</p>
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Notre Mission</h2>
+          <p className="text-2xl text-gray-600 max-w-3xl mx-auto">Accompagner vers l'autonomie et la liberté</p>
         </motion.div>
 
         {/* 2. Présentation (Texte + Image) */}
