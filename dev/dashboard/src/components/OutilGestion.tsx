@@ -41,7 +41,7 @@ function OutilGestion() {
                 setCurrentUser(data.user);
                 console.log("Utilisateur connecté :", data.user);
                 // Charger les PDFs du pôle
-                fetchPolePDFs(data.user.pole);
+                fetchPolePDFs(data.user.pole, data.user.pays);
             }
         } catch (error) {
             console.error("Erreur lors de la récupération de l'utilisateur :", error);
@@ -50,9 +50,9 @@ function OutilGestion() {
         }
     };
 
-    const fetchPolePDFs = async (pole: string) => {
+    const fetchPolePDFs = async (pole: string, pays: string) => {
         try {
-            const response = await apiFetch(`/api/pole-pdfs/${pole}`, { method: "GET" });
+            const response = await apiFetch(`/api/pole-pdfs/${pays}/${pole}`, { method: "GET" });
             if (response.ok) {
                 const data = await response.json();
                 setPoleFiles(data.files || []);
@@ -87,7 +87,7 @@ function OutilGestion() {
                 formData.append("pdfs", file);
             });
 
-            const response = await apiFetch(`/api/upload-pole-pdfs/${currentUser.pole}`, {
+            const response = await apiFetch(`/api/upload-pole-pdfs/${currentUser.pays}/${currentUser.pole}`, {
                 method: "POST",
                 body: formData,
             });
@@ -120,7 +120,7 @@ function OutilGestion() {
 
         try {
             const response = await apiFetch(
-                `/api/delete-pole-pdf/${currentUser.pole}?file=${encodeURIComponent(fileName)}`,
+                `/api/delete-pole-pdf/${currentUser.pays}/${currentUser.pole}?file=${encodeURIComponent(fileName)}`,
                 { method: "DELETE" }
             );
 
@@ -143,24 +143,10 @@ function OutilGestion() {
 
     return (
         <>
-            <h1>Outil de Gestion</h1>
             {loading ? (
                 <p>Chargement...</p>
             ) : currentUser ? (
                 <>
-                    <div className="mb-8 p-6 bg-white rounded-lg shadow">
-                        <h2 className="text-2xl font-semibold mb-4">Informations de l'utilisateur connecté</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            <p><strong>Nom:</strong> {currentUser.nom}</p>
-                            <p><strong>Prénom:</strong> {currentUser.prenom}</p>
-                            <p><strong>Email:</strong> {currentUser.email}</p>
-                            <p><strong>Téléphone:</strong> {currentUser.telephone}</p>
-                            <p><strong>Pays:</strong> {currentUser.pays}</p>
-                            <p><strong>Statut:</strong> {currentUser.statut}</p>
-                            <p><strong>Pôle:</strong> {currentUser.pole}</p>
-                        </div>
-                    </div>
-
                     {/* Section gestion PDFs du pôle */}
                     <div className="mb-8 p-6 bg-white rounded-lg shadow">
                         <h2 className="text-2xl font-semibold mb-4">📄 Gestion des PDFs du pôle "{pole}"</h2>
@@ -217,7 +203,7 @@ function OutilGestion() {
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                     {poleFiles.map((fileName, idx) => {
-                                        const downloadUrl = `${API_BASE}/pdf/${pole}/${fileName}`;
+                                        const downloadUrl = `${API_BASE}/pdf/${currentUser.pays}/${pole}/${fileName}`;
                                         return (
                                             <div
                                                 key={idx}

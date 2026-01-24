@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const AccountModel = require("../models/AccountModel");
 
 const PDF_BASE_DIR = path.join(__dirname, "../pdf");
 
@@ -8,20 +9,57 @@ if (!fs.existsSync(PDF_BASE_DIR)) {
   fs.mkdirSync(PDF_BASE_DIR, { recursive: true });
 }
 
+// Vérifier les permissions de l'utilisateur
+const checkUserPermission = async (userId, pays, pole) => {
+  const userAccount = await AccountModel.findById(userId);
+  if (!userAccount) {
+    return { authorized: false, error: "Compte introuvable" };
+  }
+
+  // Super admin (S) peut tout faire
+  if (userAccount.statut === "S") {
+    return { authorized: true };
+  }
+
+  // Admin pays (X) ne peut gérer que son propre pays
+  if (userAccount.statut === "X") {
+    if (String(userAccount.pays) !== pays) {
+      return { authorized: false, error: "Vous n'avez pas la permission d'accéder aux PDFs de ce pays." };
+    }
+    return { authorized: true };
+  }
+
+  // Les utilisateurs normaux peuvent accéder uniquement à leurs propres PDFs (même pays et pôle)
+  if (String(userAccount.pays) !== pays || userAccount.pole !== pole) {
+    return { authorized: false, error: "Vous n'avez la permission d'accéder que aux PDFs de votre propre pôle." };
+  }
+
+  return { authorized: true };
+};
+
 module.exports.uploadPolePdfs = async (req, res) => {
   try {
-    const { pole } = req.params;
+    const { pays, pole } = req.params;
 
-    if (!pole) {
-      return res.status(400).json({ error: "Pôle requis" });
+    if (!pays || !pole) {
+      return res.status(400).json({ error: "Pays et pôle requis" });
     }
 
-    // Valider que le pôle ne contient que des caractères sûrs
+    // Valider que les paramètres ne contiennent que des caractères sûrs
+    if (!/^[a-zA-Z0-9_-]+$/.test(pays)) {
+      return res.status(400).json({ error: "Pays invalide" });
+    }
     if (!/^[a-zA-Z0-9_-]+$/.test(pole)) {
       return res.status(400).json({ error: "Pôle invalide" });
     }
 
-    const poleDir = path.join(PDF_BASE_DIR, pole);
+    // Vérifier les permissions
+    const permission = await checkUserPermission(req.user.sub, pays, pole);
+    if (!permission.authorized) {
+      return res.status(403).json({ error: permission.error });
+    }
+
+    const poleDir = path.join(PDF_BASE_DIR, pays, pole);
 
     // Créer le répertoire du pôle s'il n'existe pas
     if (!fs.existsSync(poleDir)) {
@@ -69,18 +107,27 @@ module.exports.uploadPolePdfs = async (req, res) => {
 
 module.exports.getPolePdfs = async (req, res) => {
   try {
-    const { pole } = req.params;
+    const { pays, pole } = req.params;
 
-    if (!pole) {
-      return res.status(400).json({ error: "Pôle requis" });
+    if (!pays || !pole) {
+      return res.status(400).json({ error: "Pays et pôle requis" });
     }
 
-    // Valider que le pôle ne contient que des caractères sûrs
+    // Valider que les paramètres ne contiennent que des caractères sûrs
+    if (!/^[a-zA-Z0-9_-]+$/.test(pays)) {
+      return res.status(400).json({ error: "Pays invalide" });
+    }
     if (!/^[a-zA-Z0-9_-]+$/.test(pole)) {
       return res.status(400).json({ error: "Pôle invalide" });
     }
 
-    const poleDir = path.join(PDF_BASE_DIR, pole);
+    // Vérifier les permissions
+    const permission = await checkUserPermission(req.user.sub, pays, pole);
+    if (!permission.authorized) {
+      return res.status(403).json({ error: permission.error });
+    }
+
+    const poleDir = path.join(PDF_BASE_DIR, pays, pole);
 
     // Si le répertoire n'existe pas, retourner une liste vide
     if (!fs.existsSync(poleDir)) {
@@ -99,19 +146,28 @@ module.exports.getPolePdfs = async (req, res) => {
 
 module.exports.deletePolePdf = async (req, res) => {
   try {
-    const { pole } = req.params;
+    const { pays, pole } = req.params;
     const { file } = req.query;
 
-    if (!pole || !file) {
-      return res.status(400).json({ error: "Pôle et fichier requis" });
+    if (!pays || !pole || !file) {
+      return res.status(400).json({ error: "Pays, pôle et fichier requis" });
     }
 
-    // Valider que le pôle ne contient que des caractères sûrs
+    // Valider que les paramètres ne contiennent que des caractères sûrs
+    if (!/^[a-zA-Z0-9_-]+$/.test(pays)) {
+      return res.status(400).json({ error: "Pays invalide" });
+    }
     if (!/^[a-zA-Z0-9_-]+$/.test(pole)) {
       return res.status(400).json({ error: "Pôle invalide" });
     }
 
-    const poleDir = path.join(PDF_BASE_DIR, pole);
+    // Vérifier les permissions
+    const permission = await checkUserPermission(req.user.sub, pays, pole);
+    if (!permission.authorized) {
+      return res.status(403).json({ error: permission.error });
+    }
+
+    const poleDir = path.join(PDF_BASE_DIR, pays, pole);
     const filePath = path.join(poleDir, file);
 
     // Vérifier que le fichier existe et qu'il est bien dans le répertoire du pôle
@@ -134,3 +190,5 @@ module.exports.deletePolePdf = async (req, res) => {
     res.status(500).json({ error: "Erreur interne du serveur" });
   }
 };
+
+

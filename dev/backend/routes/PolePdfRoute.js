@@ -14,9 +14,9 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB max
 });
 
-// Routes
-router.post("/upload-pole-pdfs/:pole", authVerif, upload.array("pdfs"), uploadPolePdfs);
-router.get("/pole-pdfs/:pole", authVerif, getPolePdfs);
-router.delete("/delete-pole-pdf/:pole", authVerif, deletePolePdf);
+// Routes avec structure /pays/pole
+router.post("/upload-pole-pdfs/:pays/:pole", authVerif, upload.array("pdfs"), uploadPolePdfs);
+router.get("/pole-pdfs/:pays/:pole", authVerif, getPolePdfs);
+router.delete("/delete-pole-pdf/:pays/:pole", authVerif, deletePolePdf);
 
 module.exports = router;
