@@ -278,8 +278,8 @@ graph LR
     User[Clients HTTPS] --> Nginx[Reverse Proxy Nginx]
     Nginx -->|443 -> 5173| Front[Dashboard]
     Nginx -->|443 -> 5174| Site[Site Vitrine]
-    Nginx -->|443 -> 5000| API[API Backend (PM2)]
-    API --> Mongo[MongoDB (Port 27017)]
+    Nginx -->|443 -> 5000| API["API Backend (PM2)"]
+    API --> Mongo["MongoDB (Port 27017)"]
 ```
 ### 8.2 Variables d'Environnement (Production)
 ```env
