@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { apiFetch } from "../services/api";
 import Beneficiaires from "./Beneficiaires";
+import Heberges from "./Heberges";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -248,6 +249,11 @@ function OutilGestion() {
                     {pole === "permanence" && (
                         <div className="mt-8">
                             <Beneficiaires />
+                        </div>
+                    )}
+                    {pole === "hebergement" && (
+                        <div className="mt-8">
+                            <Heberges />
                         </div>
                     )}
                 </>

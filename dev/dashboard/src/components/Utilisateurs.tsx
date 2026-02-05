@@ -458,12 +458,15 @@ const Users = () => {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Pôle</label>
-                <input
-                  type="text"
+                <select
                   value={formData.pole}
                   onChange={(e) => setFormData({ ...formData, pole: e.target.value })}
                   className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none transition-colors ${errors.pole ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-yellow-500"}`}
-                />
+                >
+                  <option value="">-- Sélectionnez un pôle --</option>
+                  <option value="permanence">Permanence</option>
+                  <option value="hebergement">Hébergement</option>
+                </select>
               </div>
 
               {/* Gestion du mot de passe */}

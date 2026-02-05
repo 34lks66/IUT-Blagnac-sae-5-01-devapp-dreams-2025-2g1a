@@ -15,6 +15,15 @@ const {
   deletePDF,
 } = require("../controllers/BeneficiaireController");
 const {
+  getHeberge,
+  getHebergeID,
+  saveHeberge,
+  updateHeberge,
+  deleteHeberge,
+  addPDFHeberge,
+  deletePDFHeberge,
+} = require("../controllers/HebergeController");
+const {
   getPays,
   savePays,
   updatePays,
@@ -209,6 +218,33 @@ router.post(
   addPDF
 );
 router.delete("/beneficiaire/:id/pdf", authVerif, deletePDF);
+
+//////////////////////////////////////////////////////////////////
+///////////////////////// Hebergés ////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+router.get("/heberge/get", getHeberge);
+router.get("/heberge/get/:id", getHebergeID);
+router.post(
+  "/heberge/save",
+  authVerif,
+  upload.single("image"),
+  saveHeberge
+);
+router.put(
+  "/heberge/update/:id",
+  authVerif,
+  upload.single("image"),
+  updateHeberge
+);
+router.delete("/heberge/delete/:id", authVerif, deleteHeberge);
+router.post(
+  "/heberge/:id/pdf",
+  authVerif,
+  pdfUpload.single("pdf"),
+  addPDFHeberge
+);
+router.delete("/heberge/:id/pdf", authVerif, deletePDFHeberge);
 
 //////////////////////////////////////////////////////////////////
 ///////////////////////// Pays // ////////////////////////////////
