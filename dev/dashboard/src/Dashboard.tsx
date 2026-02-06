@@ -16,7 +16,7 @@ const DashboardContent = () => {
       if (role === "O") {
         setActiveTab("outilgestion");
       } else {
-        setActiveTab("beneficiaires");
+        setActiveTab("dashboard");
       }
     }
   }, [loading, role]);

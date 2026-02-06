@@ -1,6 +1,7 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useContext } from 'react';
 import { apiFetch } from "../services/api";
 import { Link } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext';
 
 interface Volunteer {
   _id: string;
@@ -28,6 +29,7 @@ interface BeneficiaireFormData {
 }
 
 const Beneficiaires = () => {
+  const { user } = useContext(AuthContext)!;
   const [beneficiaires, setBeneficiaires] = useState<Beneficiaire[]>([]);
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -63,6 +65,19 @@ const Beneficiaires = () => {
   // Chargement des comptes, puis filtrage bénévoles (statut "O")
   useEffect(() => {
     const fetchVolunteers = async () => {
+      // Si l'utilisateur est un bénévole (role 'O'), on ne fetch pas les comptes (403 forbidden)
+      // On l'ajoute lui-même à la liste pour le dropdown pour qu'il puisse se sélectionner
+      if (user?.role === 'O') {
+        setVolunteers([{
+          _id: user._id,
+          nom: user.nom,
+          prenom: user.prenom,
+          email: user.email,
+          statut: user.role
+        }]);
+        return;
+      }
+
       try {
         const res = await apiFetch("/api/accounts", { method: "GET" });
         if (!res.ok) throw new Error("Erreur lors du chargement des comptes");
@@ -74,8 +89,10 @@ const Beneficiaires = () => {
       }
     };
 
-    fetchVolunteers();
-  }, []);
+    if (user) {
+      fetchVolunteers();
+    }
+  }, [user]);
 
   const handleSubmit = async () => {
     const { nom, prenom, telephone, mail, benevole } = formData;
@@ -173,12 +190,14 @@ const Beneficiaires = () => {
       });
     } else {
       setEditingBeneficiaire(null);
+      // Pré-sélectionner l'utilisateur si c'est un bénévole
+      const defaultBenevole = user?.role === 'O' ? user._id : '';
       setFormData({
         nom: '',
         prenom: '',
         mail: '',
         telephone: '',
-        benevole: '',
+        benevole: defaultBenevole,
       });
     }
     setIsModalOpen(true);
@@ -397,15 +416,14 @@ const Beneficiaires = () => {
                   !formData.telephone ||
                   !formData.benevole
                 }
-                className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${
-                  !formData.nom ||
-                  !formData.prenom ||
-                  !formData.mail ||
-                  !formData.telephone ||
-                  !formData.benevole
+                className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${!formData.nom ||
+                    !formData.prenom ||
+                    !formData.mail ||
+                    !formData.telephone ||
+                    !formData.benevole
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                     : "bg-yellow-500 text-white hover:shadow-lg"
-                }`}
+                  }`}
               >
                 {editingBeneficiaire ? 'Modifier le bénéficiaire' : 'Créer le bénéficiaire'}
               </button>
