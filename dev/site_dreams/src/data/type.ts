@@ -6,4 +6,5 @@ export interface Event {
     location: string;
     description: string;
     antenna: string;
+    image?: string;
 }
