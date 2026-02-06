@@ -24,6 +24,7 @@ if (!fs.existsSync(pdfDir)) {
 const Routes = require('./routes/Route');
 const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
+const polePdfRoutes = require('./routes/PolePdfRoute');
 const cookieParser = require("cookie-parser"); 
 const { authVerif, authVerifRole } = require("./middlewares/auth");
 const { events } = require("./models/MemberModel");
@@ -170,6 +171,7 @@ app.get('/swagger.json', (req, res) => {
  
 app.use('/api', Routes);
 app.use('/api', authRoutes);
+app.use('/api', polePdfRoutes);
 app.use('/api/accounts', authVerif, authVerifRole(["X", "S"]), accountRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
