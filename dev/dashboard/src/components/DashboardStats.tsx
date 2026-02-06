@@ -27,10 +27,18 @@ type Event = {
   antenna: string;
 };
 
+type Project = {
+  id: number;
+  titre: string;
+  description: string;
+  pays: string
+}
+
 const DashboardStats = () => {
   const [antennes, setAntennes] = useState<Antenne[]>([]);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [activeView, setActiveView] = useState<
     "overview" | "antennes" | "membres" | "evenements"
   >("overview");
@@ -49,6 +57,13 @@ const DashboardStats = () => {
       .catch((err) => console.error("Erreur comptes:", err));
   };
 
+  const getProjects = () => {
+    apiFetch("/api/project/get/")
+      .then((res) => res.json())
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Erreur comptes:", err));
+  };
+
   const getAntennes = () => {
     apiFetch("/api/antenne/get")
       .then((res) => res.json())
@@ -60,18 +75,8 @@ const DashboardStats = () => {
     getAntennes();
     getAccounts();
     getEvents();
+    getProjects();
   }, []);
-
-  const getAntenneName = (
-    antenneData: string | { _id: string; nom: string } | null | undefined
-  ): string => {
-    if (!antenneData) return "Antenne inconnue";
-    if (typeof antenneData === "object" && antenneData !== null) {
-      return antenneData.nom;
-    }
-    const antenneTrouve = antennes.find((p) => p._id === antenneData);
-    return antenneTrouve ? antenneTrouve.nom : "Antenne inconnue";
-  };
 
   // Statistiques principales avec données réelles
   const mainStats = [
@@ -136,9 +141,8 @@ const DashboardStats = () => {
       ),
     },
     {
-      title: "Taux de participation",
-      value: "78%",
-      change: "+3%",
+      title: "Projets en cours",
+      value: projects.length.toString(),
       isPositive: true,
       icon: (
         <svg
@@ -151,7 +155,13 @@ const DashboardStats = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 13l2 2 4-4"
           />
         </svg>
       ),
@@ -384,14 +394,16 @@ const DashboardStats = () => {
                     {account.nom} s'est connecté
                   </p>
                   <span className="text-xs text-gray-500">
-                    à {new Date(account.connexion).toLocaleTimeString(
-                          "fr-FR",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )
-                      }
+                    le{" "}
+                    {new Date(account.connexion).toLocaleDateString("fr-FR", {
+                      day: "2-digit",
+                      month: "long",
+                    })}{" "}
+                    à{" "}
+                    {new Date(account.connexion).toLocaleTimeString("fr-FR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </span>
                 </div>
               </div>
@@ -444,112 +456,6 @@ const DashboardStats = () => {
         {activeView === "antennes" && <AntennesView />}
         {activeView === "membres" && <MembresView />}
         {activeView === "evenements" && <EvenementsView />}
-      </div>
-
-      {/* Actions rapides pour administrateurs */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Actions rapides - Administration
-          </h2>
-          <span className="text-sm text-blue-600 font-medium">
-            Pour Christian et admins
-          </span>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            {
-              label: "Nouvel événement",
-              icon: (
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
-              ),
-              color: "blue",
-            },
-            {
-              label: "Gérer membres",
-              icon: (
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              ),
-              color: "green",
-            },
-            {
-              label: "Modifier contenu",
-              icon: (
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-              ),
-              color: "purple",
-            },
-            {
-              label: "Rapports",
-              icon: (
-                <svg
-                  className="w-4 h-4 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-              ),
-              color: "yellow",
-            },
-          ].map((action, index) => (
-            <button
-              key={index}
-              className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition duration-200 text-left group"
-            >
-              <div
-                className={`w-10 h-10 bg-${action.color}-500 rounded-lg mb-3 flex items-center justify-center group-hover:scale-110 transition-transform duration-200`}
-              >
-                {action.icon}
-              </div>
-              <span className="text-sm font-medium text-gray-900">
-                {action.label}
-              </span>
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );
