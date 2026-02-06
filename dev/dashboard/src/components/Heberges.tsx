@@ -11,7 +11,7 @@ interface Volunteer {
   statut: string;
 }
 
-interface Beneficiaire {
+interface Heberge {
   _id?: string;
   nom: string;
   prenom: string;
@@ -20,7 +20,7 @@ interface Beneficiaire {
   benevole?: string | Volunteer;
 }
 
-interface BeneficiaireFormData {
+interface HebergeFormData {
   nom: string;
   prenom: string;
   mail: string;
@@ -30,12 +30,12 @@ interface BeneficiaireFormData {
 
 const Heberges = () => {
   const { user } = useContext(AuthContext)!;
-  const [beneficiaires, setBeneficiaires] = useState<Beneficiaire[]>([]);
+  const [heberges, setHeberges] = useState<Heberge[]>([]);
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingBeneficiaire, setEditingBeneficiaire] = useState<Beneficiaire | null>(null);
-  const [formData, setFormData] = useState<BeneficiaireFormData>({
+  const [editingHeberge, setEditingHeberge] = useState<Heberge | null>(null);
+  const [formData, setFormData] = useState<HebergeFormData>({
     nom: '',
     prenom: '',
     mail: '',
@@ -47,18 +47,18 @@ const Heberges = () => {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchBeneficiaires = async () => {
+    const fetchHeberges = async () => {
       try {
-        const res = await apiFetch("/api/beneficiaire/get", { method: "GET" });
-        if (!res.ok) throw new Error("Erreur lors du chargement des bénéficiaires");
+        const res = await apiFetch("/api/heberge/get", { method: "GET" });
+        if (!res.ok) throw new Error("Erreur lors du chargement des hébergés");
         const data = await res.json();
-        setBeneficiaires(data);
+        setHeberges(data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchBeneficiaires();
+    fetchHeberges();
   }, []);
 
   useEffect(() => {
@@ -100,30 +100,30 @@ const Heberges = () => {
       return;
     }
 
-    const beneficiaireData = { nom, prenom, telephone, mail, benevole };
+    const hebergeData = { nom, prenom, telephone, mail, benevole };
 
     try {
       let res;
-      if (editingBeneficiaire) {
-        res = await apiFetch(`/api/beneficiaire/update/${editingBeneficiaire._id}`, {
+      if (editingHeberge) {
+        res = await apiFetch(`/api/heberge/update/${editingHeberge._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(beneficiaireData),
+          body: JSON.stringify(hebergeData),
         });
       } else {
-        res = await apiFetch("/api/beneficiaire/save", {
+        res = await apiFetch("/api/heberge/save", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(beneficiaireData),
+          body: JSON.stringify(hebergeData),
         });
       }
 
-      if (!res.ok) throw new Error("Erreur lors de l'enregistrement du bénéficiaire");
+      if (!res.ok) throw new Error("Erreur lors de l'enregistrement de l'hébergé");
 
-      const newRes = await apiFetch("/api/beneficiaire/get", { method: "GET" });
-      if (!newRes.ok) throw new Error("Erreur lors du rechargement des bénéficiaires");
+      const newRes = await apiFetch("/api/heberge/get", { method: "GET" });
+      if (!newRes.ok) throw new Error("Erreur lors du rechargement des hébergés");
       const newData = await newRes.json();
-      setBeneficiaires(newData);
+      setHeberges(newData);
       closeModal();
     } catch (error) {
       console.error(error);
@@ -132,49 +132,49 @@ const Heberges = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await apiFetch(`/api/beneficiaire/delete/${id}`, { method: "DELETE" });
+      const res = await apiFetch(`/api/heberge/delete/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Erreur lors de la suppression");
-      setBeneficiaires(beneficiaires.filter((b) => b._id !== id));
+      setHeberges(heberges.filter((b) => b._id !== id));
     } catch (error) {
       console.error(error);
     }
   };
 
-  const filteredBeneficiaires = useMemo(() => {
-    return beneficiaires.filter((beneficiaire) => {
+  const filteredHeberges = useMemo(() => {
+    return heberges.filter((heberge) => {
       const benevoleName =
-        typeof beneficiaire.benevole === "object" && beneficiaire.benevole
-          ? `${beneficiaire.benevole.nom} ${beneficiaire.benevole.prenom}`
+        typeof heberge.benevole === "object" && heberge.benevole
+          ? `${heberge.benevole.nom} ${heberge.benevole.prenom}`
           : "";
 
       return [
-        beneficiaire.nom,
-        beneficiaire.prenom,
-        beneficiaire.mail,
-        beneficiaire.telephone,
+        heberge.nom,
+        heberge.prenom,
+        heberge.mail,
+        heberge.telephone,
         benevoleName,
       ]
         .join(' ')
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
     });
-  }, [beneficiaires, searchTerm]);
+  }, [heberges, searchTerm]);
 
-  const openModal = (beneficiaire?: Beneficiaire) => {
-    if (beneficiaire) {
-      setEditingBeneficiaire(beneficiaire);
+  const openModal = (heberge?: Heberge) => {
+    if (heberge) {
+      setEditingHeberge(heberge);
 
-      const benevoleId = typeof beneficiaire.benevole === "string" ? beneficiaire.benevole : beneficiaire.benevole?._id || "";
+      const benevoleId = typeof heberge.benevole === "string" ? heberge.benevole : heberge.benevole?._id || "";
 
       setFormData({
-        nom: beneficiaire.nom,
-        prenom: beneficiaire.prenom,
-        mail: beneficiaire.mail,
-        telephone: beneficiaire.telephone,
+        nom: heberge.nom,
+        prenom: heberge.prenom,
+        mail: heberge.mail,
+        telephone: heberge.telephone,
         benevole: benevoleId,
       });
     } else {
-      setEditingBeneficiaire(null);
+      setEditingHeberge(null);
       // Pré-sélectionner l'utilisateur si c'est un bénévole
       const defaultBenevole = user?.role === 'O' ? user._id : '';
       setFormData({ nom: '', prenom: '', mail: '', telephone: '', benevole: defaultBenevole });
@@ -184,7 +184,7 @@ const Heberges = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setEditingBeneficiaire(null);
+    setEditingHeberge(null);
     setFormData({ nom: '', prenom: '', mail: '', telephone: '', benevole: '' });
   };
 
@@ -225,32 +225,32 @@ const Heberges = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredBeneficiaires.length === 0 ? (
+              {filteredHeberges.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-gray-400">Aucun élément trouvé</td>
                 </tr>
               ) : (
-                filteredBeneficiaires.map((beneficiaire) => {
+                filteredHeberges.map((heberge) => {
                   let benevoleLabel = '-';
-                  if (typeof beneficiaire.benevole === "object" && beneficiaire.benevole) {
-                    benevoleLabel = `${beneficiaire.benevole.prenom} ${beneficiaire.benevole.nom}`;
-                  } else if (typeof beneficiaire.benevole === "string") {
-                    const v = volunteers.find(vol => vol._id === beneficiaire.benevole);
+                  if (typeof heberge.benevole === "object" && heberge.benevole) {
+                    benevoleLabel = `${heberge.benevole.prenom} ${heberge.benevole.nom}`;
+                  } else if (typeof heberge.benevole === "string") {
+                    const v = volunteers.find(vol => vol._id === heberge.benevole);
                     if (v) benevoleLabel = `${v.prenom} ${v.nom}`;
                   }
 
                   return (
-                    <tr key={beneficiaire._id} className="border-b border-gray-100 hover:bg-yellow-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-800">{beneficiaire.nom}</td>
-                      <td className="px-6 py-4 text-gray-700">{beneficiaire.prenom}</td>
-                      <td className="px-6 py-4 text-gray-700">{beneficiaire.mail}</td>
-                      <td className="px-6 py-4 text-gray-700">{beneficiaire.telephone}</td>
+                    <tr key={heberge._id} className="border-b border-gray-100 hover:bg-yellow-50 transition-colors">
+                      <td className="px-6 py-4 font-medium text-gray-800">{heberge.nom}</td>
+                      <td className="px-6 py-4 text-gray-700">{heberge.prenom}</td>
+                      <td className="px-6 py-4 text-gray-700">{heberge.mail}</td>
+                      <td className="px-6 py-4 text-gray-700">{heberge.telephone}</td>
                       <td className="px-6 py-4 text-gray-700">{benevoleLabel}</td>
                       <td className="px-6 py-4">
                         <div className="flex gap-2">
-                          <Link to={`/beneficiaire/${beneficiaire._id}`} className="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 text-sm font-medium">Voir</Link>
-                          <button onClick={() => openModal(beneficiaire)} className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium">Modifier</button>
-                          <button onClick={() => { setDeleteId(beneficiaire._id || null); setShowDeleteModal(true); }} className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium">Supprimer</button>
+                          <Link to={`/heberge/${heberge._id}`} className="px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 text-sm font-medium">Voir</Link>
+                          <button onClick={() => openModal(heberge)} className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 text-sm font-medium">Modifier</button>
+                          <button onClick={() => { setDeleteId(heberge._id || null); setShowDeleteModal(true); }} className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 text-sm font-medium">Supprimer</button>
                         </div>
                       </td>
                     </tr>
@@ -265,7 +265,7 @@ const Heberges = () => {
       {isModalOpen && (
         <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4" onClick={closeModal}>
           <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-2xl font-bold mb-6 text-yellow-500 bg-clip-text text-transparent">{editingBeneficiaire ? 'Modifier' : 'Ajouter'}</h2>
+            <h2 className="text-2xl font-bold mb-6 text-yellow-500 bg-clip-text text-transparent">{editingHeberge ? 'Modifier' : 'Ajouter'}</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
@@ -302,7 +302,7 @@ const Heberges = () => {
             <div className="flex gap-3 mt-8">
               <button onClick={closeModal} className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-colors font-medium">Annuler</button>
               <button onClick={handleSubmit} disabled={!formData.nom || !formData.prenom || !formData.mail || !formData.telephone || !formData.benevole} className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${!formData.nom || !formData.prenom || !formData.mail || !formData.telephone || !formData.benevole ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-yellow-500 text-white hover:shadow-lg"}`}>
-                {editingBeneficiaire ? 'Modifier' : 'Créer'}
+                {editingHeberge ? 'Modifier' : 'Créer'}
               </button>
             </div>
           </div>

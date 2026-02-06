@@ -150,7 +150,7 @@ function OutilGestion() {
                 <>
                     {/* Section gestion PDFs du pôle */}
                     <div className="mb-8 p-6 bg-white rounded-lg shadow">
-                        <h2 className="text-2xl font-semibold mb-4">📄 Gestion des PDFs du pôle "{pole}"</h2>
+                        <h2 className="text-2xl font-semibold mb-4">Gestion des PDFs du pôle "{pole}"</h2>
 
                         {/* Formulaire d'upload */}
                         <div className="mb-6 p-4 border-2 border-dashed border-blue-300 rounded-lg bg-blue-50">
@@ -185,7 +185,7 @@ function OutilGestion() {
                                 disabled={uploadLoading || pdfFiles.length === 0}
                                 className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                             >
-                                {uploadLoading ? "Upload en cours..." : "📤 Uploader les PDFs"}
+                                {uploadLoading ? "Upload en cours..." : "Uploader les PDFs"}
                             </button>
                         </div>
 
@@ -229,13 +229,13 @@ function OutilGestion() {
                                                         rel="noopener noreferrer"
                                                         className="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs rounded-lg border border-blue-300 text-blue-600 hover:bg-blue-50 font-medium transition"
                                                     >
-                                                        📥 Télécharger
+                                                        Télécharger
                                                     </a>
                                                     <button
                                                         onClick={() => handleDeletePDF(fileName)}
                                                         className="flex-1 inline-flex items-center justify-center px-3 py-2 text-xs rounded-lg border border-red-300 text-red-600 hover:bg-red-50 font-medium transition"
                                                     >
-                                                        🗑 Supprimer
+                                                        Supprimer
                                                     </button>
                                                 </div>
                                             </div>
