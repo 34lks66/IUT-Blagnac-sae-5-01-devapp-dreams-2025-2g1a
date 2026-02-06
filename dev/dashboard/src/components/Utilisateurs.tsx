@@ -466,6 +466,11 @@ const Users = () => {
                   <option value="">-- Sélectionnez un pôle --</option>
                   <option value="permanence">Permanence</option>
                   <option value="hebergement">Hébergement</option>
+                  <option value="communication">Communication</option>
+                  <option value="financessubventions">Finances et Subventions</option>
+                  <option value="logistique">Logistique</option>
+                  <option value="sensibilisationsexuelle">Sensibilisation Sexuelle</option>
+
                 </select>
               </div>
 
