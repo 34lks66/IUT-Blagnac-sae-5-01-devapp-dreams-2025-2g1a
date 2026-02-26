@@ -9,13 +9,13 @@ module.exports.getAccounts = async (req, res) => {
     }
 
     if (userAccount.statut === "S") {
-      const accounts = await AccountModel.find();
+      const accounts = await AccountModel.find().select("-password");
       res.json(accounts);
     } else if (userAccount.statut === "X") {
       const accounts = await AccountModel.find({
         pays: userAccount.pays,
         statut: "O",
-      });
+      }).select("-password");
       res.json(accounts);
     } else {
       res.json([]);
@@ -41,6 +41,13 @@ module.exports.saveAccount = async (req, res) => {
       return res.status(400).json({ error: "Un compte avec cet email existe déjà." });
     }
 
+
+    // Validation complexité mot de passe
+    if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+      return res.status(400).json({
+        error: "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre"
+      });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -79,7 +86,9 @@ module.exports.saveAccount = async (req, res) => {
     });
 
     console.log("Compte créé avec succès !");
-    res.status(201).json(newAccount);
+    const accountResponse = newAccount.toObject();
+    delete accountResponse.password;
+    res.status(201).json(accountResponse);
   } catch (error) {
     console.error("Erreur lors de l'enregistrement du compte :", error);
     res.status(500).json({ error: "Erreur interne du serveur" });

@@ -40,11 +40,11 @@ exports.login = async (req, res) => {
 
   try {
     const account = await Account.findOne({ email });
-    if (!account) return res.status(401).json({ message: "Email introuvable" });
+    if (!account) return res.status(401).json({ message: "Email ou mot de passe incorrect" });
 
     const same = await bcrypt.compare(password, account.password);
     if (!same)
-      return res.status(401).json({ message: "Mot de passe incorrect" });
+      return res.status(401).json({ message: "Email ou mot de passe incorrect" });
 
 
     const token = signAccessToken(account);
@@ -107,7 +107,7 @@ exports.login = async (req, res) => {
     });
   } catch (err) {
     console.error("login error", err);
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
@@ -247,7 +247,7 @@ exports.updateProfile = async (req, res) => {
 
   } catch (error) {
     console.error("updateProfile error", error);
-    res.status(500).json({ message: "Erreur serveur", error: error.message });
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
@@ -280,6 +280,13 @@ exports.changePassword = async (req, res) => {
       return res.status(400).json({
         message:
           "Champs manquants : currentPassword et newPassword obligatoires",
+      });
+    }
+
+    // Validation complexité mot de passe
+    if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+      return res.status(400).json({
+        message: "Le mot de passe doit contenir au moins 8 caractères, une majuscule et un chiffre",
       });
     }
 
@@ -329,7 +336,6 @@ exports.changePassword = async (req, res) => {
     console.error("changePassword error", err);
     return res.status(500).json({
       message: "Erreur serveur",
-      error: err.message,
     });
   }
 };

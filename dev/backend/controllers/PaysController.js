@@ -92,11 +92,16 @@ module.exports.updatePays = async (req, res) => {
     // si une nouvelle image arrive, on supprime l’ancienne du disque
     if (newImage && existingPays.image) {
       try {
+        const safeUploadsDir = path.resolve(path.join(__dirname, "../uploads"));
         const relPath = existingPays.image.replace(/^\/+/, "");
-        const absImagePath = path.join(__dirname, "..", relPath);
-        await fs.access(absImagePath);
-        await fs.unlink(absImagePath);
-        console.log("Ancienne image du pays supprimée :", absImagePath);
+        const absImagePath = path.resolve(path.join(__dirname, "..", relPath));
+        if (!absImagePath.startsWith(safeUploadsDir)) {
+          console.warn("Tentative de path traversal bloquée :", existingPays.image);
+        } else {
+          await fs.access(absImagePath);
+          await fs.unlink(absImagePath);
+          console.log("Ancienne image du pays supprimée :", absImagePath);
+        }
       } catch (errFile) {
         console.warn("Erreur suppression ancienne image pays :", errFile);
       }
@@ -142,11 +147,16 @@ module.exports.deletePays = async (req, res) => {
     // suppression du fichier image du pays (si présent)
     if (existingPays.image) {
       try {
+        const safeUploadsDir = path.resolve(path.join(__dirname, "../uploads"));
         const relPath = existingPays.image.replace(/^\/+/, "");
-        const absImagePath = path.join(__dirname, "..", relPath);
-        console.log("Suppression image pays :", absImagePath);
-        await fs.access(absImagePath);
-        await fs.unlink(absImagePath);
+        const absImagePath = path.resolve(path.join(__dirname, "..", relPath));
+        if (!absImagePath.startsWith(safeUploadsDir)) {
+          console.warn("Tentative de path traversal bloquée :", existingPays.image);
+        } else {
+          console.log("Suppression image pays :", absImagePath);
+          await fs.access(absImagePath);
+          await fs.unlink(absImagePath);
+        }
       } catch (errFile) {
         console.warn("Erreur suppression image pays :", errFile);
       }

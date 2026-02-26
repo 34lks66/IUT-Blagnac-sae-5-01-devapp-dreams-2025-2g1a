@@ -97,13 +97,18 @@ module.exports.deleteBeneficiaire = async (req, res) => {
 
     // Supprimer tous les PDFs associés
     if (Array.isArray(existingBenef.pdf) && existingBenef.pdf.length > 0) {
+      const safePdfDir = path.resolve(path.join(__dirname, "../pdf"));
       for (const pdfPath of existingBenef.pdf) {
         if (!pdfPath) continue;
 
         try {
-          const relPath = pdfPath.replace(/^\/+/, ""); // "/pdf/xxx" -> "pdf/xxx"
-          const absPdfPath = path.join(__dirname, "..", relPath);
-          console.log("Suppression PDF (deleteBeneficiaire) :", absPdfPath);
+          const relPath = pdfPath.replace(/^\/+/, "");
+          const absPdfPath = path.resolve(path.join(__dirname, "..", relPath));
+          // Protection path traversal
+          if (!absPdfPath.startsWith(safePdfDir)) {
+            console.warn("Tentative de path traversal bloquée :", pdfPath);
+            continue;
+          }
           await fs.access(absPdfPath);
           await fs.unlink(absPdfPath);
         } catch (errFile) {
@@ -170,11 +175,15 @@ module.exports.deletePDF = async (req, res) => {
       return res.status(404).json({ error: "PDF non trouvé pour ce bénéficiaire" });
     }
 
-    // suppression du fichier physique
+    // suppression du fichier physique (avec protection path traversal)
+    const safePdfDir2 = path.resolve(path.join(__dirname, "../pdf"));
     try {
-      const relPath = file.replace(/^\/+/, ""); // "/pdf/xxx" -> "pdf/xxx"
-      const absPdfPath = path.join(__dirname, "..", relPath);
-      console.log("Suppression PDF (deletePDF) :", absPdfPath);
+      const relPath = file.replace(/^\/+/, "");
+      const absPdfPath = path.resolve(path.join(__dirname, "..", relPath));
+      // Protection path traversal
+      if (!absPdfPath.startsWith(safePdfDir2)) {
+        return res.status(400).json({ error: "Chemin de fichier invalide" });
+      }
       await fs.access(absPdfPath);
       await fs.unlink(absPdfPath);
     } catch (errFile) {
