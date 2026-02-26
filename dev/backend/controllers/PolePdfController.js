@@ -167,11 +167,11 @@ module.exports.deletePolePdf = async (req, res) => {
       return res.status(403).json({ error: permission.error });
     }
 
-    const poleDir = path.join(PDF_BASE_DIR, pays, pole);
-    const filePath = path.join(poleDir, file);
+    const poleDir = path.resolve(path.join(PDF_BASE_DIR, pays, pole));
+    const filePath = path.resolve(path.join(poleDir, file));
 
     // Vérifier que le fichier existe et qu'il est bien dans le répertoire du pôle
-    if (!fs.existsSync(filePath) || !filePath.startsWith(poleDir)) {
+    if (!filePath.startsWith(poleDir) || !fs.existsSync(filePath)) {
       return res.status(404).json({ error: "Fichier non trouvé" });
     }
 

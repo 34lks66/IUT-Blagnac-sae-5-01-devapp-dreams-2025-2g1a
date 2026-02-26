@@ -71,11 +71,16 @@ module.exports.deleteHeberge = async (req, res) => {
     if (!existing) return res.status(404).json({ error: "Hebergé not found" });
 
     if (Array.isArray(existing.pdf) && existing.pdf.length > 0) {
+      const safePdfDir = path.resolve(path.join(__dirname, "../pdf"));
       for (const pdfPath of existing.pdf) {
         if (!pdfPath) continue;
         try {
           const relPath = pdfPath.replace(/^\/+/, "");
-          const absPdfPath = path.join(__dirname, "..", relPath);
+          const absPdfPath = path.resolve(path.join(__dirname, "..", relPath));
+          if (!absPdfPath.startsWith(safePdfDir)) {
+            console.warn("Tentative de path traversal bloquée :", pdfPath);
+            continue;
+          }
           await fs.access(absPdfPath);
           await fs.unlink(absPdfPath);
         } catch (errFile) {
@@ -123,9 +128,13 @@ module.exports.deletePDFHeberge = async (req, res) => {
     const index = existing.pdf.indexOf(file);
     if (index === -1) return res.status(404).json({ error: "PDF non trouvé pour cet hébergé" });
 
+    const safePdfDir2 = path.resolve(path.join(__dirname, "../pdf"));
     try {
       const relPath = file.replace(/^\/+/, "");
-      const absPdfPath = path.join(__dirname, "..", relPath);
+      const absPdfPath = path.resolve(path.join(__dirname, "..", relPath));
+      if (!absPdfPath.startsWith(safePdfDir2)) {
+        return res.status(400).json({ error: "Chemin de fichier invalide" });
+      }
       await fs.access(absPdfPath);
       await fs.unlink(absPdfPath);
     } catch (errFile) {

@@ -2,6 +2,28 @@ require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+// Sanitization NoSQL manuelle (compatible Express 5 où req.query est read-only)
+function sanitizeValue(val) {
+  if (typeof val === 'string') return val;
+  if (val === null || val === undefined) return val;
+  if (Array.isArray(val)) return val.map(sanitizeValue);
+  if (typeof val === 'object') {
+    const clean = {};
+    for (const key of Object.keys(val)) {
+      if (key.startsWith('$')) continue; // supprime les opérateurs MongoDB
+      clean[key] = sanitizeValue(val[key]);
+    }
+    return clean;
+  }
+  return val;
+}
+function mongoSanitize(req, _res, next) {
+  if (req.body) req.body = sanitizeValue(req.body);
+  if (req.params) req.params = sanitizeValue(req.params);
+  next();
+}
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./docs/swagger');
 const fs = require('fs');
@@ -25,7 +47,7 @@ const Routes = require('./routes/Route');
 const authRoutes = require('./routes/AuthentificationRoute');
 const accountRoutes = require('./routes/AccountRoute');
 const polePdfRoutes = require('./routes/PolePdfRoute');
-const cookieParser = require("cookie-parser"); 
+const cookieParser = require("cookie-parser");
 const { authVerif, authVerifRole } = require("./middlewares/auth");
 const { events } = require("./models/MemberModel");
 
@@ -34,90 +56,46 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
-
+// --- Security middleware ---
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // permet au frontend de charger les images
+}));
+app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
+app.use(mongoSanitize);
 
+// CORS: utiliser CORS_ORIGINS depuis .env (séparé par des virgules)
+const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:5173,http://localhost:5174")
+  .split(",")
+  .map(o => o.trim());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://6qbmdkkp-5174.uks1.devtunnels.ms"],
-    // origin: ["http://localhost:5173", "http://localhost:5174"], 
-    credentials: true, 
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
 
+// Rate limiting sur les routes d'authentification
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // 10 tentatives max par IP
+  message: { message: "Trop de tentatives de connexion, réessayez dans 15 minutes" },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 mongoose
-    .connect(process.env.MONGODB_URL)
-    .then(() => console.log("Connected to MongoDB"))
-    .catch((err) => console.log(err));
+  .connect(process.env.MONGODB_URL)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.log(err));
 
 app.get('/', (req, res) => {
-    res.json({ 
-        message: 'Server is running!',
-        routes: {
-          members: {
-            getMembers: 'GET /api/get',
-            saveMember: 'POST /api/save',
-            updateMember: 'PUT /api/update/:id',
-            deleteMember: 'DELETE /api/delete/:id'
-          },
-          beneficiaires: {
-            getBeneficiare: 'GET /api/beneficiaire/get',
-            getBeneficiaireID: 'GET /api/beneficiaire/get/:id',
-            saveBeneficiaire: 'POST /api/beneficiaire/save',
-            updateBeneficiaire: 'PUT /api/beneficiaire/update/:id',
-            deleteBeneficiaire: 'DELETE /api/beneficiaire/delete/:id'
-          },
-          news: {
-            getNews: 'GET /api/news/get',
-            getNewsID: 'GET /api/news/get/:id',
-            saveNews: 'POST /api/news/save',
-            updateNews: 'PUT /api/news/update/:id',
-            deleteNews: 'DELETE /api/news/delete/:id'
-          },
-          pays: {
-            getPays: 'GET /api/pays/get',
-            savePays: 'POST /api/pays/save',
-            updatePays: 'PUT /api/pays/update/:id',
-            deletePays: 'DELETE /api/pays/delete/:id'
-          },
-          NewsPays: {
-            getNewsPays: 'GET /api/newspays/get',
-            getNewsPaysID: 'GET /api/newspays/get/:id',
-            saveNewsPays: 'POST /api/newspays/save',
-            updateNewsPays: 'PUT /api/newspays/update/:id',
-            deleteNewsPays: 'DELETE /api/newspays/delete/:id'
-          },
-          antennes: {
-            getAntennes: 'GET /api/antenne/get',
-            saveAntenne: 'POST /api/antenne/save',
-            updateAntenne: 'PUT /api/antenne/update/:id',
-            deleteAntenne: 'DELETE /api/antenne/delete/:id'
-          },
-          events: {
-            getEvent: 'GET /api/event/get',
-            saveEvent: 'POST /api/event/save',
-            updateEvent: 'PUT /api/event/update/:id',
-            deleteEvent: 'DELETE /api/event/delete/:id'
-          },
-          projects: {
-            getProjects: 'GET /api/project/get',
-            getProject: 'GET /api/project/get/:id',
-            saveProject: 'POST /api/project/save',
-            updateProject: 'PUT /api/project/update/:id',
-            deleteProject: 'DELETE /api/project/delete/:id'
-          }
-        }
-    });
+  res.json({ message: 'Server is running!' });
 });
 
-app.get('/swagger.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
-});
-
- app.get('/api-docs-redoc', (req, res) => {
-   res.send(`
+// Documentation API : protégée en production
+const serveRedoc = (req, res) => {
+  res.send(`
      <!DOCTYPE html>
      <html>
        <head>
@@ -166,15 +144,38 @@ app.get('/swagger.json', (req, res) => {
        </body>
      </html>
    `);
- });
+};
 
- 
+const serveSwaggerJson = (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+};
+
+if (process.env.NODE_ENV !== 'production') {
+  app.get('/swagger.json', serveSwaggerJson);
+  app.get('/api-docs-redoc', serveRedoc);
+} else {
+  app.get('/swagger.json', authVerif, authVerifRole(["S"]), serveSwaggerJson);
+  app.get('/api-docs-redoc', authVerif, authVerifRole(["S"]), serveRedoc);
+}
+
+
 app.use('/api', Routes);
+app.post('/api/login', loginLimiter); // Rate limit uniquement sur login
 app.use('/api', authRoutes);
 app.use('/api', polePdfRoutes);
 app.use('/api/accounts', authVerif, authVerifRole(["X", "S"]), accountRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Swagger/ReDoc : accessible uniquement en dev ou pour les admins
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+} else {
+  app.use('/api-docs', authVerif, authVerifRole(["S"]), swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
+
+// Images publiques (utilisées par le site public site_dreams)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/pdf', express.static(path.join(__dirname, 'pdf')));
+// PDFs protégés (documents internes)
+app.use('/pdf', authVerif, express.static(path.join(__dirname, 'pdf')));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

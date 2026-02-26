@@ -55,7 +55,7 @@ export async function apiFetch(
     credentials: "include",
   });
 
-  // Si la nouvelle tentative renvoie encore 401/403 → logout aussi
+  // Si la nouvelle tentative renvoie encore 401/403 → logout
   if (res.status === 401 || res.status === 403) {
     window.location.href = "/login";
   }

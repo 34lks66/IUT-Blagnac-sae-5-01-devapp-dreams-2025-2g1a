@@ -22,7 +22,7 @@ function Login() {
             } catch {
                 //ignore
             }
-            
+
         };
         checkLogin();
     }, []);
@@ -47,7 +47,11 @@ function Login() {
             });
 
             if (!response.ok) {
-                throw new Error("Email ou mot de passe incorrect.");
+                const data = await response.json().catch(() => null);
+                if (response.status === 429) {
+                    throw new Error(data?.message || "Trop de tentatives de connexion. Réessayez dans 15 minutes.");
+                }
+                throw new Error(data?.message || "Email ou mot de passe incorrect.");
             }
             window.location.href = "/";
 

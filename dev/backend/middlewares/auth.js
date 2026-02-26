@@ -20,10 +20,15 @@ async function authVerif(req, res, next) {
     req.user = decoded; // ex : { sub, email, role, iat, exp }
 
     // vérifier que l'utilisateur existe et n'est pas désactivé
+    // + mettre à jour le rôle depuis la DB (prise en compte immédiate des changements de rôle)
     const user = await Account.findById(decoded._id || decoded.sub);
     if (!user) {
       return res.status(403).json({ message: "Compte désactivé ou introuvable" });
     }
+
+    // Toujours utiliser le rôle actuel de la DB, pas celui du token
+    req.user.role = user.statut;
+    req.user.statut = user.statut;
 
     next();
   } catch (err) {

@@ -81,7 +81,18 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB max
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml', 'image/bmp', 'image/avif'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Type de fichier non autorisé. Formats acceptés : JPEG, PNG, WebP, GIF'));
+    }
+  }
+});
 
 // Configuration dédiée pour les PDFs (répertoire /pdf)
 const pdfDir = path.join(__dirname, "../pdf");
@@ -195,8 +206,8 @@ router.delete(
 ///////////////////////// Beneficiaires // ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-router.get("/beneficiaire/get", getBeneficiaire);
-router.get("/beneficiaire/get/:id", getBeneficiaireID);
+router.get("/beneficiaire/get", authVerif, getBeneficiaire);
+router.get("/beneficiaire/get/:id", authVerif, getBeneficiaireID);
 router.post(
   "/beneficiaire/save",
   authVerif,
@@ -223,8 +234,8 @@ router.delete("/beneficiaire/:id/pdf", authVerif, deletePDF);
 ///////////////////////// Hebergés ////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-router.get("/heberge/get", getHeberge);
-router.get("/heberge/get/:id", getHebergeID);
+router.get("/heberge/get", authVerif, getHeberge);
+router.get("/heberge/get/:id", authVerif, getHebergeID);
 router.post(
   "/heberge/save",
   authVerif,
