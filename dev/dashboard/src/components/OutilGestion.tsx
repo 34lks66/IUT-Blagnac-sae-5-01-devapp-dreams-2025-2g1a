@@ -7,15 +7,6 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function OutilGestion() {
 
-    const slugify = (str: string | undefined) => {
-        if (!str) return "";
-        return str
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, "")
-            .replace(/\s+/g, "-");
-    };
-
     interface User {
         _id?: string;
         nom: string;
