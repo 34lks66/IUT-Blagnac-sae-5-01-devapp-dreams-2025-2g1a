@@ -1,8 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { apiFetch } from "../../services/api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 interface User {
   _id: string;
   email: string;

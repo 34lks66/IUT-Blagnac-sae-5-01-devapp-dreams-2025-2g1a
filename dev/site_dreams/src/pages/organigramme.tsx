@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tree, TreeNode } from 'react-organizational-chart';
 
 // Node version "Précise"

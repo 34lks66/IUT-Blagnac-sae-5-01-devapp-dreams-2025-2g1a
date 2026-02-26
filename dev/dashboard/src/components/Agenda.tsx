@@ -173,12 +173,9 @@ export default function AgendaAdmin() {
         ? `/api/event/update/${form._id}`
         : `/api/event/save`;
 
-      const payload = { ...form };
-
       await apiFetch(url, {
         method,
         // headers: { "Content-Type": "application/json" },
-        // body: JSON.stringify(payload),
         body: formData,
       });
 

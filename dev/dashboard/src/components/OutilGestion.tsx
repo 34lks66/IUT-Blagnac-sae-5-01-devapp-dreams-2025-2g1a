@@ -56,6 +56,7 @@ function OutilGestion() {
 
     useEffect(() => {
         fetchCurrentUser();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

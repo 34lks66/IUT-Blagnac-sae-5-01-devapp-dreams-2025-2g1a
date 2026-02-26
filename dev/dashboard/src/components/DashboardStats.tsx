@@ -442,7 +442,6 @@ const DashboardStats = () => {
                 <p className="text-2xl font-bold text-gray-900 mt-1">
                   {stat.value}
                 </p>
-                <span className="text-sm font-medium">{stat.change}</span>
               </div>
               <div className="p-3 bg-gray-50 rounded-lg">{stat.icon}</div>
             </div>

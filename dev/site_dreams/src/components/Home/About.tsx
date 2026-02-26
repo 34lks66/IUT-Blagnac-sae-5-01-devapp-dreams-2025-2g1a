@@ -117,7 +117,7 @@ const About: React.FC = () => {
                 animationDuration={1800}
                 // Affiche uniquement le % sur le diagramme
                 label={({ percent }) => percent ? `${(percent * 100).toFixed(0)}%` : ""}              >
-                {CHART_DATA.map((entry, index) => (
+                {CHART_DATA.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
                 ))}
               </Pie>
