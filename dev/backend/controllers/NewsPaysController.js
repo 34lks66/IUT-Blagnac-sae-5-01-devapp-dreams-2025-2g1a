@@ -1,4 +1,4 @@
-const NewsPaysModel = require("../models/newsPays");
+const NewsPaysModel = require("../models/newspays");
 const AccountModel = require("../models/AccountModel");
 const PaysModel = require("../models/pays");
 

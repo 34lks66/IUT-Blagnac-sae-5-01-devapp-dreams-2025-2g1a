@@ -1,5 +1,5 @@
 const PaysModel = require("../models/pays");
-const NewsPaysModel = require("../models/newsPays");
+const NewsPaysModel = require("../models/newspays");
 const AntenneModel = require("../models/AntenneModel"); // 👈 NEW: pour supprimer les antennes liées
 const AccountModel = require("../models/AccountModel");
 
