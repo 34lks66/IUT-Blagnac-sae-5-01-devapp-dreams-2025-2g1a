@@ -17,7 +17,7 @@ async function logout() {
     });
 
     if (response.ok) {
-      window.location.href = "/login";
+      window.location.href = "/admin/login";
     }
   } catch (error) {
     console.error("Erreur lors de la déconnexion", error);
