@@ -3,7 +3,18 @@ import { apiFetch } from "../services/api";
 import Beneficiaires from "./Beneficiaires";
 import Heberges from "./Heberges";
 
+import { useAuth } from "./utils/useAuth";
+
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const POLE_OPTIONS = [
+    { value: "permanence", label: "Permanence" },
+    { value: "hebergement", label: "Hébergement" },
+    { value: "communication", label: "Communication" },
+    { value: "financessubventions", label: "Finances et Subventions" },
+    { value: "logistique", label: "Logistique" },
+    { value: "sensibilisationsexuelle", label: "Sensibilisation Sexuelle" },
+];
 
 function OutilGestion() {
 
@@ -18,12 +29,16 @@ function OutilGestion() {
         pole: string;
     }
 
+    const { role } = useAuth();
+    const isAdmin = role === "X" || role === "S";
+
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [pdfFiles, setPdfFiles] = useState<File[]>([]);
     const [uploadLoading, setUploadLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [poleFiles, setPoleFiles] = useState<string[]>([]);
+    const [selectedPole, setSelectedPole] = useState<string>("");
 
     const fetchCurrentUser = async () => {
         try {
@@ -31,9 +46,15 @@ function OutilGestion() {
             if (response.ok) {
                 const data = await response.json();
                 setCurrentUser(data.user);
-                console.log("Utilisateur connecté :", data.user);
-                // Charger les PDFs du pôle
-                fetchPolePDFs(data.user.pole, data.user.pays);
+                const userPole = data.user.pole || "";
+                // Admins: default to first pole option; Bénévoles: use their own pole
+                const initialPole = (data.user.statut === "X" || data.user.statut === "S")
+                    ? (userPole || POLE_OPTIONS[0].value)
+                    : userPole;
+                setSelectedPole(initialPole);
+                if (initialPole) {
+                    fetchPolePDFs(initialPole, data.user.pays);
+                }
             }
         } catch (error) {
             console.error("Erreur lors de la récupération de l'utilisateur :", error);
@@ -80,7 +101,7 @@ function OutilGestion() {
                 formData.append("pdfs", file);
             });
 
-            const response = await apiFetch(`/api/upload-pole-pdfs/${currentUser.pays}/${currentUser.pole}`, {
+            const response = await apiFetch(`/api/upload-pole-pdfs/${currentUser.pays}/${selectedPole}`, {
                 method: "POST",
                 body: formData,
             });
@@ -113,7 +134,7 @@ function OutilGestion() {
 
         try {
             const response = await apiFetch(
-                `/api/delete-pole-pdf/${currentUser.pays}/${currentUser.pole}?file=${encodeURIComponent(fileName)}`,
+                `/api/delete-pole-pdf/${currentUser.pays}/${selectedPole}?file=${encodeURIComponent(fileName)}`,
                 { method: "DELETE" }
             );
 
@@ -132,7 +153,15 @@ function OutilGestion() {
         }
     };
 
-    const pole = currentUser?.pole;
+    const pole = selectedPole;
+
+    const handlePoleChange = (newPole: string) => {
+        setSelectedPole(newPole);
+        setPoleFiles([]);
+        if (currentUser && newPole) {
+            fetchPolePDFs(newPole, currentUser.pays);
+        }
+    };
 
     return (
         <>
@@ -140,9 +169,25 @@ function OutilGestion() {
                 <p>Chargement...</p>
             ) : currentUser ? (
                 <>
+                    {/* Sélecteur de pôle pour les admins */}
+                    {isAdmin && (
+                        <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Sélectionner un pôle</label>
+                            <select
+                                value={selectedPole}
+                                onChange={(e) => handlePoleChange(e.target.value)}
+                                className="w-full sm:w-64 px-4 py-2 border-2 border-yellow-300 rounded-xl focus:outline-none focus:border-yellow-500 bg-white font-medium"
+                            >
+                                {POLE_OPTIONS.map((opt) => (
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+
                     {/* Section gestion PDFs du pôle */}
                     <div className="mb-8 p-6 bg-white rounded-lg shadow">
-                        <h2 className="text-2xl font-semibold mb-4">Gestion des PDFs du pôle "{pole}"</h2>
+                        <h2 className="text-2xl font-semibold mb-4">Gestion des PDFs du pôle "{POLE_OPTIONS.find(p => p.value === pole)?.label || pole}"</h2>
 
                         {/* Formulaire d'upload */}
                         <div className="mb-6 p-4 border-2 border-dashed border-blue-300 rounded-lg bg-blue-50">
@@ -196,7 +241,7 @@ function OutilGestion() {
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                     {poleFiles.map((fileName, idx) => {
-                                        const downloadUrl = `${API_BASE}/pdf/${currentUser.pays}/${pole}/${fileName}`;
+                                        const downloadUrl = `${API_BASE}/pdf/${currentUser.pays}/${selectedPole}/${fileName}`;
                                         return (
                                             <div
                                                 key={idx}
