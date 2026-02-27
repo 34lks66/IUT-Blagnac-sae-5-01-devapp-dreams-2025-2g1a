@@ -3,6 +3,7 @@ import Dashboard from "./Dashboard";
 import Login from "./components/login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BeneficiaireDetail from "./components/BeneficiaireDetail";
+import HebergeDetail from "./components/HebergeDetail";
 import OutilGestion from "./components/OutilGestion";
 import { AuthProvider } from "./components/context/AuthContext";
 
@@ -22,8 +23,27 @@ function App() {
                         </ProtectedRoute>
                     }
                 />,
-                <Route path="beneficiaire/:id" element={<BeneficiaireDetail />} />
-                <Route path="outil-gestion/:pole" element={<OutilGestion />} />
+                <Route path="beneficiaire/:id" element={
+                    <ProtectedRoute>
+                        <AuthProvider>
+                            <BeneficiaireDetail />
+                        </AuthProvider>
+                    </ProtectedRoute>
+                } />
+                <Route path="outil-gestion/:pole" element={
+                    <ProtectedRoute>
+                        <AuthProvider>
+                            <OutilGestion />
+                        </AuthProvider>
+                    </ProtectedRoute>
+                } />
+                <Route path="heberge/:id" element={
+                    <ProtectedRoute>
+                        <AuthProvider>
+                            <HebergeDetail />
+                        </AuthProvider>
+                    </ProtectedRoute>
+                } />
             </Routes>
         </Router>
     )

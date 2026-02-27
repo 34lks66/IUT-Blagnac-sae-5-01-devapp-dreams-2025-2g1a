@@ -3,6 +3,7 @@ import Accueil from '../components/News';
 import PagesSite from './PagePays';
 import Utilisateurs from './Utilisateurs';
 import Beneficiaires from './Beneficiaires';
+import Heberges from './Heberges';
 import PageAntennes from './pageAntenne';
 import DashboardStats from './DashboardStats';
 import Parametre from './Parametre';
@@ -23,6 +24,7 @@ const Content = ({ activeTab }: ContentProps) => {
     pages: <PagesSite />,
     users: <Utilisateurs />,
     beneficiaires: <Beneficiaires />,
+    heberges: <Heberges />,
     pages_antennes: <PageAntennes />,
     settings: <Parametre />,
   };

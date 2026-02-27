@@ -19,7 +19,7 @@ const BeneficiaireDetail: React.FC = () => {
   useEffect(() => {
     const fetchBeneficiaire = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/beneficiaire/get/${id}`);
+        const res = await apiFetch(`/api/beneficiaire/get/${id}`);
         const data = await res.json();
 
         if (data && !data.error) {
@@ -65,7 +65,7 @@ const BeneficiaireDetail: React.FC = () => {
       }
 
       if (notes.trim()) {
-        pdf.text("Notes importantes :", 20, y); 
+        pdf.text("Notes importantes :", 20, y);
         y += 8;
         const textWidth = pageWidth - 40;
         const wrappedText = pdf.splitTextToSize(notes, textWidth);
