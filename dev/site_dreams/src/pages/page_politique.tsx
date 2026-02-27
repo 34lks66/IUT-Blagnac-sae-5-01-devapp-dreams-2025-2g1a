@@ -137,10 +137,52 @@ function PagePolitique() {
             </a>
           </p>
           <p className="text-gray-700 mb-2">
-            Hébergeur : <strong>[Nom de l’hébergeur]</strong> — [Adresse complète, pays]
+            Hébergeur : <strong>OVH SAS</strong> — 2 rue Kellermann, 59100 Roubaix, France<br />
+            Serveur VPS situé à Gravelines (France, Union Européenne)<br />
+            Site web :{" "}
+            <a href="https://www.ovhcloud.com" className="text-indigo-600 hover:underline" target="_blank" rel="noopener noreferrer">
+              www.ovhcloud.com
+            </a>
+          </p>
+        </section>
+
+        {/* ====================== DONS ====================== */}
+        <section className="mt-8 border-t border-gray-200 pt-8" id="dons">
+          <h2 className="text-xl font-semibold text-gray-900 mb-3">Dons</h2>
+          <p className="text-gray-700 mb-3">
+            Le site propose une page permettant d'effectuer un don en faveur de l'association{" "}
+            <span className="font-semibold notranslate" translate="no">DREAMS</span>.
+            En cliquant sur le bouton de don, vous êtes redirigé vers la plateforme sécurisée{" "}
+            <strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A., 22-24 Boulevard Royal, L-2449 Luxembourg).
+          </p>
+          <p className="text-gray-700 mb-3">
+            L'association <span className="notranslate" translate="no">DREAMS</span> ne collecte ni ne stocke
+            aucune donnée bancaire. Le traitement du paiement est entièrement géré par PayPal,
+            conformément à ses propres{" "}
+            <a
+              href="https://www.paypal.com/fr/webapps/mpp/ua/privacy-full"
+              className="text-indigo-600 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              conditions de confidentialité
+            </a>.
           </p>
           <p className="text-gray-700">
-            Le site www.dreams-asso.org a pour objet de présenter les actions, missions et valeurs de l’association <span className="notranslate" translate="no">DREAMS</span>.
+            Les dons effectués sont utilisés exclusivement pour financer les missions et activités
+            de l'association. Conformément à la loi, un reçu fiscal peut être délivré sur demande
+            à{" "}
+            <a href="mailto:assodreamsfr@gmail.com" className="text-indigo-600 hover:underline">
+              assodreamsfr@gmail.com
+            </a>.
+          </p>
+        </section>
+
+        {/* ====================== CONTENU ET PROPRIÉTÉ ====================== */}
+        <section className="mt-8" id="propriete">
+          <h2 className="text-xl font-semibold text-gray-900 mb-3">Propriété intellectuelle</h2>
+          <p className="text-gray-700">
+            Le site www.dreams-asso.org a pour objet de présenter les actions, missions et valeurs de l'association <span className="notranslate" translate="no">DREAMS</span>.
             Toute reproduction, utilisation ou diffusion du contenu sans autorisation est interdite.
           </p>
         </section>
