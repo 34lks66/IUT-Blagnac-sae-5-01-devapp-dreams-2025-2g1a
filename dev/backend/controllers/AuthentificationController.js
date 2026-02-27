@@ -96,7 +96,6 @@ exports.login = async (req, res) => {
 
     res.json({
       message: "Connexion réussie",
-      token,
       account: {
         _id: account._id,
         nom: account.nom,
@@ -193,11 +192,9 @@ exports.refresh = async (req, res) => {
 };
 
 exports.me = async (req, res) => {
-  const token = req.cookies.token;
-  if (!token) return res.status(401).json({ message: "Non autorisé" });
   try {
-    const decoded = jwt.verify(token, ACCESS_SECRET);
-    const user = await Account.findById(decoded.sub).select("-password");
+    // req.user est déjà rempli par authVerif (avec le rôle à jour depuis la DB)
+    const user = await Account.findById(req.user.sub).select("-password");
     if (!user) return res.status(404).json({ message: "Utilisateur introuvable" });
 
     const userObj = user.toObject();
@@ -206,7 +203,7 @@ exports.me = async (req, res) => {
     res.json({ user: userObj });
   } catch (err) {
     console.error(err);
-    res.status(403).json({ message: "Token invalide ou expiré" });
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 

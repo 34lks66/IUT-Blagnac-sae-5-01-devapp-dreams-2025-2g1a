@@ -30,7 +30,7 @@ const Sidebar = ({
   isMobileOpen,
   setIsMobileOpen,
 }: SidebarProps) => {
-  const { role } = useAuth();
+  const { role, user } = useAuth();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
 
   const toggleMenu = (id: string) => {
@@ -313,7 +313,9 @@ const Sidebar = ({
               <div className="flex items-center gap-14">
                 <div>
                   <h2 className="text-2xl font-bold">DREAMS</h2>
-                  <p className="text-xs text-black/80 mt-1">Admin Dashboard</p>
+                  <p className="text-xs text-black/80 mt-1">
+                    {user ? `${user.prenom} ${user.nom}` : "Dashboard"}
+                  </p>
                 </div>
                 <img
                   src={logoDreams}
