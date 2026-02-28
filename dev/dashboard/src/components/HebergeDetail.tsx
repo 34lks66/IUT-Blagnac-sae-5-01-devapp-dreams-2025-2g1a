@@ -219,11 +219,11 @@ const HebergeDetail: React.FC = () => {
                                     key={pdfPath + index}
                                     className="border border-gray-200 rounded-xl p-4 bg-white shadow-sm flex flex-col justify-between"
                                 >
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-red-100 text-red-600 font-bold text-sm">
+                                    <div className="flex items-center gap-3 mb-3 min-w-0">
+                                        <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg bg-red-100 text-red-600 font-bold text-sm">
                                             PDF
                                         </div>
-                                        <div className="flex-1">
+                                        <div className="flex-1 min-w-0 overflow-hidden">
                                             <p className="text-sm font-semibold truncate" title={fileName}>
                                                 {fileName}
                                             </p>
