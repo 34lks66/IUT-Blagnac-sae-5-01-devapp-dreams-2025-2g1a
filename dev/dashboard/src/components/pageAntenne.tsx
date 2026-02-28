@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../services/api";
 import { useAuth } from "./utils/useAuth";
 
@@ -59,7 +58,6 @@ type Pays = {
 // );
 
 function AntenneForm() {
-  const navigate = useNavigate();
   const { role, pays: userPays } = useAuth();
   const [pays, setPays] = useState<Pays[]>([]);
   const [antennes, setAntennes] = useState<Antenne[]>([]);
@@ -203,7 +201,7 @@ function AntenneForm() {
       setImagePreview(`${API_BASE}${antenne.image}`);
     } else {
       setImagePreview("");
-    } 
+    }
     if (antenne.galerie1) {
       setGalerie1Preview(`${API_BASE}${antenne.galerie1}`);
     } else {
@@ -270,11 +268,21 @@ function AntenneForm() {
 
       if (response.ok) {
         setMessage("✅ Antenne créée avec succès !");
-        if (window.location.href.includes('localhost:5174')) {
-          navigate('http://localhost:5173/villes/' + nomTrim);
-        } else {
-          navigate('http://localhost:5174/villes/' + nomTrim);
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        // Find country name for slug
+        const selectedPays = pays.find((p) => p._id === formData.pays);
+        const paysNom = selectedPays ? selectedPays.nom : "";
+        const slug = paysNom.toLowerCase().replace(/[\s_]+/g, '-').replace(/[^\w-]+/g, '');
+
+        let targetUrl = `${window.location.origin}/pays/${slug}`;
+
+        if (isLocalhost) {
+          const targetPort = window.location.port === '5174' ? '5173' : '5174';
+          targetUrl = `http://localhost:${targetPort}/pays/${slug}`;
         }
+
+        window.open(targetUrl, '_blank');
         loadAntennes();
         closeFormModal();
       } else {
@@ -714,7 +722,7 @@ function AntenneForm() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-               <div>
+                <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Galerie Image 1
                   </label>
@@ -745,11 +753,11 @@ function AntenneForm() {
                         </div>
                       </div>
                     )}
-               </div>
+                </div>
 
-               <div>
+                <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Galerie Image 2 
+                    Galerie Image 2
                   </label>
                   <input
                     type="file"
@@ -778,7 +786,7 @@ function AntenneForm() {
                         </div>
                       </div>
                     )}
-               </div>
+                </div>
               </div>
 
               <div className="flex gap-3 mt-4">

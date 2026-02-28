@@ -26,50 +26,50 @@ function DevenirBenevole() {
   }
 
   function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
+    e.preventDefault();
 
-  const allChecked = Object.values(legalChecks).every(check => check);
-  if (!allChecked) {
-    alert('Veuillez accepter toutes les conditions légales pour continuer.');
-    return;
+    const allChecked = Object.values(legalChecks).every(check => check);
+    if (!allChecked) {
+      alert('Veuillez accepter toutes les conditions légales pour continuer.');
+      return;
+    }
+
+    const serviceID = 'service_twqtdqm';
+    const templateID = 'template_nvuphny';
+    const publicKey = 'Fac57P5iYc4eKU3uf';
+
+    // Envoi de l'email via EmailJS
+    send(serviceID, templateID, {
+      prenom: formData.prenom,
+      nom: formData.nom,
+      email: formData.email,
+      telephone: formData.telephone,
+      mentionsLegales: legalChecks.mentionsLegales ? 'Oui' : 'Non',
+      reglementInterieur: legalChecks.reglementInterieur ? 'Oui' : 'Non',
+      droitImage: legalChecks.droitImage ? 'Oui' : 'Non',
+    }, publicKey)
+      .then((response) => {
+        console.log('Email envoyé avec succès!', response.status, response.text);
+        setShowConfirmation(true);
+
+        // Réinitialisation du formulaire
+        setFormData({
+          nom: '',
+          prenom: '',
+          email: '',
+          telephone: ''
+        });
+        setLegalChecks({
+          mentionsLegales: false,
+          reglementInterieur: false,
+          droitImage: false
+        });
+      })
+      .catch((error) => {
+        console.error('Erreur lors de l\'envoi de l\'email:', error);
+        alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer.');
+      });
   }
-
-  const serviceID = 'service_twqtdqm';
-  const templateID = 'template_nvuphny';
-  const publicKey = 'Fac57P5iYc4eKU3uf';
-
-  // Envoi de l'email via EmailJS
-  send(serviceID, templateID, {
-    prenom: formData.prenom,
-    nom: formData.nom,
-    email: formData.email,
-    telephone: formData.telephone,
-    mentionsLegales: legalChecks.mentionsLegales ? 'Oui' : 'Non',
-    reglementInterieur: legalChecks.reglementInterieur ? 'Oui' : 'Non',
-    droitImage: legalChecks.droitImage ? 'Oui' : 'Non',
-  }, publicKey)
-    .then((response) => {
-      console.log('Email envoyé avec succès!', response.status, response.text);
-      setShowConfirmation(true);
-      
-      // Réinitialisation du formulaire
-      setFormData({
-        nom: '',
-        prenom: '',
-        email: '',
-        telephone: ''
-      });
-      setLegalChecks({
-        mentionsLegales: false,
-        reglementInterieur: false,
-        droitImage: false
-      });
-    })
-    .catch((error) => {
-      console.error('Erreur lors de l\'envoi de l\'email:', error);
-      alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer.');
-    });
-}
 
   function closeConfirmation() {
     setShowConfirmation(false);
@@ -78,7 +78,7 @@ function DevenirBenevole() {
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        
+
         {/* Popup de confirmation */}
         {showConfirmation && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -101,10 +101,10 @@ function DevenirBenevole() {
                 <p className="text-gray-600 text-sm mb-4">
                   Nous avons bien reçu votre demande et nous vous contacterons dans les <span className="font-semibold">48 heures</span>.
                 </p>
-                
+
                 <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
                   <p className="text-green-700 text-sm">
-                    Un responsable bénévoles vous appellera au 
+                    Un responsable bénévoles vous appellera au
                     <span className="font-semibold"> {formData.telephone}</span>
                   </p>
                 </div>
@@ -145,7 +145,7 @@ function DevenirBenevole() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="font-semibold text-gray-900 mb-4 text-xl">Processus de recrutement</h3>
               <p className="text-gray-700 mb-4">
-                Après avoir soumis votre candidature, notre équipe prendra contact avec vous sous 48 heures 
+                Après avoir soumis votre candidature, notre équipe prendra contact avec vous sous 48 heures
                 pour discuter des missions disponibles et de vos disponibilités.
               </p>
               <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
@@ -198,17 +198,7 @@ function DevenirBenevole() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h4 className="font-semibold text-gray-900 text-lg mb-3">Impact de votre engagement</h4>
-              <p className="text-gray-700 mb-3">
-                En devenant bénévole, vous rejoignez une communauté engagée de plus de 500 personnes 
-                qui contribuent chaque jour à faire avancer notre cause.
-              </p>
-              <p className="text-gray-700">
-                Votre temps et vos compétences sont précieux et permettent de réaliser 
-                des projets concrets ayant un impact direct sur notre mission.
-              </p>
-            </div>
+
           </div>
 
           {/* Colonne de droite - Formulaire */}
@@ -220,7 +210,7 @@ function DevenirBenevole() {
                   Renseignez vos informations pour postuler en tant que bénévole
                 </p>
               </div>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -249,7 +239,7 @@ function DevenirBenevole() {
                       name="nom"
                       value={formData.nom}
                       required
-                      onChange={(e) => setFormData({...formData, nom: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
                       placeholder="Votre nom"
                     />
@@ -262,7 +252,7 @@ function DevenirBenevole() {
                   </label>
                   <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                     <p className="text-xs text-gray-600 mb-3">
-                      Votre adresse email nous permettra de vous envoyer les informations importantes 
+                      Votre adresse email nous permettra de vous envoyer les informations importantes
                       concernant votre candidature.
                     </p>
                     <input
@@ -271,7 +261,7 @@ function DevenirBenevole() {
                       name="email"
                       value={formData.email}
                       required
-                      onChange={(e) => setFormData({...formData, email: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
                       placeholder="votre@email.com"
                     />
@@ -284,7 +274,7 @@ function DevenirBenevole() {
                   </label>
                   <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                     <p className="text-xs text-gray-600 mb-3">
-                      Votre numéro de téléphone sera utilisé uniquement pour vous contacter rapidement 
+                      Votre numéro de téléphone sera utilisé uniquement pour vous contacter rapidement
                       concernant vos disponibilités.
                     </p>
                     <input
@@ -293,7 +283,7 @@ function DevenirBenevole() {
                       name="telephone"
                       value={formData.telephone}
                       required
-                      onChange={(e) =>setFormData({...formData, telephone: e.target.value })}
+                      onChange={(e) => setFormData({ ...formData, telephone: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
                       placeholder="01 23 45 67 89"
                     />
@@ -316,7 +306,7 @@ function DevenirBenevole() {
                         J'accepte les <a href="/politiques-de-confidentialites" className="text-gray-900 hover:text-gray-700 underline font-medium">mentions légales</a> et la politique de confidentialité
                       </span>
                     </label>
-                    
+
                     <label className="flex items-start space-x-3">
                       <input
                         type="checkbox"
@@ -329,7 +319,7 @@ function DevenirBenevole() {
                         Je m'engage à respecter le <a href="/reglement-interieur" className="text-gray-900 hover:text-gray-700 underline font-medium">règlement intérieur</a> de l'association
                       </span>
                     </label>
-                    
+
                     <label className="flex items-start space-x-3">
                       <input
                         type="checkbox"
