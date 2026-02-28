@@ -10,7 +10,7 @@ import { AuthProvider } from "./components/context/AuthContext";
 function App() {
 
     return (
-        <Router basename="/admin">
+        <Router basename="/dreams-admin-asso">
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route

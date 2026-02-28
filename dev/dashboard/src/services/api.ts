@@ -27,7 +27,7 @@ export async function apiFetch(
   const xsrf = getCookie("XSRF-TOKEN");
   if (!xsrf) {
     console.warn("Pas de XSRF → redirection logout");
-    window.location.href = "/admin/login";
+    window.location.href = "/dreams-admin-asso/login";
     return res;
   }
 
@@ -43,7 +43,7 @@ export async function apiFetch(
   // Si le refresh échoue → logout immédiat
   if (!refreshRes.ok) {
     console.warn("Refresh refusé → redirection logout");
-    window.location.href = "/admin/login";
+    window.location.href = "/dreams-admin-asso/login";
     return res;
   }
 
@@ -57,7 +57,7 @@ export async function apiFetch(
 
   // Si la nouvelle tentative renvoie encore 401/403 → logout
   if (res.status === 401 || res.status === 403) {
-    window.location.href = "/admin/login";
+    window.location.href = "/dreams-admin-asso/login";
   }
 
   return res;

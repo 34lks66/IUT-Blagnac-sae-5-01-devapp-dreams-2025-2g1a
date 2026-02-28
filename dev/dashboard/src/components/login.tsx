@@ -17,7 +17,7 @@ function Login() {
                     credentials: "include",
                 });
                 if (response.ok) {
-                    window.location.href = "/admin/";
+                    window.location.href = "/dreams-admin-asso/";
                 }
             } catch {
                 //ignore
@@ -53,7 +53,7 @@ function Login() {
                 }
                 throw new Error(data?.message || "Email ou mot de passe incorrect.");
             }
-            window.location.href = "/admin/";
+            window.location.href = "/dreams-admin-asso/";
 
         }
         catch (err: Error | unknown) {
