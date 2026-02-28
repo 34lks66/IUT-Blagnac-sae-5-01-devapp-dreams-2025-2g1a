@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import AgendaAntennes from "../components/Agenda/agenda_antennes";
-import { CalendarDays } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Antenne = {
@@ -122,11 +121,9 @@ function Villes() {
             <div className="w-24 h-1 bg-gray-300 mx-auto mb-8"></div>
           </div>
 
-          <div className="bg-gray-50 rounded-2xl p-10 border-2 border-gray-200">
-            <p className="text-xl text-gray-700 leading-relaxed text-center">
-              {ville.description || "Description en cours de rédaction..."}
-            </p>
-          </div>
+          <p className="text-xl text-gray-700 leading-relaxed text-center">
+            {ville.description || "Description en cours de rédaction..."}
+          </p>
         </div>
       </section>
 
@@ -183,21 +180,7 @@ function Villes() {
           </div>
 
           <div className="max-w-6xl mx-auto">
-            <div className="bg-gray-50 rounded-2xl p-10 border-2 border-gray-200">
-              <div className="flex items-center mb-8">
-                <div className="w-20 h-20 bg-gray-900 rounded-full flex items-center justify-center text-white flex-shrink-0">
-                  <CalendarDays className="w-10 h-10" />
-                </div>
-                <div className="ml-6">
-                  <h3 className="text-2xl font-semibold text-gray-900">Antenne de {ville.nom}</h3>
-                  <p className="text-gray-600 mt-1">Programme des activités</p>
-                </div>
-              </div>
-
-              <div className="max-h-96 overflow-y-auto">
-                <AgendaAntennes antennaName={ville.nom} />
-              </div>
-            </div>
+            <AgendaAntennes antennaName={ville.nom} />
           </div>
         </div>
       </section>

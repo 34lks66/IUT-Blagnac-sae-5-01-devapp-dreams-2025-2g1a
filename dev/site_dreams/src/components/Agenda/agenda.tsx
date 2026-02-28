@@ -176,7 +176,7 @@ export default function Agenda() {
           id: e.id ?? e._id ?? idx,
           title: e.title,
           date: e.date,
-          time: e.time,
+          time: [e.starttime, e.endtime].filter(Boolean).join(" - ") || e.time || "",
           location: e.location,
           description: e.description,
           antenna: e.antenna ?? null,

@@ -40,7 +40,7 @@ const FooterMain: React.FC = () => {
   );
 
   return (
-    <footer className="bg-white text-gray-800 text-[13px]">
+    <footer className="bg-white text-gray-800 text-[13px] border-t-2" style={{ borderImage: "linear-gradient(to right, #f59e0b, #93720a) 1" }}>
       <div className="max-w-[1740px] mx-auto px-4 py-5">
         {/* ROW */}
         <div className="grid grid-cols-1 gap-6 items-start md:grid-cols-3">
