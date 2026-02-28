@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import NotFound from "../pages/NotFound";
 
 type UINewsItem = { id: string; img: string; title: string; text: string };
 type UIFeature = { img: string; title: string; text: string; url: string; cta: string };
@@ -128,6 +129,11 @@ const Pays: React.FC = () => {
   };
 
   const goldTitle = "bg-gradient-to-r from-[#d4af37] to-[#a87700] bg-clip-text text-transparent";
+
+  // Si le pays n'existe pas, afficher la page 404
+  if (!loadingCountry && !selectedCountry) {
+    return <NotFound />;
+  }
 
   return (
     <main className="bg-white text-gray-800 leading-relaxed">

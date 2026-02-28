@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import AgendaAntennes from "../components/Agenda/agenda_antennes";
 import { useEffect, useState } from "react";
+import NotFound from "../pages/NotFound";
 
 type Antenne = {
   _id: string;
@@ -64,14 +65,7 @@ function Villes() {
   }
 
   if (!ville) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Antenne non trouvée</h1>
-          <p className="text-gray-600">L'antenne "{nom}" n'existe pas ou a été déplacée.</p>
-        </div>
-      </div>
-    );
+    return <NotFound />;
   }
 
   const imageUrl = `${API_BASE}${ville.image}`;
