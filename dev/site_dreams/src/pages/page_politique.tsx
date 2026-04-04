@@ -182,7 +182,7 @@ function PagePolitique() {
         <section className="mt-8" id="propriete">
           <h2 className="text-xl font-semibold text-gray-900 mb-3">Propriété intellectuelle</h2>
           <p className="text-gray-700">
-            Le site www.dreams-asso.org a pour objet de présenter les actions, missions et valeurs de l'association <span className="notranslate" translate="no">DREAMS</span>.
+            Le site www.dreamsasso.com a pour objet de présenter les actions, missions et valeurs de l'association <span className="notranslate" translate="no">DREAMS</span>.
             Toute reproduction, utilisation ou diffusion du contenu sans autorisation est interdite.
           </p>
         </section>

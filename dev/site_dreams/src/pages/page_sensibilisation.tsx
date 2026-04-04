@@ -96,7 +96,7 @@ function Sensibilisation() {
               Sensibilisations des minorités sexuelles
             </h1>
             <p className="text-gray-700 mt-1">
-              hmmm
+              Cette rubrique est dédiée aux actions de sensibilisation menées par <span className="notranslate" translate="no">DREAMS</span> auprès des jeunes et du grand public.
             </p>
           </div>
         </div>
@@ -131,7 +131,7 @@ function Sensibilisation() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
           <div>
             <h2 className="font-black text-8xl leading-tight">{counts.pride}</h2>
-            <p className="font-semibold text-yellow-500 uppercase">Participation à la Gay Pride</p>
+            <p className="font-semibold text-yellow-500 uppercase">Participation à la Pride</p>
           </div>
           <div>
             <h2 className="font-black text-8xl leading-tight">{counts.soirees}</h2>
@@ -164,7 +164,7 @@ function Sensibilisation() {
               <img src={none} alt="people" className="w-full h-64 md:h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
             </div>
             <div className="space-y-6">
-              <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Participation à la Gay Pride</h3>
+              <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Participation à la Pride</h3>
               <p className="text-gray-700 mb-6 leading-relaxed border-l-4 border-yellow-500 pl-3">
                 Chaque année, <span className="notranslate" translate="no">DREAMS</span> participe avec enthousiasme aux marches des fiertés locales et régionales.
                 Ces moments festifs et revendicatifs permettent de <b>rendre visibles les personnes LGBTQIA+, de promouvoir l’égalité des droits et de lutter contre les discriminations dans l’espace public.</b><br />

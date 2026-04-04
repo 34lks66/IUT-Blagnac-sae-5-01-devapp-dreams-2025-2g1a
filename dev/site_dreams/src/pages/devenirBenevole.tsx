@@ -1,134 +1,7 @@
-import { useState } from 'react';
-import { send } from '@emailjs/browser';
-
 function DevenirBenevole() {
-  const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    telephone: ''
-  });
-
-  const [legalChecks, setLegalChecks] = useState({
-    mentionsLegales: false,
-    reglementInterieur: false,
-    droitImage: false
-  });
-
-  const [showConfirmation, setShowConfirmation] = useState(false);
-
-  function handleLegalCheckChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, checked } = e.target;
-    setLegalChecks(prev => ({
-      ...prev,
-      [name]: checked
-    }));
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    const allChecked = Object.values(legalChecks).every(check => check);
-    if (!allChecked) {
-      alert('Veuillez accepter toutes les conditions légales pour continuer.');
-      return;
-    }
-
-    const serviceID = 'service_twqtdqm';
-    const templateID = 'template_nvuphny';
-    const publicKey = 'Fac57P5iYc4eKU3uf';
-
-    // Envoi de l'email via EmailJS
-    send(serviceID, templateID, {
-      prenom: formData.prenom,
-      nom: formData.nom,
-      email: formData.email,
-      telephone: formData.telephone,
-      mentionsLegales: legalChecks.mentionsLegales ? 'Oui' : 'Non',
-      reglementInterieur: legalChecks.reglementInterieur ? 'Oui' : 'Non',
-      droitImage: legalChecks.droitImage ? 'Oui' : 'Non',
-    }, publicKey)
-      .then((response) => {
-        console.log('Email envoyé avec succès!', response.status, response.text);
-        setShowConfirmation(true);
-
-        // Réinitialisation du formulaire
-        setFormData({
-          nom: '',
-          prenom: '',
-          email: '',
-          telephone: ''
-        });
-        setLegalChecks({
-          mentionsLegales: false,
-          reglementInterieur: false,
-          droitImage: false
-        });
-      })
-      .catch((error) => {
-        console.error('Erreur lors de l\'envoi de l\'email:', error);
-        alert('Une erreur est survenue lors de l\'envoi de votre candidature. Veuillez réessayer.');
-      });
-  }
-
-  function closeConfirmation() {
-    setShowConfirmation(false);
-  }
-
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-
-        {/* Popup de confirmation */}
-        {showConfirmation && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full animate-scale-in">
-              {/* Header avec icône */}
-              <div className="bg-gray-900 rounded-t-xl p-6 text-center">
-                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-white">Candidature envoyée !</h3>
-              </div>
-
-              {/* Contenu */}
-              <div className="p-6 text-center">
-                <p className="text-gray-700 mb-3">
-                  Merci <span className="font-semibold text-gray-900">{formData.prenom} {formData.nom}</span> pour votre candidature.
-                </p>
-                <p className="text-gray-600 text-sm mb-4">
-                  Nous avons bien reçu votre demande et nous vous contacterons dans les <span className="font-semibold">48 heures</span>.
-                </p>
-
-                <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
-                  <p className="text-green-700 text-sm">
-                    Un responsable bénévoles vous appellera au
-                    <span className="font-semibold"> {formData.telephone}</span>
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-4">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  <span>Email de confirmation envoyé à : {formData.email}</span>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="border-t border-gray-200 p-4 flex justify-center">
-                <button
-                  onClick={closeConfirmation}
-                  className="bg-gray-900 hover:bg-gray-800 text-white font-medium py-2.5 px-6 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                >
-                  Fermer
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* En-tête */}
         <div className="text-center mb-12">
@@ -197,153 +70,42 @@ function DevenirBenevole() {
                 </div>
               </div>
             </div>
-
-
           </div>
 
-          {/* Colonne de droite - Formulaire */}
+          {/* Colonne de droite - Nous contacter */}
           <div className="lg:w-1/2">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Formulaire d'inscription</h3>
-                <p className="text-gray-600">
-                  Renseignez vos informations pour postuler en tant que bénévole
+              <div className="text-center">
+                {/* Icône email */}
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                  </svg>
+                </div>
+
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Nous contacter</h3>
+                <p className="text-gray-600 mb-6">
+                  Vous souhaitez devenir bénévole ? Envoyez-nous un email avec vos coordonnées
+                  (nom, prénom, téléphone) et nous reviendrons vers vous dans les plus brefs délais.
                 </p>
+
+                <a
+                  href="mailto:assodreamsfr@gmail.com"
+                  className="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3.5 px-8 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  assodreamsfr@gmail.com
+                </a>
+
+                <div className="mt-8 bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <p className="text-sm text-gray-600">
+                    N'oubliez pas de mentionner vos <span className="font-semibold text-gray-800">disponibilités</span> et
+                    les <span className="font-semibold text-gray-800">missions</span> qui vous intéressent dans votre email.
+                  </p>
+                </div>
               </div>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="prenom" className="block text-sm font-medium text-gray-700 mb-2">
-                      Prénom
-                    </label>
-                    <input
-                      type="text"
-                      id="prenom"
-                      name="prenom"
-                      value={formData.prenom}
-                      onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
-                      placeholder="Votre prénom"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="nom" className="block text-sm font-medium text-gray-700 mb-2">
-                      Nom
-                    </label>
-                    <input
-                      type="text"
-                      id="nom"
-                      name="nom"
-                      value={formData.nom}
-                      required
-                      onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
-                      placeholder="Votre nom"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Adresse email
-                  </label>
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <p className="text-xs text-gray-600 mb-3">
-                      Votre adresse email nous permettra de vous envoyer les informations importantes
-                      concernant votre candidature.
-                    </p>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      required
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
-                      placeholder="votre@email.com"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="telephone" className="block text-sm font-medium text-gray-700 mb-2">
-                    Téléphone
-                  </label>
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <p className="text-xs text-gray-600 mb-3">
-                      Votre numéro de téléphone sera utilisé uniquement pour vous contacter rapidement
-                      concernant vos disponibilités.
-                    </p>
-                    <input
-                      type="tel"
-                      id="telephone"
-                      name="telephone"
-                      value={formData.telephone}
-                      required
-                      onChange={(e) => setFormData({ ...formData, telephone: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200"
-                      placeholder="01 23 45 67 89"
-                    />
-                  </div>
-                </div>
-
-                {/* Cases à cocher légales */}
-                <div className="border-t border-gray-200 pt-6">
-                  <h4 className="font-semibold text-gray-900 text-lg mb-4">Conditions d'engagement</h4>
-                  <div className="space-y-4">
-                    <label className="flex items-start space-x-3">
-                      <input
-                        type="checkbox"
-                        name="mentionsLegales"
-                        checked={legalChecks.mentionsLegales}
-                        onChange={handleLegalCheckChange}
-                        className="mt-1 text-gray-700 focus:ring-gray-500 rounded border-gray-300"
-                      />
-                      <span className="text-sm text-gray-700">
-                        J'accepte les <a href="/politiques-de-confidentialites" className="text-gray-900 hover:text-gray-700 underline font-medium">mentions légales</a> et la politique de confidentialité
-                      </span>
-                    </label>
-
-                    <label className="flex items-start space-x-3">
-                      <input
-                        type="checkbox"
-                        name="reglementInterieur"
-                        checked={legalChecks.reglementInterieur}
-                        onChange={handleLegalCheckChange}
-                        className="mt-1 text-gray-700 focus:ring-gray-500 rounded border-gray-300"
-                      />
-                      <span className="text-sm text-gray-700">
-                        Je m'engage à respecter le <a href="/reglement-interieur" className="text-gray-900 hover:text-gray-700 underline font-medium">règlement intérieur</a> de l'association
-                      </span>
-                    </label>
-
-                    <label className="flex items-start space-x-3">
-                      <input
-                        type="checkbox"
-                        name="droitImage"
-                        checked={legalChecks.droitImage}
-                        onChange={handleLegalCheckChange}
-                        className="mt-1 text-gray-700 focus:ring-gray-500 rounded border-gray-300"
-                      />
-                      <span className="text-sm text-gray-700">
-                        J'accepte l'utilisation de mon image dans le cadre des activités de l'association
-                      </span>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3.5 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                  >
-                    Soumettre ma candidature
-                  </button>
-                </div>
-              </form>
             </div>
           </div>
         </div>

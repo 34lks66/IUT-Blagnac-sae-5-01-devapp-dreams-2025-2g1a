@@ -136,7 +136,6 @@ const Header = () => {
       items: [
         { name: "Faire un don", href: "/donner" },
         { name: "Devenir bénévole", href: "/devenir-benevole" },
-        { name: "Devenir partenaire", href: "/devenir-partenaire" },
       ],
     },
   };
@@ -231,7 +230,7 @@ const Header = () => {
                         )}
                       </a>
 
-                     {pays.villes && (
+                      {pays.villes && (
                         <div className="absolute top-0 left-full mt-0 hidden group-hover/item:block bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[180px]">
                           {pays.villes.map((ville) => {
                             const villeSlug = ville.name
