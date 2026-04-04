@@ -125,10 +125,17 @@ const Users = () => {
       newErrors.telephone = "Format invalide (chiffres, espaces, +, - autorisés)";
     }
 
-    // Gestion mot de passe obligatoire en création
-    if (!editingUser) {
-      if (!password) {
-        newErrors.password = "Le mot de passe est requis";
+    // Validation mot de passe
+    const needsPasswordValidation = !editingUser || (editingUser && showPasswordEdit && password);
+    if (!editingUser && !password) {
+      newErrors.password = "Le mot de passe est requis";
+    } else if (needsPasswordValidation && password) {
+      if (password.length < 8) {
+        newErrors.password = "Le mot de passe doit contenir au moins 8 caractères";
+      } else if (!/[A-Z]/.test(password)) {
+        newErrors.password = "Le mot de passe doit contenir au moins une majuscule";
+      } else if (!/[0-9]/.test(password)) {
+        newErrors.password = "Le mot de passe doit contenir au moins un chiffre";
       }
     }
 
@@ -529,6 +536,22 @@ const Users = () => {
                       </div>
                     </div>
                     {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+                    {formData.password && (
+                      <div className="mt-2 space-y-1">
+                        <p className={`text-xs flex items-center gap-1.5 ${formData.password.length >= 8 ? 'text-green-600' : 'text-gray-400'}`}>
+                          <span>{formData.password.length >= 8 ? '✓' : '✗'}</span>
+                          Au moins 8 caractères
+                        </p>
+                        <p className={`text-xs flex items-center gap-1.5 ${/[A-Z]/.test(formData.password) ? 'text-green-600' : 'text-gray-400'}`}>
+                          <span>{/[A-Z]/.test(formData.password) ? '✓' : '✗'}</span>
+                          Au moins une majuscule
+                        </p>
+                        <p className={`text-xs flex items-center gap-1.5 ${/[0-9]/.test(formData.password) ? 'text-green-600' : 'text-gray-400'}`}>
+                          <span>{/[0-9]/.test(formData.password) ? '✓' : '✗'}</span>
+                          Au moins un chiffre
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
