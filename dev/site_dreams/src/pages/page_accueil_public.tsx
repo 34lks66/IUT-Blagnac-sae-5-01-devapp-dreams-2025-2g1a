@@ -1,7 +1,7 @@
 import { FileText, Hospital, HouseHeart, MapPinned, ShieldCheck, ShieldHalf } from "lucide-react";
 import hero from "../assets/hero_section/accueil_public.png";
 import { useEffect, useState } from "react";
-import none from "../assets/none.jpg";
+import community from "../assets/accueil_image/community.png";
 
 function PageAccueilPublic() {
 
@@ -172,7 +172,7 @@ function PageAccueilPublic() {
           <div className="lg:w-1/2">
             <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl h-80 w-full overflow-hidden">
               <img
-                src={none}
+                src={community}
                 alt="Communauté LGBTQIA+ unie et solidaire"
                 className="w-full h-full object-cover"
               />

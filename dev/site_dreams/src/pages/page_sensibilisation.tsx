@@ -1,5 +1,9 @@
 import "../styles/sensibilisation.css"
-import none from "../assets/none.jpg";
+import prideImage from "../assets/sensibilisation/pride.png";
+import convivialityImage from "../assets/sensibilisation/conviviality.png";
+import standImage from "../assets/sensibilisation/stand.png";
+import interventionImage from "../assets/sensibilisation/intervention.png";
+import socialImage from "../assets/sensibilisation/social.png";
 import hero from "../assets/hero_section/sensibilisation.png";
 import { useEffect, useRef, useState } from "react";
 
@@ -161,7 +165,7 @@ function Sensibilisation() {
           {/* ============ Participation à la Gay Pride ============ */}
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative order-1 md:order-none">
-              <img src={none} alt="people" className="w-full h-64 md:h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
+              <img src={prideImage} alt="people" className="w-full h-64 md:h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
             </div>
             <div className="space-y-6">
               <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Participation à la Pride</h3>
@@ -186,13 +190,13 @@ function Sensibilisation() {
               </p>
             </div>
             <div className="relative order-1 md:order-none">
-              <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
+              <img src={convivialityImage} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
             </div>
           </div>
           {/* ============ Tenue de stand ============ */}
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative order-1 md:order-none">
-              <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
+              <img src={standImage} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
             </div>
             <div className="space-y-6">
               <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Tenue de stand</h3>
@@ -227,13 +231,13 @@ function Sensibilisation() {
               </p>
             </div>
             <div className="relative order-1 md:order-none">
-              <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
+              <img src={interventionImage} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
             </div>
           </div>
           {/* ============ Présence sur les réseaux sociaux ============ */}
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="relative order-1 md:order-none">
-              <img src={none} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
+              <img src={socialImage} alt="people" className="w-full h-80 object-cover rounded-lg shadow-md transition-all duration-300" />
             </div>
             <div className="space-y-6">
               <h3 className="text-3xl font-extrabold mb-6 text-gray-900">Présence sur les réseaux sociaux</h3>

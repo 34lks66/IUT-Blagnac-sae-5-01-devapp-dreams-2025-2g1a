@@ -7,7 +7,8 @@ import L14 from "../assets/contact_image/L14.png";
 import L27 from "../assets/contact_image/27.png";
 import L15 from "../assets/contact_image/15.png";
 import L23 from "../assets/contact_image/23.png";
-import none from "../assets/none.jpg";
+import hq_ext from "../assets/contact_image/hq_ext.png";
+
 
 function Contact() {
 
@@ -102,9 +103,9 @@ function Contact() {
               loading="lazy"
             ></iframe>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <img src={none} alt="Siège social DREAMS - Toulouse" className="rounded-lg object-cover h-56 w-full notranslate" translate="no" />
-            <img src={none} alt="Siège social DREAMS - Toulouse" className="rounded-lg object-cover h-56 w-full notranslate" translate="no" />
+          <div className="grid grid-cols-1 gap-4">
+            <img src={hq_ext} alt="Siège social DREAMS - Toulouse" className="rounded-lg object-cover h-70 w-full notranslate" translate="no" />
+
           </div>
         </div>
       </div>
